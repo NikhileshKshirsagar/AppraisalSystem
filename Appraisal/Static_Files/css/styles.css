@@ -1,0 +1,11 @@
+#border: thin solid #444444;
+.loginContainer
+{
+	align:center;
+	padding:20px;
+	text-align:center
+}
+.divContainer
+{
+	float:left;width:33%;
+}

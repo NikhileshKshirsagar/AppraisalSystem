@@ -1,0 +1,37 @@
+<html>
+	<head>
+	<link rel="stylesheet" href="/static/css/styles.css"/>
+	</head>
+	<body>
+		<h1>Login</h1>
+		<br/><br/><br/><br/><br/><br/><br/><br/><br/>
+		<form action="/login/" method="post">{% csrf_token %}
+			<div class="divContainer">&nbsp;</div>
+			<fieldset style="width:33%;text-align:center">
+    			<legend>LOGIN:</legend>
+				<div class="loginContainer">
+					{{error}}<br>
+					<table>
+					<tr>
+						<td>{{form.txtUserName}}</td>
+					</tr>
+					<tr>
+						<td><label> {{form.txtUserName.errors}}</label></td>
+					</tr>
+					<tr>
+						<td>{{form.txtPassword}}</td>
+					</tr>
+					<tr>
+						<td>{{form.txtPassword.errors}}</td>
+					</tr>
+					<tr>
+						<td><input type="submit" value="Login"></td>
+					</tr>
+					</table>
+				</div>
+			</fieldset>
+			<div class="divContainer">&nbsp;</div>
+			
+		</form>
+	</body>
+</html>
