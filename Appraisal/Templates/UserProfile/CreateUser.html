@@ -53,7 +53,7 @@
 					<div id="userLevel" ></div>
 				</td>
 				<td>
-					<input name="user_level" id="userLevelVal" style="border: 0; color: #f6931f; font-weight: bold; font-size:xx-large; box-shadow: 0 0 0 0 ; padding-top: 2px; max-width: 35px;" type="text">
+					<input name="user_level" id="userLevelVal" style="border: 0; color: #f6931f; font-weight: bold; box-shadow: 0 0 0 0 ; padding-top: 2px; max-width: 35px;" type="text">
 				</td>
 			</tr>
 			<tr class="">
@@ -89,6 +89,13 @@
 		</table>
 		
 		<p>{{ successMsg }}</p>
-		{{ userCreateform.errors }}
+		
+		{% if userCreateform.errors.count > 0 %}
+			<div class="alert alert-error"> 
+				{% for key, value in userCreateform.errors.items %} 
+					{{value}}
+				{% endfor %}
+			</div>
+		{% endif %}	
 	</form>
 {% endblock %} 
