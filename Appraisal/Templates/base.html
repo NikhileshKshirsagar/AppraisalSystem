@@ -3,11 +3,39 @@
 		<!-- CSS -->
 		<link href="/static/css/bootstrap.css" rel="stylesheet">
 		<link href="/static/css/font-awesome.css" rel="stylesheet">
-		<link href="/static/css/jquery-ui.css" rel="stylesheet">
+		 <link href="/static/css/jquery-ui.css" rel="stylesheet">
+		 <link rel="stylesheet" href="/static/css/styles.css"/>
 		<!-- JS libraries -->
-		<script type="text/javascript" src="/static/js/bootstrap.js"></script>
+		
 		<script type="text/javascript" src="/static/js/jquery-1.9.1.js"></script>
 		<script type="text/javascript" src="/static/js/jquery-ui.js"></script>
+		<script type="text/javascript" src="/static/js/bootstrap.js"></script>
 	</head>
-{% block pagecontent %} {% endblock %} 
+	
+	{% block pageheader %}
+	<div id="divTitleBar" class="navbar navbar-fixed-top">
+	<div class="navbar-inner navbar-custom" style="background:#ffffff">
+            <ul class="nav pull-left">
+                <li showonloginscreen="false"> <a href="/welcome" class="navbar-items" style="margin-right:-20px;"><i class="icon-home icon-white"></i></a></li>
+                <li><a href="/welcome" class="navbar-items" style="padding-left:20px;float:right;font-size:18px;">Appraisal</a></li>
+            </ul>
+        
+     <div style="float:right;">
+            <ul class="nav pull-right">
+                <li class="dropdown" showonloginscreen="false">
+                    <a class="dropdown-toggle" id="dLabel" data-toggle="dropdown" role="button" href="#"><i class="icon-th-list icon-white"></i></a>
+                    <ul aria-labelledby="dLabel" role="menu" class="dropdown-menu">
+                        <li>
+                            <a href="/logout/"><i class="icon-off"></i>&nbsp;&nbsp;Logout</a>		
+                        </li>
+                    </ul>
+                </li>
+            </ul>	
+        </div>    
+    </div>
+</div>
+{% endblock %}
+<body style="padding-top:40px;padding-left:40px;">
+{% block pagecontent %} {% endblock %}
+</body> 
 </html>

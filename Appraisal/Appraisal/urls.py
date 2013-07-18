@@ -4,19 +4,10 @@ from django.conf.urls import patterns, include, url
 # from django.contrib import admin
 # admin.autodiscover()
 
-urlpatterns = patterns('Login',
-    # Examples:
-    url(r'^login/$', 'views.login', name='login'),
-     
-     url(r'^logout/$', 'views.logout'),
-    # url(r'^Appraisal/', include('Appraisal.foo.urls')),
-
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
-    # url(r'^admin/', include(admin.site.urls)),
-)
+urlpatterns=patterns('',
+                     url(r'^question/', include('Question.questionurls')),
+                     url(r'', include('Login.loginurls')),
+                     )
 
 urlpatterns += patterns('UserProfile',
     # Examples:
@@ -31,3 +22,4 @@ urlpatterns += patterns('UserProfile',
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
 )
+

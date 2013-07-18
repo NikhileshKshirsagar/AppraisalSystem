@@ -20,6 +20,7 @@ def login(request):
             if sUserID != 0:
                 args['username']= request.POST['txtUserName']
                 request.session['UserID']=sUserID
+                request.session['UserName']=request.POST['txtUserName']
                 return render_to_response('Welcome.html',args)
             else :
                args['error']='Not Valid user'
@@ -30,15 +31,22 @@ def login(request):
     else:  
         objLoginForm = LoginForm()
         args['form']=objLoginForm
-        return render_to_response('Login.html', args)
+        return render_to_response('Login.html', args)        
+
+def homeScreen(request):
+    args={}
+    args.update(csrf(request))
+    args['username']=request.session['UserName']
+    return render_to_response('Welcome.html',args)
          
 def logout(request):
-    del request.session['UserID']
-  # del request.session['Password']
     args={}
+    if 'UserID' in request.session:
+        del request.session['UserID']
+        args['success']='Logout Successfully'
+  # del request.session['Password']
     args.update(csrf(request))
     objLoginForm = LoginForm()
     args['form']=objLoginForm
-    args['error']='Logout Successfully'
     return render_to_response('Login.html',args)
      

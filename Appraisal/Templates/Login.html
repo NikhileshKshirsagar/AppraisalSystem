@@ -1,16 +1,20 @@
-<html>
-	<head>
-	<link rel="stylesheet" href="/static/css/styles.css"/>
-	</head>
-	<body>
-		<h1>Login</h1>
-		<br/><br/><br/><br/><br/><br/><br/><br/><br/>
+{% extends "base.html" %}
+{% block pagecontent %}
+		<br/><br/><br/><br/><br/><br/><br/>
+		<script type="text/javascript">
+		$('li[showonloginscreen=false]').hide();
+		</script>
 		<form action="/login/" method="post">{% csrf_token %}
-			<div class="divContainer">&nbsp;</div>
+			
 			<fieldset style="width:33%;text-align:center">
-    			<legend>LOGIN:</legend>
+    			<legend>LOGIN</legend>
 				<div class="loginContainer">
-					{{error}}<br>
+					{% if error != null %}
+						<div class="alert alert-error">{{error}}</div>
+					{% endif %}
+					{% if success != null  %}
+						<div class="alert alert-success">{{success}}</div>
+					{% endif %}
 					<table>
 					<tr>
 						<td>{{form.txtUserName}}</td>
@@ -25,7 +29,7 @@
 						<td>{{form.txtPassword.errors}}</td>
 					</tr>
 					<tr>
-						<td><input type="submit" value="Login"></td>
+						<td><input class="btn btn-primary" type="submit" value="Login"></td>
 					</tr>
 					</table>
 				</div>
@@ -33,5 +37,4 @@
 			<div class="divContainer">&nbsp;</div>
 			
 		</form>
-	</body>
-</html>
+	{% endblock %}
