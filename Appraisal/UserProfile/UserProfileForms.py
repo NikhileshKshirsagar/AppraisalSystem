@@ -14,11 +14,13 @@ class UserCreate(forms.ModelForm):
               ('Administrator' , 'Administrator'),
               ('Employee' , 'Employee')
          )
-    emailid = forms.CharField(error_messages={'required': 'Please enter email id'})
+    firstname = forms.CharField(error_messages={'required': 'Please enter user first name'}, widget=forms.TextInput(attrs={'class':'tableRow span4 search-query'}))
+    lastname = forms.CharField(error_messages={'required': 'Please enter user last name'}, widget=forms.TextInput(attrs={'class':'tableRow span4 search-query'}))
+    emailid = forms.CharField(error_messages={'required': 'Please enter email id'}, widget=forms.TextInput(attrs={'class':'tableRow span4 search-query'}))
     user_level = forms.CharField()
     user_weight = forms.CharField()
-    type = forms.ChoiceField(choices=usertype, error_messages={'required': 'Please select user type'})
+    type = forms.ChoiceField(choices=usertype, error_messages={'required': 'Please select user type'},widget=forms.Select(attrs={'class':'tableRow span4 search-query'}))
     
     class Meta():
         model=UserDetails
-        fields = ('emailid','user_level', 'user_weight', 'type',)
+        fields = ('firstname','lastname','emailid','user_level', 'user_weight', 'type',)
