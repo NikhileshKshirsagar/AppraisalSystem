@@ -45,9 +45,12 @@
 	</script>
 	<div class="label headerGradient headerPosition" >
 		<i class="icon-user icon-3x" style="float: left; padding-left: 20px; padding-top: 4px"></i>
-		<p class=" headerFont" style="float: left;">Create user</p>
+		<p class=" headerFont" style="float: left; padding-top: 15px">Create user</p>
 	</div>
-	<form action="/CreateUser/" method="post" class="form-search" style="padding-top: 30px;">{% csrf_token %}
+	<div class="leftLine">
+		&nbsp;
+	</div>
+	<form action="/CreateUser/" method="post" class="form-search" style="padding-top: 30px; padding-left:20px;">{% csrf_token %}
 		<table class="table tableDisplay" style="margin-left:5px;">
 			<tr class="">
 				<td width="15%">
@@ -113,6 +116,7 @@
 			</tr>
 			<tr>
 				<td>
+					
 					<br>
 					<input type="submit" value="Create" class="btn btn-medium btn-inverse">
 				</td>
@@ -129,7 +133,7 @@
 					{{value}}
 				{% endfor %}
 			</div>
-		{% endif %}	
+		{% endif %}
 		
 		<p>{{ successMsg }}</p>
 	</form>

@@ -28,7 +28,7 @@ height: 28px;font-size:16;}
 .sliders
 {
 	vertical-align: middle; !important;
-
+	
 }
 .sliderValue
 {
@@ -111,4 +111,11 @@ height: 40px;
 	background: linear-gradient(to bottom, #cedce7 0%,#596a72 0%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cedce7', endColorstr='#596a72',GradientType=0 ); /* IE6-9 */
 	
+}
+.leftLine
+{
+	float: left;
+	height: 750px;
+	width: 5px;
+	background-color: #596A72;
 }
