@@ -7,9 +7,9 @@
 		 $( "#userLevel" ).slider({
 		 orientation: "horizontal",
 		 range: "min",
-		 min: 1,
+		 min: 0,
 		 max: 10,
-		 value: 5,
+		 value: 0,
 		 slide: function( event, ui ) {
 		 $( "#userLevelVal" ).val( ui.value );
 		 }
@@ -20,9 +20,9 @@
 		 $( "#userWeight" ).slider({
 		 orientation: "horizontal",
 		 range: "min",
-		 min: 1,
+		 min: 0,
 		 max: 10,
-		 value: 5,
+		 value: 0,
 		 slide: function( event, ui ) {
 		 $( "#userWeightVal" ).val( ui.value );
 		 }
@@ -30,12 +30,45 @@
 		 $( "#userWeightVal" ).val( $( "#userWeight" ).slider( "value" ) );		
 	 });
 	</script>
-	
-	<h1>Create user</h1>
-	<br>
-	<form action="/CreateUser/" method="post" >{% csrf_token %}
-		<table class="table">
+	<!-- <script type="text/javascript">
+	$(function() {
+		$("label").each(function(){
+			alert("tr found");
+			$(this).attr("background-color" , "#d4d9d5");
+		});
+	});
+	</script> -->
+	<script type="text/javascript">
+	$(function() {
+		$("body").css("background-color" , "#e3e8e4 !important");
+	});
+	</script>
+	<div class="label headerGradient headerPosition" >
+		<p class=" headerFont">Create user</p>
+	</div>
+	<form action="/CreateUser/" method="post" class="form-search">{% csrf_token %}
+		<table class="table tableDisplay" style="margin-left:5px;">
 			<tr class="">
+				<td width="15%">
+					{{ userCreateform.firstname.label }}	
+				</td>
+				<td width="50%">
+					{{ userCreateform.firstname }}
+				</td>
+				<td>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					{{ userCreateform.lastname.label }}	
+				</td>
+				<td>
+					{{ userCreateform.lastname }}
+				</td>
+				<td>
+				</td>
+			</tr>
+			<tr>
 				<td>
 					{{ userCreateform.emailid.label }}	
 				</td>
@@ -43,28 +76,6 @@
 					{{ userCreateform.emailid }}
 				</td>
 				<td>
-				</td>
-			</tr>
-			<tr class="">
-				<td>
-					{{ userCreateform.user_level.label }}	
-				</td>
-				<td>
-					<div id="userLevel" ></div>
-				</td>
-				<td>
-					<input name="user_level" id="userLevelVal" style="border: 0; color: #f6931f; font-weight: bold; box-shadow: 0 0 0 0 ; padding-top: 2px; max-width: 35px;" type="text">
-				</td>
-			</tr>
-			<tr class="">
-				<td>
-					{{ userCreateform.user_weight.label }}	
-				</td>
-				<td>
-					<div id="userWeight" ></div>
-				</td>
-				<td>
-					<input name="user_weight" id="userWeightVal" style="border: 0; color: #f6931f; font-weight: bold; box-shadow: 0 0 0 0 ; padding-top: 2px; max-width: 35px;" type="text">
 				</td>
 			</tr>
 			<tr class="">
@@ -77,9 +88,32 @@
 				<td>
 				</td>
 			</tr>
+			<tr class="">
+				<td>
+					{{ userCreateform.user_level.label }}	
+				</td>
+				<td>
+					<div id="userLevel" class="sliders"></div>
+				</td>
+				<td>
+					<input name="user_level" id="userLevelVal" class="sliderValue" type="text">
+				</td>
+			</tr>
+			<tr class="">
+				<td>
+					{{ userCreateform.user_weight.label }}	
+				</td>
+				<td>
+					<div id="userWeight" ></div>
+				</td>
+				<td>
+					<input name="user_weight" id="userWeightVal" class="sliderValue" type="text">
+				</td>
+			</tr>
 			<tr>
 				<td>
-					<input type="submit" value="Create" class="btn btn-large btn-primary">
+					<br>
+					<input type="submit" value="Create" class="btn btn-medium btn-inverse">
 				</td>
 				<td>
 				</td>
@@ -88,14 +122,14 @@
 			</tr>
 		</table>
 		
-		<p>{{ successMsg }}</p>
-		
-		{% if userCreateform.errors.count > 0 %}
+		{% if userCreateform.errors|length > 0 %}
 			<div class="alert alert-error"> 
 				{% for key, value in userCreateform.errors.items %} 
 					{{value}}
 				{% endfor %}
 			</div>
 		{% endif %}	
+		
+		<p>{{ successMsg }}</p>
 	</form>
 {% endblock %} 

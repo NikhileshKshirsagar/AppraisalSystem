@@ -19,7 +19,7 @@ class UserCreate(forms.ModelForm):
     emailid = forms.CharField(error_messages={'required': 'Please enter email id'}, widget=forms.TextInput(attrs={'class':'tableRow span4 search-query'}))
     user_level = forms.CharField()
     user_weight = forms.CharField()
-    type = forms.ChoiceField(choices=usertype, error_messages={'required': 'Please select user type'},widget=forms.Select(attrs={'class':'tableRow span4 search-query'}))
+    type = forms.ChoiceField(choices=usertype, error_messages={'required': 'Please select user type'},widget=forms.Select(attrs={'class':'tableRow span4 search-query', 'style': 'border-radius: 15px 15px 15px 15px;'}))
     
     class Meta():
         model=UserDetails
