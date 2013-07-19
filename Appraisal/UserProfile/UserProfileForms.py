@@ -10,7 +10,7 @@ from django.utils import timezone
 
 class UserCreate(forms.ModelForm):
     usertype=(
-              ('select' , 'Please select user type'),
+              ('select' , 'Select user type'),
               ('Administrator' , 'Administrator'),
               ('Employee' , 'Employee')
          )

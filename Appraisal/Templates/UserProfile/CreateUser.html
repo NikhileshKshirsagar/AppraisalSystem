@@ -44,9 +44,10 @@
 	});
 	</script>
 	<div class="label headerGradient headerPosition" >
-		<p class=" headerFont">Create user</p>
+		<i class="icon-user icon-3x" style="float: left; padding-left: 20px; padding-top: 4px"></i>
+		<p class=" headerFont" style="float: left;">Create user</p>
 	</div>
-	<form action="/CreateUser/" method="post" class="form-search">{% csrf_token %}
+	<form action="/CreateUser/" method="post" class="form-search" style="padding-top: 30px;">{% csrf_token %}
 		<table class="table tableDisplay" style="margin-left:5px;">
 			<tr class="">
 				<td width="15%">
@@ -104,7 +105,7 @@
 					{{ userCreateform.user_weight.label }}	
 				</td>
 				<td>
-					<div id="userWeight" ></div>
+					<div id="userWeight" class="sliders"></div>
 				</td>
 				<td>
 					<input name="user_weight" id="userWeightVal" class="sliderValue" type="text">
