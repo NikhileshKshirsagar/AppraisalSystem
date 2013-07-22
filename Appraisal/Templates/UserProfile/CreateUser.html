@@ -41,6 +41,7 @@
 	<script type="text/javascript">
 	$(function() {
 		$("body").css("background-color" , "#e3e8e4 !important");
+		//$("body").css("background-color" , "#E0E0E0 !important");
 	});
 	</script>
 	<div class="label headerGradient headerPosition" >
@@ -76,11 +77,13 @@
 				</td>
 				<td>
 					{{ userCreateform.emailid }}
+					{% if  errorEmail %}
+						<div id="errorEMail" style="width: auto;">
+							{{ errorEmail }}
+						</div>
+					{% endif %}
 				</td>
 				<td>
-					<div class="alert alert-info">
-						{{ errorEmail }}
-					</div>
 				</td>
 			</tr>
 			<tr class="">
@@ -89,6 +92,12 @@
 				</td>
 				<td>
 					{{ userCreateform.type }}
+					
+					{% if  errorUserType %}
+						<div id="errorEMail" style="width: auto;">
+							{{ errorUserType }}
+						</div>
+					{% endif %}
 				</td>
 				<td>
 				</td>
