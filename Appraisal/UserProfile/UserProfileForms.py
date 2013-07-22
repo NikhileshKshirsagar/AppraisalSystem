@@ -5,7 +5,7 @@ Created on 17-Jul-2013
 '''
 
 from django import forms
-from Login.models import UserDetails, UserAttributes, Language, UserAttributes
+from Login.models import UserDetails, UserAttributes, Language, UserAttributes, Designation
 from django.utils import timezone
 from cProfile import label
 
@@ -61,12 +61,17 @@ class UserCreate(forms.ModelForm):
         model=UserDetails
         fields = ('firstname','lastname','emailid','user_level', 'user_weight', 'type',)
         
+class userListForm(forms.ModelForm):
+    class Meta():
+        model=UserDetails
+        fields = ('firstname','lastname','emailid',)
+        
 class UserProfile_UserDetailForm(forms.ModelForm):
     class Meta():
         model=UserDetails
         fields = ('username','password',)
     
-class UserProfile_LanguageForm:
+class UserProfile_LanguageForm(forms.ModelForm):
     newLanguage = forms.CharField(label=("Add new language"), required=False)
     choices = [(obj_language.language_id, obj_language.language) for obj_language in Language.objects.all()]
     language = forms.ChoiceField(choices = choices)
@@ -74,5 +79,8 @@ class UserProfile_LanguageForm:
         model=UserAttributes
         fields = ('tech_working','tech_known','tech_willing','language_working','language_known','language_willing')
         
-#class UserProfile_DesignationForm:
-    
+class UserProfile_DesignationForm(forms.ModelForm):
+    class Meta():
+        model=Designation
+        
+        

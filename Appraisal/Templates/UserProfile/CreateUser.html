@@ -19,6 +19,21 @@
 	</div>
 	
 	<form action="/CreateUser/" method="post" class="form-search" style="padding-top: 30px; padding-left:20px;">{% csrf_token %}
+		<table>
+			{% for user in userList %}
+			<tr>
+				<div class="">
+					
+					{{ user.firstname }}
+					
+					{{ user.lastname }}
+					<br>
+					{{ user.emailid }}
+				
+				</div>
+			</tr>
+			{% endfor %}
+		</table>
 		<table class="table tableDisplay" style="margin-left:5px;">
 			<tr class="">
 				<td width="15%">

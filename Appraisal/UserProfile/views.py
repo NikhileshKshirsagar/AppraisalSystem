@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect
 from django.core.context_processors import csrf
 from django.utils import timezone
 
-from UserProfile.UserProfileForms import UserCreate
+from UserProfile.UserProfileForms import UserCreate, userListForm
 from Login.models import UserDetails
 
 def CreateUser(request):
@@ -27,7 +27,8 @@ def CreateUser(request):
             return render_to_response('Userprofile/CreateUser.html', { 'userCreateform' : userCreateform }, context_instance = RequestContext( request))
     else:
         userCreateform = UserCreate()
-        return render_to_response('Userprofile/CreateUser.html', { 'userCreateform' : userCreateform }, context_instance = RequestContext( request))
+        userList = UserDetails.objects.all();
+        return render_to_response('Userprofile/CreateUser.html', { 'userCreateform' : userCreateform, 'userList' : userList }, context_instance = RequestContext( request))
     
 #def UserProfile(request):
     #if request.method == 'POST':
