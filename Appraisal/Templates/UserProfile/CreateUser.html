@@ -2,7 +2,7 @@
 {% load url from future %}
 
 {% block pagecontent %}
-	<script type="text/javascript">
+	<!-- <script type="text/javascript">
 	 $(function() {
 		 $( "#userLevel" ).slider({
 		 orientation: "horizontal",
@@ -29,7 +29,7 @@
 		 });
 		 $( "#userWeightVal" ).val( $( "#userWeight" ).slider( "value" ) );		
 	 });
-	</script>
+	</script> -->
 	<!-- <script type="text/javascript">
 	$(function() {
 		$("label").each(function(){
@@ -38,6 +38,10 @@
 		});
 	});
 	</script> -->
+	<script type="text/javascript">
+		LoadSlider($( "#userLevel" ).get("selector"),  $( "#userLevelVal" ).get("selector"), 10, 0, 0 );
+		LoadSlider($( "#userWeight" ).get("selector"),  $( "#userWeightVal" ).get("selector"), 10, 0, 0 );
+	</script>
 	<script type="text/javascript">
 	$(function() {
 		$("body").css("background-color" , "#e3e8e4 !important");
@@ -111,6 +115,12 @@
 				</td>
 				<td>
 					<input name="user_level" id="userLevelVal" class="sliderValue" type="text">
+					{% if userCreateform.user_level.value != '' and userCreateform.user_weight.value != '' %}
+						<script type="text/javascript">
+							setSliderValue($( "#userLevel" ).get("selector"), $( "#userLevelVal" ).get("selector"), {{ userCreateform.user_level.value }});
+							setSliderValue($( "#userWeight" ).get("selector"), $( "#userWeightVal" ).get("selector"), {{ userCreateform.user_weight.value }});
+						</script>	
+					{% endif %}	
 				</td>
 			</tr>
 			<tr class="">
