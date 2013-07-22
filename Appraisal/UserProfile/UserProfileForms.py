@@ -15,12 +15,12 @@ class UserCreate(forms.ModelForm):
               ('Administrator' , 'Administrator'),
               ('Employee' , 'Employee')
          )
-    firstname = forms.CharField(label='First name', error_messages={'required': 'Please enter user first name'}, widget=forms.TextInput(attrs={'class':'tableRow span5 search-query'}))
-    lastname = forms.CharField(label='Last name',error_messages={'required': 'Please enter user last name'}, widget=forms.TextInput(attrs={'class':'tableRow span5 search-query'}))
-    emailid = forms.CharField(label='Email address',error_messages={'required': 'Please enter email id'}, widget=forms.TextInput(attrs={'class':'tableRow span5 search-query'}))
+    firstname = forms.CharField(label='First name', error_messages={'required': 'Please enter user first name.'}, widget=forms.TextInput(attrs={'class':'tableRow span5 search-query'}))
+    lastname = forms.CharField(label='Last name',error_messages={'required': 'Please enter user last name.'}, widget=forms.TextInput(attrs={'class':'tableRow span5 search-query'}))
+    emailid = forms.CharField(label='Email address',error_messages={'required': 'Please enter email address.'}, widget=forms.TextInput(attrs={'class':'tableRow span5 search-query'}))
     user_level = forms.CharField()
     user_weight = forms.CharField()
-    type = forms.ChoiceField(label='User type',choices=usertype, error_messages={'required': 'Please select user type'},widget=forms.Select(attrs={'class':'tableRow span5 search-query', 'style': 'border-radius: 15px 15px 15px 15px;'}))
+    type = forms.ChoiceField(label='User type',choices=usertype, error_messages={'required': 'Please select user type.'},widget=forms.Select(attrs={'class':'tableRow span5 search-query', 'style': 'border-radius: 15px 15px 15px 15px;'}))
     
     def save(self,  userId,commit=True):
         obj_userForm = super(UserCreate, self).save(commit=False)
@@ -33,15 +33,29 @@ class UserCreate(forms.ModelForm):
         obj_userForm.modified_by = userId
         obj_userForm.modified_on = timezone.now()
         obj_userForm.save()
-    
-    def clean(self):
-        #data = self.cleaned_data
-        print "Inside clean"
-        print self.cleaned_data['type']
+        
+    def clean_emailid(self):
+        try:
+            print self.cleaned_data['emailid']
+            s_existingEmail = UserDetails.objects.get(emailid=self.cleaned_data['emailid']).emailid
+        except UserDetails.DoesNotExist:
+            s_existingEmail = ''
+               
+        if s_existingEmail != '' and s_existingEmail ==  self.cleaned_data['emailid']:
+            raise forms.ValidationError("Email address already exists.")
+    def clean_type(self):
         if self.cleaned_data['type'] == "select":
-            self.fields['type'].error_messages["errorUserType"]  = "Please select user type"
-            raise forms.ValidationError(self.fields['type'].error_messages["errorUserType"])
-        return self.cleaned_data
+            raise forms.ValidationError("Please select user type.")
+    
+    def clean_user_level(self):
+        if self.cleaned_data['user_level'] == '0' :
+            raise forms.ValidationError("Please set the user level.")
+
+    def clean_user_weight(self):
+        if self.cleaned_data['user_weight'] == '0' :
+            raise forms.ValidationError("Please set the user weight.")
+    
+        
     class Meta():
         model=UserDetails
         fields = ('firstname','lastname','emailid','user_level', 'user_weight', 'type',)
