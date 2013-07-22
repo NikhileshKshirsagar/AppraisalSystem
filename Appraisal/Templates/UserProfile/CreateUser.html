@@ -2,42 +2,7 @@
 {% load url from future %}
 
 {% block pagecontent %}
-	<!-- <script type="text/javascript">
-	 $(function() {
-		 $( "#userLevel" ).slider({
-		 orientation: "horizontal",
-		 range: "min",
-		 min: 0,
-		 max: 10,
-		 value: 0,
-		 slide: function( event, ui ) {
-		 $( "#userLevelVal" ).val( ui.value );
-		 }
-		 });
-		 $( "#userLevelVal" ).val( $( "#userLevel" ).slider( "value" ) );		
-	 });
-	 $(function() {
-		 $( "#userWeight" ).slider({
-		 orientation: "horizontal",
-		 range: "min",
-		 min: 0,
-		 max: 10,
-		 value: 0,
-		 slide: function( event, ui ) {
-		 $( "#userWeightVal" ).val( ui.value );
-		 }
-		 });
-		 $( "#userWeightVal" ).val( $( "#userWeight" ).slider( "value" ) );		
-	 });
-	</script> -->
-	<!-- <script type="text/javascript">
-	$(function() {
-		$("label").each(function(){
-			alert("tr found");
-			$(this).attr("background-color" , "#d4d9d5");
-		});
-	});
-	</script> -->
+	
 	<script type="text/javascript">
 		LoadSlider($( "#userLevel" ).get("selector"),  $( "#userLevelVal" ).get("selector"), 10, 0, 0 );
 		LoadSlider($( "#userWeight" ).get("selector"),  $( "#userWeightVal" ).get("selector"), 10, 0, 0 );
@@ -59,7 +24,7 @@
 				<td width="15%">
 					{{ userCreateform.firstname.label }}	
 				</td>
-				<td width="50%">
+				<td width="45%">
 					{{ userCreateform.firstname }}
 				</td>
 				<td>
