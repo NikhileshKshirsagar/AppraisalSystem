@@ -20,12 +20,10 @@ class UserCreate(forms.ModelForm):
     emailid = forms.CharField(label='Email address',error_messages={'required': 'Please enter email address.'}, widget=forms.TextInput(attrs={'class':'tableRow span5 search-query'}))
     user_level = forms.CharField()
     user_weight = forms.CharField()
-    type = forms.ChoiceField(label='User type',choices=usertype, error_messages={'required': 'Please select user type.'},widget=forms.Select(attrs={'class':'tableRow span5 search-query', 'style': 'border-radius: 15px 15px 15px 15px;'}))
+    type = forms.ChoiceField(label='User type',choices=usertype, widget=forms.Select(attrs={'class':'tableRow span5 search-query', 'style': 'border-radius: 15px 15px 15px 15px;'}))
     
     def save(self,  userId,commit=True):
         obj_userForm = super(UserCreate, self).save(commit=False)
-        print "Form values"
-        print self.data['emailid']
         obj_userForm.emailid = self.data['emailid']
         obj_userForm.user_level = self.data['user_level']
         obj_userForm.user_weight = self.data['user_weight']
@@ -36,25 +34,28 @@ class UserCreate(forms.ModelForm):
         
     def clean_emailid(self):
         try:
-            print self.cleaned_data['emailid']
             s_existingEmail = UserDetails.objects.get(emailid=self.cleaned_data['emailid']).emailid
         except UserDetails.DoesNotExist:
             s_existingEmail = ''
                
         if s_existingEmail != '' and s_existingEmail ==  self.cleaned_data['emailid']:
             raise forms.ValidationError("Email address already exists.")
+        return self.cleaned_data['emailid']
+    
     def clean_type(self):
         if self.cleaned_data['type'] == "select":
             raise forms.ValidationError("Please select user type.")
+        return self.cleaned_data['type']
     
     def clean_user_level(self):
         if self.cleaned_data['user_level'] == '0' :
             raise forms.ValidationError("Please set the user level.")
-
+        return self.cleaned_data['user_level']
+    
     def clean_user_weight(self):
         if self.cleaned_data['user_weight'] == '0' :
             raise forms.ValidationError("Please set the user weight.")
-    
+        return self.cleaned_data['user_weight']
         
     class Meta():
         model=UserDetails
