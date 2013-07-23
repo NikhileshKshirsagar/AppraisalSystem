@@ -15,12 +15,12 @@
 	</script>
 	<div class="label headerGradient headerPosition" >
 		<i class="icon-user icon-3x" style="float: left; padding-left: 20px; padding-top: 4px"></i>
-		<p class=" headerFont" style="float: left; padding-top: 15px">User management</p>
+		<p class=" headerFont" style="float: left; padding-top: 15px">User Management</p>
 	</div>
 	
 	<form action="/CreateUser/" method="post" class="form-search" style="padding-top: 30px; padding-left:10px; margin: auto;">{% csrf_token %}
 		
-		<table class="table tableDisplay" style="margin-left:5px;width: 70%; float: right;">
+		<table class="table tableDisplay" style="margin-left:5px;width: 70%; float: right; margin-top: 10px;">
 			<tr class="">
 				<td width="15%">
 					{{ userCreateform.firstname.label }}	
@@ -112,24 +112,28 @@
 				</td>
 			</tr>
 		</table>
-		<div class="userList">	
-			{% if userList|length > 0 %}
-				<div class="title">
-						<p>User List</p>
-				</div>
-				{% for user in userList %}
-					<div class="userTile">
-						
-						{{ user.firstname }}
-						{{ user.lastname }}
-						, {{ user.type }}
-						<br>
-						{{ user.emailid }}
+		
+		{% if userCreateform.errors|length == 0 %}
+			<div class="title">
+				<p>User List</p>
+			</div>
+			
+			<div class="userList">	
 					
-					</div>
-				{% endfor %}
-			{% endif %}
-		</div>
+					{% for user in userList %}
+						<div class="userTile">
+							
+							{{ user.firstname }}
+							{{ user.lastname }}
+							, {{ user.type }}
+							<br>
+							{{ user.emailid }}
+						
+						</div>
+					{% endfor %}
+			</div>		
+		{% endif %}
+			
 		{% if userCreateform.errors|length > 0 %}
 			<div class="alert alert-error" style="width: 22%;"> 
 				{% for key, value in userCreateform.errors.items %} 

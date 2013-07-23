@@ -22,13 +22,13 @@ def CreateUser(request):
             userList = UserDetails.objects.all();
             userCreateform = UserCreate()
             # redirect to next page
-            return render_to_response('Userprofile/CreateUser.html', {'successMsg' : 'User created successfully', 'userCreateform' : userCreateform, 'userList' : userList});
+            return render_to_response('Userprofile/CreateUser.html', {'successMsg' : 'User created successfully', 'userCreateform' : userCreateform, 'userList' : userList}, context_instance = RequestContext( request));
         else:
             print "Invalid form"
             return render_to_response('Userprofile/CreateUser.html', { 'userCreateform' : userCreateform }, context_instance = RequestContext( request))
     else:
         userCreateform = UserCreate()
-        userList = UserDetails.objects.all();
+        userList = UserDetails.objects.all()
         return render_to_response('Userprofile/CreateUser.html', { 'userCreateform' : userCreateform, 'userList' : userList }, context_instance = RequestContext( request))
     
 #def UserProfile(request):
