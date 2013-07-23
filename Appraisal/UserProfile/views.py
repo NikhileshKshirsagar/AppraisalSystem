@@ -19,9 +19,10 @@ def CreateUser(request):
             print "Valid form"
             i_UserId = UserDetails.objects.get(user_id=request.session['UserID']).user_id
             userCreateform.save(commit=False, userId = i_UserId)
-            
+            userList = UserDetails.objects.all();
+            userCreateform = UserCreate()
             # redirect to next page
-            return render_to_response('Welcome.html', {'successMsg' : 'User created successfully', 'userCreateform' : userCreateform});
+            return render_to_response('Userprofile/CreateUser.html', {'successMsg' : 'User created successfully', 'userCreateform' : userCreateform, 'userList' : userList});
         else:
             print "Invalid form"
             return render_to_response('Userprofile/CreateUser.html', { 'userCreateform' : userCreateform }, context_instance = RequestContext( request))

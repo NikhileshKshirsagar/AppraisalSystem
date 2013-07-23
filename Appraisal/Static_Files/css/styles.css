@@ -131,7 +131,28 @@ height: 40px;
 	width: 5px;
 	background-color: #596A72;
 }
-.formBorder
+.userTile
 {
-	
+	border: 2px solid #444040 !important;
+	background-color: #CDCCCA;
+	font-size:15px;
+	padding-left: 4px;
+	margin: 2px	2px 2px 2px;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
+	line-height: 20px;
+}
+.userList
+{
+	width: 22%;
+	background-color: #A4A3A2;
+	max-height: 400px;	
+}
+.title
+{
+	font-size: 16px;
+	padding-top: 5px;
+	text-align: center;
+	padding-right: 15px;
+	margin-bottom: -3px;
+	font-weight: bold;
 }
