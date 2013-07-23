@@ -7,8 +7,8 @@ class QuestionForm(forms.ModelForm):
               ('MCQ' , 'MCQ'),
               ('Subjective' , 'Subjective')
          )
-    objquestion = forms.CharField(error_messages={'required': 'Please enter question'}, widget=forms.Textarea(attrs={'rows':4}),label="Question")
-    objinfo = forms.CharField(widget=forms.Textarea(attrs={'rows':4}), label="Additional information (optional)")
+    objquestion = forms.CharField(error_messages={'required': 'Please enter question'}, widget=forms.Textarea(attrs={'rows':4,'class':'span4'}),label="Question")
+    objinfo = forms.CharField(widget=forms.Textarea(attrs={'rows':4,'class':'span4'}), label="Additional information (optional)")
     objintent = forms.CharField(error_messages={'required': 'Please select intent'}, widget=forms.TextInput(attrs={'class':'tableRow span4 search-query'}),label="Intent")
     objlevel = forms.CharField(label="Question level")
     objweight = forms.CharField(label="Question weight")
