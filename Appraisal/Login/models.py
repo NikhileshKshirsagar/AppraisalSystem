@@ -76,7 +76,7 @@ class Option(models.Model):
     option_header = models.ForeignKey('OptionHeader')
     option_text = models.TextField()
     order = models.IntegerField(null=True, blank=True)
-    modified_by = models.ForeignKey('UserDetails', db_column='modified_by')
+    modified_by = models.IntegerField()
     modified_on = models.DateTimeField()
     class Meta:
         db_table = 'option'
@@ -119,6 +119,7 @@ class Question(models.Model):
     category = models.CharField(max_length=45L, blank=True)
     info = models.TextField(blank=True)
     intent = models.IntegerField(null=True, blank=True)
+    option_header = models.ForeignKey(OptionHeader, null=True, blank=True)
     modified_by = models.ForeignKey('UserDetails', db_column='modified_by')
     modified_on = models.DateTimeField()
     class Meta:
