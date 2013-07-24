@@ -12,7 +12,7 @@ urlpatterns=patterns('',
 urlpatterns += patterns('UserProfile',
     # Examples:
     url(r'^CreateUser/$', 'views.CreateUser', name='CreateUser'),
-     
+    url(r'^userSearch/$', 'views.userSearch', name='userSerach'),
      url(r'^logout/$', 'views.logout'),
     # url(r'^Appraisal/', include('Appraisal.foo.urls')),
 

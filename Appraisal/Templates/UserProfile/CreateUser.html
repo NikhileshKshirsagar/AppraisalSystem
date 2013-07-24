@@ -6,29 +6,34 @@
 	<script type="text/javascript">
 		LoadSlider($( "#userLevel" ).get("selector"),  $( "#userLevelVal" ).get("selector"), 10, 0, 0 );
 		LoadSlider($( "#userWeight" ).get("selector"),  $( "#userWeightVal" ).get("selector"), 10, 0, 0 );
+		$(function(){
+			$(".textSearch").keyup(function()
+			{
+				AjaxEvent($( "#serachUserName" ).get("selector"), $( "#userlist" ).get("selector"),"UserDetails", "firstname",function successSerach(data, textStatus, jqXHR)
+				{
+					$('#userlist').html(data);
+				});
+			});
+		});	
+		
 	</script>
-	<script type="text/javascript">
-	$(function() {
-		$("body").css("background-color" , "#e3e8e4 !important");
-		//$("body").css("background-color" , "#E0E0E0 !important");
-	});
-	</script>
+
 	<div class="label headerGradient headerPosition" >
 		<i class="icon-user icon-3x" style="float: left; padding-left: 20px; padding-top: 4px"></i>
 		<p class=" headerFont" style="float: left; padding-top: 15px">User Management</p>
 	</div>
 	
-	<form action="/CreateUser/" method="post" class="form-search" style="padding-top: 30px; padding-left:10px; margin: auto;">{% csrf_token %}
+	<form action="/CreateUser/" method="post" class="form-search" style="padding-top: 30px; margin-left: -0px;">{% csrf_token %}
 		
 		<table class="table tableDisplay" style="margin-left:5px;width: 70%; float: right; margin-top: 10px;">
-			<tr class="">
-				<td width="15%">
+			<tr>
+				<td width="16%">
 					{{ userCreateform.firstname.label }}	
 				</td>
 				<td width="60%">
 					{{ userCreateform.firstname }}
 				</td>
-				<td width="10%">
+				<td width="5%">
 				</td>
 			</tr>
 			<tr>
@@ -56,7 +61,7 @@
 				<td>
 				</td>
 			</tr>
-			<tr class="">
+			<tr>
 				<td>
 					{{ userCreateform.type.label }}	
 				</td>
@@ -72,76 +77,81 @@
 				<td>
 				</td>
 			</tr>
-			<tr class="">
+			<tr>
 				<td>
 					{{ userCreateform.user_level.label }}	
 				</td>
 				<td>
-					<div id="userLevel" class="sliders"></div>
-				</td>
-				<td>
 					<input name="user_level" id="userLevelVal" class="sliderValue" type="text">
-					{% if userCreateform.user_level.value != '' and userCreateform.user_weight.value != '' %}
+					<div id="userLevel" class="sliders"></div>
+					{% if userCreateform.user_level.value != None and userCreateform.user_weight.value != None %}
 						<script type="text/javascript">
 							setSliderValue($( "#userLevel" ).get("selector"), $( "#userLevelVal" ).get("selector"), {{ userCreateform.user_level.value }});
 							setSliderValue($( "#userWeight" ).get("selector"), $( "#userWeightVal" ).get("selector"), {{ userCreateform.user_weight.value }});
 						</script>	
-					{% endif %}	
-				</td>
-			</tr>
-			<tr class="">
-				<td>
-					{{ userCreateform.user_weight.label }}	
-				</td>
-				<td>
-					<div id="userWeight" class="sliders"></div>
-				</td>
-				<td>
-					<input name="user_weight" id="userWeightVal" class="sliderValue" type="text">
+					{% endif %}
 				</td>
 			</tr>
 			<tr>
 				<td>
+					{{ userCreateform.user_weight.label }}	
+				</td>
+				<td>
+					<input name="user_weight" id="userWeightVal" class="sliderValue" type="text">
+					<div id="userWeight" class="sliders"></div>
+				</td>
+				<td>
 					
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
 					<br>
 					<input type="submit" value="Create" class="btn btn-medium btn-inverse">
+					<a href="">
+						<input value="Clear" class="btn btn-medium btn-inverse" onclick="" style="width: 70px">
+					</a>
 				</td>
-				<td>
-				</td>
-				<td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					{% if userCreateform.errors|length > 0 %}
+						<div class="alert alert-error" > 
+							{% for key, value in userCreateform.errors.items %} 
+								{{value}}
+							{% endfor %}
+						</div>
+					{% endif %}
 				</td>
 			</tr>
 		</table>
 		
-		{% if userCreateform.errors|length == 0 %}
-			<div class="title">
-				<p>User List</p>
-			</div>
-			
-			<div class="userList">	
-					
-					{% for user in userList %}
-						<div class="userTile">
-							
-							{{ user.firstname }}
-							{{ user.lastname }}
-							, {{ user.type }}
-							<br>
-							{{ user.emailid }}
-						
-						</div>
-					{% endfor %}
-			</div>		
-		{% endif %}
-			
-		{% if userCreateform.errors|length > 0 %}
-			<div class="alert alert-error" style="width: 22%;"> 
-				{% for key, value in userCreateform.errors.items %} 
-					{{value}}
-				{% endfor %}
-			</div>
-		{% endif %}
 		
+		<div class="title">
+			<p>User List</p>
+			<label>Username</label>
+			<input id="serachUserName" type="text" class="textSearch">
+		</div>
+		
+		<div id="userlist" class="userList jssb-content">	
+				{% for user in userList %}
+					<a href="" >
+							<div class="userTile" name="clickable">
+								
+								{{ user.firstname }}
+								{{ user.lastname }}
+								, {{ user.type }}
+								<br>
+								<div>
+									{{ user.emailid }}
+								</div>
+							</div>
+						{% endfor %}
+					</a>
+		</div>		
+		<div id="userResults" class="userList jssb-content" style="float: right;">
+			
+		</div>
 		<p>{{ successMsg }}</p>
 	</form>
 {% endblock %} 
