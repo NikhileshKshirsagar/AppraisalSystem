@@ -1,0 +1,14 @@
+{% for user in obj_searchResult %}
+	<a href="" >
+		<div class="userTile" name="clickable">
+			
+			{{ user.firstname }}
+			{{ user.lastname }}
+			, {{ user.type }}
+			<br>
+			<div>
+				{{ user.emailid }}
+			</div>
+		</div>
+	</a>
+{% endfor %}			

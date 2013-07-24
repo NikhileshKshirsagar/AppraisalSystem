@@ -4,6 +4,7 @@ from django.contrib.sessions.models import Session
 from django.template.context import RequestContext
 from django.core.context_processors import csrf 
 from django.http import HttpResponseRedirect 
+from django.http import HttpResponse
 from django.core.context_processors import csrf
 from django.utils import timezone
 
@@ -40,5 +41,5 @@ def userSearch(request):
         search_text = ''
         
     obj_searchResult = UserDetails.objects.filter(firstname__contains=search_text)
-    
-    return  render_to_response('ajax.html', {'obj_searchResult' : obj_searchResult},context_instance = RequestContext( request))
+    return HttpResponse(content='obj_searchResult', mimetype='text/html')
+    #return  render_to_response('ajax.html', {'obj_searchResult' : obj_searchResult},context_instance = RequestContext( request))
