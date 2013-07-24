@@ -76,7 +76,7 @@ class Option(models.Model):
     option_header = models.ForeignKey('OptionHeader')
     option_text = models.TextField()
     order = models.IntegerField(null=True, blank=True)
-    modified_by = models.IntegerField()
+    modified_by = models.ForeignKey('UserDetails', db_column='modified_by')
     modified_on = models.DateTimeField()
     class Meta:
         db_table = 'option'
