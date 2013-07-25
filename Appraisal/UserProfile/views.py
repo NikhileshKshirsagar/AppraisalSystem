@@ -12,7 +12,7 @@ from UserProfile.UserProfileForms import UserCreate, userListForm
 from Login.models import UserDetails
 
 def CreateUser(request):
-    userList = UserDetails.objects.all()
+    #userList = UserDetails.objects.all()
     if request.method == 'POST':
         userCreateform = UserCreate(request.POST)
         print "POST request"
@@ -23,13 +23,13 @@ def CreateUser(request):
             userCreateform.save(commit=False, userId = i_UserId)
             userCreateform = UserCreate()
             # redirect to next page
-            return render_to_response('Userprofile/CreateUser.html', {'successMsg' : 'User created successfully', 'userCreateform' : userCreateform, 'userList' : userList}, context_instance = RequestContext( request));
+            return render_to_response('Userprofile/CreateUser.html', {'successMsg' : 'User created successfully', 'userCreateform' : userCreateform}, context_instance = RequestContext( request));
         else:
             print "Invalid form"
-            return render_to_response('Userprofile/CreateUser.html', { 'userCreateform' : userCreateform ,'userList' : userList}, context_instance = RequestContext( request))
+            return render_to_response('Userprofile/CreateUser.html', { 'userCreateform' : userCreateform }, context_instance = RequestContext( request))
     else:
         userCreateform = UserCreate()
-        return render_to_response('Userprofile/CreateUser.html', { 'userCreateform' : userCreateform, 'userList' : userList }, context_instance = RequestContext( request))
+        return render_to_response('Userprofile/CreateUser.html', { 'userCreateform' : userCreateform }, context_instance = RequestContext( request))
     
 #def UserProfile(request):
     #if request.method == 'POST':
@@ -39,7 +39,14 @@ def userSearch(request):
         search_text = request.POST.get('search_txt')
     else:
         search_text = ''
-        
+   # response = HttpResponse()    
     obj_searchResult = UserDetails.objects.filter(firstname__contains=search_text)
-    return HttpResponse(content='obj_searchResult', mimetype='text/html')
+    result = ''
+    for user in obj_searchResult:
+        result += '<a href="" > <div class="userTile" name="clickable">' +  user.firstname + " " + user.lastname  +'<br> <div>' + user.emailid + ' </div></div></a>'
+    
+    #response['content'] = result
+    #response['content_type'] = 'application/liquid'
+    return HttpResponse(content=result, content_type='text/html')
+
     #return  render_to_response('ajax.html', {'obj_searchResult' : obj_searchResult},context_instance = RequestContext( request))

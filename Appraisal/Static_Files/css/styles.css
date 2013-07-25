@@ -10,7 +10,7 @@
 	float:left;width:33%;
 }
 
-input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
+textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
 height: 28px;font-size:16;}
 
 .tableRow
@@ -27,7 +27,7 @@ height: 28px;font-size:16;}
 }
 .sliders
 {
-	margin-top: 4px;
+	margin-top: 6px;
 	width: 90%;
 }
 .sliderValue
@@ -40,6 +40,8 @@ height: 28px;font-size:16;}
 	max-width: 35px !important;
 	background-color: #e3e8e4 !important;
 	margin-top: 5px;
+	float: right;
+	padding-bottom: 8px !important;
 }
 .tableDisplay td
 {
@@ -77,6 +79,12 @@ height: 28px;font-size:16;}
     border: 1px solid #D3D3D3;
     color: #555555;
     font-weight: normal;	
+}
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default
+{
+	background-color: #D4D4D4 !important;
+	background-image: none;
+	border: 1px solid #4A4A4A;
 }
 .headerGradient
 {
@@ -133,23 +141,27 @@ height: 40px;
 }
 .userTile
 {
-	border: 2px solid #444040 !important;
+	border: 2px thin #444040 !important;
 	background-color: #CDCCCA;
 	font-size:15px;
 	padding-left: 4px;
 	padding-top: 4px;
-	margin: 2px	5px 3px 5px;
+	margin: 2px	2px 3px 5px;
 	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
 	line-height: 23px;
 	border-radius: 10px 10px 10px 10px;
+	text-align: left;
 }
 .userList
 {
-	border: 2px solid #444040 !important;
+	/*border: 2px solid #444040 !important;*/
 	width: 23%;
-	background-color: #8B8C8D;
+	/*background-color: #B1B2B1;*/
 	max-height: 500px;
 	overflow: auto;	
+	overflow :  auto;	
+	direction: rtl; !important;
+	margin-left: -25px !important;
 }
 .title
 {
@@ -161,6 +173,7 @@ height: 40px;
 	padding-right: 15px;
 	margin-bottom: -3px;
 	font-weight: bold;
+	
 }
 body
 {

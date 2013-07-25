@@ -11,20 +11,6 @@
 			{
 				AjaxEvent($( "#serachUserName" ).get("selector"), $( "#userlist" ).get("selector"),"UserDetails", "firstname",function successSerach(data, textStatus, jqXHR)
 				{
-					{% for user in obj_searchResult %}
-					<a href="" >
-						<div class="userTile" name="clickable">
-							
-							{{ user.firstname }}
-							{{ user.lastname }}
-							, {{ user.type }}
-							<br>
-							<div>
-								{{ user.emailid }}
-							</div>
-						</div>
-					</a>
-					{% endfor %}	
 					$('#userlist').html(data);
 				});
 			});
@@ -142,13 +128,13 @@
 		
 		
 		<div class="title">
-			<p>User List</p>
-			<label>Username</label>
-			<input id="serachUserName" type="text" class="textSearch">
+			<label style="float: left;">Username</label>
+			<input id="serachUserName" type="text" class="textSearch" style="">
+			<br>
 		</div>
 		
-		<div id="userlist" class="userList jssb-content">	
-				{% for user in userList %}
+		<div id="userlist" class="userList ">	
+				<!-- {% for user in userList %}
 					<a href="" >
 							<div class="userTile" name="clickable">
 								
@@ -161,11 +147,11 @@
 								</div>
 							</div>
 						{% endfor %}
-					</a>
+					</a> -->
 		</div>		
-		<div id="userResults" class="userList jssb-content" style="float: right;">
+		<!-- <div id="userResults" class="userList jssb-content" style="float: right;">
 			
-		</div>
+		</div> -->
 		<p>{{ successMsg }}</p>
 	</form>
 {% endblock %} 
