@@ -2,26 +2,35 @@
 {% block pagecontent %}
  <script>
 $(function() {
-$( "#tabs" ).tabs().addClass( "ui-tabs-vertical ui-helper-clearfix" );
-$("#tabs").removeClass("ui-widget-content");
-$( "#tabs li" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-left" );
+	$( "#tabs" ).tabs().addClass( "ui-tabs-vertical ui-helper-clearfix" );
+	$("#tabs").removeClass("ui-widget-content");
+	$( "#tabs li" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-left" );
+	$("#tabs-1, #tabs-2").removeClass("ui-widget-content");
+	$('*[name=liQuestionType]').click(function(){
+		if($("#tabs-2").css('display')=="block")
+		{
+			$("#tabs-1").css('display','block');
+		}
+		$("input[name=type_text]").val($(this+ " a").attr("value"));
+	});
 
-$('#hrefSubjective').click(function(){
-if($("#tabs-2").css('display')=="block")
-{
-	$("#tabs-1").css('display','block');
-}
-});
-
+	$("#CreateQuestion").click(function(){
+		var data="";
+		$( "input[name=option_text]" ).each(function( index ) {
+			data = data + $(this).val();
+		});
+		
+	});
 });
 </script>
 <style>
-.ui-tabs-vertical { width: 55em; }
-.ui-tabs-vertical .ui-tabs-nav { padding: .2em .1em .2em .2em; float: left; width: 12em; }
-.ui-tabs-vertical .ui-tabs-nav li { clear: left; width: 100%; border-bottom-width: 1px !important; border-right-width: 0 !important; margin: 0 -1px .2em 0; }
-.ui-tabs-vertical .ui-tabs-nav li a { display:block; }
-.ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active { padding-bottom: 0px; padding-right: .1em; border-right-width: 1px; border-right-width: 1px; }
-.ui-tabs-vertical .ui-tabs-panel { padding: 1em; float: right; width: 40em;}
+	.ui-tabs-vertical { width: 55em; }
+	.ui-tabs-vertical .ui-tabs-nav { padding: .2em .1em .2em .2em; float: left; }
+	.ui-tabs-vertical .ui-tabs-nav li { clear: left; width: 100%; border-bottom-width: 1px !important; border-right-width: 0 !important; margin: 0 -1px .2em 0; }
+	.ui-tabs-vertical .ui-tabs-nav li a { display:block; }
+	.ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active { padding-bottom: 0px; padding-right: .1em; border-right-width: 1px; border-right-width: 1px; }
+	.ui-tabs-vertical .ui-tabs-panel { padding: 1em; float: right; width: 40em;}
+	.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active{background:#E3E8E4 !important;}
 </style>
 <script type="text/javascript">
 LoadSlider($( "#questionLevel" ).get("selector"),  $( "#questionLevelVal" ).get("selector"), 10, 0, 0 );
@@ -32,132 +41,45 @@ LoadSlider($( "#questionWeight" ).get("selector"),  $( "#questionWeightVal" ).ge
 		<p class=" headerFont" style="float: left; padding-top: 15px">Create question</p>
 </div>
 <br/><br/>
-<!-- <div style="float:left;">
-	{{ questionCreateform.objtype.label }}	<br/>
-	<ul>
-		<li><a onclick="$('*[Common=true],*[MCQ=true]').show();">MCQ</a></li>
-		<li><a onclick="$('*[Common=true]').show();$('*[MCQ=true]').hide();">Subjective</a></li>
+<form method="post" class="form-search">{% csrf_token %}
+<div id="tabs">
+	 <ul>
+	    {%for value, text in questionCreateform.type.field.choices %}
+    		<li><a value={{text}} name="liQuestionType" href="#tabs-{{value}}">{{text}}</a></li>
+		{% endfor %}
 	</ul>
-</div>
-<div style="float:left;background-color:#596A72;height:500px;margin-top:-40px;margin-left:10px;margin-right:10px;">&nbsp;</div>
-<form method="post" class="form-search" style="padding-top: 30px; padding-left:20px;">{% csrf_token %}
-<table class="table tableDisplay hide" style="margin-left:5px;width:80%;" Common="true">
-	<tr class="">
-		<td width="200px">
-			{{ questionCreateform.objquestion.label }}	
-		</td>
-		<td width="400px">
-			{{ questionCreateform.objquestion }}
-		</td>
-		<td>
-		</td>
-	</tr>
+	{{questionCreateform.type_text}}
+	<div >
+	<table><tr><td>
+	<table id="tabs-1" class="table tableDisplay" style="margin-left:5px;" Common="true">
 	<tr>
 		<td>
-			{{ questionCreateform.objinfo.label }}	
+			{{ questionCreateform.type.label }}	
 		</td>
 		<td>
-			{{ questionCreateform.objinfo }}
-		</td>
-		<td>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			{{ questionCreateform.objintent.label }}	
-		</td>
-		<td>
-			{{ questionCreateform.objintent }}
+			 {{ questionCreateform.type}}
 		</td>
 		<td>
 		
 		</td>
 	</tr>
 	<tr class="">
-		<td>
-			{{ questionCreateform.objtype.label }}	
+		<td width="300px">
+			{{ questionCreateform.question.label }}	
+		</td>
+		<td width="400px">
+			{{ questionCreateform.question }}
 		</td>
 		<td>
-			{{ questionCreateform.objtype }}
-		</td>
-		<td>
-		</td>
-	</tr>
-	<tr class="">
-		<td>
-			{{ questionCreateform.objlevel.label }}	
-		</td>
-		<td>
-			<div id="questionLevel" class="sliders"></div>
-		</td>
-		<td>
-			<input name="question_level" id="questionLevelVal" class="sliderValue" type="text">
-		</td>
-	</tr>
-	<tr class="">
-		<td>
-			{{ questionCreateform.objweight.label }}	
-		</td>
-		<td>
-			<div id="questionWeight" class="sliders"></div>
-		</td>
-		<td>
-			<input name="question_weight" id="questionWeightVal" class="sliderValue" type="text">
-		</td>
-	</tr>
-	<tr MCQ="true">
-		<td>
-			Options hello
 		</td>
 	</tr>
 	
 	<tr>
 		<td>
-			
-			<br>
-			<input type="submit" value="Create" class="btn btn-medium btn-inverse">
+			{{ questionCreateform.intent.label }}	
 		</td>
 		<td>
-		</td>
-		<td>
-		</td>
-	</tr>
-</table> -->
-<form method="post" class="form-search">{% csrf_token %}
-<div id="tabs">
-	<ul>
-		<li><a href="#tabs-1">MCQ</a></li>
-		<li><a id="hrefSubjective" href="#tabs-2">Subjective</a></li>
-	</ul>
-	<div  >
-	<table><tr><td>
-	<table id="tabs-1" class="table tableDisplay" style="margin-left:5px;" Common="true">
-	<tr class="">
-		<td width="200px">
-			{{ questionCreateform.objquestion.label }}	
-		</td>
-		<td width="400px">
-			{{ questionCreateform.objquestion }}
-		</td>
-		<td>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			{{ questionCreateform.objinfo.label }}	
-		</td>
-		<td>
-			{{ questionCreateform.objinfo }}
-		</td>
-		<td>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			{{ questionCreateform.objintent.label }}	
-		</td>
-		<td>
-			{{ questionCreateform.objintent }}
+			 {{ questionCreateform.intent}}
 		</td>
 		<td>
 		
@@ -165,45 +87,53 @@ LoadSlider($( "#questionWeight" ).get("selector"),  $( "#questionWeightVal" ).ge
 	</tr>
 	<tr class="">
 		<td>
-			{{ questionCreateform.objtype.label }}	
-		</td>
-		<td>
-			{{ questionCreateform.objtype }}
-		</td>
-		<td>
-		</td>
-	</tr>
-	<tr class="">
-		<td>
-			{{ questionCreateform.objlevel.label }}	
+			{{ questionCreateform.level.label }}	
 		</td>
 		<td>
 			<div id="questionLevel" class="sliders"></div>
 		</td>
 		<td>
-			<input name="question_level" id="questionLevelVal" class="sliderValue" type="text">
+			<input name="level" id="questionLevelVal" class="sliderValue" type="text">
 		</td>
 	</tr>
 	<tr class="">
 		<td>
-			{{ questionCreateform.objweight.label }}	
+			{{ questionCreateform.weight.label }}	
 		</td>
 		<td>
 			<div id="questionWeight" class="sliders"></div>
 		</td>
 		<td>
-			<input name="question_weight" id="questionWeightVal" class="sliderValue" type="text">
+			<input name="weight" id="questionWeightVal" class="sliderValue" type="text">
+		</td>
+	</tr>
+	<tr>
+		<td>
+			{{ questionCreateform.info.label }}	
+		</td>
+		<td>
+			{{ questionCreateform.info }}
+		</td>
+		<td>
 		</td>
 	</tr>
 	<tr>
 		<td colspan="3">
-			<input type="submit" value="Create" class="btn btn-medium btn-inverse">
+			<input id="CreateQuestion" type="submit" value="Create" class="btn btn-medium btn-inverse">
 		</td>
 	</tr>
 	</table>
 	</td>
 	<td style="vertical-align:top;">
-		<table id="tabs-2"><tr><td>OPTIONS</td></tr></table>
+		<table id="tabs-2" width="100%">
+		<tr>
+			<td>OPTIONS</td>
+		</tr>
+		<tr>
+		<td>{% include "Questions\CreateOptions.html" %}</td>
+		</tr>
+		<tr><td>&nbsp;</td></tr>
+		</table>
 	</td>
 	</tr>
 	
@@ -212,6 +142,13 @@ LoadSlider($( "#questionWeight" ).get("selector"),  $( "#questionWeightVal" ).ge
 	{% if questionCreateform.errors|length > 0 %}
 	<div class="alert alert-error"> 
 		{% for key, value in questionCreateform.errors.items %} 
+			{{value}}
+		{% endfor %}
+	</div>
+{% endif %}
+{% if optionCreateform.errors|length > 0 %}
+	<div class="alert alert-error"> 
+		{% for key, value in optionCreateform.errors.items %} 
 			{{value}}
 		{% endfor %}
 	</div>
