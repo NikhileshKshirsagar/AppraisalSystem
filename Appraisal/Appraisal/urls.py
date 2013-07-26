@@ -13,7 +13,9 @@ urlpatterns += patterns('UserProfile',
     # Examples:
     url(r'^CreateUser/$', 'views.CreateUser', name='CreateUser'),
     url(r'^userSearch/$', 'views.userSearch', name='userSerach'),
-     url(r'^logout/$', 'views.logout'),
+    url(r'^userInfo/$', 'views.userInfo', name='userInfo'),
+    url(r'^UserList/$', 'views.UserList', name='UserList'),
+    url(r'^logout/$', 'views.logout'),
     # url(r'^Appraisal/', include('Appraisal.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

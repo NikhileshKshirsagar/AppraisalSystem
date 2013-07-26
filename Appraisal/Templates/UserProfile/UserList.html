@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load url from future %}
+
+{% block pagecontent %}
+
+	<form action="/UserList/" method="post" class="form-search" style="padding-top: 30px; margin-left: -0px;">{% csrf_token %}
+		<div class="UserListing">
+			{% for user in userList %}
+				{{ user.firstname }}
+				{{ user.lastname }}
+				{{ user.type }}
+				{{ user.user_level }}
+				{{ user.user_weight }}
+				{{ user.type }}
+				<br>
+			{% endfor %}
+		</div>	
+	</form>
+
+{% endblock %} 

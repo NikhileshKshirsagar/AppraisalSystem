@@ -9,13 +9,25 @@
 		$(function(){
 			$(".textSearch").keyup(function()
 			{
-				AjaxEvent($( "#serachUserName" ).get("selector"), $( "#userlist" ).get("selector"),"UserDetails", "firstname",function successSerach(data, textStatus, jqXHR)
+				//alert($( "#serachUserName" ).val());
+				AjaxEvent($( "#serachUserName" ).val(), $( "#userlist" ).get("selector"), "firstname", "UserDetails",function successSerach(data, textStatus, jqXHR)
 				{
 					$('#userlist').html(data);
+					
+						$("#userlist .clickable").click(function(event){
+						//alert("fasfsafsafs");
+						//alert("ascfasfc" + $(event.currentTarget).closest('input').val());
+						userInfo = $(event.currentTarget).children('input').val();
+						AjaxEvent(userInfo, $( "#userlist" ).get("selector"), '',"UserDetails",function successSerach(data, textStatus, jqXHR)
+						{
+							alert("click success");
+							alert(data);
+							
+						});
+					});
 				});
 			});
 		});	
-		
 	</script>
 
 	<div class="label headerGradient headerPosition" >

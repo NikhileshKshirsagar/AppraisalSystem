@@ -1,26 +1,44 @@
-function AjaxEvent(sourceElement, destinationElement,searchAttribute, model, successCallback)
+function AjaxEvent(data, destinationElement,searchAttribute, model,successCallback)
 {
-	var text = $(sourceElement).val();
-	if(text != '' && text != null)
+	//alert(searchAttribute);
+	if(searchAttribute != '')
 	{
-		console.log("Inside if " + text);
+		if( data != '' )
+		{
+			$.ajax({
+				type : "POST",
+				url : "/userSearch/",
+				data: {
+					'search_txt' : data,
+					'searchAttribute' : searchAttribute,
+					'model' : model,
+					'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val()
+				},
+				success : successCallback,
+				dataType : 'html' 
+			});
+		}
+		else
+		{
+			$(destinationElement).empty();
+		}
+	}
+	else
+	{
 		$.ajax({
 			type : "POST",
-			url : "/userSearch/",
+			url : "/userInfo/",
 			data: {
-				'search_txt' : $(sourceElement).val(),
-				'searchAttribute' : searchAttribute,
+				'search_txt' : data,
 				'model' : model,
 				'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val()
 			},
 			success : successCallback,
+			error : function(){
+				alert("Error AJAX");
+			},
 			dataType : 'html' 
 		});
-	}
-	else
-	{
-		$(destinationElement).empty();
+		//alert("Ajax executed");
 	}
 }
-
-//function AjaxNonEvent	
