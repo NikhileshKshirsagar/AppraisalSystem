@@ -10,9 +10,10 @@ function LoadSlider(sliderElement, sliderValueElement, maxValue, minValue, defau
 			 	$( sliderValueElement ).val( ui.value );
 			 },
 			 change:function(event,ui){
-			 	$( sliderValueElement ).val( ui.value );
+			 	$( sliderValueElement ).val(ui.value );
 			 }
 			 });
+			 $( sliderValueElement ).val(defaultValue);
 	});	
 }
 
