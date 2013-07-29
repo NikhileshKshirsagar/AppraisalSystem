@@ -5,15 +5,54 @@
 
 	<form action="/UserList/" method="post" class="form-search" style="padding-top: 30px; margin-left: -0px;">{% csrf_token %}
 		<div class="UserListing">
-			{% for user in userList %}
-				{{ user.firstname }}
-				{{ user.lastname }}
-				{{ user.type }}
-				{{ user.user_level }}
-				{{ user.user_weight }}
-				{{ user.type }}
-				<br>
-			{% endfor %}
+			<div>
+				{% for user in userList %}
+					<div style="width: 30%; float: left; border: 1px solid #111111">
+						<table>	
+							<tr>	
+								<td width="20%">
+									<label>Name : </label>
+								</td>
+								<td>	
+									{{ user.firstname }} {{ user.lastname }}
+									, {{ user.type }}
+								</td>
+							</tr>
+							<tr>	
+								<td width="20%">
+									<label>Email : </label>
+								</td>
+								<td>	
+									{{ user.emailid }} 
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label style="float: left;">Level : </label>
+								</td>		
+								<td>
+									<div class="progress progress-info" style="float: left; width: 90%;">
+										<div class="bar" style="width : {{ user.user_level }}0%">
+										</div>
+									</div>	
+								</td>	
+							
+							</tr>
+							<tr>
+								<td>
+									<label style="float: left;">Weight : </label>
+								</td>
+								<td>		
+									<div class="progress progress-info span4" style="float: left;width: 300px;">
+										<div class="bar" style="width : {{ user.user_weight }}0%">
+										</div>
+									</div>
+								</td>
+							</tr>	
+						</table>
+					</div>
+				{% endfor %}
+			</div>
 		</div>	
 	</form>
 

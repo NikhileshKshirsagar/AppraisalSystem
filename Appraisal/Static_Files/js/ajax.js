@@ -34,8 +34,11 @@ function AjaxEvent(data, destinationElement,searchAttribute, model,successCallba
 				'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val()
 			},
 			success : successCallback,
-			error : function(){
-				alert("Error AJAX");
+			error : function(jqXHR,error, errorThrown){
+				console.log(jqXHR);
+				console.log(errorThrown);
+				console.log(error);
+				alert("........................................");
 			},
 			dataType : 'html' 
 		});

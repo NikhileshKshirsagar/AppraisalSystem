@@ -20,8 +20,7 @@
 						userInfo = $(event.currentTarget).children('input').val();
 						AjaxEvent(userInfo, $( "#userlist" ).get("selector"), '',"UserDetails",function successSerach(data, textStatus, jqXHR)
 						{
-							alert("click success");
-							alert(data);
+							console.log(data);
 							
 						});
 					});
