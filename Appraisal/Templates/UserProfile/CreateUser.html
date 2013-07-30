@@ -20,8 +20,23 @@
 						userInfo = $(event.currentTarget).children('input').val();
 						AjaxEvent(userInfo, $( "#userlist" ).get("selector"), '',"UserDetails",function successSerach(data, textStatus, jqXHR)
 						{
-							console.log(data);
-							
+							var response=jQuery.parseJSON(data);
+							console.log(response);
+							if(response.error == "")
+							{	
+								$('#id_firstname').val(response.firstname);
+								$('#id_lastname').val(response.lastname);
+								$('#id_emailid').val(response.emailid);
+								$('#id_type').val(response.type);
+								setSliderValue($( "#userLevel" ).get("selector"), $( "#userLevelVal" ).get("selector"), response.user_level );
+								setSliderValue($( "#userWeight" ).get("selector"), $( "#userWeightVal" ).get("selector"), response.user_weight);
+								$('#btnCreate').val("Update");
+								$('#action').val("Beta");
+							}
+							else
+							{
+								$('#').html(response.error);
+							}
 						});
 					});
 				});
@@ -34,7 +49,7 @@
 		<p class=" headerFont" style="float: left; padding-top: 15px">User Management</p>
 	</div>
 	
-	<form action="/CreateUser/" method="post" class="form-search" style="padding-top: 30px; margin-left: -0px;">{% csrf_token %}
+	<form id="formCreateUser" action="/CreateUser/" method="post" class="form-search" style="padding-top: 30px; margin-left: -0px;">{% csrf_token %}
 		
 		<table class="table tableDisplay" style="margin-left:5px;width: 70%; float: right; margin-top: 10px;">
 			<tr>
@@ -118,7 +133,7 @@
 			<tr>
 				<td colspan="2">
 					<br>
-					<input type="submit" value="Create" class="btn btn-medium btn-inverse">
+					<input id="btnCreate" name="btnCreate" type="submit" value="Create" class="btn btn-medium btn-inverse">
 					<a href="">
 						<input value="Clear" class="btn btn-medium btn-inverse" onclick="" style="width: 70px">
 					</a>
@@ -134,17 +149,29 @@
 						</div>
 					{% endif %}
 				</td>
+				<p>{{ successMsg }}</p>
+				{{ userCreateform.action }}
 			</tr>
 		</table>
 		
 		
 		<div class="title">
-			<label style="float: left;">Username</label>
-			<input id="serachUserName" type="text" class="textSearch" style="">
-			<br>
+			<table>
+				<tr>
+					<td align="center">
+						Search user by name
+					</td>
+				</tr>
+				<tr height="5px"></tr>
+				<tr>
+					<td align="center">
+						<input id="serachUserName" type="text" class="textSearch search-query" style="width: 90%; ">
+					</td>
+				</tr>
+			</table>
 		</div>
 		
-		<div id="userlist" class="userList ">	
+		<div id="userlist" class="userList" style="padding-top: 25px;">	
 				<!-- {% for user in userList %}
 					<a href="" >
 							<div class="userTile" name="clickable">
@@ -163,6 +190,6 @@
 		<!-- <div id="userResults" class="userList jssb-content" style="float: right;">
 			
 		</div> -->
-		<p>{{ successMsg }}</p>
+		
 	</form>
 {% endblock %} 

@@ -21,6 +21,7 @@ class UserCreate(forms.ModelForm):
     user_level = forms.CharField()
     user_weight = forms.CharField()
     type = forms.ChoiceField(label='User type',choices=usertype, widget=forms.Select(attrs={'class':'tableRow span5 search-query', 'style': 'border-radius: 15px 15px 15px 15px;'}))
+    action = forms.CharField(widget=forms.TextInput(attrs={'type':'hidden', 'value' : 'Alpha', 'id' : 'action'}))
     
     def save(self,  userId,commit=True):
         obj_userForm = super(UserCreate, self).save(commit=False)
@@ -38,7 +39,7 @@ class UserCreate(forms.ModelForm):
         except UserDetails.DoesNotExist:
             s_existingEmail = ''
                
-        if s_existingEmail != '' and s_existingEmail ==  self.cleaned_data['emailid']:
+        if s_existingEmail != '' and s_existingEmail ==  self.cleaned_data['emailid'] and self.data['action'] == "Alpha":
             raise forms.ValidationError("Email address already exists.")
         return self.cleaned_data['emailid']
     
@@ -59,7 +60,7 @@ class UserCreate(forms.ModelForm):
         
     class Meta():
         model=UserDetails
-        fields = ('firstname','lastname','emailid','user_level', 'user_weight', 'type',)
+        fields = ('firstname','lastname','emailid','user_level', 'user_weight', 'type', 'action',)
         
 class userListForm(forms.ModelForm):
     class Meta():
@@ -77,7 +78,7 @@ class UserProfile_LanguageForm(forms.ModelForm):
     language = forms.ChoiceField(choices = choices)
     class Meta():
         model=UserAttributes
-        fields = ('tech_working','tech_known','tech_willing','language_working','language_known','language_willing')
+        fields = ('tech_working','tech_known','tech_willing','language_working','language_known','language_willing', )
         
 class UserProfile_DesignationForm(forms.ModelForm):
     class Meta():
