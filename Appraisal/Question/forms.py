@@ -15,11 +15,11 @@ class QuestionForm(forms.ModelForm):
     question = forms.CharField(error_messages={'required': 'Please enter question'}, widget=forms.Textarea(attrs={'rows':4,'class':'span4'}),label="Question")
     info = forms.CharField(required=False, widget=forms.Textarea(attrs={'rows':4,'class':'span4'}), label="Additional information (optional)")
     intent = forms.ChoiceField(choices=intentType, error_messages={'required': 'Please select intent'}, widget=forms.Select(attrs={'class':'tableRow span4 search-query', 'style': 'border-radius: 15px 15px 15px 15px;'}),label="Intent")
-    level = forms.CharField(required=False,label="Question level")
-    weight = forms.CharField(required=False,label="Question weight")
+    level = forms.CharField(required=False,label="Question level",initial=0)
+    weight = forms.CharField(required=False,label="Question weight",initial=0)
     type = forms.ChoiceField(required=False,choices=questionType, error_messages={'required': 'Please select question type'},widget=forms.Select(attrs={'class':'tableRow span4 search-query', 'style': 'border-radius: 15px 15px 15px 15px;'}),label="Question type")
     category=forms.CharField(required=False)
-    type_text=forms.CharField(required=False,widget=forms.HiddenInput())
+    type_text=forms.CharField(required=False,widget=forms.HiddenInput(),initial='Subjective')
     class Meta:
         model=Question
         fields=("question","level","weight","type","info","intent","type_text")

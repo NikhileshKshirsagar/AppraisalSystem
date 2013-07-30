@@ -9,18 +9,7 @@
 	
 		$( "#sortable" ).sortable();
 		
-		$("#btnPlus").click(function(){
-			if($("#sortable li").length <= 10)	
-				$("#sortable").append("<li class=\"ui-state-default\">"+$("#sortable li:first").html()+"</li>");
-			else
-				alert("Cannot have more than 10 options");
-		});
 		
-		$("#btnMinus").click(function(){
-			if($("#sortable li").length > 1)
-				$("#sortable li:last").remove();
-		});
-	
 	});
 	</script>
 	{{ optionCreateform.option_header_text.label }} <br/>

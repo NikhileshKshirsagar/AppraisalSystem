@@ -6,12 +6,45 @@ $(function() {
 	$("#tabs").removeClass("ui-widget-content");
 	$( "#tabs li" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-left" );
 	$("#tabs-1, #tabs-2").removeClass("ui-widget-content");
+	$("#btnPlus").click(function(){
+		if($("#sortable li").length <= 10)	
+			$("#sortable").append("<li class=\"ui-state-default\">"+$("#sortable li:first").html()+"</li>");
+		else
+			alert("Cannot have more than 10 options");
+	});
+	
+	$("#btnMinus").click(function(){
+		if($("#sortable li").length > 1)
+			$("#sortable li:last").remove();
+	});
+	
 	$('*[name=liQuestionType]').click(function(){
 		if($("#tabs-2").css('display')=="block")
 		{
 			$("#tabs-1").css('display','block');
 		}
 		$("input[name=type_text]").val($(this).attr("value"));
+		if ($("input[name=type_text]").val() == 'MCQ')
+		{
+			if( $("input[name=option_text]").val()!="")
+			{		
+				arroptions = $("input[name=option_text]").val().split(",");
+				$.each(arroptions, function(index,value)
+				{
+					$( "#sortable li:last input[name=options]" ).val(value);
+					$("#btnPlus").trigger('click');
+				}
+				);
+				$("#btnMinus").trigger('click');
+			} 
+		}
+		else
+		{
+			$("input[name=option_text]").val("");
+			$("#sortable li:gt(0)").remove();
+			$("#sortable li input").val("");
+		}
+		
 	});
 
 	$("#CreateQuestion").click(function(){
@@ -22,6 +55,19 @@ $(function() {
 		data = data.slice(0,-1);
 		$("input[name=option_text]").val(data);
 	});
+	
+	if ($("input[name=type_text]").val() == 'MCQ')
+	{
+		$("*[name=liQuestionType]").each(function(){
+			if( $(this).attr('value') == 'MCQ')
+				$(this).trigger('click');
+		});
+	}
+	
+	
+	LoadSlider($( "#questionLevel" ).get("selector"),  $( "#questionLevelVal" ).get("selector"), 10, 0, {{questionCreateform.level.value}} );
+	LoadSlider($( "#questionWeight" ).get("selector"),  $( "#questionWeightVal" ).get("selector"), 10, 0, {{questionCreateform.weight.value}} );
+
 });
 </script>
 <style>
@@ -33,10 +79,6 @@ $(function() {
 	.ui-tabs-vertical .ui-tabs-panel { padding: 1em; float: right; width: 40em;}
 	.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active{background:#E3E8E4 !important;}
 </style>
-<script type="text/javascript">
-LoadSlider($( "#questionLevel" ).get("selector"),  $( "#questionLevelVal" ).get("selector"), 10, 0, 0 );
-LoadSlider($( "#questionWeight" ).get("selector"),  $( "#questionWeightVal" ).get("selector"), 10, 0, 0 );
-</script>
 <div class="label headerGradient headerPosition" >
 		<i class="icon-question-sign icon-3x" style="float: left; padding-left: 20px; padding-top: 4px"></i>
 		<p class=" headerFont" style="float: left; padding-top: 15px">Create question</p>
