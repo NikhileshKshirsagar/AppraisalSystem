@@ -21,13 +21,16 @@ def CreateUser(request):
             print "POST request"
             if userCreateform.is_valid():
                 i_UserId = UserDetails.objects.get(user_id=request.session['UserID']).user_id
+                # Create user.
                 if request.POST.get('action') == 'Alpha': 
                     print "Valid form"
                     userCreateform.save(commit=False, userId = i_UserId)
                     userCreateform = UserCreate()
                     # redirect to next page
                     return render_to_response('Userprofile/CreateUser.html', {'successMsg' : 'User created successfully', 'userCreateform' : userCreateform}, context_instance = RequestContext( request))
+                # Update user
                 elif request.POST.get('action') == 'Beta' :
+                    print request.POST.get('emailid')
                     UserDetails.objects.filter(emailid=request.POST.get('emailid')).update(firstname=request.POST.get('firstname'), lastname=request.POST.get('lastname'), emailid=request.POST.get('emailid'), user_level=request.POST.get('user_level'), user_weight=request.POST.get('user_weight'), type=request.POST.get('type'))
                     userCreateform = UserCreate()
                     return render_to_response('Userprofile/CreateUser.html', {'successMsg' : 'User updated successfully', 'userCreateform' : userCreateform}, context_instance = RequestContext( request))
@@ -44,9 +47,6 @@ def UserList(request):
     else:    
         userList = UserDetails.objects.all()
         return render_to_response('Userprofile/UserList.html', { 'userList' : userList }, context_instance = RequestContext( request))
-            
-#def UserProfile(request):
-    #if request.method == 'POST':
     
 def userSearch(request):
     if request.POST:
@@ -54,7 +54,7 @@ def userSearch(request):
     else:
         search_text = ''
             
-    obj_searchResult = UserDetails.objects.filter(firstname__contains=search_text)
+    obj_searchResult = UserDetails.objects.filter(firstname__icontains=search_text).order_by('firstname')
     result = ''
     for user in obj_searchResult:
         result += '<a> <div class="userTile clickable"> <input id="id" type="hidden" value=' + str(user.user_id) + '>' +user.firstname + " " + user.lastname  +'<br> <div>' + user.emailid + ' </div></div></a>'
@@ -84,3 +84,9 @@ def userInfo(request):
         
     else:
         return HttpResponse(content='error occured', content_type='application/json')
+    
+    
+def userProfile(request):
+    if request.POST:
+        
+        return render_to_response('Userprofile/CreateUser.html', {}, context_instance = RequestContext( request))

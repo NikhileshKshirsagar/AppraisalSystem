@@ -28,8 +28,8 @@
 								$('#id_lastname').val(response.lastname);
 								$('#id_emailid').val(response.emailid);
 								$('#id_type').val(response.type);
-								setSliderValue($( "#userLevel" ).get("selector"), $( "#userLevelVal" ).get("selector"), response.user_level );
-								setSliderValue($( "#userWeight" ).get("selector"), $( "#userWeightVal" ).get("selector"), response.user_weight);
+								setSliderValue($( "#userLevel" ).get("selector"), response.user_level );
+								setSliderValue($( "#userWeight" ).get("selector"), response.user_weight);
 								$('#btnCreate').val("Update");
 								$('#action').val("Beta");
 							}
@@ -42,6 +42,7 @@
 				});
 			});
 		});	
+		
 	</script>
 
 	<div class="label headerGradient headerPosition" >
@@ -112,8 +113,8 @@
 					<div id="userLevel" class="sliders"></div>
 					{% if userCreateform.user_level.value != None and userCreateform.user_weight.value != None %}
 						<script type="text/javascript">
-							setSliderValue($( "#userLevel" ).get("selector"), $( "#userLevelVal" ).get("selector"), {{ userCreateform.user_level.value }});
-							setSliderValue($( "#userWeight" ).get("selector"), $( "#userWeightVal" ).get("selector"), {{ userCreateform.user_weight.value }});
+							setSliderValue($( "#userLevel" ).get("selector"), {{ userCreateform.user_level.value }});
+							setSliderValue($( "#userWeight" ).get("selector"), {{ userCreateform.user_weight.value }});
 						</script>	
 					{% endif %}
 				</td>
@@ -142,19 +143,18 @@
 			<tr>
 				<td colspan="3">
 					{% if userCreateform.errors|length > 0 %}
-						<div class="alert alert-error" > 
+						<div class="alert alert-error" style="width: 50%;"> 
 							{% for key, value in userCreateform.errors.items %} 
 								{{value}}
 							{% endfor %}
 						</div>
 					{% endif %}
 				</td>
-				<p>{{ successMsg }}</p>
+				{{ successMsg  }}	
 				{{ userCreateform.action }}
 			</tr>
 		</table>
-		
-		
+	
 		<div class="title">
 			<table>
 				<tr>
@@ -165,7 +165,7 @@
 				<tr height="5px"></tr>
 				<tr>
 					<td align="center">
-						<input id="serachUserName" type="text" class="textSearch search-query" style="width: 90%; ">
+						<input id="serachUserName" type="text" autocomplete="off" class="textSearch search-query" style="width: 90%; ">
 					</td>
 				</tr>
 			</table>
