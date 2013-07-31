@@ -10,7 +10,7 @@ from django.utils import timezone
 from django.utils import simplejson
 
 from UserProfile.UserProfileForms import UserCreate, userListForm
-from Login.models import UserDetails
+from Login.models import UserDetails, Designation
 
 def CreateUser(request):
     #userList = UserDetails.objects.all()
@@ -88,5 +88,6 @@ def userInfo(request):
     
 def userProfile(request):
     if request.POST:
-        
+        user = UserDetails.objects.get(user_id=request.session['UserID'])
+        designation = Designation.objects.filter()
         return render_to_response('Userprofile/CreateUser.html', {}, context_instance = RequestContext( request))
