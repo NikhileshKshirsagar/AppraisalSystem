@@ -10,15 +10,20 @@
 			$(".textSearch").keyup(function()
 			{
 				//alert($( "#serachUserName" ).val());
-				AjaxEvent($( "#serachUserName" ).val(), $( "#userlist" ).get("selector"), "firstname", "UserDetails",function successSerach(data, textStatus, jqXHR)
+				var data = {
+					'search_txt' : $( "#serachUserName" ).val() 		
+				}
+				AjaxEvent(data, '/userprofile/userSearch/', function successSerach(data, textStatus, jqXHR)
 				{
 					$('#userlist').html(data);
 					
 						$("#userlist .clickable").click(function(event){
 						//alert("fasfsafsafs");
 						//alert("ascfasfc" + $(event.currentTarget).closest('input').val());
-						userInfo = $(event.currentTarget).children('input').val();
-						AjaxEvent(userInfo, $( "#userlist" ).get("selector"), '',"UserDetails",function successSerach(data, textStatus, jqXHR)
+						var sdata = {
+								'search_txt' : $(event.currentTarget).children('input').val()
+								}
+						AjaxEvent(sdata, '/userprofile/userInfo/',function successSerach(data, textStatus, jqXHR)
 						{
 							var response=jQuery.parseJSON(data);
 							console.log(response);
@@ -37,9 +42,19 @@
 							{
 								$('#').html(response.error);
 							}
-						});
+						},
+						function()
+						{$('#').html('');
+							
+						}
+						);
 					});
-				});
+				},
+				function()
+				{
+					 $( "#userlist" ).empty();
+				}
+				);
 			});
 		});	
 		

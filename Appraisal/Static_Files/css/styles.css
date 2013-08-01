@@ -21,9 +21,9 @@ height: 28px;font-size:16;}
 	/*box-shadow: 2px 3px 5px 3px #3C3013,
         inset 1px 1px 1px 1px #4C4023,
         inset 2px -2px 2px 1px #8C8083 !important;*/
-    /*box-shadow: 1px 2px 3px 2px #C7C7C7,
+    box-shadow: 1px 2px 3px 2px #C7C7C7,
         		inset 1px 1px 1px 1px #EBE8E9,
-        		inset 2px -2px 2px 1px #F7F2F4 !important;*/
+        		inset 2px -2px 2px 1px #F7F2F4 !important;
 }
 .sliders
 {
@@ -47,7 +47,7 @@ height: 28px;font-size:16;}
 {
      border-top: 0px none #DDDDDD !important;
      padding-bottom: 10px;
- 	vertical-align: middle;
+ 	 vertical-align: middle;
 }
 .tableDisplay tr
 {
@@ -180,4 +180,22 @@ body
 .UserListing
 {
 	background-color: rgb(100,139,158);
+}
+.formMaster
+{
+	padding-left: 20px;
+}
+.tableDisplayMaster td
+{
+     border-top: 0px none #DDDDDD !important;
+     vertical-align: middle !important;
+}
+.TextArea
+{
+	height: 150px !important;
+	width: 364px !important;
+}
+.textArealabel
+{
+	vertical-align: top !important;
 }
