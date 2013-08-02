@@ -15,7 +15,7 @@ def questionCreateView(request):
     objQuestionForm = QuestionForm(request.POST or None)
     objOptionForm = OptionFrom(request.POST or None)
     if request.method == 'POST':
-        if request.POST['type_text'] == 'MCQ':
+        if request.POST['type'] == '2':
             if objQuestionForm.is_valid() and objOptionForm.is_valid():
                 flag=True
             else:
@@ -29,8 +29,7 @@ def questionCreateView(request):
              
         if flag == True: 
            i_UserId = UserDetails.objects.get(user_id=request.session['UserID'])
-           if request.POST['type_text'] == 'MCQ':
-               objOptionForm.save(commit=False, userId=i_UserId)
+           objOptionForm.save(commit=False, userId=i_UserId)
            objQuestionForm.save(commit=False, userId = i_UserId)
            args['successMsg']="Question created successfully"
            objOptionForm = OptionFrom()

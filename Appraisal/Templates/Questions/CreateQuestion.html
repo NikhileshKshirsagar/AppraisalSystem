@@ -11,15 +11,15 @@ $(function() {
 		{
 			$("#tabs-1").css('display','block');
 		}
-		$("input[name=type_text]").val($(this).attr("value"));
+		$("input[name=type_text]").val($(this+ " a").attr("value"));
 	});
 
 	$("#CreateQuestion").click(function(){
 		var data="";
-		$( "input[name=options]" ).each(function( index ) {
-			data = data + $(this).val() +',';
+		$( "input[name=option_text]" ).each(function( index ) {
+			data = data + $(this).val();
 		});
-		$("input[name=option_text]").val(data);
+		
 	});
 });
 </script>
@@ -52,7 +52,7 @@ LoadSlider($( "#questionWeight" ).get("selector"),  $( "#questionWeightVal" ).ge
 	<div >
 	<table><tr><td>
 	<table id="tabs-1" class="table tableDisplay" style="margin-left:5px;" Common="true">
-	<!-- <tr>
+	<tr>
 		<td>
 			{{ questionCreateform.type.label }}	
 		</td>
@@ -62,7 +62,7 @@ LoadSlider($( "#questionWeight" ).get("selector"),  $( "#questionWeightVal" ).ge
 		<td>
 		
 		</td>
-	</tr> -->
+	</tr>
 	<tr class="">
 		<td width="300px">
 			{{ questionCreateform.question.label }}	
