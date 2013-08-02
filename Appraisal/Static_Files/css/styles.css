@@ -10,7 +10,7 @@
 	float:left;width:33%;
 }
 
-textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
+input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
 height: 28px;font-size:16;}
 
 .tableRow
@@ -207,4 +207,10 @@ body
 	float: right;
 	padding-right: 25px;
 	vertical-align: top !important;
+}
+.accordion-heading {
+    background-color: #dadada;
+}
+.accordion-group {
+    border: 1px solid #000000 !important;
 }
