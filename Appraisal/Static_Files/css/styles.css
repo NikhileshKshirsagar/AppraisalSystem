@@ -15,6 +15,7 @@ height: 28px;font-size:16;}
 
 .tableRow
 { 
+	font-size: 15px !important;
 	height: 30px !important;
 	color: #505450 !important;
 	border : 0px thin #00000 !important; 
@@ -48,6 +49,7 @@ height: 28px;font-size:16;}
      border-top: 0px none #DDDDDD !important;
      padding-bottom: 10px;
  	 vertical-align: middle;
+ 	 font-size: 15px !important;
 }
 .tableDisplay tr
 {
@@ -189,6 +191,7 @@ body
 {
      border-top: 0px none #DDDDDD !important;
      vertical-align: middle !important;
+     font-size: 15px !important;
 }
 .TextArea
 {
@@ -197,5 +200,11 @@ body
 }
 .textArealabel
 {
+	vertical-align: top !important;
+}
+.projList
+{
+	float: right;
+	padding-right: 25px;
 	vertical-align: top !important;
 }

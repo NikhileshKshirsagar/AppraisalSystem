@@ -13,11 +13,18 @@ def MasterInput(request):
         designationForm = Master_DesignationForm()
         languageForm = Master_LanguageForm()
         eventForm = Master_EventForm()
+        
+        obj_ProjectList = Project.objects.all()
         return render_to_response('Masters/InputMaster.html', 
-                              { 'projectForm' : projectForm, 'designationForm' : designationForm, 'languageForm' : languageForm, 'eventForm' : eventForm}, 
+                              { 'projectForm' : projectForm, 'designationForm' : designationForm, 'languageForm' : languageForm, 'eventForm' : eventForm, 'obj_ProjectList' : obj_ProjectList}, 
                               context_instance = RequestContext( request))
         
 def ProjectMasterInput(request):
     if request.method == 'POST':
-        i_UserId = UserDetails.objects.get(user_id=request.session['UserID']).user_id
-                
+        projectForm = Master_ProjectForm(request.POST)
+        i_UserId = UserDetails.objects.get(user_id=request.session['UserID'])
+        if projectForm.is_valid():
+            projectForm.save(commit=False, userId = i_UserId)
+            return render_to_response('Masters/InputMaster.html', {'projectForm' : projectForm, 'userNotification' : 'Project created successfully' }, context_instance = RequestContext( request))
+        else:
+            return render_to_response('Masters/InputMaster.html', {'projectForm' : projectForm, 'userNotification' : 'Project could not be created' }, context_instance = RequestContext( request))    

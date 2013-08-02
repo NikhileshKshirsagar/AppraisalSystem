@@ -17,7 +17,16 @@
     </ul>
     <div class="tab-content">
     	 <div class="tab-pane active" id="tab1">
-			<form id="formProject" action="/userprofile/DataInput/" method="post" class="formMaster">
+			<form id="formProject" action="/masters/ProjectMasterInput/" method="post" class="formMaster">{% csrf_token %}
+				<div class="projList">
+						{% for project in obj_ProjectList %}
+							<div>
+								{{ project.name }}
+								{{ project.status }}
+								{{ project.contact_person }}
+							</div>
+						{% endfor %}
+				</div>
 				<table class="table tableDisplayMaster" style="width: 65%">
 					<tr>
 						<td width="26%">
@@ -75,12 +84,25 @@
 								<input value="Clear" class="btn btn-medium btn-inverse" onclick="" style="width: 70px">
 							</a>
 						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							{% if projectForm.errors|length > 0 %}
+								<div class="alert alert-error" style="width: 50%;"> 
+									{% for key, value in projectForm.errors.items %} 
+										{{value}}
+									{% endfor %}
+								</div>
+							{% endif %}
+						</td>
+						{{ userNotification  }}	
+						<!-- {{ userCreateform.action }} -->
 					</tr>	
 				</table>
 			</form>
 		</div>
 		<div class="tab-pane" id="tab2">
-			<form id="formDesignation" action="/userprofile/DataInput/" method="post" class="formMaster">
+			<form id="formDesignation" action="/userprofile/DataInput/" method="post" class="formMaster">{% csrf_token %}
 				<table class="table tableDisplayMaster" style="width: 65%">
 					<tr>
 						<td width="26%">
@@ -100,7 +122,7 @@
 			</form>
 		</div>
 		<div class="tab-pane" id="tab3">
-			<form id="formCreateUser" action="/userprofile/DataInput/" method="post" class="formMaster">
+			<form id="formCreateUser" action="/userprofile/DataInput/" method="post" class="formMaster">{% csrf_token %}
 				<table class="table tableDisplayMaster" style="width: 65%">
 					<tr>
 						<td width="26%">
@@ -128,7 +150,7 @@
 			</form>
 		</div>
 		<div class="tab-pane" id="tab4">
-			<form id="formCreateUser" action="/userprofile/DataInput/" method="post" class="formMaster">
+			<form id="formCreateUser" action="/userprofile/DataInput/" method="post" class="formMaster">{% csrf_token %}
 				<table class="table tableDisplayMaster" style="width: 65%">
 					<tr>
 						<td width="26%">

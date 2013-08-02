@@ -30,7 +30,7 @@ function DatePicker(dateElement1, dateElement2, number_of_months)
 		 defaultDate: "+1w",
 		 changeMonth: true,
 		 changeYear: true,
-		 dateFormat: 'dd-mm-yy',
+		 dateFormat: 'yy-mm-dd',
 		 numberOfMonths: number_of_months,
 		 onClose: function( selectedDate ) {
 		 $( dateElement2 ).datepicker( "option", "minDate", selectedDate );
