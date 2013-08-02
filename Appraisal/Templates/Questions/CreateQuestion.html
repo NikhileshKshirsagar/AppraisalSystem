@@ -18,15 +18,9 @@ $(function() {
 			$("#sortable li:last").remove();
 	});
 	
-	$('*[name=liQuestionType]').click(function(){
-		if($("#tabs-2").css('display')=="block")
-		{
-			$("#tabs-1").css('display','block');
-		}
-		$("input[name=type_text]").val($(this).attr("value"));
-		if ($("input[name=type_text]").val() == 'MCQ')
-		{
-			if( $("input[name=option_text]").val()!="")
+	function setOptions()
+	{
+		if( $("input[name=option_text]").val()!="")
 			{		
 				arroptions = $("input[name=option_text]").val().split(",");
 				$.each(arroptions, function(index,value)
@@ -37,6 +31,17 @@ $(function() {
 				);
 				$("#btnMinus").trigger('click');
 			} 
+	}
+	
+	$('*[name=liQuestionType]').click(function(){
+		if($("#tabs-2").css('display')=="block")
+		{
+			$("#tabs-1").css('display','block');
+		}
+		$("input[name=type_text]").val($(this).attr("value"));
+		if ($("input[name=type_text]").val() == 'MCQ')
+		{
+			setOptions();
 		}
 		else
 		{
@@ -67,7 +72,29 @@ $(function() {
 	
 	LoadSlider($( "#questionLevel" ).get("selector"),  $( "#questionLevelVal" ).get("selector"), 10, 0, {{questionCreateform.level.value}} );
 	LoadSlider($( "#questionWeight" ).get("selector"),  $( "#questionWeightVal" ).get("selector"), 10, 0, {{questionCreateform.weight.value}} );
-
+	$( "#sortable" ).sortable();
+		$("#hrefUserExisting").click(function()
+		{
+			$("#sortable").css('read-only','true');
+			$("#divOptionList div").remove();
+			AjaxEvent({'search_txt':'data'}, '/question/optionList/',function(data, textStatus, jqXHR){
+				$('#divOptionList').append(data);
+				$("*[name=btnUseIt]").click(function(){
+					data = {'search_txt':$(this).attr('data')};
+					AjaxEvent(data, '/question/optionDetails/',function(data, textStatus, jqXHR){
+							var response=jQuery.parseJSON(data);
+							$("input[name=option_text]").val(response.Options);
+							$("input[name=option_header_text]").val(response.OptionHeader);
+							$("#sortable li:gt(0)").remove();
+							$("#sortable li:first input").val("");
+							setOptions();
+							$( "#sortable" ).sortable('disable');
+							},null);
+				});
+			},null);
+			
+		});
+		
 });
 </script>
 <style>
@@ -93,7 +120,7 @@ $(function() {
 	</ul>
 	{{questionCreateform.type_text}}
 	<div >
-	<table><tr><td>
+	<table><tr><td style="vertical-align:top;">
 	<table id="tabs-1" class="table tableDisplay" style="margin-left:5px;" Common="true">
 	<!-- <tr>
 		<td>
@@ -173,7 +200,7 @@ $(function() {
 			<td>OPTIONS</td>
 		</tr>
 		<tr>
-		<td>{% include "Questions\CreateOptions.html" %}</td>
+		<td style="vertical-align:top;">{% include "Questions\CreateOptions.html" %}</td>
 		</tr>
 		<tr><td>&nbsp;</td></tr>
 		</table>

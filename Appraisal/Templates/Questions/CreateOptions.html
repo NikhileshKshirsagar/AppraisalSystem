@@ -1,17 +1,10 @@
+<table><tr><td>
 <div>
 	<style>
 		#sortable { list-style-type: none; margin: 0; padding: 0; }
 		#sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
 		#sortable li span { position: absolute; margin-left: -1.3em; }
 	</style>
-	<script>
-	$(function() {
-	
-		$( "#sortable" ).sortable();
-		
-		
-	});
-	</script>
 	{{ optionCreateform.option_header_text.label }} <br/>
 	{{optionCreateform.option_header_text }}<br/>
 	<br/>
@@ -25,4 +18,14 @@
 		<a id="btnMinus" class="btn btn-primary"><i class="icon-minus-sign"></i></a>
 		<a id="btnPlus" class="btn btn-primary"><i class="icon-plus-sign"></i></a>
 	</div>
+	<br/><br/><a class="btn btn-primary" id="hrefUserExisting">Populate option list</a>
 </div>
+</td></tr></table>
+</td>
+<td style="vertical-align:top;">
+<table><tr><td>
+Option List
+<div id="divOptionList" style="overflow:auto;height:600px;">
+</div>
+</td></tr></table>
+</td>
