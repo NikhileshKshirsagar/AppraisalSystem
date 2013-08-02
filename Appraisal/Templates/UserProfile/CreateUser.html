@@ -10,15 +10,20 @@
 			$(".textSearch").keyup(function()
 			{
 				//alert($( "#serachUserName" ).val());
-				AjaxEvent($( "#serachUserName" ).val(), $( "#userlist" ).get("selector"), "firstname", "UserDetails",function successSerach(data, textStatus, jqXHR)
+				var data = {
+					'search_txt' : $( "#serachUserName" ).val() 		
+				}
+				AjaxEvent(data, '/userprofile/userSearch/', function successSerach(data, textStatus, jqXHR)
 				{
 					$('#userlist').html(data);
 					
 						$("#userlist .clickable").click(function(event){
 						//alert("fasfsafsafs");
 						//alert("ascfasfc" + $(event.currentTarget).closest('input').val());
-						userInfo = $(event.currentTarget).children('input').val();
-						AjaxEvent(userInfo, $( "#userlist" ).get("selector"), '',"UserDetails",function successSerach(data, textStatus, jqXHR)
+						var sdata = {
+								'search_txt' : $(event.currentTarget).children('input').val()
+								}
+						AjaxEvent(sdata, '/userprofile/userInfo/',function successSerach(data, textStatus, jqXHR)
 						{
 							var response=jQuery.parseJSON(data);
 							console.log(response);
@@ -37,9 +42,19 @@
 							{
 								$('#').html(response.error);
 							}
-						});
+						},
+						function()
+						{$('#').html('');
+							
+						}
+						);
 					});
-				});
+				},
+				function()
+				{
+					 $( "#userlist" ).empty();
+				}
+				);
 			});
 		});	
 		
@@ -50,7 +65,7 @@
 		<p class=" headerFont" style="float: left; padding-top: 15px">User Management</p>
 	</div>
 	
-	<form id="formCreateUser" action="/CreateUser/" method="post" class="form-search" style="padding-top: 30px; margin-left: -0px;">{% csrf_token %}
+	<form id="formCreateUser" action="/userprofile/CreateUser/" method="post" class="form-search" style="padding-top: 30px; margin-left: -0px;">{% csrf_token %}
 		
 		<table class="table tableDisplay" style="margin-left:5px;width: 70%; float: right; margin-top: 10px;">
 			<tr>

@@ -5,7 +5,7 @@ Created on 17-Jul-2013
 '''
 
 from django import forms
-from Login.models import UserDetails, UserAttributes, Language, UserAttributes, Designation
+from Login.models import UserDetails, UserAttributes, Language, UserAttributes, Designation, Project, Event
 from django.utils import timezone
 from cProfile import label
 
@@ -66,7 +66,8 @@ class userListForm(forms.ModelForm):
     class Meta():
         model=UserDetails
         fields = ('firstname','lastname','emailid',)
-        
+
+# User Profile        
 class UserProfile_UserDetailForm(forms.ModelForm):
     class Meta():
         model=UserDetails
@@ -83,5 +84,4 @@ class UserProfile_LanguageForm(forms.ModelForm):
 class UserProfile_DesignationForm(forms.ModelForm):
     class Meta():
         model=Designation
-        
-        
+              
