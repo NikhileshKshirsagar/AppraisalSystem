@@ -1,0 +1,113 @@
+{% extends "Masters/InputMaster.html" %}
+{% load url from future %}
+
+{% block pagesubcontent %}
+
+<form id="formProject" action="/masters/ProjectMasterInput/" method="post" class="formMaster">{% csrf_token %}
+				<div class="projList">
+						{% for project in obj_ProjectList %}
+							<div class="Project">
+								<table>
+									<tr>
+										<td>
+											<label>Project : </label>
+										</td>
+										<td>	
+											<label>{{ project.name }}</label>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<label>status  :</label>
+										</td>
+										<td>
+											{{ project.status }}		
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<label>Contact : </label>	
+										</td>
+										<td>
+											{{ project.contact_person.firstname }}
+											{{ project.contact_person.lastname }}
+										</td>
+									</tr>
+								</table>
+							</div>
+						{% endfor %}
+				</div>
+				<table class="table tableDisplayMaster" style="width: 65%">
+					<tr>
+						<td width="26%">
+							{{ projectForm.name.label }}	
+						</td>
+						<td>
+							{{ projectForm.name }}	
+						</td>
+					</tr>
+					<tr>	
+						<td style="vertical-align: top !important;">
+							<p class="textArealabel" style="padding-top: 2px;">{{ projectForm.description.label }}</p>	
+						</td>
+						<td>
+							{{ projectForm.description }}	
+						</td>
+					</tr>
+					<tr>
+						<td>
+							{{ projectForm.start_date.label }}	
+						</td>
+						<td>
+							{{ projectForm.start_date }}	
+						</td>
+					</tr>
+					<tr>	
+						<td>
+							{{ projectForm.end_date.label }}	
+						</td>
+						<td>
+							{{ projectForm.end_date }}	
+						</td>
+					</tr>
+					<tr>	
+						<td>
+							{{ projectForm.status.label }}	
+						</td>
+						<td>
+							{{ projectForm.status }}	
+						</td>
+					</tr>
+					<tr>	
+						<td>
+							{{ projectForm.contact_person.label }}	
+						</td>
+						<td>
+							{{ projectForm.contact_person }}	
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<br>
+							<input id="btnCreate" name="btnCreate" type="submit" value="Create" class="btn btn-medium btn-inverse">
+							<a href="">
+								<input value="Clear" class="btn btn-medium btn-inverse" onclick="" style="width: 70px">
+							</a>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							{% if projectForm.errors|length > 0 %}
+								<div class="alert alert-error" style="width: 50%;"> 
+									{% for key, value in projectForm.errors.items %} 
+										{{value}}
+									{% endfor %}
+								</div>
+							{% endif %}
+						</td>
+						<!-- {{ userCreateform.action }} -->
+					</tr>	
+			</table>
+</form>
+
+{% endblock %}

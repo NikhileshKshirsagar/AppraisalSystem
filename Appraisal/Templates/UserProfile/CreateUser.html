@@ -37,6 +37,8 @@
 								setSliderValue($( "#userWeight" ).get("selector"), response.user_weight);
 								$('#btnCreate').val("Update");
 								$('#action').val("Beta");
+								$('#uValue').val(response.user_id);
+								console.log(response.user_id)
 							}
 							else
 							{
@@ -68,6 +70,11 @@
 	<form id="formCreateUser" action="/userprofile/CreateUser/" method="post" class="form-search" style="padding-top: 30px; margin-left: -0px;">{% csrf_token %}
 		
 		<table class="table tableDisplay" style="margin-left:5px;width: 70%; float: right; margin-top: 10px;">
+			<tr>
+				<td>
+					<input id="uValue" name="user_id" type="hidden" value="none">
+				</td>
+			</tr>
 			<tr>
 				<td width="16%">
 					{{ userCreateform.firstname.label }}	

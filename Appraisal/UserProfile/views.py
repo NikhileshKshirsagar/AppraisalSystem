@@ -30,8 +30,8 @@ def CreateUser(request):
                     return render_to_response('Userprofile/CreateUser.html', {'successMsg' : 'User created successfully', 'userCreateform' : userCreateform}, context_instance = RequestContext( request))
                 # Update user
                 elif request.POST.get('action') == 'Beta' :
-                    print request.POST.get('emailid')
-                    UserDetails.objects.filter(emailid=request.POST.get('emailid')).update(firstname=request.POST.get('firstname'), lastname=request.POST.get('lastname'), emailid=request.POST.get('emailid'), user_level=request.POST.get('user_level'), user_weight=request.POST.get('user_weight'), type=request.POST.get('type'))
+                    print request.POST.get('user_id')
+                    UserDetails.objects.filter(user_id=request.POST.get('user_id')).update(firstname=request.POST.get('firstname'), lastname=request.POST.get('lastname'), emailid=request.POST.get('emailid'), user_level=request.POST.get('user_level'), user_weight=request.POST.get('user_weight'), type=request.POST.get('type'))
                     userCreateform = UserCreate()
                     return render_to_response('Userprofile/CreateUser.html', {'successMsg' : 'User updated successfully', 'userCreateform' : userCreateform}, context_instance = RequestContext( request))
             else:
@@ -74,7 +74,8 @@ def userInfo(request):
                         "emailid": obj_searchResult.emailid, 
                         "user_level": obj_searchResult.user_level, 
                         "user_weight": obj_searchResult.user_weight, 
-                        "type": obj_searchResult.type}
+                        "type": obj_searchResult.type,
+                        "user_id" : obj_searchResult.user_id}
             
         except:
             initial = {"error" : 'Exception occurred please report this error.'}

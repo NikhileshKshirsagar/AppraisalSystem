@@ -1,0 +1,47 @@
+{% extends "Masters/InputMaster.html" %}
+{% load url from future %}
+
+{% block pagesubcontent %}
+<form id="formEvent" action="/masters/EventMasterInput/" method="post" class="formMaster">{% csrf_token %}
+	<div class="projList">
+		{% for event in obj_EventList %}
+			<div class="Project">
+				<table>
+					<tr>
+						<td>
+							<label>event : </label>
+						</td>
+						<td>	
+							<label>{{ event.description }}</label>
+						</td>
+					</tr>
+				</table>
+			</div>
+		{% endfor %}
+	</div>
+	<table class="table tableDisplayMaster" style="width: 65%">
+		<tr>
+			<td width="26%">
+				{{ eventForm.event_date.label }}
+			</td>
+			<td>
+				{{ eventForm.event_date }}
+			</td>
+		</tr>
+		<tr>
+			<td style="vertical-align: top !important;">
+				{{ eventForm.description.label }}
+			</td>
+			<td>
+				<p class="textArealabel" style="padding-top: 2px;">{{ eventForm.description }}</p>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<br>
+				<input id="btnCreate" name="btnCreate" type="submit" value="Create" class="btn btn-medium btn-inverse">
+			</td>
+		</tr>
+	</table>	
+</form>
+{%  endblock %}

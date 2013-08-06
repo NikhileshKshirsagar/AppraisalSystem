@@ -5,9 +5,9 @@ urlpatterns = patterns('Masters',
     
     url(r'^DataInput/$', 'views.MasterInput', name='CreateUser'),
     url(r'^ProjectMasterInput/$', 'views.ProjectMasterInput', name='CreateUser'),
-    url(r'^DataInput/$', 'views.DesignationMasterInput', name='CreateUser'),
-    url(r'^DataInput/$', 'views.LanguageMasterInput', name='CreateUser'),
-    url(r'^DataInput/$', 'views.EventMasterInput', name='CreateUser'),
+    url(r'^DesignationMasterInput/$', 'views.DesignationMasterInput', name='CreateUser'),
+    url(r'^LanguageMasterInput/$', 'views.LanguageMasterInput', name='CreateUser'),
+    url(r'^EventMasterInput/$', 'views.EventMasterInput', name='CreateUser'),
     # url(r'^Appraisal/', include('Appraisal.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

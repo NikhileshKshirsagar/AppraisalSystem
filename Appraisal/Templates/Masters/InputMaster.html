@@ -6,179 +6,46 @@
 <script type="text/javascript">
 	DatePicker($('#id_start_date').get("selector"), $('#id_end_date').get("selector"), 3)
 	DatePicker($('#id_event_date').get("selector"), '', 3)
+	
+	$(function(){
+		if($('#formProject').length > 0)
+		{
+			$('#tabproject').attr('class', 'active');
+		}
+		else if($('#formDesignation').length > 0)
+		{
+			$('#tabdesignation').attr('class', 'active');
+		}
+		else if($('#formLanguage').length > 0)
+		{
+			$('#tablanguage').attr('class', 'active');
+		}
+		else if($('#formEvent').length > 0)
+		{
+			$('#tabevent').attr('class', 'active');
+		}
+		else
+		{
+			$('#taboverview').attr('class', 'active');
+		}
+	});
 </script>
 
 <div class="tabbable tabs-left">
     <ul class="nav nav-tabs" style="width: 11%">
-    	<li class="active"><a href="#tab1" data-toggle="tab">Project</a></li>
-		<li><a href="#tab2" data-toggle="tab">Designation</a></li>
-		<li><a href="#tab3" data-toggle="tab">Language</a></li>
-		<li><a href="#tab4" data-toggle="tab">Event</a></li>
+    	<li id="taboverview"><a href="/masters/DataInput/">Overview</a> </li>
+    	<li id="tabproject"><a href="/masters/ProjectMasterInput/">Project</a> </li>
+		<li id="tabdesignation"><a href="/masters/DesignationMasterInput/">Designation</a></li>
+		<li id="tablanguage"><a href="/masters/LanguageMasterInput/">Language</a> </li>
+		<li id="tabevent"><a href="/masters/EventMasterInput">Event</a></li>
     </ul>
     <div class="tab-content">
     	 <div class="tab-pane active" id="tab1">
-			<form id="formProject" action="/masters/ProjectMasterInput/" method="post" class="formMaster">{% csrf_token %}
-				<div class="projList">
-						{% for project in obj_ProjectList %}
-							<div>
-								{{ project.name }}
-								{{ project.status }}
-								{{ project.contact_person }}
-							</div>
-						{% endfor %}
-				</div>
-				<table class="table tableDisplayMaster" style="width: 65%">
-					<tr>
-						<td width="26%">
-							{{ projectForm.name.label }}	
-						</td>
-						<td>
-							{{ projectForm.name }}	
-						</td>
-					</tr>
-					<tr>	
-						<td style="vertical-align: top !important;">
-							<p class="textArealabel" style="padding-top: 2px;">{{ projectForm.description.label }}</p>	
-						</td>
-						<td>
-							{{ projectForm.description }}	
-						</td>
-					</tr>
-					<tr>
-						<td>
-							{{ projectForm.start_date.label }}	
-						</td>
-						<td>
-							{{ projectForm.start_date }}	
-						</td>
-					</tr>
-					<tr>	
-						<td>
-							{{ projectForm.end_date.label }}	
-						</td>
-						<td>
-							{{ projectForm.end_date }}	
-						</td>
-					</tr>
-					<tr>	
-						<td>
-							{{ projectForm.status.label }}	
-						</td>
-						<td>
-							{{ projectForm.status }}	
-						</td>
-					</tr>
-					<tr>	
-						<td>
-							{{ projectForm.contact_person.label }}	
-						</td>
-						<td>
-							{{ projectForm.contact_person }}	
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<br>
-							<input id="btnCreate" name="btnCreate" type="submit" value="Create" class="btn btn-medium btn-inverse">
-							<a href="">
-								<input value="Clear" class="btn btn-medium btn-inverse" onclick="" style="width: 70px">
-							</a>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							{% if projectForm.errors|length > 0 %}
-								<div class="alert alert-error" style="width: 50%;"> 
-									{% for key, value in projectForm.errors.items %} 
-										{{value}}
-									{% endfor %}
-								</div>
-							{% endif %}
-						</td>
-						{{ userNotification  }}	
-						<!-- {{ userCreateform.action }} -->
-					</tr>	
-				</table>
-			</form>
-		</div>
-		<div class="tab-pane" id="tab2">
-			<form id="formDesignation" action="/userprofile/DataInput/" method="post" class="formMaster">{% csrf_token %}
-				<table class="table tableDisplayMaster" style="width: 65%">
-					<tr>
-						<td width="26%">
-							{{ designationForm.designation.label }}	
-						</td>
-						<td>
-							{{ designationForm.designation }}
-						</td>	
-					</tr>
-					<tr>
-						<td colspan="2">
-							<br>
-							<input id="btnCreate" name="btnCreate" type="submit" value="Create" class="btn btn-medium btn-inverse">
-						</td>
-					</tr>	
-				</table>
-			</form>
-		</div>
-		<div class="tab-pane" id="tab3">
-			<form id="formCreateUser" action="/userprofile/DataInput/" method="post" class="formMaster">{% csrf_token %}
-				<table class="table tableDisplayMaster" style="width: 65%">
-					<tr>
-						<td width="26%">
-							{{ languageForm.language.label }}
-						</td>
-						<td width="78%">
-							{{ languageForm.language }}
-						</td>
-					</tr>
-					<tr>	
-						<td style="vertical-align: top !important;">
-							<p class="textArealabel" style="padding-top: 2px;">{{ languageForm.description.label }}</p>
-						</td>
-						<td>
-							{{ languageForm.description }}
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<br>
-							<input id="btnCreate" name="btnCreate" type="submit" value="Create" class="btn btn-medium btn-inverse">
-						</td>
-					</tr>
-				</table>			
-			</form>
-		</div>
-		<div class="tab-pane" id="tab4">
-			<form id="formCreateUser" action="/userprofile/DataInput/" method="post" class="formMaster">{% csrf_token %}
-				<table class="table tableDisplayMaster" style="width: 65%">
-					<tr>
-						<td width="26%">
-							{{ eventForm.event_date.label }}
-						</td>
-						<td>
-							{{ eventForm.event_date }}
-						</td>
-					</tr>
-					<tr>
-						<td style="vertical-align: top !important;">
-							{{ eventForm.description.label }}
-						</td>
-						<td>
-							<p class="textArealabel" style="padding-top: 2px;">{{ eventForm.description }}</p>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<br>
-							<input id="btnCreate" name="btnCreate" type="submit" value="Create" class="btn btn-medium btn-inverse">
-						</td>
-					</tr>
-				</table>	
-			</form>
+			{% block pagesubcontent %}
+			{% endblock %}
 		</div>
     </div>
-    
+    {{ userNotification  }}	
 </div>
 	
 {% endblock %}	
