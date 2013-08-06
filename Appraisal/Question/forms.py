@@ -34,7 +34,7 @@ class QuestionForm(forms.ModelForm):
             raise forms.ValidationError("Please select level of question.")
         return self.cleaned_data['level']
     
-    def save(self,userId, commit=True):
+    def save(self,userId,optionHeaderId, commit=True):
         objQuestionForm = super(QuestionForm, self).save(commit=False)
         objQuestionForm.question = self.data['question']
         objQuestionForm.level = self.data['level']
@@ -43,7 +43,7 @@ class QuestionForm(forms.ModelForm):
         objQuestionForm.type = self.data['type_text']
         objQuestionForm.category = ''#self.data['category']
         if self.data['type_text'] == 'MCQ':
-            objQuestionForm.option_header = OptionHeader.objects.latest('option_header_id')
+            objQuestionForm.option_header = optionHeaderId
         objQuestionForm.info = self.data['info']
         objQuestionForm.modified_by = userId
         objQuestionForm.modified_on = timezone.now()
@@ -53,7 +53,7 @@ class QuestionForm(forms.ModelForm):
 class OptionFrom(forms.ModelForm):
     option_header_text = forms.CharField(label="Option header",error_messages={'required':'Enter Option header'})
     option_text = forms.CharField(label="Options",widget=forms.HiddenInput(),error_messages={'required':'Enter Options'})
-    option_headerid = forms.CharField(required=False,widget=forms.HiddenInput(),initial=0)
+    option_header_id = forms.CharField(required=False,widget=forms.HiddenInput(),initial=0)
     
     class Meta:
         model=Option

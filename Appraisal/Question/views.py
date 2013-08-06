@@ -3,7 +3,7 @@ from django.shortcuts import render_to_response
 from django.contrib.sessions.models import Session
 from django.http import HttpResponse
 from forms import QuestionForm, OptionFrom
-from Login.models import OptionHeader,Option
+from Login.models import OptionHeader, Option, Question
 from django.http import HttpResponseRedirect 
 from django.core.context_processors import csrf
 from django.utils import simplejson
@@ -29,11 +29,16 @@ def questionCreateView(request):
             else:
                 flag=False
              
-        if flag == True: 
+        if flag == True:
+           iOptionHeaderID = 0 
            i_UserId = UserDetails.objects.get(user_id=request.session['UserID'])
            if request.POST['type_text'] == 'MCQ':
-               objOptionForm.save(commit=False, userId=i_UserId)
-           objQuestionForm.save(commit=False, userId = i_UserId)
+               if request.POST['option_header_id']=='0':
+                   objOptionForm.save(commit=False, userId=i_UserId)
+                   iOptionHeaderID = OptionHeader.objects.latest('option_header_id')
+               else:
+                   iOptionHeaderID = OptionHeader.objects.get(option_header_id=request.POST['option_header_id'])
+           objQuestionForm.save(commit=False, userId = i_UserId, optionHeaderId = iOptionHeaderID)
            args['successMsg']="Question created successfully"
            objOptionForm = OptionFrom()
            objQuestionForm = QuestionForm()
@@ -73,3 +78,6 @@ def OptionDetails(request):
         data = simplejson.dumps(objDetails)
         return HttpResponse(content=data, content_type='json')    
 
+def QuestionList(request):
+    objOptions = Question.objects.all();
+    

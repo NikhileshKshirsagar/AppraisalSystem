@@ -70,6 +70,20 @@ $(function() {
 	}
 	
 	
+	$("input[name=OptionList]").change(function(){
+		
+		if($("input[name=OptionList]:checked").val() == 2)
+		{
+			$( "#sortable" ).sortable('enable');
+			$("#id_option_header_id").val('0');
+		}
+		else
+		{
+			$( "#sortable" ).sortable('disable');
+			$("input[name=option_header_id]").val($("#option_header_id_temp").val());
+		}
+	});
+	
 	LoadSlider($( "#questionLevel" ).get("selector"),  $( "#questionLevelVal" ).get("selector"), 10, 0, {{questionCreateform.level.value}} );
 	LoadSlider($( "#questionWeight" ).get("selector"),  $( "#questionWeightVal" ).get("selector"), 10, 0, {{questionCreateform.weight.value}} );
 	$( "#sortable" ).sortable();
@@ -87,6 +101,8 @@ $(function() {
 							$("input[name=option_header_text]").val(response.OptionHeader);
 							$("#sortable li:gt(0)").remove();
 							$("#sortable li:first input").val("");
+							$("input[name=option_header_id]").val(response.OptionHeaderID);
+							$("#divRdList").removeClass("hide");
 							setOptions();
 							$( "#sortable" ).sortable('disable');
 							},null);
@@ -103,7 +119,7 @@ $(function() {
 	.ui-tabs-vertical .ui-tabs-nav li { clear: left; width: 100%; border-bottom-width: 1px !important; border-right-width: 0 !important; margin: 0 -1px .2em 0; }
 	.ui-tabs-vertical .ui-tabs-nav li a { display:block; }
 	.ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active { padding-bottom: 0px; padding-right: .1em; border-right-width: 1px; border-right-width: 1px; }
-	.ui-tabs-vertical .ui-tabs-panel { padding: 1em; float: right; width: 40em;}
+	.ui-//.tabs-vertical .ui-tabs-panel { padding: 1em; float: right; width: 40em;}
 	.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active{background:#E3E8E4 !important;}
 </style>
 <div class="label headerGradient headerPosition" >
@@ -113,9 +129,7 @@ $(function() {
 <br/><br/>
 <form method="post" class="form-search">{% csrf_token %}
 <div id="tabs">
-	 <ul>
-	    {%for value, text in questionCreateform.type.field.choices %}
-    		<li><a value={{text}} name="liQuestionType" href="#tabs-{{value}}">{{text}}</a></li>
+	 <ul><li><a value={{text}} name="liQuestionType" href="#tabs-{{value}}">{{text}}</a></li>
 		{% endfor %}
 	</ul>
 	{{questionCreateform.type_text}}
