@@ -9,8 +9,8 @@ from django.core.context_processors import csrf
 from django.utils import timezone
 from django.utils import simplejson
 
-from UserProfile.UserProfileForms import UserCreate, userListForm
-from Login.models import UserDetails, Designation
+from UserProfile.UserProfileForms import UserCreate, userListForm, UserProfile_UserDetailForm, UserProfile_LanguageForm, UserProfile_DesignationForm, UserProfile_ProjectForm
+from Login.models import UserDetails, Designation, Project, Language
 
 def CreateUser(request):
     #userList = UserDetails.objects.all()
@@ -89,6 +89,19 @@ def userInfo(request):
     
 def userProfile(request):
     if request.POST:
-        user = UserDetails.objects.get(user_id=request.session['UserID'])
-        designation = Designation.objects.filter()
+        #user = UserDetails.objects.get(user_id=request.session['UserID'])
+        #designation = Designation.objects.filter()
         return render_to_response('Userprofile/CreateUser.html', {}, context_instance = RequestContext( request))
+    else:
+        UserDetailForm = UserProfile_UserDetailForm()
+        LanguageForm = UserProfile_LanguageForm()
+        DesignationForm = UserProfile_DesignationForm() 
+        ProjectForm = UserProfile_ProjectForm()
+        
+        projectList = Project.objects.all()
+        languageList = Language.objects.all()
+        designationList = Designation.objects.all()
+        
+        return render_to_response('Userprofile/UserProfile.html', { 'UserDetailForm' : UserDetailForm, 'LanguageForm' : LanguageForm, 'DesignationForm' : DesignationForm, 
+                                                                   'ProjectForm' : ProjectForm, 'projectList' : projectList, 'languageList' : languageList, 'designationList' : designationList }, 
+                                  context_instance = RequestContext( request))

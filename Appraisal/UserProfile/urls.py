@@ -8,6 +8,9 @@ urlpatterns = patterns('UserProfile',
     url(r'^userInfo/$', 'views.userInfo', name='userInfo'),
     url(r'^UserList/$', 'views.UserList', name='UserList'),
     
+    # User(Employee) profile 
+    url(r'^profile/$', 'views.userProfile', name='userProfile'),
+    
     # url(r'^Appraisal/', include('Appraisal.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

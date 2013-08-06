@@ -76,12 +76,27 @@ class UserProfile_UserDetailForm(forms.ModelForm):
 class UserProfile_LanguageForm(forms.ModelForm):
     newLanguage = forms.CharField(label=("Add new language"), required=False)
     choices = [(obj_language.language_id, obj_language.language) for obj_language in Language.objects.all()]
-    language = forms.ChoiceField(choices = choices)
+    language = forms.MultipleChoiceField(choices = choices, label=("Languages"))
+    
+    class Meta():
+        model=Language
+        fields = ('language',)
+class UserProfile_UserAttributes(forms.ModelForm):
+    
     class Meta():
         model=UserAttributes
         fields = ('tech_working','tech_known','tech_willing','language_working','language_known','language_willing', )
         
 class UserProfile_DesignationForm(forms.ModelForm):
+    choices_desgnation = [(obj_designation.designation_id, obj_designation.designation) for obj_designation in Designation.objects.all()]
+    designation = forms.MultipleChoiceField(choices=choices_desgnation, label=("Designation(s)"), required=True)
     class Meta():
         model=Designation
-              
+        fields = ('designation',)
+                   
+class UserProfile_ProjectForm(forms.ModelForm):
+    choices_project = [(obj_project.project_id, obj_project.name) for obj_project in Project.objects.all()]
+    name = forms.MultipleChoiceField(choices=choices_project, label=("Project(s)"), required=True)
+    class Meta():
+        model=Project
+        fields = ('name',)

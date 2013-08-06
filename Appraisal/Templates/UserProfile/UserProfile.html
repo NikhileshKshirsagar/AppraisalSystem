@@ -3,5 +3,24 @@
 
 {% block pagecontent %}
 
+<form id="formUserProfile" action="/userprofile/profile" method="post" class="form-search" style="padding-top: 30px; margin-left: -0px;">{% csrf_token %}
 
+	{{ UserDetailForm.as_p }}
+	{{ LanguageForm.as_p }}
+	{{ DesignationForm.as_p }}
+	{{ ProjectForm.as_p }}
+	
+	<div>
+		{%for project in projectList %}
+			{{ project.name }}
+		{%endfor%}
+		
+		{%for language in languageList %}
+			{{ language.language }}
+		{%endfor%}
+		
+		
+	
+	</div>
+</form>
 {% endblock %} 
