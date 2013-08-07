@@ -55,6 +55,7 @@ height: 28px;font-size:16;}
 {
 	border: 2px thin ;
 }
+/*
 .ui-slider-handle
 {
 	height: 1.3em !important;
@@ -88,6 +89,10 @@ height: 28px;font-size:16;}
 	background-image: none;
 	border: 1px solid #4A4A4A;
 }
+.SliderStyle
+{
+	
+}*/
 .headerGradient
 {
 background: #cedce7; /* Old browsers */
@@ -116,6 +121,7 @@ height: 40px;
 	font-family: "Times New Roman",Georgia,Serif;
 	font-weight: normal;
 }
+/*
 .ui-widget-content 
 {
     background: url("images/ui-bg_highlight-soft_75_cccccc_1x100.png") repeat-x scroll 50% 50% #FFFFFFF;
@@ -133,7 +139,7 @@ height: 40px;
 	background: linear-gradient(to bottom, #cedce7 0%,#596a72 0%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cedce7', endColorstr='#596a72',GradientType=0 ); /* IE6-9 */
 	
-}
+}*/
 .leftLine
 {
 	float: left;
@@ -224,4 +230,27 @@ body
         		inset 1px 1px 1px 1px #EBE8E9,
         		inset 2px -2px 2px 1px #F7F2F4 !important;
     display: inherit;    		
+}
+.UPCatalog
+{
+	float: right;
+	padding-right: 100px;
+	width: 25%;
+}
+.UPCatalog ul
+{
+	width: 80%;
+}
+.UPCatalog li
+{
+	font-weight: normal !important;
+}
+.ContentHolder
+{
+	
+}
+.Contentlabel
+{
+	vertical-align: top !important;
+	font-size: 15px;
 }

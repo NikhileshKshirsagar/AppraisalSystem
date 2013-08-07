@@ -74,7 +74,7 @@ class UserProfile_UserDetailForm(forms.ModelForm):
         fields = ('username','password',)
     
 class UserProfile_LanguageForm(forms.ModelForm):
-    newLanguage = forms.CharField(label=("Add new language"), required=False)
+    #newLanguage = forms.CharField(label=("Add new language"), required=False)
     choices = [(obj_language.language_id, obj_language.language) for obj_language in Language.objects.all()]
     language = forms.MultipleChoiceField(choices = choices, label=("Languages"))
     
