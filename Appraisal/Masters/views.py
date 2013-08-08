@@ -4,6 +4,7 @@ from django.template.context import RequestContext
 from django.core.context_processors import csrf
 from django.utils import timezone
 from django.utils import simplejson
+from datetime import datetime
 
 from Login.models import Project, Language, Designation, Event, UserDetails
 from Masters.MasterForms import Master_DesignationForm,Master_EventForm,Master_LanguageForm,Master_ProjectForm
@@ -85,4 +86,36 @@ def EventMasterInput(request):
         eventForm = Master_EventForm()
         return render_to_response('Masters/Event.html', 
                               { 'obj_EventList' : obj_EventList, 'eventForm' : eventForm }, 
+                              context_instance = RequestContext( request))
+
+def projectInfo(request):
+    if request.POST:
+        search_text = request.POST.get('search_txt')
+        
+        obj_searchResult = Project.objects.get(project_id=search_text)
+        
+        if obj_searchResult.start_date != None :
+            startDate = str(datetime.strptime(str(obj_searchResult.start_date), '%Y-%m-%d').date())
+            print "Start Date : " + startDate 
+        else:
+            startDate = ''
+       
+        if obj_searchResult.end_date != None :
+            endDate = str(datetime.strptime(str(obj_searchResult.end_date), '%Y-%m-%d').date()) 
+        else: 
+            endDate = ''
+     
+        initial = {     'project_id': obj_searchResult.project_id,
+                        'name': obj_searchResult.name, 
+                        'description': obj_searchResult.description, 
+                        'start_date': startDate,
+                        'end_date': endDate, 
+                        'status': obj_searchResult.status,
+                        'contact_person' : obj_searchResult.contact_person
+                    }
+        print obj_searchResult.name
+        projectForm = Master_ProjectForm(initial)
+        obj_ProjectList = Project.objects.all()
+        return render_to_response('Masters/ProjectInfo.html', 
+                              { 'obj_ProjectList' : obj_ProjectList, 'projectForm' : projectForm }, 
                               context_instance = RequestContext( request))

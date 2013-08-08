@@ -8,6 +8,7 @@ urlpatterns = patterns('Masters',
     url(r'^DesignationMasterInput/$', 'views.DesignationMasterInput', name='CreateUser'),
     url(r'^LanguageMasterInput/$', 'views.LanguageMasterInput', name='CreateUser'),
     url(r'^EventMasterInput/$', 'views.EventMasterInput', name='CreateUser'),
+    url(r'^ProjectInformation/$', 'views.projectInfo', name='projectInfo'),
     # url(r'^Appraisal/', include('Appraisal.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

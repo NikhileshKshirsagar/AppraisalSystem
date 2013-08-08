@@ -15,9 +15,10 @@ $(function(){
 			 activeClass: "ui-state-default",
 			 hoverClass: "ui-state-hover",
 			 accept: ":not(.ui-sortable-helper)",
+			 //accept: "#Projects",
 			 drop: function( event, ui ) {
 				 $( this ).find( ".placeholder" ).remove();
-				 $( "<li></li>" ).text( ui.draggable.text() ).appendTo( this );
+				 $( "<p class=\"label dragableBlocks\" style=\"width: auto;\"> <button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button></p>" ).append( ui.draggable.text() ).appendTo( this );
 			 }
 		 }).sortable({
 			 items: "li:not(.placeholder)",
@@ -38,12 +39,12 @@ $(function(){
 
 </script>
 
-<form id="formUserProfile" action="/userprofile/profile" method="post" class="form-search" style="padding-top: 30px; margin-left: -0px;">{% csrf_token %}
+<form id="formUserProfile" action="/userprofile/profile/" method="post" class="form-search" style="padding-top: 30px; margin-left: -0px;">{% csrf_token %}
 
 <div id="" class="UPCatalog">
 	<div id="Inventory">
 		<h3><a href="#">Projects</a></h3>
-		<div>
+		<div id="Projects">
 			<ul>
 				{%for project in projectList %}
 					<li class="draggable">{{ project.name }}</li>
@@ -56,6 +57,15 @@ $(function(){
 			<ul>
 				{%for language in languageList %}
 					<li class="draggable">{{ language.language }}</li>
+				{%endfor%}
+			</ul>
+		</div>
+		
+		<h3><a href="#">Technologies</a></h3>
+		<div>
+			<ul>
+				{%for technology in technologyList %}
+					<li class="draggable">{{ technology.technology }}</li>
 				{%endfor%}
 			</ul>
 		</div>
@@ -84,10 +94,10 @@ $(function(){
 				<label class="Contentlabel">Projects</label>
 		</td>
 		<td>
-			<div id="project" class="ContentHolder">		
+			<div id="project" class="ContentHolder" style="min-height: 50px;">		
 				<div class="ui-widget-content span4">
-					<ol>
-						<li class="placeholder">Add your projects here</li>
+					<ol class="span4 ContentHolder" style="padding-left: 5px;">
+						<p class="placeholder">Add your projects here</p>
 					</ol>
 				</div>
 			</div>
@@ -119,6 +129,11 @@ $(function(){
 					</ol>
 				</div>
 			</div>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+			<input id="btnCreate" name="btnCreate" type="submit" value="Create" class="btn btn-medium btn-inverse">
 		</td>
 	</tr>
 </table>

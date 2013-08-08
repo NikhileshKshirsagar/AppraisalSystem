@@ -4,9 +4,7 @@
 {% block pagecontent %}
 
 <script type="text/javascript">
-	DatePicker($('#id_start_date').get("selector"), $('#id_end_date').get("selector"), 3)
-	DatePicker($('#id_event_date').get("selector"), '', 3)
-	
+
 	$(function(){
 		if($('#formProject').length > 0)
 		{
@@ -31,7 +29,7 @@
 	});
 </script>
 
-<div class="tabbable tabs-left">
+<div id="Master_Input" class="tabbable tabs-left">
     <ul class="nav nav-tabs" style="width: 11%">
     	<li id="taboverview"><a href="/masters/DataInput/">Overview</a> </li>
     	<li id="tabproject"><a href="/masters/ProjectMasterInput/">Project</a> </li>

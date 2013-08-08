@@ -3,41 +3,54 @@
 
 {% block pagesubcontent %}
 
+<script type="text/javascript">
+	DatePicker($('#id_start_date').get("selector"), $('#id_end_date').get("selector"), 3)
+	DatePicker($('#id_event_date').get("selector"), '', 3)
+	
+	$(function(){
+		$('#projList .Project').click(function(event){
+			
+			var sdata = 
+			{
+				'search_txt' : $(event.currentTarget).children('input').val()
+			}
+	
+			AjaxEvent(sdata, '/masters/ProjectInformation/',
+			function (data, textStatus, jqXHR)
+			{
+				$('#tableProject').html(data)
+			},
+			function()
+			{
+				
+			}
+			)
+		});	
+	});
+
+</script>
+
 <form id="formProject" action="/masters/ProjectMasterInput/" method="post" class="formMaster">{% csrf_token %}
-				<div class="projList">
+				<div id="projList" class="projList">
 						{% for project in obj_ProjectList %}
-							<div class="Project">
-								<table>
-									<tr>
-										<td>
-											<label>Project : </label>
-										</td>
-										<td>	
-											<label>{{ project.name }}</label>
-										</td>
-									</tr>
-									<tr>
-										<td>
-											<label>status  :</label>
-										</td>
-										<td>
-											{{ project.status }}		
-										</td>
-									</tr>
-									<tr>
-										<td>
-											<label>Contact : </label>	
-										</td>
-										<td>
-											{{ project.contact_person.firstname }}
-											{{ project.contact_person.lastname }}
-										</td>
-									</tr>
-								</table>
-							</div>
+							<a>
+								<div class="Project">
+									<input type="hidden" value={{ project.project_id }}>
+												Project : 
+												{{ project.name }}
+												<br>
+												status  :
+									
+												{{ project.status }}		
+												<br>
+												Contact : 	
+												{{ project.contact_person.firstname }}
+												{{ project.contact_person.lastname }}
+									
+								</div></a>
 						{% endfor %}
 				</div>
-				<table class="table tableDisplayMaster" style="width: 65%">
+				<table id="tableProject" class="table tableDisplayMaster" style="width: 65%">
 					<tr>
 						<td width="26%">
 							{{ projectForm.name.label }}	

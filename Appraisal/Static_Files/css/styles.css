@@ -228,8 +228,7 @@ body
 	padding: 2px 2px 2px 2px !important;
 	box-shadow: 1px 2px 3px 2px #C7C7C7,
         		inset 1px 1px 1px 1px #EBE8E9,
-        		inset 2px -2px 2px 1px #F7F2F4 !important;
-    display: inherit;    		
+        		inset 2px -2px 2px 1px #F7F2F4 !important;   		
 }
 .UPCatalog
 {
@@ -247,10 +246,16 @@ body
 }
 .ContentHolder
 {
-	
+	display: inherit !important;
 }
 .Contentlabel
 {
 	vertical-align: top !important;
 	font-size: 15px;
+}
+.dragableBlocks
+{
+	width: auto;
+	font-size: 14px;
+	
 }

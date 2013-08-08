@@ -25,7 +25,7 @@
 								}
 						AjaxEvent(sdata, '/userprofile/userInfo/',function successSerach(data, textStatus, jqXHR)
 						{
-							var response=jQuery.parseJSON(data);
+							var response = jQuery.parseJSON(data);
 							console.log(response);
 							if(response.error == "")
 							{	
@@ -46,8 +46,8 @@
 							}
 						},
 						function()
-						{$('#').html('');
-							
+						{
+							$('#').html('');
 						}
 						);
 					});
