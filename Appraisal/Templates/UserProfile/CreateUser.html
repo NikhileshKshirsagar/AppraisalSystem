@@ -71,11 +71,6 @@
 		
 		<table class="table tableDisplay" style="margin-left:5px;width: 70%; float: right; margin-top: 10px;">
 			<tr>
-				<td>
-					<input id="uValue" name="user_id" type="hidden" value="none">
-				</td>
-			</tr>
-			<tr>
 				<td width="16%">
 					{{ userCreateform.firstname.label }}	
 				</td>
@@ -174,6 +169,11 @@
 				</td>
 				{{ successMsg  }}	
 				{{ userCreateform.action }}
+			</tr>
+			<tr>
+				<td>
+					<input id="uValue" name="user_id" type="hidden" value={{ uValue }}>
+				</td>
 			</tr>
 		</table>
 	

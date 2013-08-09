@@ -18,7 +18,6 @@ def CreateUser(request):
         if request.method == 'POST':
             
             userCreateform = UserCreate(request.POST)
-            print "POST request"
             if userCreateform.is_valid():
                 i_UserId = UserDetails.objects.get(user_id=request.session['UserID']).user_id
                 # Create user.
@@ -30,10 +29,14 @@ def CreateUser(request):
                     return render_to_response('Userprofile/CreateUser.html', {'successMsg' : 'User created successfully', 'userCreateform' : userCreateform}, context_instance = RequestContext( request))
                 # Update user
                 elif request.POST.get('action') == 'Beta' :
-                    print request.POST.get('user_id')
-                    UserDetails.objects.filter(user_id=request.POST.get('user_id')).update(firstname=request.POST.get('firstname'), lastname=request.POST.get('lastname'), emailid=request.POST.get('emailid'), user_level=request.POST.get('user_level'), user_weight=request.POST.get('user_weight'), type=request.POST.get('type'))
-                    userCreateform = UserCreate()
-                    return render_to_response('Userprofile/CreateUser.html', {'successMsg' : 'User updated successfully', 'userCreateform' : userCreateform}, context_instance = RequestContext( request))
+                    try:
+                        print "USER ID : " + request.POST.get('user_id')
+                        UserDetails.objects.filter(user_id=request.POST.get('user_id')).update(firstname=request.POST.get('firstname'), lastname=request.POST.get('lastname'), emailid=request.POST.get('emailid'), user_level=request.POST.get('user_level'), user_weight=request.POST.get('user_weight'), type=request.POST.get('type'))
+                        userCreateform = UserCreate()
+                        return render_to_response('Userprofile/CreateUser.html', {'successMsg' : 'User updated successfully', 'userCreateform' : userCreateform}, context_instance = RequestContext( request))
+                    except:
+                        userCreateform = UserCreate()
+                        return render_to_response('Userprofile/CreateUser.html', {'successMsg' : 'User cannot be updated', 'uValue' : request.POST.get('user_id'),'userCreateform' : userCreateform}, context_instance = RequestContext( request))
             else:
                 print "Invalid form"
                 return render_to_response('Userprofile/CreateUser.html', { 'userCreateform' : userCreateform }, context_instance = RequestContext( request))

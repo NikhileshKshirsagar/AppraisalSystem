@@ -22,6 +22,7 @@
 				DatePicker($('#id_start_date').get("selector"), $('#id_end_date').get("selector"), 3)
 				DatePicker($('#id_event_date').get("selector"), '', 3)
 				$('#btnCreate').val("Update")
+				$('#action').val("Beta")
 			},
 			function()
 			{
@@ -121,8 +122,8 @@
 								</div>
 							{% endif %}
 						</td>
-						<!-- {{ userCreateform.action }} -->
-					</tr>	
+						{{ ProjectMasterInput.action }}
+					</tr>
 			</table>
 </form>
 

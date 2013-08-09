@@ -20,7 +20,8 @@ class Master_ProjectForm(forms.ModelForm):
     #end_date = forms.DateField(label='Project end date', required=False)
     status = forms.ChoiceField(label='Project status',choices=cProject_status, widget=forms.Select(attrs={'class':'tableRow span5 '}))
     contact_person = forms.ChoiceField(label='Contact person', choices=choices_contactPerson, widget=forms.Select(attrs={'class':'tableRow span5 '}))
-    
+    action = forms.CharField(widget=forms.TextInput(attrs={'type':'hidden', 'value' : 'Alpha', 'id' : 'action'}))
+     
     def save(self,  userId,commit=True):
         obj_projectForm = super(Master_ProjectForm, self).save(commit=False)
         obj_projectForm.name = self.data['name']
@@ -68,7 +69,7 @@ class Master_ProjectForm(forms.ModelForm):
     
     class Meta():
         model=Project
-        fields = ('name','description', 'start_date', 'end_date', 'status', 'contact_person',)
+        fields = ('name','description', 'start_date', 'end_date', 'status', 'contact_person', 'project_id',)
 
 class Master_DesignationForm(forms.ModelForm):
     designation = forms.CharField(label='Designation', error_messages={'required': 'Please enter Designation.'}, widget=forms.TextInput(attrs={'class':'tableRow span5 '}))

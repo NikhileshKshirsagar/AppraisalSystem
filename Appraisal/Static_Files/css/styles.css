@@ -55,7 +55,7 @@ height: 28px;font-size:16;}
 {
 	border: 2px thin ;
 }
-/*
+
 .ui-slider-handle
 {
 	height: 1.3em !important;
@@ -92,7 +92,7 @@ height: 28px;font-size:16;}
 .SliderStyle
 {
 	
-}*/
+}
 .headerGradient
 {
 background: #cedce7; /* Old browsers */
@@ -121,7 +121,7 @@ height: 40px;
 	font-family: "Times New Roman",Georgia,Serif;
 	font-weight: normal;
 }
-/*
+
 .ui-widget-content 
 {
     background: url("images/ui-bg_highlight-soft_75_cccccc_1x100.png") repeat-x scroll 50% 50% #FFFFFFF;
@@ -139,7 +139,7 @@ height: 40px;
 	background: linear-gradient(to bottom, #cedce7 0%,#596a72 0%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cedce7', endColorstr='#596a72',GradientType=0 ); /* IE6-9 */
 	
-}*/
+}
 .leftLine
 {
 	float: left;

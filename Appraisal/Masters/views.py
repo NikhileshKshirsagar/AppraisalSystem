@@ -18,12 +18,20 @@ def ProjectMasterInput(request):
         projectForm = Master_ProjectForm(request.POST)
         i_UserId = UserDetails.objects.get(user_id=request.session['UserID'])
         if projectForm.is_valid():
-            print "Form Valid"
-            projectForm.save(commit=False, userId = i_UserId)
-            return render_to_response('Masters/Project.html', {'obj_ProjectList' : obj_ProjectList, 'projectForm' : projectForm, 'userNotification' : 'Project created successfully' }, context_instance = RequestContext( request))
+            if request.POST.get('action') == 'Alpha':
+                projectForm.save(commit=False, userId = i_UserId)
+                return render_to_response('Masters/Project.html', {'obj_ProjectList' : obj_ProjectList, 'projectForm' : projectForm, 'userNotification' : 'Project created successfully' }, context_instance = RequestContext( request))
+            elif request.POST.get('action') == 'Beta' :
+                Project.objects.filter(project_id=request.POST.get('project_id')).update(name=request.POST.get('name'), description=request.POST.get('description'), 
+                                                                                         start_date= datetime.strptime(request.POST.get('start_date'), '%Y-%m-%d').date(), 
+                                                                                         end_date=datetime.strptime(request.POST.get('end_date'), '%Y-%m-%d').date(), 
+                                                                                         status=request.POST.get('status'), contact_person=request.POST.get('contact_person'))
+                return render_to_response('Masters/Project.html', {'obj_ProjectList' : obj_ProjectList, 'projectForm' : projectForm, 
+                                                                   'userNotification' : 'Project information updated successfully' }, context_instance = RequestContext( request))
         else:
             print "Form Invalid"
-            return render_to_response('Masters/Project.html', {'obj_ProjectList' : obj_ProjectList, 'projectForm' : projectForm, 'userNotification' : 'Project could not be created' }, context_instance = RequestContext( request))
+            return render_to_response('Masters/Project.html', {'obj_ProjectList' : obj_ProjectList, 'projectForm' : projectForm, 
+                                                               'userNotification' : 'Project could not be created' }, context_instance = RequestContext( request))
     else:
         print "not post"
         projectForm = Master_ProjectForm()
@@ -119,3 +127,4 @@ def projectInfo(request):
         return render_to_response('Masters/ProjectInfo.html', 
                               { 'obj_ProjectList' : obj_ProjectList, 'projectForm' : projectForm }, 
                               context_instance = RequestContext( request))
+        
