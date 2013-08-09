@@ -26,12 +26,9 @@ class Master_ProjectForm(forms.ModelForm):
         obj_projectForm.name = self.data['name']
         obj_projectForm.description = self.data['description']
         obj_projectForm.start_date = datetime.strptime(self.data['start_date'], '%Y-%m-%d').date()
-        print  obj_projectForm.start_date
-        print "End date"
-        print self.data['end_date']
-        #if(self.data['end_date'] != ''):
-            #print "Inside if"
-            #obj_projectForm.end_date = datetime.strptime( self.data['end_date'], '%Y-%m-%d')
+        if(self.data['end_date'] != ''):
+            print "Inside if"
+            obj_projectForm.end_date = datetime.strptime( self.data['end_date'], '%Y-%m-%d')
         obj_projectForm.status = self.data['status']
         obj_ContactPerson = UserDetails.objects.get(user_id = self.data['contact_person'])
         obj_projectForm.contact_person = obj_ContactPerson
@@ -52,10 +49,11 @@ class Master_ProjectForm(forms.ModelForm):
         return self.cleaned_data['name']
     
     def clean_start_date(self):
-        print "Start date : "
+        print "Start date : ................................................."
         print self.cleaned_data['start_date']
         if self.cleaned_data['start_date'] == '' :
             raise forms.ValidationError("Please set the project start date.")
+        raise forms.ValidationError("Please set the project start date.")
         return self.cleaned_data['start_date']
     
     def clean_status(self):

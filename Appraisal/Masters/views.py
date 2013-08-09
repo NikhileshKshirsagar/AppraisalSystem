@@ -111,9 +111,9 @@ def projectInfo(request):
                         'start_date': startDate,
                         'end_date': endDate, 
                         'status': obj_searchResult.status,
-                        'contact_person' : obj_searchResult.contact_person
+                        'contact_person' : obj_searchResult.contact_person.user_id
                     }
-        print obj_searchResult.name
+        print obj_searchResult.contact_person
         projectForm = Master_ProjectForm(initial)
         obj_ProjectList = Project.objects.all()
         return render_to_response('Masters/ProjectInfo.html', 

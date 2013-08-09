@@ -19,6 +19,9 @@
 			function (data, textStatus, jqXHR)
 			{
 				$('#tableProject').html(data)
+				DatePicker($('#id_start_date').get("selector"), $('#id_end_date').get("selector"), 3)
+				DatePicker($('#id_event_date').get("selector"), '', 3)
+				$('#btnCreate').val("Update")
 			},
 			function()
 			{
