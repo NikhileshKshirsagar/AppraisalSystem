@@ -19,11 +19,12 @@ class QuestionForm(forms.ModelForm):
     weight = forms.CharField(required=False,label="Question weight",initial=0)
     type = forms.ChoiceField(required=False,choices=questionType, error_messages={'required': 'Please select question type'},widget=forms.Select(attrs={'class':'tableRow span4 search-query', 'style': 'border-radius: 15px 15px 15px 15px;'}),label="Question type")
     category=forms.CharField(required=False)
-    type_text=forms.CharField(required=False,widget=forms.HiddenInput(),initial='Subjective')
+    type_text=forms.CharField(required=False,widget=forms.HiddenInput(),initial='MCQ')
     class Meta:
         model=Question
         fields=("question","level","weight","type","info","intent","type_text")
         
+         
     def clean_weight(self):
         if self.cleaned_data['weight'] == '0':
             raise forms.ValidationError("Please select weight of question.")
@@ -58,17 +59,25 @@ class OptionFrom(forms.ModelForm):
     class Meta:
         model=Option
         fields=("option_text","option_header_text")
-        
-    def save(self, userId,commit=True ):
+    
+#    def clean_optionheadertext(self, sOptionHeaderText, nOptionHeaderID):
+#        error_msg=''
+    
+#        if nOptionHeaderID == '0':
+#            objOptions = OptionHeader.objects.filter(title=sOptionHeaderText).count()
+#            if objOptions> 0 :
+#                raise forms.ValidationError("Option header already exists.")
+#        return self.cleaned_data['option_header_text']
+    
+    def save(self, userId,optionHeaderId,commit=True ):
          objOptionFrom = super(OptionFrom, self).save(commit=False)
-         objOptionHeader = OptionHeader.objects.create(title=self.data['option_header_text'], modified_by=userId, modified_on=timezone.now())
          options = (self.data['option_text']).split(",")
-         
          for index, option in enumerate(options):
-             objOptionFrom.option_header = OptionHeader.objects.latest('option_header_id')
+             objOptionFrom.option_header = optionHeaderId#OptionHeader.objects.latest('option_header_id')
              objOptionFrom.option_text = option#self.data['option_text']
              objOptionFrom.order = index + 1
              objOptionFrom.modified_by = userId
              objOptionFrom.modified_on = timezone.now()
              objOptionFrom.save()
+                 
          

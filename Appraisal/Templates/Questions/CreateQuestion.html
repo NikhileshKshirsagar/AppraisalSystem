@@ -2,20 +2,22 @@
 {% block pagecontent %}
  <script>
 $(function() {
+	//alert($("input[name=type_text]").val());
 	$( "#tabs" ).tabs().addClass( "ui-tabs-vertical ui-helper-clearfix" );
 	$("#tabs").removeClass("ui-widget-content");
 	$( "#tabs li" ).removeClass( "ui-corner-top" ).addClass( "ui-corner-left" );
 	$("#tabs-1, #tabs-2").removeClass("ui-widget-content");
-	$("#btnPlus").click(function(){
-		if($("#sortable li").length <= 10)	
-			$("#sortable").append("<li class=\"ui-state-default\">"+$("#sortable li:first").html()+"</li>");
+	
+	$("#btnPlus,#btnPlus1").click(function(){
+		if($(this).parent().parent().find("#sortable li,#sortable1 li").length <= 10)	
+			$(this).parent().parent().find("#sortable,#sortable1").append("<li class=\"ui-state-default\">"+$("#sortable li:first").html()+"</li>");
 		else
 			alert("Cannot have more than 10 options");
 	});
 	
-	$("#btnMinus").click(function(){
-		if($("#sortable li").length > 1)
-			$("#sortable li:last").remove();
+	$("#btnMinus,#btnMinus1").click(function(){
+		if($(this).parent().parent().find("#sortable li,#sortable1 li").length > 1)
+			$(this).parent().parent().find("#sortable li:last,#sortable1 li:last").remove();
 	});
 	
 	function setOptions()
@@ -55,19 +57,18 @@ $(function() {
 	$("#CreateQuestion").click(function(){
 		var data="";
 		$( "input[name=options]" ).each(function( index ) {
-			data = data + $(this).val() +',';
+			if($(this).val()!='')
+				data = data + $(this).val() +',';
 		});
 		data = data.slice(0,-1);
 		$("input[name=option_text]").val(data);
 	});
 	
-	if ($("input[name=type_text]").val() == 'MCQ')
-	{
-		$("*[name=liQuestionType]").each(function(){
-			if( $(this).attr('value') == 'MCQ')
+	$("*[name=liQuestionType]").each(function(){
+			if( $(this).attr('value') == $("input[name=type_text]").val())
 				$(this).trigger('click');
 		});
-	}
+	
 	
 	
 	$("input[name=OptionList]").change(function(){
@@ -86,30 +87,144 @@ $(function() {
 	
 	LoadSlider($( "#questionLevel" ).get("selector"),  $( "#questionLevelVal" ).get("selector"), 10, 0, {{questionCreateform.level.value}} );
 	LoadSlider($( "#questionWeight" ).get("selector"),  $( "#questionWeightVal" ).get("selector"), 10, 0, {{questionCreateform.weight.value}} );
-	$( "#sortable" ).sortable();
-		$("#hrefUserExisting").click(function()
-		{
-			$("#sortable").css('read-only','true');
-			$("#divOptionList div").remove();
-			AjaxEvent({'search_txt':'data'}, '/question/optionList/',function(data, textStatus, jqXHR){
-				$('#divOptionList').append(data);
-				$("*[name=btnUseIt]").click(function(){
-					data = {'search_txt':$(this).attr('data')};
-					AjaxEvent(data, '/question/optionDetails/',function(data, textStatus, jqXHR){
-							var response=jQuery.parseJSON(data);
-							$("input[name=option_text]").val(response.Options);
-							$("input[name=option_header_text]").val(response.OptionHeader);
-							$("#sortable li:gt(0)").remove();
-							$("#sortable li:first input").val("");
-							$("input[name=option_header_id]").val(response.OptionHeaderID);
-							$("#divRdList").removeClass("hide");
-							setOptions();
-							$( "#sortable" ).sortable('disable');
-							},null);
-				});
-			},null);
+	
+	$( "#sortable,#sortable1" ).sortable();
+	
+	$("#hrefUserExisting").click(function()
+	{
+		$("#sortable").css('read-only','true');
+		$("#divOptionList div").remove();
+		AjaxEvent({'search_txt':'data'}, '/question/optionList/',function(data, textStatus, jqXHR){
 			
-		});
+			$('#divOptionList').append(data);
+			
+			$("*[name=btnUseIt]").click(function(){
+				data = {'search_txt':$(this).attr('data')};
+				AjaxEvent(data, '/question/optionDetails/',function(data, textStatus, jqXHR){
+						var response=jQuery.parseJSON(data);
+						$("input[name=option_text]").val(response.Options);
+						$("input[name=option_header_text]").val(response.OptionHeader);
+						$("#sortable li:gt(0)").remove();
+						$("#sortable li:first input").val("");
+						$("input[name=option_header_id]").val(response.OptionHeaderID);
+						$("#divRdList").removeClass("hide");
+						setOptions();
+						$( "#sortable" ).sortable('disable');
+						},null);
+			});
+			
+			$('*[name=btnEditIt]').click(function() {
+				$( "#dialog-form" ).dialog( "open" );
+				data = {'search_txt':$(this).attr('data')};
+				AjaxEvent(data, '/question/optionDetails/',function(data, textStatus, jqXHR){
+							var response=jQuery.parseJSON(data);
+							$('#dialog-form').find("input[name=option_text]").val(response.Options);
+							$('#dialog-form').find("input[name=option_header_text]").val(response.OptionHeader);
+							$('#dialog-form').find("#sortable1 li:gt(0)").remove();
+							$('#dialog-form').find("#sortable1 li:first input").val("");
+							$('#dialog-form').find("input[name=option_header_id]").val(response.OptionHeaderID);
+							if( $('#dialog-form').find("input[name=option_text]").val()!="")
+							{		
+								arroptions = $('#dialog-form').find("input[name=option_text]").val().split(",");
+								$.each(arroptions, function(index,value)
+								{
+									$('#dialog-form').find( "#sortable1 li:last input[name=options]" ).val(value);
+									$('#dialog-form').find("#btnPlus1").trigger('click');
+								}
+								);
+								$('#dialog-form').find("#btnMinus1").trigger('click');
+							} 
+							},null);
+			
+			});
+			
+		},null);
+		
+	});
+	 tips = $( ".validateTips" );
+	 flag=true;
+	function updateTips( t ) {
+	flag=false;
+	tips
+	.text( t )
+	.addClass( "ui-state-highlight" );
+	setTimeout(function() {
+	tips.removeClass( "ui-state-highlight", 1500 );
+	}, 500 );
+	}
+	$( "#dialog-form" ).dialog({
+			autoOpen: false,
+			height: 400,
+			width: 300,
+			modal: true,
+			buttons: {
+				"Edit": function() {
+					var data="";
+					flag=true;
+					$( "#dialog-form input").removeClass( "ui-state-error" );
+					$( "#dialog-form input[name=options]" ).each(function( index ) {
+						if($(this).val()!='')
+							data = data + $(this).val() +',';
+					});
+					data = data.slice(0,-1);
+					$("#dialog-form input[name=option_text]").val(data);
+					if(data=='')
+					{
+						updateTips('Enter options');
+						$( "#dialog-form input[name=options]").addClass( "ui-state-error" );
+					}
+					
+					if($("#dialog-form input[name=option_header_text]").val()=="")
+					{
+						updateTips('Enter option header');
+						$( "#dialog-form input[name=option_header_text]").addClass( "ui-state-error" );
+					}
+					else
+					{
+						data={'search_txt':'Validate','stitle':$("#dialog-form input[name=option_header_text]").val(),'nOptionHeaderID':$('#dialog-form').find("input[name=option_header_id]").val()};
+						AjaxEvent(data, '/question/validateOptionHeader/',function(data, textStatus, jqXHR){
+											var response=jQuery.parseJSON(data);
+											if(response.error != '')
+											{
+												updateTips(response.error);
+											}
+											else
+											{
+												if(flag)
+												{
+													data={'search_txt':'Validate','option_header_text':$("#dialog-form input[name=option_header_text]").val(),'option_header_id':$('#dialog-form').find("input[name=option_header_id]").val(),
+													'option_text':$("#dialog-form input[name=option_text]").val()
+													};
+													
+													AjaxEvent(data, '/question/updateOption/',function(data, textStatus, jqXHR){
+																		var response=jQuery.parseJSON(data);
+																		if(response.success != '')
+																		{
+																			alert(response.success);
+																			$( "#dialog-form" ).dialog( "close" );
+																		}
+																		
+																	},null);
+												}
+											}
+										},null);
+					}
+					
+					
+				},
+				Cancel: function() {
+					$( this ).dialog( "close" );
+				}
+			},
+			close: function() {
+				$( "#dialog-form input").removeClass( "ui-state-error" );
+			}
+	});
+		
+		
+		
+		
+		
 		
 });
 </script>
@@ -119,7 +234,7 @@ $(function() {
 	.ui-tabs-vertical .ui-tabs-nav li { clear: left; width: 100%; border-bottom-width: 1px !important; border-right-width: 0 !important; margin: 0 -1px .2em 0; }
 	.ui-tabs-vertical .ui-tabs-nav li a { display:block; }
 	.ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active { padding-bottom: 0px; padding-right: .1em; border-right-width: 1px; border-right-width: 1px; }
-	.ui-//.tabs-vertical .ui-tabs-panel { padding: 1em; float: right; width: 40em;}
+	.ui-tabs-vertical .ui-tabs-panel { padding: 1em; float: right; width: 40em;}
 	.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active{background:#E3E8E4 !important;}
 </style>
 <div class="label headerGradient headerPosition" >
@@ -129,7 +244,9 @@ $(function() {
 <br/><br/>
 <form method="post" class="form-search">{% csrf_token %}
 <div id="tabs">
-	 <ul><li><a value={{text}} name="liQuestionType" href="#tabs-{{value}}">{{text}}</a></li>
+	 <ul>
+	    {%for value, text in questionCreateform.type.field.choices %}
+    		<li><a value={{text}} name="liQuestionType" href="#tabs-{{value}}">{{text}}</a></li>
 		{% endfor %}
 	</ul>
 	{{questionCreateform.type_text}}

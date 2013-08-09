@@ -7,6 +7,8 @@ from Login.models import OptionHeader, Option, Question
 from django.http import HttpResponseRedirect 
 from django.core.context_processors import csrf
 from django.utils import simplejson
+from django.utils import timezone
+
 
 from Login.models import UserDetails
 def questionCreateView(request):
@@ -18,6 +20,7 @@ def questionCreateView(request):
     objOptionForm = OptionFrom(request.POST or None)
     if request.method == 'POST':
         if request.POST['type_text'] == 'MCQ':
+ #           objOptionForm.clean_optionheadertext(sOptionHeaderText=request.POST['option_header_text'],nOptionHeaderID=request.POST['option_header_id'])
             if objQuestionForm.is_valid() and objOptionForm.is_valid():
                 flag=True
             else:
@@ -34,13 +37,16 @@ def questionCreateView(request):
            i_UserId = UserDetails.objects.get(user_id=request.session['UserID'])
            if request.POST['type_text'] == 'MCQ':
                if request.POST['option_header_id']=='0':
-                   objOptionForm.save(commit=False, userId=i_UserId)
+                   objOptionHeader = OptionHeader.objects.create(title=request.POST['option_header_text'], modified_by=i_UserId, modified_on=timezone.now())
                    iOptionHeaderID = OptionHeader.objects.latest('option_header_id')
+                   objOptionForm.save(commit=False, userId=i_UserId, optionHeaderId=iOptionHeaderID)
+                   
                else:
                    iOptionHeaderID = OptionHeader.objects.get(option_header_id=request.POST['option_header_id'])
            objQuestionForm.save(commit=False, userId = i_UserId, optionHeaderId = iOptionHeaderID)
            args['successMsg']="Question created successfully"
            objOptionForm = OptionFrom()
+           initial = {'type_text' : request.POST['type_text']}
            objQuestionForm = QuestionForm()
            args['questionCreateform']=objQuestionForm
            args['optionCreateform']=objOptionForm
@@ -58,7 +64,7 @@ def OptionList(request):
     objOptions = OptionHeader.objects.all();
     result=''
     for optionheader in objOptions:
-        result += '<div class=\"accordion\" id=\"accordion_'+str(optionheader.option_header_id)+'\" ><div class=\"accordion-group\"><div class=\"accordion-heading\"><a data-toggle=\"collapse\" data-parent=\"#accordion_'+str(optionheader.option_header_id)+'\" href=\"#accordionCollapse_'+str(optionheader.option_header_id)+'\" class=\"accordion-toggle\"><i class=\"icon-minus-sign icon-white\"></i>&nbsp;'+optionheader.title+' </a><a name=\"btnUseIt\" class=\"btn btn-primary\" data=\"'+ str(optionheader.option_header_id) +'\">Use it</a></div><div class=\"accordion-body collapse\" id=\"accordionCollapse_'+str(optionheader.option_header_id)+'\"><div class=\"accordion-inner\">' 
+        result += '<div class=\"accordion\" id=\"accordion_'+str(optionheader.option_header_id)+'\" ><div class=\"accordion-group\"><div class=\"accordion-heading\"><a data-toggle=\"collapse\" data-parent=\"#accordion_'+str(optionheader.option_header_id)+'\" href=\"#accordionCollapse_'+str(optionheader.option_header_id)+'\" class=\"accordion-toggle\"><i class=\"icon-minus-sign icon-white\"></i>&nbsp;'+optionheader.title+' </a><a name=\"btnUseIt\" class=\"btn btn-primary\" data=\"'+ str(optionheader.option_header_id) +'\">Use it</a><a name=\"btnEditIt\" class=\"btn btn-primary\" data=\"'+ str(optionheader.option_header_id) +'\">Edit</a></div><div class=\"accordion-body collapse\" id=\"accordionCollapse_'+str(optionheader.option_header_id)+'\"><div class=\"accordion-inner\">' 
         for option in optionheader.option_set.filter():
           result+= option.option_text + '<br/>'
         result+='</div></div></div></div>'
@@ -79,5 +85,41 @@ def OptionDetails(request):
         return HttpResponse(content=data, content_type='json')    
 
 def QuestionList(request):
-    objOptions = Question.objects.all();
+    objQuestion = Question.objects.all();
+    #for objOption in objOptions:
+    #    objJsonOptions = {'option_header':objOption.option_header,
+    #                      'question_id' : objOption.question_id,
+    #                       'question' : objOption.question,
+    #                       'level' : objOption.level,
+    #                       'weight' : objOption.weight,
+    #                       'type' : objOption.type,
+    #                       'intent' : objOption.intent
+    #                      }
+    args={}
+    args.update(csrf(request))
+    args['error']=''
+    args['QuestionList']=objQuestion
+    return render_to_response('Questions/QuestionList.html',args)
+
+def validateOptionHeader(request):
+    if request.is_ajax():
+        stitle = request.POST.get('stitle')
+        nOptionHeaderID = request.POST.get('nOptionHeaderID')
+        error_msg=''
+        objOptions = OptionHeader.objects.filter(title=stitle).exclude(option_header_id=nOptionHeaderID).count()
+        if objOptions> 0 :
+            error_msg='Option header already exists'
+        data = simplejson.dumps({'error':error_msg})
+        return HttpResponse(content=data, content_type='json')      
     
+def updateOption(request):
+      if request.is_ajax():
+            objOptionForm = OptionFrom(request.POST or None)
+            iOptionHeaderID= OptionHeader.objects.get(option_header_id=request.POST.get('option_header_id'))
+            OptionHeader.objects.filter(option_header_id=request.POST.get('option_header_id')).update(title=request.POST.get('option_header_text'))
+            i_UserId = UserDetails.objects.get(user_id=request.session['UserID'])
+            Option.objects.filter(option_header=iOptionHeaderID).delete()
+            objOptionForm.save(commit=False, userId=i_UserId, optionHeaderId=iOptionHeaderID)
+      success_msg='Record updated successfully'
+      data = simplejson.dumps({'success':success_msg})
+      return HttpResponse(content=data, content_type='json')         

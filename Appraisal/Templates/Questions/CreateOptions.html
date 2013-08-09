@@ -1,9 +1,9 @@
 <table><tr><td>
 <div>
 	<style>
-		#sortable { list-style-type: none; margin: 0; padding: 0; }
-		#sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
-		#sortable li span { position: absolute; margin-left: -1.3em; }
+		#sortable,#sortable1 { list-style-type: none; margin: 0; padding: 0; }
+		#sortable li, #sortable1 li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
+		#sortable li span, #sortable1 li span { position: absolute; margin-left: -1.3em; }
 	</style>
 	{{ optionCreateform.option_header_text.label }} <br/>
 	{{optionCreateform.option_header_text }}<br/>
@@ -31,6 +31,27 @@
 <td style="vertical-align:top;">
 <table><tr><td>
 Option List
+<div id="dialog-form" title="Edit Options">
+ 	<p class="validateTips">All form fields are required.</p>
+	<form>
+	<fieldset>
+	{{ optionCreateform.option_header_text.label }} <br/>
+	{{optionCreateform.option_header_text }}<br/>
+	<br/>
+	<input type="hidden" id="option_header_id_temp" name="option_header_id"/>
+	{{optionCreateform.option_header_id}}
+	{{optionCreateform.option_text.label}}
+	{{optionCreateform.option_text}} <br/>
+	<div class="btn-group">
+		<a id="btnMinus1" class="btn btn-primary"><i class="icon-minus-sign"></i></a>
+		<a id="btnPlus1" class="btn btn-primary"><i class="icon-plus-sign"></i></a>
+	</div>
+	<ul id="sortable1">
+		<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><input type="text" style="margin-top:-5px;" name="options"/></li>
+	</ul>
+	</fieldset>
+	</form>
+</div>
 <div id="divOptionList" style="overflow:auto;height:600px;">
 </div>
 </td></tr></table>

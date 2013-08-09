@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block pagecontent %}
+<div>
+
+<style>
+
+table td, table th {
+    border: 1px solid #EEEEEE;
+    padding: 0.6em 10px;
+    text-align: left;
+}
+</style>
+<table>
+<table id="users" class="ui-widget ui-widget-content">
+		<thead>
+			<tr class="ui-widget-header">
+				<th>Question</th>
+				<th>Level</th>
+				<th>Weight</th>
+				<th>Type</th>
+				<th>Intent</th>
+			</tr>
+		</thead>
+		<tbody>
+{% for objQuestion in QuestionList%} 
+	<tr>
+		<td><input type="hidden" val="{{objQuestion.question_id}}"/></td>
+		<td>{{objQuestion.question}}</td>
+		<td>{{objQuestion.level}}</td>
+		<td>{{objQuestion.weight}}</td>
+		<td>{{objQuestion.type}}</td>
+		<td>{{objQuestion.intent}}</td>
+		<td><a class="btn btn-primary" id="hrefEditQuestion">Edit</a></td>
+		<td><a class="btn btn-primary" id="hrefDeleteQuestion" >Delete</a></td>
+	</tr>			
+{% endfor %}
+</tbody>
+</table>
+
+</div>
+
+{% endblock %}
