@@ -1,0 +1,52 @@
+{% extends "Masters/InputMaster.html" %}
+{% load url from future %}
+
+{% block pagesubcontent %}
+
+<form id="formDesignation" action="/masters/DesignationMasterInput/" method="post" class="formMaster">{% csrf_token %}
+	<div class="projList">
+		{% for designation in obj_DesignationList %}
+			<div class="Project">
+				<table>
+					<tr>
+						<td>
+							<label>Designation : </label>
+						</td>
+						<td>	
+							<label>{{ designation.designation }}</label>
+						</td>
+					</tr>
+				</table>
+			</div>		
+		{% endfor %}
+	</div>
+	<table class="table tableDisplayMaster" style="width: 65%">
+		<tr>
+			<td width="26%">
+				{{ designationForm.designation.label }}	
+			</td>
+			<td>
+				{{ designationForm.designation }}
+			</td>	
+		</tr>
+		<tr>
+			<td colspan="2">
+				<br>
+				<input id="btnCreate" name="btnCreate" type="submit" value="Create" class="btn btn-medium btn-inverse">
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				{% if designationForm.errors|length > 0 %}
+					<div class="alert alert-error" style="width: 50%;"> 
+						{% for key, value in designationForm.errors.items %} 
+							{{value}}
+						{% endfor %}
+					</div>
+				{% endif %}
+			</td>
+			<!-- {{ userCreateform.action }} -->
+		</tr>		
+	</table>
+</form>
+{% endblock %}

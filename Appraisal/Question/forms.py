@@ -15,15 +15,16 @@ class QuestionForm(forms.ModelForm):
     question = forms.CharField(error_messages={'required': 'Please enter question'}, widget=forms.Textarea(attrs={'rows':4,'class':'span4'}),label="Question")
     info = forms.CharField(required=False, widget=forms.Textarea(attrs={'rows':4,'class':'span4'}), label="Additional information (optional)")
     intent = forms.ChoiceField(choices=intentType, error_messages={'required': 'Please select intent'}, widget=forms.Select(attrs={'class':'tableRow span4 search-query', 'style': 'border-radius: 15px 15px 15px 15px;'}),label="Intent")
-    level = forms.CharField(required=False,label="Question level")
-    weight = forms.CharField(required=False,label="Question weight")
-    type = forms.ChoiceField(choices=questionType, error_messages={'required': 'Please select question type'},widget=forms.Select(attrs={'class':'tableRow span4 search-query', 'style': 'border-radius: 15px 15px 15px 15px;'}),label="Question type")
+    level = forms.CharField(required=False,label="Question level",initial=0)
+    weight = forms.CharField(required=False,label="Question weight",initial=0)
+    type = forms.ChoiceField(required=False,choices=questionType, error_messages={'required': 'Please select question type'},widget=forms.Select(attrs={'class':'tableRow span4 search-query', 'style': 'border-radius: 15px 15px 15px 15px;'}),label="Question type")
     category=forms.CharField(required=False)
-    type_text=forms.CharField(required=False,widget=forms.HiddenInput())
+    type_text=forms.CharField(required=False,widget=forms.HiddenInput(),initial='MCQ')
     class Meta:
         model=Question
         fields=("question","level","weight","type","info","intent","type_text")
         
+         
     def clean_weight(self):
         if self.cleaned_data['weight'] == '0':
             raise forms.ValidationError("Please select weight of question.")
@@ -34,15 +35,16 @@ class QuestionForm(forms.ModelForm):
             raise forms.ValidationError("Please select level of question.")
         return self.cleaned_data['level']
     
-    def save(self,userId, commit=True):
+    def save(self,userId,optionHeaderId, commit=True):
         objQuestionForm = super(QuestionForm, self).save(commit=False)
         objQuestionForm.question = self.data['question']
         objQuestionForm.level = self.data['level']
         objQuestionForm.intent = self.data['intent']
         objQuestionForm.weight = self.data['weight']
-        objQuestionForm.type = self.data['type']
+        objQuestionForm.type = self.data['type_text']
         objQuestionForm.category = ''#self.data['category']
-        objQuestionForm.option_header = OptionHeader.objects.latest('option_header_id')
+        if self.data['type_text'] == 'MCQ':
+            objQuestionForm.option_header = optionHeaderId
         objQuestionForm.info = self.data['info']
         objQuestionForm.modified_by = userId
         objQuestionForm.modified_on = timezone.now()
@@ -51,20 +53,31 @@ class QuestionForm(forms.ModelForm):
 
 class OptionFrom(forms.ModelForm):
     option_header_text = forms.CharField(label="Option header",error_messages={'required':'Enter Option header'})
-    option_text = forms.CharField(label="Options",error_messages={'required':'Enter Options'})
-    option_headerid = forms.CharField(required=False,widget=forms.HiddenInput(),initial=0)
+    option_text = forms.CharField(label="Options",widget=forms.HiddenInput(),error_messages={'required':'Enter Options'})
+    option_header_id = forms.CharField(required=False,widget=forms.HiddenInput(),initial=0)
     
     class Meta:
         model=Option
         fields=("option_text","option_header_text")
-        
-    def save(self, userId,commit=True ):
+    
+#    def clean_optionheadertext(self, sOptionHeaderText, nOptionHeaderID):
+#        error_msg=''
+    
+#        if nOptionHeaderID == '0':
+#            objOptions = OptionHeader.objects.filter(title=sOptionHeaderText).count()
+#            if objOptions> 0 :
+#                raise forms.ValidationError("Option header already exists.")
+#        return self.cleaned_data['option_header_text']
+    
+    def save(self, userId,optionHeaderId,commit=True ):
          objOptionFrom = super(OptionFrom, self).save(commit=False)
-         objOptionHeader = OptionHeader.objects.create(title=self.data['option_header_text'], modified_by=userId, modified_on=timezone.now())
-         objOptionFrom.option_header = OptionHeader.objects.latest('option_header_id')
-         objOptionFrom.option_text = self.data['option_text']
-         objOptionFrom.order = 1
-         objOptionFrom.modified_by = userId
-         objOptionFrom.modified_on = timezone.now()
-         objOptionFrom.save()
+         options = (self.data['option_text']).split(",")
+         for index, option in enumerate(options):
+             objOptionFrom.option_header = optionHeaderId#OptionHeader.objects.latest('option_header_id')
+             objOptionFrom.option_text = option#self.data['option_text']
+             objOptionFrom.order = index + 1
+             objOptionFrom.modified_by = userId
+             objOptionFrom.modified_on = timezone.now()
+             objOptionFrom.save()
+                 
          

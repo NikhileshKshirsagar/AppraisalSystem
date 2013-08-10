@@ -7,17 +7,44 @@ function LoadSlider(sliderElement, sliderValueElement, maxValue, minValue, defau
 			 max: maxValue,
 			 value: defaultValue,
 			 slide: function( event, ui ) {
-			 $( sliderValueElement ).val( ui.value );
+			 	$( sliderValueElement ).val( ui.value );
+			 },
+			 change:function(event,ui){
+			 	$( sliderValueElement ).val(ui.value );
 			 }
 			 });
-			 $( sliderValueElement ).val( $( sliderElement ).slider( "value" ) );	
-	});
-	
+			 $( sliderValueElement ).val(defaultValue);
+	});	
 }
 
-function setSliderValue(sliderElement, sliderValueElement, sliderValue){
+function setSliderValue(sliderElement, sliderValue){
 	$(function(){
 		$( sliderElement ).slider('value', sliderValue);
-		$( sliderValueElement ).val( sliderValue );
+	});
+}
+
+function DatePicker(dateElement1, dateElement2, number_of_months)
+{
+	 $(function() {
+		 $( dateElement1 ).datepicker({
+		 defaultDate: "+1w",
+		 changeMonth: true,
+		 changeYear: true,
+		 dateFormat: 'yy-mm-dd',
+		 numberOfMonths: number_of_months,
+		 onClose: function( selectedDate ) {
+		 $( dateElement2 ).datepicker( "option", "minDate", selectedDate );
+		 }
+		});
+		 $( dateElement2 ).datepicker({
+		 defaultDate: "+1w",
+		 changeMonth: true,
+		 changeYear: true,
+		 dateFormat: 'yy-mm-dd',
+		 numberOfMonths: 3,
+		 onClose: function( selectedDate ) {
+		 $( dateElement1 ).datepicker( "option", "maxDate", selectedDate );
+		 }
+		});
 	});
 }

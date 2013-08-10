@@ -1,0 +1,64 @@
+<table id="tableProject" class="table tableDisplayMaster" style="width: 65%">
+	<tr>
+		<td width="26%">
+			{{ projectForm.name.label }}	
+		</td>
+		<td>
+			{{ projectForm.name }}	
+		</td>
+	</tr>
+	<tr>	
+		<td style="vertical-align: top !important;">
+			<p class="textArealabel" style="padding-top: 2px;">{{ projectForm.description.label }}</p>	
+		</td>
+		<td>
+			{{ projectForm.description }}	
+		</td>
+	</tr>
+	<tr>
+		<td>
+			{{ projectForm.start_date.label }}	
+		</td>
+		<td>
+			{{ projectForm.start_date }}	
+		</td>
+	</tr>
+	<tr>	
+		<td>
+			{{ projectForm.end_date.label }}	
+		</td>
+		<td>
+			{{ projectForm.end_date }}	
+		</td>
+	</tr>
+	<tr>	
+		<td>
+			{{ projectForm.status.label }}	
+		</td>
+		<td>
+			{{ projectForm.status }}	
+		</td>
+	</tr>
+	<tr>	
+		<td>
+			{{ projectForm.contact_person.label }}	
+		</td>
+		<td>
+			{{ projectForm.contact_person }}	
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+			<br>
+			<input id="btnCreate" name="btnCreate" type="submit" value="Create" class="btn btn-medium btn-inverse">
+			<a href="">
+				<input value="Clear" class="btn btn-medium btn-inverse" onclick="" style="width: 70px">
+			</a>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<input name="project_id" type="hidden" value={{ projectForm.project_id.value }}>
+		</td>
+</tr>	
+</table>

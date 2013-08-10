@@ -3,5 +3,139 @@
 
 {% block pagecontent %}
 
+<script>
+$(function(){
+	 $(function(){
+		 $( "#Inventory" ).accordion();
+		 $( "#Inventory li" ).draggable({
+			 appendTo: "body",
+			 helper: "clone"
+		 });
+		 $( "#project ol" ).droppable({
+			 activeClass: "ui-state-default",
+			 hoverClass: "ui-state-hover",
+			 accept: ":not(.ui-sortable-helper)",
+			 //accept: "#Projects",
+			 drop: function( event, ui ) {
+				 $( this ).find( ".placeholder" ).remove();
+				 $( "<p class=\"label dragableBlocks\" style=\"width: auto;\"> <button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button></p>" ).append( ui.draggable.text() ).appendTo( this );
+			 }
+		 }).sortable({
+			 items: "li:not(.placeholder)",
+			 sort: function() {
+				 // gets added unintentionally by droppable interacting with sortable
+				 // using connectWithSortable fixes this, but doesn't allow you to customize active/hoverClass options
+				 $( this ).removeClass( "ui-state-default" );
+			 }
+		 });
+		 });
+	 
+	/* $( ".draggable" ).draggable({
+		 connectToSortable: "#project",
+		 helper: "clone",
+		 revert: "invalid"
+		 });*/
+});
 
+</script>
+
+<form id="formUserProfile" action="/userprofile/profile/" method="post" class="form-search" style="padding-top: 30px; margin-left: -0px;">{% csrf_token %}
+
+<div id="" class="UPCatalog">
+	<div id="Inventory">
+		<h3><a href="#">Projects</a></h3>
+		<div id="Projects">
+			<ul>
+				{%for project in projectList %}
+					<li class="draggable">{{ project.name }}</li>
+				{%endfor%}
+			</ul>
+		</div>
+		
+		<h3><a href="#">Languages</a></h3>
+		<div>
+			<ul>
+				{%for language in languageList %}
+					<li class="draggable">{{ language.language }}</li>
+				{%endfor%}
+			</ul>
+		</div>
+		
+		<h3><a href="#">Technologies</a></h3>
+		<div>
+			<ul>
+				{%for technology in technologyList %}
+					<li class="draggable">{{ technology.technology }}</li>
+				{%endfor%}
+			</ul>
+		</div>
+	</div>
+</div>
+
+<table style="width: 60%" class="table tableDisplay">
+	<tr>
+		<td>
+			{{ UserDetailForm.username.label }}
+		</td>
+		<td>
+			{{ UserDetailForm.username }}
+		</td>
+	</tr>
+	<tr>	
+		<td>
+			{{ UserDetailForm.password.label }}
+		</td>
+		<td>
+			{{ UserDetailForm.password }}
+		</td>
+	</tr>
+	<tr>
+		<td>
+				<label class="Contentlabel">Projects</label>
+		</td>
+		<td>
+			<div id="project" class="ContentHolder" style="min-height: 50px;">		
+				<div class="ui-widget-content span4">
+					<ol class="span4 ContentHolder" style="padding-left: 5px;">
+						<p class="placeholder">Add your projects here</p>
+					</ol>
+				</div>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<label class="Contentlabel">Languages</label>
+		</td>
+		<td>
+			<div id="language" class="ContentHolder">		
+				<div class="ui-widget-content span4">
+					<ol>
+						<li class="placeholder">Add your languages here</li>
+					</ol>
+				</div>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<label class="Contentlabel"> Designation </label>
+		</td>
+		<td>
+			<div id="designation" class="ContentHolder">		
+				<div class="ui-widget-content span4">
+					<ol>
+						<li class="placeholder">Add your designation here</li>
+					</ol>
+				</div>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+			<input id="btnCreate" name="btnCreate" type="submit" value="Create" class="btn btn-medium btn-inverse">
+		</td>
+	</tr>
+</table>
+</form>
 {% endblock %} 

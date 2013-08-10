@@ -1,0 +1,56 @@
+{% extends "Masters/InputMaster.html" %}
+{% load url from future %}
+
+{% block pagesubcontent %}
+	<div class="projList">
+						{% for language in obj_LanguageList %}
+							<div class="Project">
+								<table>
+									<tr>
+										<td>	
+											<label>{{ language.language }}</label>
+										</td>
+									</tr>
+								</table>
+							</div>
+						{% endfor %}
+				</div>
+	<form id="formLanguage" action="/masters/LanguageMasterInput/" method="post" class="formMaster">{% csrf_token %}
+		<table class="table tableDisplayMaster" style="width: 65%">
+			<tr>
+				<td width="26%">
+					{{ languageForm.language.label }}
+				</td>
+				<td width="78%">
+					{{ languageForm.language }}
+				</td>
+			</tr>
+			<tr>	
+				<td style="vertical-align: top !important;">
+					<p class="textArealabel" style="padding-top: 2px;">{{ languageForm.description.label }}</p>
+				</td>
+				<td>
+					{{ languageForm.description }}
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<br>
+					<input id="btnCreate" name="btnCreate" type="submit" value="Create" class="btn btn-medium btn-inverse">
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					{% if languageForm.errors|length > 0 %}
+						<div class="alert alert-error" style="width: 50%;"> 
+							{% for key, value in languageForm.errors.items %} 
+								{{value}}
+							{% endfor %}
+						</div>
+					{% endif %}
+				</td>
+			<!-- {{ userCreateform.action }} -->
+		</tr>	
+		</table>			
+	</form>
+{%  endblock %}

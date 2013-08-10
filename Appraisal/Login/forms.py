@@ -12,7 +12,7 @@ class LoginForm(forms.ModelForm):
     txtPassword = forms.CharField(
                                   label='Password',
                                   required=True,
-                                  widget=forms.TextInput(attrs={'placeholder':'Password'}),
+                                  widget=forms.PasswordInput(attrs={'placeholder':'Password'}),
                                   error_messages={'required':'Enter password'}
                                   )#forms.DateField(widget=forms.TextInput(attrs={'class':'vDateField'}))   
     class Meta:

@@ -10,24 +10,56 @@
 			$(".textSearch").keyup(function()
 			{
 				//alert($( "#serachUserName" ).val());
-				AjaxEvent($( "#serachUserName" ).val(), $( "#userlist" ).get("selector"), "firstname", "UserDetails",function successSerach(data, textStatus, jqXHR)
+				var data = {
+					'search_txt' : $( "#serachUserName" ).val() 		
+				}
+				AjaxEvent(data, '/userprofile/userSearch/', function successSerach(data, textStatus, jqXHR)
 				{
 					$('#userlist').html(data);
 					
 						$("#userlist .clickable").click(function(event){
 						//alert("fasfsafsafs");
 						//alert("ascfasfc" + $(event.currentTarget).closest('input').val());
-						userInfo = $(event.currentTarget).children('input').val();
-						AjaxEvent(userInfo, $( "#userlist" ).get("selector"), '',"UserDetails",function successSerach(data, textStatus, jqXHR)
+						var sdata = {
+								'search_txt' : $(event.currentTarget).children('input').val()
+								}
+						AjaxEvent(sdata, '/userprofile/userInfo/',function successSerach(data, textStatus, jqXHR)
 						{
-							alert("click success");
-							alert(data);
-							
-						});
+							var response = jQuery.parseJSON(data);
+							console.log(response);
+							if(response.error == "")
+							{	
+								$('#id_firstname').val(response.firstname);
+								$('#id_lastname').val(response.lastname);
+								$('#id_emailid').val(response.emailid);
+								$('#id_type').val(response.type);
+								setSliderValue($( "#userLevel" ).get("selector"), response.user_level );
+								setSliderValue($( "#userWeight" ).get("selector"), response.user_weight);
+								$('#btnCreate').val("Update");
+								$('#action').val("Beta");
+								$('#uValue').val(response.user_id);
+								console.log(response.user_id)
+							}
+							else
+							{
+								$('#').html(response.error);
+							}
+						},
+						function()
+						{
+							$('#').html('');
+						}
+						);
 					});
-				});
+				},
+				function()
+				{
+					 $( "#userlist" ).empty();
+				}
+				);
 			});
 		});	
+		
 	</script>
 
 	<div class="label headerGradient headerPosition" >
@@ -35,7 +67,7 @@
 		<p class=" headerFont" style="float: left; padding-top: 15px">User Management</p>
 	</div>
 	
-	<form action="/CreateUser/" method="post" class="form-search" style="padding-top: 30px; margin-left: -0px;">{% csrf_token %}
+	<form id="formCreateUser" action="/userprofile/CreateUser/" method="post" class="form-search" style="padding-top: 30px; margin-left: -0px;">{% csrf_token %}
 		
 		<table class="table tableDisplay" style="margin-left:5px;width: 70%; float: right; margin-top: 10px;">
 			<tr>
@@ -98,8 +130,8 @@
 					<div id="userLevel" class="sliders"></div>
 					{% if userCreateform.user_level.value != None and userCreateform.user_weight.value != None %}
 						<script type="text/javascript">
-							setSliderValue($( "#userLevel" ).get("selector"), $( "#userLevelVal" ).get("selector"), {{ userCreateform.user_level.value }});
-							setSliderValue($( "#userWeight" ).get("selector"), $( "#userWeightVal" ).get("selector"), {{ userCreateform.user_weight.value }});
+							setSliderValue($( "#userLevel" ).get("selector"), {{ userCreateform.user_level.value }});
+							setSliderValue($( "#userWeight" ).get("selector"), {{ userCreateform.user_weight.value }});
 						</script>	
 					{% endif %}
 				</td>
@@ -119,7 +151,7 @@
 			<tr>
 				<td colspan="2">
 					<br>
-					<input type="submit" value="Create" class="btn btn-medium btn-inverse">
+					<input id="btnCreate" name="btnCreate" type="submit" value="Create" class="btn btn-medium btn-inverse">
 					<a href="">
 						<input value="Clear" class="btn btn-medium btn-inverse" onclick="" style="width: 70px">
 					</a>
@@ -128,24 +160,40 @@
 			<tr>
 				<td colspan="3">
 					{% if userCreateform.errors|length > 0 %}
-						<div class="alert alert-error" > 
+						<div class="alert alert-error" style="width: 50%;"> 
 							{% for key, value in userCreateform.errors.items %} 
 								{{value}}
 							{% endfor %}
 						</div>
 					{% endif %}
 				</td>
+				{{ successMsg  }}	
+				{{ userCreateform.action }}
+			</tr>
+			<tr>
+				<td>
+					<input id="uValue" name="user_id" type="hidden" value={{ uValue }}>
+				</td>
 			</tr>
 		</table>
-		
-		
+	
 		<div class="title">
-			<label style="float: left;">Username</label>
-			<input id="serachUserName" type="text" class="textSearch" style="">
-			<br>
+			<table>
+				<tr>
+					<td align="center">
+						Search user by name
+					</td>
+				</tr>
+				<tr height="5px"></tr>
+				<tr>
+					<td align="center">
+						<input id="serachUserName" type="text" autocomplete="off" class="textSearch search-query" style="width: 90%; ">
+					</td>
+				</tr>
+			</table>
 		</div>
 		
-		<div id="userlist" class="userList ">	
+		<div id="userlist" class="userList" style="padding-top: 25px;">	
 				<!-- {% for user in userList %}
 					<a href="" >
 							<div class="userTile" name="clickable">
@@ -164,6 +212,6 @@
 		<!-- <div id="userResults" class="userList jssb-content" style="float: right;">
 			
 		</div> -->
-		<p>{{ successMsg }}</p>
+		
 	</form>
 {% endblock %} 

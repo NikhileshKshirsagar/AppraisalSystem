@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load url from future %}
+
+{% block pagecontent %}
+
+<script type="text/javascript">
+
+	$(function(){
+		if($('#formProject').length > 0)
+		{
+			$('#tabproject').attr('class', 'active');
+		}
+		else if($('#formDesignation').length > 0)
+		{
+			$('#tabdesignation').attr('class', 'active');
+		}
+		else if($('#formLanguage').length > 0)
+		{
+			$('#tablanguage').attr('class', 'active');
+		}
+		else if($('#formEvent').length > 0)
+		{
+			$('#tabevent').attr('class', 'active');
+		}
+		else
+		{
+			$('#taboverview').attr('class', 'active');
+		}
+	});
+</script>
+
+<div id="Master_Input" class="tabbable tabs-left">
+    <ul class="nav nav-tabs" style="width: 11%">
+    	<li id="taboverview"><a href="/masters/DataInput/">Overview</a> </li>
+    	<li id="tabproject"><a href="/masters/ProjectMasterInput/">Project</a> </li>
+		<li id="tabdesignation"><a href="/masters/DesignationMasterInput/">Designation</a></li>
+		<li id="tablanguage"><a href="/masters/LanguageMasterInput/">Language</a> </li>
+		<li id="tabevent"><a href="/masters/EventMasterInput">Event</a></li>
+    </ul>
+    <div class="tab-content">
+    	 <div class="tab-pane active" id="tab1">
+			{% block pagesubcontent %}
+			{% endblock %}
+		</div>
+    </div>
+    {{ userNotification  }}	
+</div>
+	
+{% endblock %}	

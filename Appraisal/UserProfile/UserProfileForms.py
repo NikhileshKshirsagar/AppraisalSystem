@@ -5,7 +5,7 @@ Created on 17-Jul-2013
 '''
 
 from django import forms
-from Login.models import UserDetails, UserAttributes, Language, UserAttributes, Designation
+from Login.models import UserDetails, UserAttributes, Language, UserAttributes, Designation, Project, Event
 from django.utils import timezone
 from cProfile import label
 
@@ -21,6 +21,7 @@ class UserCreate(forms.ModelForm):
     user_level = forms.CharField()
     user_weight = forms.CharField()
     type = forms.ChoiceField(label='User type',choices=usertype, widget=forms.Select(attrs={'class':'tableRow span5 search-query', 'style': 'border-radius: 15px 15px 15px 15px;'}))
+    action = forms.CharField(widget=forms.TextInput(attrs={'type':'hidden', 'value' : 'Alpha', 'id' : 'action'}))
     
     def save(self,  userId,commit=True):
         obj_userForm = super(UserCreate, self).save(commit=False)
@@ -38,7 +39,7 @@ class UserCreate(forms.ModelForm):
         except UserDetails.DoesNotExist:
             s_existingEmail = ''
                
-        if s_existingEmail != '' and s_existingEmail ==  self.cleaned_data['emailid']:
+        if s_existingEmail != '' and s_existingEmail ==  self.cleaned_data['emailid'] and self.data['action'] == "Alpha":
             raise forms.ValidationError("Email address already exists.")
         return self.cleaned_data['emailid']
     
@@ -59,28 +60,43 @@ class UserCreate(forms.ModelForm):
         
     class Meta():
         model=UserDetails
-        fields = ('firstname','lastname','emailid','user_level', 'user_weight', 'type',)
+        fields = ('firstname','lastname','emailid','user_level', 'user_weight', 'type', 'action',)
         
 class userListForm(forms.ModelForm):
     class Meta():
         model=UserDetails
         fields = ('firstname','lastname','emailid',)
-        
+
+# User Profile        
 class UserProfile_UserDetailForm(forms.ModelForm):
     class Meta():
         model=UserDetails
         fields = ('username','password',)
     
 class UserProfile_LanguageForm(forms.ModelForm):
-    newLanguage = forms.CharField(label=("Add new language"), required=False)
+    #newLanguage = forms.CharField(label=("Add new language"), required=False)
     choices = [(obj_language.language_id, obj_language.language) for obj_language in Language.objects.all()]
-    language = forms.ChoiceField(choices = choices)
+    language = forms.MultipleChoiceField(choices = choices, label=("Languages"))
+    
+    class Meta():
+        model=Language
+        fields = ('language',)
+class UserProfile_UserAttributes(forms.ModelForm):
+    
     class Meta():
         model=UserAttributes
-        fields = ('tech_working','tech_known','tech_willing','language_working','language_known','language_willing')
+        fields = ('tech_working','tech_known','tech_willing','language_working','language_known','language_willing', )
         
 class UserProfile_DesignationForm(forms.ModelForm):
+    choices_desgnation = [(obj_designation.designation_id, obj_designation.designation) for obj_designation in Designation.objects.all()]
+    designation = forms.MultipleChoiceField(choices=choices_desgnation, label=("Designation(s)"), required=True)
     class Meta():
         model=Designation
-        
-        
+        fields = ('designation',)
+                   
+class UserProfile_ProjectForm(forms.ModelForm):
+    choices_project = [(obj_project.project_id, obj_project.name) for obj_project in Project.objects.all()]
+    name = forms.MultipleChoiceField(choices=choices_project, label=("Project(s)"), required=True)
+    class Meta():
+        model=Project
+        fields = ('name',)

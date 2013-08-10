@@ -1,44 +1,25 @@
-function AjaxEvent(data, destinationElement,searchAttribute, model,successCallback)
+function AjaxEvent(jsonData, surl,successCallback,emptyCallback)
 {
-	//alert(searchAttribute);
-	if(searchAttribute != '')
+	jsonData['csrfmiddlewaretoken']= $("input[name=csrfmiddlewaretoken]").val();
+	if( jsonData.search_txt != null && jsonData.search_txt != '' )
 	{
-		if( data != '' )
-		{
 			$.ajax({
-				type : "POST",
-				url : "/userSearch/",
-				data: {
-					'search_txt' : data,
-					'searchAttribute' : searchAttribute,
-					'model' : model,
-					'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val()
-				},
-				success : successCallback,
-				dataType : 'html' 
-			});
-		}
-		else
-		{
-			$(destinationElement).empty();
-		}
+					type : "POST",
+					url : surl,
+					data: jsonData,
+					success : successCallback,
+					error : function(jqXHR,error, errorThrown){
+						console.log(jqXHR);
+						console.log(errorThrown);
+						console.log(error);
+						alert("........................................");
+					},
+					dataType : 'html' 
+				});
 	}
 	else
 	{
-		$.ajax({
-			type : "POST",
-			url : "/userInfo/",
-			data: {
-				'search_txt' : data,
-				'model' : model,
-				'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val()
-			},
-			success : successCallback,
-			error : function(){
-				alert("Error AJAX");
-			},
-			dataType : 'html' 
-		});
-		//alert("Ajax executed");
+		if(emptyCallback!=null)
+			emptyCallback();
 	}
 }
