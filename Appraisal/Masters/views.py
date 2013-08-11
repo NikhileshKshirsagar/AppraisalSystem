@@ -104,7 +104,7 @@ def projectInfo(request):
         
         if obj_searchResult.start_date != None :
             startDate = str(datetime.strptime(str(obj_searchResult.start_date), '%Y-%m-%d').date())
-            print "Start Date : " + startDate 
+            print "Start Date : " + startDate
         else:
             startDate = ''
        
