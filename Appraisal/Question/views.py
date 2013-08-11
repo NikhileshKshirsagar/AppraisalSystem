@@ -122,4 +122,51 @@ def updateOption(request):
             objOptionForm.save(commit=False, userId=i_UserId, optionHeaderId=iOptionHeaderID)
       success_msg='Record updated successfully'
       data = simplejson.dumps({'success':success_msg})
-      return HttpResponse(content=data, content_type='json')         
+      return HttpResponse(content=data, content_type='json')   
+  
+  
+def deleteQuestion(request):
+      if request.is_ajax():
+          Question.objects.filter(question_id=request.POST.get('QuestionID')).delete()
+      success_msg='Record deleted successfully'    
+      data = simplejson.dumps({'success':success_msg})
+      return HttpResponse(content=data, content_type='json')   
+      
+      
+def editQuestion(request, questionId):
+    args={}
+    args.update(csrf(request))
+    objQuestionForm = QuestionForm(request.POST or None)
+    objOptionForm = OptionFrom(request.POST or None)
+    if request.method == 'POST':
+        
+        if objQuestionForm.is_valid():
+            print '--------------------'
+            print request.POST['questionID']
+            print request.POST['question']
+            Question.objects.filter(question_id=request.POST['questionID']).update(question=request.POST['question'],level=request.POST['level'],weight=request.POST['weight'],info=request.POST['info'],intent=request.POST['intent'],type=request.POST['type_text'],option_header=None)
+            return HttpResponseRedirect("/question/QuestionList")
+        else:
+            args['optionCreateform']=objOptionForm
+            print '--------------------'
+            args['questionCreateform']=objQuestionForm
+    else:    
+        objQuestion=Question.objects.get(question_id=int(questionId))
+        
+        if objQuestion.type=='MCQ':
+            objOptionHeader=OptionHeader.objects.get(option_header_id=objQuestion.option_header_id)
+            objOption=Option.objects.filter(option_header=objOptionHeader.option_header_id)
+            optionText=''
+            for option in objOption:
+                optionText+=option.option_text + ','
+            optionText=optionText[:-1]
+            objOptionForm = OptionFrom(initial={'option_text':optionText,'option_header_text':objOptionHeader.title})
+            
+        args['optionCreateform']=objOptionForm
+        
+        objQuestionForm = QuestionForm(initial={'questionID':questionId,'question':objQuestion.question,'level':objQuestion.level,'weight':objQuestion.weight,'info':objQuestion.info,'intent':objQuestion.intent,'type_text':objQuestion.type})
+        args['questionCreateform']=objQuestionForm
+    
+    return render_to_response('Questions/CreateQuestion.html',args)
+
+    

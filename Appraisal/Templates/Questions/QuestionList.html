@@ -10,7 +10,26 @@ table td, table th {
     text-align: left;
 }
 </style>
-<table>
+<script>
+$(function(){
+	$("*[name=hrefDeleteQuestion]").click(function(event){
+		thisEvent = $(event.target);
+		alert(thisEvent.closest('tr').find('*[name=txtQuestionId]').attr('val'));
+		data={'search_txt':'Validate','QuestionID':thisEvent.closest('tr').find('*[name=txtQuestionId]').attr('val')};
+													
+		AjaxEvent(data, '/question/deleteQuestion/',function(data, textStatus, jqXHR){
+							var response=jQuery.parseJSON(data);
+							if(response.success != '')
+							{
+								thisEvent.closest('tr').remove();
+							}
+							
+						},null);
+	});
+	
+});
+</script>
+<table>{% csrf_token %}
 <table id="users" class="ui-widget ui-widget-content">
 		<thead>
 			<tr class="ui-widget-header">
@@ -24,14 +43,14 @@ table td, table th {
 		<tbody>
 {% for objQuestion in QuestionList%} 
 	<tr>
-		<td><input type="hidden" val="{{objQuestion.question_id}}"/></td>
+		<td><input name="txtQuestionId" type="hidden" val="{{objQuestion.question_id}}"/></td>
 		<td>{{objQuestion.question}}</td>
 		<td>{{objQuestion.level}}</td>
 		<td>{{objQuestion.weight}}</td>
 		<td>{{objQuestion.type}}</td>
 		<td>{{objQuestion.intent}}</td>
-		<td><a class="btn btn-primary" id="hrefEditQuestion">Edit</a></td>
-		<td><a class="btn btn-primary" id="hrefDeleteQuestion" >Delete</a></td>
+		<td><a class="btn btn-primary" name="hrefEditQuestion" href="/question/editQuestion/{{objQuestion.question_id}}/">Edit</a></td>
+		<td><a class="btn btn-primary" name="hrefDeleteQuestion" >Delete</a></td>
 	</tr>			
 {% endfor %}
 </tbody>

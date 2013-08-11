@@ -7,4 +7,6 @@ urlpatterns = patterns('Question',
                 url(r'^QuestionList/$', 'views.QuestionList'),
                 url(r'^validateOptionHeader/$','views.validateOptionHeader'),
                 url(r'^updateOption/$','views.updateOption'),
+                 url(r'^deleteQuestion/$','views.deleteQuestion'),
+                 url(r'^editQuestion/([0-9]+)/$','views.editQuestion'),
                         )

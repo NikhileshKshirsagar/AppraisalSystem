@@ -12,6 +12,7 @@ class QuestionForm(forms.ModelForm):
                  ('1','+ve'),
                  ('2','-ve')
                 )
+    questionID=forms.CharField(required=False,widget=forms.HiddenInput(),initial='0')
     question = forms.CharField(error_messages={'required': 'Please enter question'}, widget=forms.Textarea(attrs={'rows':4,'class':'span4'}),label="Question")
     info = forms.CharField(required=False, widget=forms.Textarea(attrs={'rows':4,'class':'span4'}), label="Additional information (optional)")
     intent = forms.ChoiceField(choices=intentType, error_messages={'required': 'Please select intent'}, widget=forms.Select(attrs={'class':'tableRow span4 search-query', 'style': 'border-radius: 15px 15px 15px 15px;'}),label="Intent")
@@ -22,9 +23,8 @@ class QuestionForm(forms.ModelForm):
     type_text=forms.CharField(required=False,widget=forms.HiddenInput(),initial='MCQ')
     class Meta:
         model=Question
-        fields=("question","level","weight","type","info","intent","type_text")
-        
-         
+        fields=("questionID","question","level","weight","type","info","intent","type_text")
+               
     def clean_weight(self):
         if self.cleaned_data['weight'] == '0':
             raise forms.ValidationError("Please select weight of question.")

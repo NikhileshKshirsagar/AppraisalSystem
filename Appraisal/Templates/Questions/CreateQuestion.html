@@ -10,7 +10,7 @@ $(function() {
 	
 	$("#btnPlus,#btnPlus1").click(function(){
 		if($(this).parent().parent().find("#sortable li,#sortable1 li").length <= 10)	
-			$(this).parent().parent().find("#sortable,#sortable1").append("<li class=\"ui-state-default\">"+$("#sortable li:first").html()+"</li>");
+			$(this).parent().parent().find("#sortable,#sortable1").append("<li class=\"ui-state-default ui-corner-left\">"+$("#sortable li:first").html()+"</li>");
 		else
 			alert("Cannot have more than 10 options");
 	});
@@ -250,6 +250,7 @@ $(function() {
 		{% endfor %}
 	</ul>
 	{{questionCreateform.type_text}}
+	{{questionCreateform.questionID}}
 	<div >
 	<table><tr><td style="vertical-align:top;">
 	<table id="tabs-1" class="table tableDisplay" style="margin-left:5px;" Common="true">
@@ -320,27 +321,16 @@ $(function() {
 	</tr>
 	<tr>
 		<td colspan="3">
+		{% if questionCreateform.questionID.value == '0'%}
 			<input id="CreateQuestion" type="submit" value="Create" class="btn btn-medium btn-inverse">
+		{% else %}
+			<input id="CreateQuestion" type="submit" value="Update" class="btn btn-medium btn-inverse">
+		{%endif%}
 		</td>
 	</tr>
-	</table>
-	</td>
-	<td style="vertical-align:top;">
-		<table id="tabs-2" width="100%">
-		<tr>
-			<td>OPTIONS</td>
-		</tr>
-		<tr>
-		<td style="vertical-align:top;">{% include "Questions\CreateOptions.html" %}</td>
-		</tr>
-		<tr><td>&nbsp;</td></tr>
-		</table>
-	</td>
-	</tr>
-	
-	</table>
-			
-	{% if questionCreateform.errors|length > 0 %}
+	<tr>
+	<td colspan="3">
+		{% if questionCreateform.errors|length > 0 %}
 	<div class="alert alert-error"> 
 		{% for key, value in questionCreateform.errors.items %} 
 			{{value}}
@@ -356,6 +346,23 @@ $(function() {
 {% endif %}
 		
 <p>{{ successMsg }}</p>
+	
+	</td>
+	</tr>
+	</table>
+	</td>
+	<td style="vertical-align:top;">
+		<table id="tabs-2" width="100%">
+		<tr>
+		<td style="vertical-align:top;">{% include "Questions\CreateOptions.html" %}</td>
+		</tr>
+		<tr><td>&nbsp;</td></tr>
+		</table>
+	</td>
+	</tr>
+	
+	</table>
+			
 	</div>
 
 	

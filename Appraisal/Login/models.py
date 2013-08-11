@@ -96,7 +96,7 @@ class Project(models.Model):
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
     status = models.TextField(blank=True)
-    contact_person = models.ForeignKey('UserDetails', null=True, db_column='contact_person', blank=True)
+    contact_person = models.IntegerField(null=True, blank=True)
     modified_by = models.ForeignKey('UserDetails', db_column='modified_by')
     modified_on = models.DateTimeField()
     class Meta:
@@ -119,6 +119,7 @@ class Question(models.Model):
     category = models.CharField(max_length=45L, blank=True)
     info = models.TextField(blank=True)
     intent = models.IntegerField(null=True, blank=True)
+    option_header = models.ForeignKey(OptionHeader, null=True, blank=True)
     modified_by = models.ForeignKey('UserDetails', db_column='modified_by')
     modified_on = models.DateTimeField()
     class Meta:
