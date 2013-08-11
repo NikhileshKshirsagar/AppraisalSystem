@@ -22,6 +22,7 @@ class UserCreate(forms.ModelForm):
     user_weight = forms.CharField()
     type = forms.ChoiceField(label='User type',choices=usertype, widget=forms.Select(attrs={'class':'tableRow span5 search-query', 'style': 'border-radius: 15px 15px 15px 15px;'}))
     action = forms.CharField(widget=forms.TextInput(attrs={'type':'hidden', 'value' : 'Alpha', 'id' : 'action'}))
+    user_id = forms.CharField(required=False, widget=forms.TextInput(attrs={ 'type':'hidden' }))
     
     def save(self,  userId,commit=True):
         obj_userForm = super(UserCreate, self).save(commit=False)
@@ -34,13 +35,22 @@ class UserCreate(forms.ModelForm):
         obj_userForm.save()
         
     def clean_emailid(self):
-        try:
-            s_existingEmail = UserDetails.objects.get(emailid=self.cleaned_data['emailid']).emailid
-        except UserDetails.DoesNotExist:
-            s_existingEmail = ''
-               
-        if s_existingEmail != '' and s_existingEmail ==  self.cleaned_data['emailid'] and self.data['action'] == "Alpha":
-            raise forms.ValidationError("Email address already exists.")
+        if self.data['action'] == "Alpha":
+            try:
+                s_existingEmail = UserDetails.objects.get(emailid=self.cleaned_data['emailid']).emailid
+            except UserDetails.DoesNotExist:
+                s_existingEmail = ''
+
+            if s_existingEmail != '' and s_existingEmail ==  self.cleaned_data['emailid']:
+                raise forms.ValidationError("Email address already exists.")
+        elif self.data['action'] == "Beta":
+            try:
+                print "User ID: .................... : ...................."
+                print self.cleaned_data['user_id']
+                s_existingEmail = UserDetails.objects.filter(emailid=self.cleaned_data['emailid']).exclude(project_id=self.cleaned_data['user_id']).emailid
+            except UserDetails.DoesNotExist:
+                s_existingEmail = ''
+
         return self.cleaned_data['emailid']
     
     def clean_type(self):
@@ -60,7 +70,7 @@ class UserCreate(forms.ModelForm):
         
     class Meta():
         model=UserDetails
-        fields = ('firstname','lastname','emailid','user_level', 'user_weight', 'type', 'action',)
+        fields = ('firstname','lastname','emailid','user_level', 'user_weight', 'type', 'action', 'user_id',)
         
 class userListForm(forms.ModelForm):
     class Meta():
