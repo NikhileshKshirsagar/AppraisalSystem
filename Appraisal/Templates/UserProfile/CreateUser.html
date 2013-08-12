@@ -37,8 +37,7 @@
 								setSliderValue($( "#userWeight" ).get("selector"), response.user_weight);
 								$('#btnCreate').val("Update");
 								$('#action').val("Beta");
-								$('#uValue').val(response.user_id);
-								//$(#).val(response.user_id)
+								$('#id_userid').val(response.user_id);
 							}
 							else
 							{
@@ -172,7 +171,7 @@
 			</tr>
 			<tr>
 				<td>
-					<input id="uValue" name="user_id" type="hidden" value={{ uValue }}>
+					{{ userCreateform.userid }}
 				</td>
 			</tr>
 		</table>

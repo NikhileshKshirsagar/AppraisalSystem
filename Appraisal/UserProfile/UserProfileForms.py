@@ -21,8 +21,8 @@ class UserCreate(forms.ModelForm):
     user_level = forms.CharField()
     user_weight = forms.CharField()
     type = forms.ChoiceField(label='User type',choices=usertype, widget=forms.Select(attrs={'class':'tableRow span5 search-query', 'style': 'border-radius: 15px 15px 15px 15px;'}))
-    action = forms.CharField(widget=forms.TextInput(attrs={'type':'hidden', 'value' : 'Alpha', 'id' : 'action'}))
-    user_id = forms.CharField(required=False, widget=forms.TextInput(attrs={ 'type':'hidden' }))
+    action = forms.CharField(required=False, widget=forms.TextInput(attrs={'type':'hidden', 'value' : 'Alpha', 'id' : 'action'}))
+    userid = forms.CharField(required=False, widget=forms.TextInput(attrs={ 'type':'hidden' }))
     
     def save(self,  userId,commit=True):
         obj_userForm = super(UserCreate, self).save(commit=False)
@@ -45,12 +45,14 @@ class UserCreate(forms.ModelForm):
                 raise forms.ValidationError("Email address already exists.")
         elif self.data['action'] == "Beta":
             try:
-                print "User ID: .................... : ...................."
-                print self.cleaned_data['user_id']
-                s_existingEmail = UserDetails.objects.filter(emailid=self.cleaned_data['emailid']).exclude(project_id=self.cleaned_data['user_id']).emailid
+                
+                s_existingEmail = UserDetails.objects.filter(emailid=self.cleaned_data['emailid']).exclude(user_id=self.data['userid']).emailid
             except UserDetails.DoesNotExist:
                 s_existingEmail = ''
-
+                
+                if s_existingEmail != '' and s_existingEmail ==  self.cleaned_data['emailid']:
+                    raise forms.ValidationError("Email address already exists.")
+                    
         return self.cleaned_data['emailid']
     
     def clean_type(self):
@@ -70,7 +72,7 @@ class UserCreate(forms.ModelForm):
         
     class Meta():
         model=UserDetails
-        fields = ('firstname','lastname','emailid','user_level', 'user_weight', 'type', 'action', 'user_id',)
+        fields = ('firstname','lastname','emailid','user_level', 'user_weight', 'type', 'action', 'userid',)
         
 class userListForm(forms.ModelForm):
     class Meta():
