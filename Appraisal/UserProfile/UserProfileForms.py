@@ -36,22 +36,28 @@ class UserCreate(forms.ModelForm):
         
     def clean_emailid(self):
         if self.data['action'] == "Alpha":
+            print "Alpha"
+            s_existingEmail = 0
             try:
-                s_existingEmail = UserDetails.objects.get(emailid=self.cleaned_data['emailid']).emailid
+                print self.cleaned_data['emailid']
+                s_existingEmail = UserDetails.objects.filter(emailid=self.cleaned_data['emailid']).count()
             except UserDetails.DoesNotExist:
-                s_existingEmail = ''
+                s_existingEmail = 0
 
-            if s_existingEmail != '' and s_existingEmail ==  self.cleaned_data['emailid']:
+            if s_existingEmail > 0:
                 raise forms.ValidationError("Email address already exists.")
+            
         elif self.data['action'] == "Beta":
+            s_existingEmail = 0
             try:
+                s_existingEmail = UserDetails.objects.filter(emailid=self.cleaned_data['emailid']).exclude(user_id=self.data['userid']).count()
                 
-                s_existingEmail = UserDetails.objects.filter(emailid=self.cleaned_data['emailid']).exclude(user_id=self.data['userid']).emailid
             except UserDetails.DoesNotExist:
-                s_existingEmail = ''
-                
-                if s_existingEmail != '' and s_existingEmail ==  self.cleaned_data['emailid']:
-                    raise forms.ValidationError("Email address already exists.")
+                s_existingEmail = 1
+                print s_existingEmail
+           
+            if s_existingEmail > 0:
+                raise forms.ValidationError("Email address already exists.")
                     
         return self.cleaned_data['emailid']
     
