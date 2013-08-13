@@ -43,12 +43,17 @@ $(function(){
 		<tbody>
 {% for objQuestion in QuestionList%} 
 	<tr>
-		<td><input name="txtQuestionId" type="hidden" val="{{objQuestion.question_id}}"/></td>
-		<td>{{objQuestion.question}}</td>
+		<td><input name="txtQuestionId" type="hidden" val="{{objQuestion.question_id}}"/>
+		{{objQuestion.question}}</td>
 		<td>{{objQuestion.level}}</td>
 		<td>{{objQuestion.weight}}</td>
 		<td>{{objQuestion.type}}</td>
-		<td>{{objQuestion.intent}}</td>
+		<td>{% if objQuestion.intent == 1%}
+					+ve
+			{% else%}
+					-ve
+			{%endif%}
+		</td>
 		<td><a class="btn btn-primary" name="hrefEditQuestion" href="/question/editQuestion/{{objQuestion.question_id}}/">Edit</a></td>
 		<td><a class="btn btn-primary" name="hrefDeleteQuestion" >Delete</a></td>
 	</tr>			
