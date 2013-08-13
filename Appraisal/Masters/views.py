@@ -113,13 +113,14 @@ def projectInfo(request):
         else: 
             endDate = ''
      
-        initial = {     'project_id': obj_searchResult.project_id,
-                        'name': obj_searchResult.name, 
-                        'description': obj_searchResult.description, 
-                        'start_date': startDate,
-                        'end_date': endDate, 
-                        'status': obj_searchResult.status,
-                        'contact_person' : obj_searchResult.contact_person.user_id
+        initial = {     
+                   'projectid': obj_searchResult.project_id,
+                    'name': obj_searchResult.name, 
+                    'description': obj_searchResult.description, 
+                    'start_date': startDate,
+                    'end_date': endDate, 
+                    'status': obj_searchResult.status,
+                    'contact_person' : obj_searchResult.contact_person.user_id
                     }
         print obj_searchResult.contact_person
         projectForm = Master_ProjectForm(initial)

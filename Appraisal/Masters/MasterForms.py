@@ -14,13 +14,14 @@ class Master_ProjectForm(forms.ModelForm):
     
     name = forms.CharField(label='Project name', error_messages={'required': 'Please enter project name.'}, widget=forms.TextInput(attrs={'class':'tableRow span5 '}))
     description = forms.CharField(label='Project description', required=False, widget=forms.Textarea(attrs={'class':'tableRow TextArea'}))
-    start_date = forms.DateField(label='Project start date', widget=forms.DateInput(format=format ,attrs={'class':'tableRow span3 ', 'placeholder' : 'Click here to add start date'}))
+    start_date = forms.DateField(label='Project start date', error_messages={'required': 'Please enter project start date.'}, widget=forms.DateInput(format=format ,attrs={'class':'tableRow span3 ', 'placeholder' : 'Click here to add start date'}))
     end_date = forms.DateField(label='Project end date', required=False , widget=forms.DateInput(attrs={'class':'tableRow span3 ', 'placeholder' : 'Click here to add end date'}))
     #start_date = forms.DateField(label='Project start date')
     #end_date = forms.DateField(label='Project end date', required=False)
     status = forms.ChoiceField(label='Project status',choices=cProject_status, widget=forms.Select(attrs={'class':'tableRow span5 '}))
     contact_person = forms.ChoiceField(label='Contact person', choices=choices_contactPerson, widget=forms.Select(attrs={'class':'tableRow span5 '}))
     action = forms.CharField(widget=forms.TextInput(attrs={'type':'hidden', 'value' : 'Alpha', 'id' : 'action'}))
+    projectid = forms.CharField(required=False, widget=forms.TextInput(attrs={ 'type':'hidden' }))
      
     def save(self,  userId,commit=True):
         obj_projectForm = super(Master_ProjectForm, self).save(commit=False)
@@ -37,16 +38,32 @@ class Master_ProjectForm(forms.ModelForm):
         obj_projectForm.modified_on = timezone.now()
         obj_projectForm.save()
         
-    def clean_name(self):    
-        try:
-            print self.cleaned_data['name']
-            s_project = Project.objects.get(name = self.cleaned_data['name']).name
-        except:
-            s_project = ''
-            
-        if s_project != '' and s_project == self.cleaned_data['name']:
-            raise forms.ValidationError("Project '" + self.cleaned_data['name'] + "' already exists.")
+    def clean_name(self):
+        s_project = 0  
+        if self.data['action'] == "Alpha":  
+            try:
+                print self.cleaned_data['name']
+                s_project = Project.objects.filter(name = self.cleaned_data['name']).count()
+            except:
+                print "Except.........."
+                s_project = 0
+                
+            if s_project > 0:
+                raise forms.ValidationError("Project '" + self.cleaned_data['name'] + "' already exists.")
         
+        elif self.data['action'] == "Beta":
+            try:
+                print "Try ........" + self.cleaned_data['name']
+                print "Project id" + self.data['projectid']
+                s_project = Project.objects.filter(name = self.cleaned_data['name']).exclude(project_id=self.data['projectid']).count()
+            except:
+                print "Except..........."
+                s_project = 0
+                print "Project Count............."  
+                print s_project
+            if s_project > 0:
+                raise forms.ValidationError("Project '" + self.cleaned_data['name'] + "' already exists.")
+
         return self.cleaned_data['name']
     
     def clean_start_date(self):
@@ -54,7 +71,6 @@ class Master_ProjectForm(forms.ModelForm):
         print self.cleaned_data['start_date']
         if self.cleaned_data['start_date'] == '' :
             raise forms.ValidationError("Please set the project start date.")
-        raise forms.ValidationError("Please set the project start date.")
         return self.cleaned_data['start_date']
     
     def clean_status(self):
@@ -69,7 +85,7 @@ class Master_ProjectForm(forms.ModelForm):
     
     class Meta():
         model=Project
-        fields = ('name','description', 'start_date', 'end_date', 'status', 'contact_person', 'project_id',)
+        fields = ('name','description', 'start_date', 'end_date', 'status', 'contact_person', 'projectid',)
 
 class Master_DesignationForm(forms.ModelForm):
     designation = forms.CharField(label='Designation', error_messages={'required': 'Please enter Designation.'}, widget=forms.TextInput(attrs={'class':'tableRow span5 '}))
