@@ -58,7 +58,7 @@ class OptionFrom(forms.ModelForm):
     
     class Meta:
         model=Option
-        fields=("option_text","option_header_text")
+        fields=("option_header_id","option_text","option_header_text")
     
 #    def clean_optionheadertext(self, sOptionHeaderText, nOptionHeaderID):
 #        error_msg=''

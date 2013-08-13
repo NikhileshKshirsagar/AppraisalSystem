@@ -139,17 +139,32 @@ def editQuestion(request, questionId):
     objQuestionForm = QuestionForm(request.POST or None)
     objOptionForm = OptionFrom(request.POST or None)
     if request.method == 'POST':
-        
-        if objQuestionForm.is_valid():
-            print '--------------------'
-            print request.POST['questionID']
-            print request.POST['question']
-            Question.objects.filter(question_id=request.POST['questionID']).update(question=request.POST['question'],level=request.POST['level'],weight=request.POST['weight'],info=request.POST['info'],intent=request.POST['intent'],type=request.POST['type_text'],option_header=None)
-            return HttpResponseRedirect("/question/QuestionList")
+        flag=False
+        if request.POST['type_text'] == 'MCQ':
+ #           objOptionForm.clean_optionheadertext(sOptionHeaderText=request.POST['option_header_text'],nOptionHeaderID=request.POST['option_header_id'])
+            if objQuestionForm.is_valid() and objOptionForm.is_valid():
+                flag=True
+        else:
+            if objQuestionForm.is_valid():
+                flag=True   
+                
+        if flag == True:
+           iOptionHeaderID = None 
+           i_UserId = UserDetails.objects.get(user_id=request.session['UserID'])
+           if request.POST['type_text'] == 'MCQ':
+               if request.POST['option_header_id']=='0':
+                   objOptionHeader = OptionHeader.objects.create(title=request.POST['option_header_text'], modified_by=i_UserId, modified_on=timezone.now())
+                   iOptionHeaderID = OptionHeader.objects.latest('option_header_id')
+                   objOptionForm.save(commit=False, userId=i_UserId, optionHeaderId=iOptionHeaderID)
+                   
+               else:
+                   iOptionHeaderID = OptionHeader.objects.get(option_header_id=request.POST['option_header_id'])
+           Question.objects.filter(question_id=request.POST['questionID']).update(question=request.POST['question'],level=request.POST['level'],weight=request.POST['weight'],info=request.POST['info'],intent=request.POST['intent'],type=request.POST['type_text'],option_header=iOptionHeaderID)
+           return HttpResponseRedirect("/question/QuestionList")
         else:
             args['optionCreateform']=objOptionForm
             print '--------------------'
-            args['questionCreateform']=objQuestionForm
+            args['questionCreateform']=objQuestionForm         
     else:    
         objQuestion=Question.objects.get(question_id=int(questionId))
         
@@ -160,7 +175,7 @@ def editQuestion(request, questionId):
             for option in objOption:
                 optionText+=option.option_text + ','
             optionText=optionText[:-1]
-            objOptionForm = OptionFrom(initial={'option_text':optionText,'option_header_text':objOptionHeader.title})
+            objOptionForm = OptionFrom(initial={'option_header_id':objOptionHeader.option_header_id,'option_text':optionText,'option_header_text':objOptionHeader.title})
             
         args['optionCreateform']=objOptionForm
         
