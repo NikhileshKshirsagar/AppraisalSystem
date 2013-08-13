@@ -5,7 +5,8 @@ from django.utils import timezone
 class QuestionForm(forms.ModelForm):
     questionType=(
               ('1' , 'Subjective'),
-              ('2' , 'MCQ')
+              ('2' , 'MCQ'),
+              ('1' , 'Scale')
          )
     intentType =(
                  ('0','--SELECT--'),
@@ -20,7 +21,7 @@ class QuestionForm(forms.ModelForm):
     weight = forms.CharField(required=False,label="Question weight",initial=0)
     type = forms.ChoiceField(required=False,choices=questionType, error_messages={'required': 'Please select question type'},widget=forms.Select(attrs={'class':'tableRow span4 search-query', 'style': 'border-radius: 15px 15px 15px 15px;'}),label="Question type")
     category=forms.CharField(required=False)
-    type_text=forms.CharField(required=False,widget=forms.HiddenInput(),initial='MCQ')
+    type_text=forms.CharField(required=False,widget=forms.HiddenInput(),initial='Subjective')
     class Meta:
         model=Question
         fields=("questionID","question","level","weight","type","info","intent","type_text")
