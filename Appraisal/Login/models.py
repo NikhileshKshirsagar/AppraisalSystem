@@ -22,7 +22,8 @@ class AppraisalContent(models.Model):
     appraisal_content_id = models.IntegerField(primary_key=True)
     appresment = models.ForeignKey('Appraisment')
     question = models.ForeignKey('Question')
-    answer = models.ForeignKey(Answer)
+    answer = models.ForeignKey(Answer, null=True, blank=True)
+    question_order = models.IntegerField()
     modified_by = models.ForeignKey('UserDetails', db_column='modified_by')
     modified_on = models.DateTimeField()
     class Meta:
@@ -32,6 +33,7 @@ class Appraisment(models.Model):
     appraisment_id = models.IntegerField(primary_key=True)
     appraiser = models.ForeignKey('UserDetails', db_column='appraiser')
     appraisee = models.ForeignKey('UserDetails', db_column='appraisee')
+    status = models.CharField(max_length=45L, blank=True)
     modified_by = models.ForeignKey('UserDetails', db_column='modified_by')
     modified_on = models.DateTimeField()
     class Meta:
@@ -96,7 +98,7 @@ class Project(models.Model):
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
     status = models.TextField(blank=True)
-    contact_person = models.IntegerField(null=True, blank=True)
+    contact_person = models.ForeignKey('UserDetails', null=True, db_column='contact_person', blank=True)
     modified_by = models.ForeignKey('UserDetails', db_column='modified_by')
     modified_on = models.DateTimeField()
     class Meta:
@@ -106,7 +108,7 @@ class ProjectDesignation(models.Model):
     project = models.ForeignKey(Project)
     designation = models.ForeignKey(Designation)
     modified_by = models.ForeignKey('UserDetails', db_column='modified_by')
-    modified_on = models.DateTimeField()
+    modified_on = models.CharField(max_length=45L)
     class Meta:
         db_table = 'project_designation'
 
@@ -150,13 +152,13 @@ class UserAttributes(models.Model):
 
 class UserDetails(models.Model):
     user_id = models.IntegerField(primary_key=True)
-    firstname = models.CharField(max_length=45L)
-    lastname = models.CharField(max_length=45L)
-    username = models.CharField(max_length=45L)
-    password = models.CharField(max_length=45L)
-    emailid = models.CharField(max_length=45L, blank=True)
-    user_level = models.IntegerField(null=True, blank=True)
-    user_weight = models.IntegerField(null=True, blank=True)
+    firstname = models.CharField(max_length=45L, blank=True)
+    lastname = models.CharField(max_length=45L, blank=True)
+    username = models.CharField(max_length=45L, blank=True)
+    password = models.CharField(max_length=45L, blank=True)
+    emailid = models.CharField(max_length=45L)
+    user_level = models.IntegerField()
+    user_weight = models.IntegerField()
     type = models.CharField(max_length=45L, blank=True)
     modified_by = models.IntegerField(null=True, blank=True)
     modified_on = models.DateTimeField()
