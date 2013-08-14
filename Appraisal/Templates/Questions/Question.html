@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load url from future %}
+
+{% block pagecontent %}
+
+<form id="formCreateUser" action={{ AppraisalContents.question_number }} method="post" class="form-search" >{% csrf_token %}
+	
+	<div name="Question">
+		
+		{{ AppraisalContents.question_order }}
+		{{ AppraisalContents.question }}
+	</div>	
+	{% block Answer %}
+	{% endblock %}
+</form>
+
+{% endblock %}

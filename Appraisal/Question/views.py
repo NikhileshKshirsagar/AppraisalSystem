@@ -8,9 +8,9 @@ from django.http import HttpResponseRedirect
 from django.core.context_processors import csrf
 from django.utils import simplejson
 from django.utils import timezone
+from django.template.context import RequestContext
 
-
-from Login.models import UserDetails
+from Login.models import UserDetails, AppraisalContent
 def questionCreateView(request):
     
     args={}
@@ -33,28 +33,28 @@ def questionCreateView(request):
                 flag=False
              
         if flag == True:
-           iOptionHeaderID = 0 
-           i_UserId = UserDetails.objects.get(user_id=request.session['UserID'])
-           if request.POST['type_text'] == 'MCQ':
-               if request.POST['option_header_id']=='0':
-                   objOptionHeader = OptionHeader.objects.create(title=request.POST['option_header_text'], modified_by=i_UserId, modified_on=timezone.now())
-                   iOptionHeaderID = OptionHeader.objects.latest('option_header_id')
-                   objOptionForm.save(commit=False, userId=i_UserId, optionHeaderId=iOptionHeaderID)
-                   
-               else:
-                   iOptionHeaderID = OptionHeader.objects.get(option_header_id=request.POST['option_header_id'])
-           objQuestionForm.save(commit=False, userId = i_UserId, optionHeaderId = iOptionHeaderID)
-           args['successMsg']="Question created successfully"
-           objOptionForm = OptionFrom()
-           initial = {'type_text' : request.POST['type_text']}
-           objQuestionForm = QuestionForm()
-           args['questionCreateform']=objQuestionForm
-           args['optionCreateform']=objOptionForm
-           return render_to_response('Questions/CreateQuestion.html',args)
+            iOptionHeaderID = 0 
+            i_UserId = UserDetails.objects.get(user_id=request.session['UserID'])
+            if request.POST['type_text'] == 'MCQ':
+                if request.POST['option_header_id']=='0':
+                    objOptionHeader = OptionHeader.objects.create(title=request.POST['option_header_text'], modified_by=i_UserId, modified_on=timezone.now())
+                    iOptionHeaderID = OptionHeader.objects.latest('option_header_id')
+                    objOptionForm.save(commit=False, userId=i_UserId, optionHeaderId=iOptionHeaderID)
+                    
+                else:
+                    iOptionHeaderID = OptionHeader.objects.get(option_header_id=request.POST['option_header_id'])
+            objQuestionForm.save(commit=False, userId = i_UserId, optionHeaderId = iOptionHeaderID)
+            args['successMsg']="Question created successfully"
+            objOptionForm = OptionFrom()
+            initial = {'type_text' : request.POST['type_text']}
+            objQuestionForm = QuestionForm()
+            args['questionCreateform']=objQuestionForm
+            args['optionCreateform']=objOptionForm
+            return render_to_response('Questions/CreateQuestion.html',args)
         else:
-           args['questionCreateform']=objQuestionForm
-           args['optionCreateform']=objOptionForm
-           return render_to_response('Questions/CreateQuestion.html',args)
+            args['questionCreateform']=objQuestionForm
+            args['optionCreateform']=objOptionForm
+            return render_to_response('Questions/CreateQuestion.html',args)
     else:
         args['questionCreateform']=objQuestionForm
         args['optionCreateform']=objOptionForm
@@ -66,7 +66,7 @@ def OptionList(request):
     for optionheader in objOptions:
         result += '<div class=\"accordion\" id=\"accordion_'+str(optionheader.option_header_id)+'\" ><div class=\"accordion-group\"><div class=\"accordion-heading\"><a data-toggle=\"collapse\" data-parent=\"#accordion_'+str(optionheader.option_header_id)+'\" href=\"#accordionCollapse_'+str(optionheader.option_header_id)+'\" class=\"accordion-toggle\"><i class=\"icon-minus-sign icon-white\"></i>&nbsp;'+optionheader.title+' </a><a name=\"btnUseIt\" class=\"btn btn-primary\" data=\"'+ str(optionheader.option_header_id) +'\">Use it</a><a name=\"btnEditIt\" class=\"btn btn-primary\" data=\"'+ str(optionheader.option_header_id) +'\">Edit</a></div><div class=\"accordion-body collapse\" id=\"accordionCollapse_'+str(optionheader.option_header_id)+'\"><div class=\"accordion-inner\">' 
         for option in optionheader.option_set.filter():
-          result+= option.option_text + '<br/>'
+            result+= option.option_text + '<br/>'
         result+='</div></div></div></div>'
     return HttpResponse(content=result, content_type='text/html')
 
@@ -76,7 +76,7 @@ def OptionDetails(request):
         objOptions = OptionHeader.objects.get(option_header_id=search_text);
         result =''
         for option in objOptions.option_set.filter():
-          result+= option.option_text + ','
+            result+= option.option_text + ','
         objDetails = {'OptionHeaderID':objOptions.option_header_id,
                       'OptionHeader' :objOptions.title,
                       'Options' : result[:-1]
@@ -149,18 +149,18 @@ def editQuestion(request, questionId):
                 flag=True   
                 
         if flag == True:
-           iOptionHeaderID = None 
-           i_UserId = UserDetails.objects.get(user_id=request.session['UserID'])
-           if request.POST['type_text'] == 'MCQ':
-               if request.POST['option_header_id']=='0':
-                   objOptionHeader = OptionHeader.objects.create(title=request.POST['option_header_text'], modified_by=i_UserId, modified_on=timezone.now())
-                   iOptionHeaderID = OptionHeader.objects.latest('option_header_id')
-                   objOptionForm.save(commit=False, userId=i_UserId, optionHeaderId=iOptionHeaderID)
-                   
-               else:
-                   iOptionHeaderID = OptionHeader.objects.get(option_header_id=request.POST['option_header_id'])
-           Question.objects.filter(question_id=request.POST['questionID']).update(question=request.POST['question'],level=request.POST['level'],weight=request.POST['weight'],info=request.POST['info'],intent=request.POST['intent'],type=request.POST['type_text'],option_header=iOptionHeaderID)
-           return HttpResponseRedirect("/question/QuestionList")
+            iOptionHeaderID = None 
+            i_UserId = UserDetails.objects.get(user_id=request.session['UserID'])
+            if request.POST['type_text'] == 'MCQ':
+                if request.POST['option_header_id']=='0':
+                    objOptionHeader = OptionHeader.objects.create(title=request.POST['option_header_text'], modified_by=i_UserId, modified_on=timezone.now())
+                    iOptionHeaderID = OptionHeader.objects.latest('option_header_id')
+                    objOptionForm.save(commit=False, userId=i_UserId, optionHeaderId=iOptionHeaderID)
+                    
+                else:
+                    iOptionHeaderID = OptionHeader.objects.get(option_header_id=request.POST['option_header_id'])
+            Question.objects.filter(question_id=request.POST['questionID']).update(question=request.POST['question'],level=request.POST['level'],weight=request.POST['weight'],info=request.POST['info'],intent=request.POST['intent'],type=request.POST['type_text'],option_header=iOptionHeaderID)
+            return HttpResponseRedirect("/question/QuestionList")
         else:
             args['optionCreateform']=objOptionForm
             print '--------------------'
@@ -184,4 +184,16 @@ def editQuestion(request, questionId):
     
     return render_to_response('Questions/CreateQuestion.html',args)
 
-    
+def QuestionAnswer(request, questionId):
+    print request.method
+    print questionId
+    AppraisalContents = AppraisalContent.objects.filter(appresment=1).filter(question_order=questionId)
+    args={}
+    args.update(csrf(request))
+    if AppraisalContents.count() > 0:
+        for contents in AppraisalContents :
+            args['question_number'] = contents.question_order
+            args['question'] = contents.question.question
+            args['question_type'] = contents.question.type
+            args['question_number'] = contents.question_order
+    return render_to_response('Questions/Subjective.html', { 'AppraisalContents' : args })
