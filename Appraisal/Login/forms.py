@@ -22,9 +22,12 @@ class LoginForm(forms.ModelForm):
     def Authenticate(self):
         iUserID =0
         try:
-            iUserID = UserDetails.objects.filter(firstname=self.data['txtUserName'],password=self.data['txtPassword']).count()
+            objUserID = UserDetails.objects.filter(firstname=self.data['txtUserName']).filter(password=self.data['txtPassword'])
+            for u in objUserID:
+                iUserID = u.user_id 
         except UserDetails.DoesNotExist:
             iUserID =0
         
         return iUserID
+    
     

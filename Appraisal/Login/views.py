@@ -1,7 +1,7 @@
 # Create your views here.
 from django.shortcuts import render_to_response
 from django.contrib.sessions.models import Session
-
+from models import UserDetails   
 from forms import LoginForm
 from django.http import HttpResponseRedirect 
 from django.core.context_processors import csrf
@@ -21,7 +21,11 @@ def login(request):
                 args['username']= request.POST['txtUserName']
                 request.session['UserID']=sUserID
                 request.session['UserName']=request.POST['txtUserName']
-                return render_to_response('Welcome.html',args)
+                
+                if checkIfAdmin(sUserID):
+                    return render_to_response('Welcome.html',args)
+                else :
+                    return HttpResponseRedirect("/userprofile/Authenticate/") 
             else :
                args['error']='Not Valid user'
                return render_to_response('Login.html',args)    
@@ -33,11 +37,28 @@ def login(request):
         args['form']=objLoginForm
         return render_to_response('Login.html', args)        
 
+def checkIfAdmin(sUserID):
+        bFlag =False
+        try:
+            objUserDetails = UserDetails.objects.get(user_id=sUserID)
+            print '---------------'
+            print sUserID
+            if objUserDetails.type == "Administrator":
+                bFlag=True
+        except UserDetails.DoesNotExist:
+            bFlag =False
+        
+        return bFlag
+    
+
 def homeScreen(request):
     args={}
     args.update(csrf(request))
     args['username']=request.session['UserName']
-    return render_to_response('Welcome.html',args)
+    if checkIfAdmin(request.session['UserID']):
+        return render_to_response('Welcome.html',args)
+    else :
+        return HttpResponseRedirect("/userprofile/") 
          
 def logout(request):
     args={}

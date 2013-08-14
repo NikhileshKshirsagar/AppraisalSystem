@@ -110,4 +110,10 @@ def userProfile(request):
         return render_to_response('Userprofile/UserProfile.html', { 'UserDetailForm' : UserDetailForm, 'LanguageForm' : LanguageForm, 'DesignationForm' : DesignationForm, 
                                                                    'ProjectForm' : ProjectForm, 'projectList' : projectList, 'languageList' : languageList, 
                                                                    'designationList' : designationList, 'technologyList' : technologyList }, 
-                                  context_instance = RequestContext( request))
+                                 context_instance = RequestContext( request))
+        
+def userWelcome(request):
+    args={}
+    args.update(csrf(request))
+    args['username']=request.session['UserName']
+    return render_to_response('UserProfile/userWelcome.html',args)

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block pagecontent %}
+	<script type="text/javascript">
+	$(function() {
+		$("body").css("background-color" , "#e3e8e4 !important");
+	});
+	</script>
+	<div class="label headerGradient headerPosition" >{% csrf_token %}
+		<p class=" headerFont" style="float: left; padding-top: 15px">Welcome {{username}}</p>
+	</div>
+	<br/><br/>
+	
+	{{ successMsg }}
+{% endblock %}
