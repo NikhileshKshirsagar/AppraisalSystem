@@ -22,7 +22,8 @@ class AppraisalContent(models.Model):
     appraisal_content_id = models.IntegerField(primary_key=True)
     appresment = models.ForeignKey('Appraisment')
     question = models.ForeignKey('Question')
-    answer = models.ForeignKey(Answer)
+    answer = models.ForeignKey(Answer, null=True, blank=True)
+    question_order = models.IntegerField()
     modified_by = models.ForeignKey('UserDetails', db_column='modified_by')
     modified_on = models.DateTimeField()
     class Meta:
@@ -32,6 +33,7 @@ class Appraisment(models.Model):
     appraisment_id = models.IntegerField(primary_key=True)
     appraiser = models.ForeignKey('UserDetails', db_column='appraiser')
     appraisee = models.ForeignKey('UserDetails', db_column='appraisee')
+    status = models.CharField(max_length=45L, blank=True)
     modified_by = models.ForeignKey('UserDetails', db_column='modified_by')
     modified_on = models.DateTimeField()
     class Meta:
