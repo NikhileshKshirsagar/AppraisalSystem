@@ -22,20 +22,24 @@ def login(request):
                 request.session['UserID']=sUserID
                 request.session['UserName']=request.POST['txtUserName']
                 
-                if checkIfAdmin(sUserID):
-                    return render_to_response('Welcome.html',args)
-                else :
-                    return HttpResponseRedirect("/userprofile/Authenticate/") 
+                #if checkIfAdmin(sUserID):
+                #    return render_to_response('Welcome.html',args)
+                #else :
+                #    return HttpResponseRedirect("/userprofile/Authenticate/")
+                return homeScreen(request) 
             else :
-               args['error']='Not Valid user'
+               args['error']='Enter correct username and password'
                return render_to_response('Login.html',args)    
         else:
             return render_to_response('Login.html',args)
             
-    else:  
-        objLoginForm = LoginForm()
-        args['form']=objLoginForm
-        return render_to_response('Login.html', args)        
+    else: 
+        if 'UserID' in request.session:
+            return homeScreen(request)
+        else: 
+            objLoginForm = LoginForm()
+            args['form']=objLoginForm
+            return render_to_response('Login.html', args)        
 
 def checkIfAdmin(sUserID):
         bFlag =False
@@ -52,11 +56,14 @@ def checkIfAdmin(sUserID):
 def homeScreen(request):
     args={}
     args.update(csrf(request))
-    args['username']=request.session['UserName']
-    if checkIfAdmin(request.session['UserID']):
-        return render_to_response('Welcome.html',args)
-    else :
-        return HttpResponseRedirect("/userprofile/Authenticate/") 
+    if 'UserID' in request.session:
+        args['username']=request.session['UserName']
+        if checkIfAdmin(request.session['UserID']):
+            return render_to_response('Welcome.html',args)
+        else :
+            return HttpResponseRedirect("/userprofile/Authenticate/")
+    else:
+        return HttpResponseRedirect("/login/")     
          
 def logout(request):
     args={}
