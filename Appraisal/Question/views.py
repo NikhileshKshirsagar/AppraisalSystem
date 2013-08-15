@@ -187,13 +187,22 @@ def editQuestion(request, questionId):
 def QuestionAnswer(request, questionId):
     print request.method
     print questionId
-    AppraisalContents = AppraisalContent.objects.filter(appresment=1).filter(question_order=questionId)
-    args={}
-    args.update(csrf(request))
-    if AppraisalContents.count() > 0:
-        for contents in AppraisalContents :
-            args['question_number'] = contents.question_order
-            args['question'] = contents.question.question
-            args['question_type'] = contents.question.type
-            args['question_number'] = contents.question_order
-    return render_to_response('Questions/Subjective.html', { 'AppraisalContents' : args })
+    AppraisalContents = AppraisalContent.objects.get(appresment=1, question_order=questionId)
+    print AppraisalContents.question.question
+    #args={}
+    #args.update(csrf(request))
+    #if AppraisalContents.count() > 0:
+        #for contents in AppraisalContents :
+            #args['question_number'] = contents.question_order
+            #args['question'] = contents.question.question
+            #args['question_type'] = contents.question.type
+            #args['question_number'] = contents.question_order
+            
+     
+    if AppraisalContents.question.type == 'Subjective':
+        return render_to_response('Questions/Subjective.html', { 'AppraisalContents' : AppraisalContents }, context_instance = RequestContext( request))
+    if AppraisalContents.question.type == 'MCQ':
+        options = Option.objects.filter(option_header=AppraisalContents.question.option_header)
+        return render_to_response('Questions/MCQ.html', { 'AppraisalContents' : AppraisalContents, 'options' : options }, context_instance = RequestContext( request))    
+    if AppraisalContents.question.type == 'Scale':
+        return render_to_response('Questions/Scale.html', { 'AppraisalContents' : AppraisalContents }, context_instance = RequestContext( request))    

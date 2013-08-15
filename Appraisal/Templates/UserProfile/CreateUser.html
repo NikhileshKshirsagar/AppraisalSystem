@@ -175,39 +175,38 @@
 				</td>
 			</tr>
 		</table>
-	
-		<div class="title">
-			<table>
-				<tr>
-					<td align="center">
-						Search user by name
-					</td>
-				</tr>
-				<tr height="5px"></tr>
-				<tr>
-					<td align="center">
-						<input id="serachUserName" type="text" autocomplete="off" class="textSearch search-query" style="width: 90%; ">
-					</td>
-				</tr>
-			</table>
-		</div>
 		
-		<div id="userlist" class="userList" style="padding-top: 25px;">	
-				<!-- {% for user in userList %}
-					<a href="" >
-							<div class="userTile" name="clickable">
-								
-								{{ user.firstname }}
-								{{ user.lastname }}
-								, {{ user.type }}
-								<br>
-								<div>
-									{{ user.emailid }}
+		<div class="well well-small" style="width: 23%; border: 1px solid #CCCCCC; ">
+			<div class="title">
+				<table style="width: 100%">
+					
+					<tr>
+						<td align="center">
+							<input id="serachUserName" type="text" autocomplete="off" class="textSearch search-query" style="width: 90%;" placeholder="Search user">
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div class="well well-small" style="width: 23%; border: 1px solid #CCCCCC; ">
+			<label class="listHeader">Click on users to view their details</label>
+			<div id="userlist" class="" style="padding-top: 8px;">	
+					<!-- {% for user in userList %}
+						<a href="" >
+								<div class="userTile" name="clickable">
+									
+									{{ user.firstname }}
+									{{ user.lastname }}
+									, {{ user.type }}
+									<br>
+									<div>
+										{{ user.emailid }}
+									</div>
 								</div>
-							</div>
-						{% endfor %}
-					</a> -->
-		</div>		
+							{% endfor %}
+						</a> -->
+			</div>
+		</div>	
 		<!-- <div id="userResults" class="userList jssb-content" style="float: right;">
 			
 		</div> -->

@@ -22,9 +22,9 @@ height: 28px;font-size:16;}
 	/*box-shadow: 2px 3px 5px 3px #3C3013,
         inset 1px 1px 1px 1px #4C4023,
         inset 2px -2px 2px 1px #8C8083 !important;*/
-    box-shadow: 1px 2px 3px 2px #C7C7C7,
+    /*box-shadow: 1px 2px 3px 2px #C7C7C7,
         		inset 1px 1px 1px 1px #EBE8E9,
-        		inset 2px -2px 2px 1px #F7F2F4 !important;
+        		inset 2px -2px 2px 1px #F7F2F4 !important;*/
 }
 .sliders
 {
@@ -150,7 +150,8 @@ height: 40px;
 .userTile
 {
 	border: 2px thin #444040 !important;
-	background-color: #CDCCCA;
+	background-color: #E5E8EE;
+	color:#111111;
 	font-size:15px;
 	padding-left: 4px;
 	padding-top: 4px;
@@ -163,21 +164,19 @@ height: 40px;
 .userList
 {
 	/*border: 2px solid #444040 !important;*/
-	width: 23%;
 	/*background-color: #B1B2B1;*/
 	max-height: 500px;
 	overflow: auto;	
-	overflow :  auto;	
 	direction: rtl; !important;
 }
 .title
 {
 	/*border: 2px solid #444040 !important;*/
-	width: 23%;
 	font-size: 16px;
-	padding-top: 5px;
+	padding-top: 12px;
 	text-align: center;
-	padding-right: 15px;
+	padding-bottom: 12px;
+	
 }
 body
 {
@@ -258,4 +257,11 @@ body
 	width: auto;
 	font-size: 14px;
 	
+}
+.listHeader
+{
+	
+	font-size: 15px !important;
+	padding-left: 66px;
+	font-family: cursive;	
 }

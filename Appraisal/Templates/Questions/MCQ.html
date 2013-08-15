@@ -1,0 +1,16 @@
+{% extends "Questions/Question.html" %}
+{% load url from future %}
+
+{% block Answer %}
+
+<div>
+	<br><br>
+	{{ AppraisalContents.question.option_header.option_text }}
+	
+	{% for option in options %}
+		{{ option.option_text }}
+		<br><br>
+	{% endfor %}
+</div>
+
+{% endblock %}
