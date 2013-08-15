@@ -40,7 +40,7 @@ $(function() {
 		{
 			$( "#sortable" ).sortable('enable');
 			$("#id_option_header_id").val('0');
-			$("input[name=option_header_text]").removeAttr('readonly','readonly');
+			$("*[name=option_header_text]").removeAttr('readonly','readonly');
 			$("#btnPlus,#btnPlus1,#btnMinus,#btnMinus1").show();
 		}
 		else
@@ -48,7 +48,7 @@ $(function() {
 			$( "#sortable" ).sortable('disable');
 			$( "#sortable" ).disableSelection();
 			$("input[name=option_header_id]").val($("#option_header_id_temp").val());
-			$("input[name=option_header_text]").attr('readonly','readonly');
+			$("*[name=option_header_text]").attr('readonly','readonly');
 			$("#btnPlus,#btnPlus1,#btnMinus,#btnMinus1").hide();
 		}
 	}
@@ -117,7 +117,7 @@ $(function() {
 				AjaxEvent(data, '/question/optionDetails/',function(data, textStatus, jqXHR){
 						var response=jQuery.parseJSON(data);
 						$("input[name=option_text]").val(response.Options);
-						$("input[name=option_header_text]").val(response.OptionHeader);
+						$("*[name=option_header_text]").val(response.OptionHeader);
 						$("#sortable li:gt(0)").remove();
 						$("#sortable li:first input").val("");
 						$("input[name=option_header_id]").val(response.OptionHeaderID);
@@ -134,7 +134,7 @@ $(function() {
 				AjaxEvent(data, '/question/optionDetails/',function(data, textStatus, jqXHR){
 							var response=jQuery.parseJSON(data);
 							$('#dialog-form').find("input[name=option_text]").val(response.Options);
-							$('#dialog-form').find("input[name=option_header_text]").val(response.OptionHeader);
+							$('#dialog-form').find("*[name=option_header_text]").val(response.OptionHeader);
 							$('#dialog-form').find("#sortable1 li:gt(0)").remove();
 							$('#dialog-form').find("#sortable1 li:first input").val("");
 							$('#dialog-form').find("input[name=option_header_id]").val(response.OptionHeaderID);
@@ -170,7 +170,7 @@ $(function() {
 	$( "#dialog-form" ).dialog({
 			autoOpen: false,
 			height: 400,
-			width: 300,
+			width: 500,
 			modal: true,
 			buttons: {
 				"Edit": function() {
@@ -189,14 +189,14 @@ $(function() {
 						$( "#dialog-form input[name=options]").addClass( "ui-state-error" );
 					}
 					
-					if($("#dialog-form input[name=option_header_text]").val()=="")
+					if($("#dialog-form *[name=option_header_text]").val()=="")
 					{
 						updateTips('Enter option header');
-						$( "#dialog-form input[name=option_header_text]").addClass( "ui-state-error" );
+						$( "#dialog-form *[name=option_header_text]").addClass( "ui-state-error" );
 					}
 					else
 					{
-						data={'search_txt':'Validate','stitle':$("#dialog-form input[name=option_header_text]").val(),'nOptionHeaderID':$('#dialog-form').find("input[name=option_header_id]").val()};
+						data={'search_txt':'Validate','stitle':$("#dialog-form *[name=option_header_text]").val(),'nOptionHeaderID':$('#dialog-form').find("input[name=option_header_id]").val()};
 						AjaxEvent(data, '/question/validateOptionHeader/',function(data, textStatus, jqXHR){
 											var response=jQuery.parseJSON(data);
 											if(response.error != '')
@@ -207,7 +207,7 @@ $(function() {
 											{
 												if(flag)
 												{
-													data={'search_txt':'Validate','option_header_text':$("#dialog-form input[name=option_header_text]").val(),'option_header_id':$('#dialog-form').find("input[name=option_header_id]").val(),
+													data={'search_txt':'Validate','option_header_text':$("#dialog-form *[name=option_header_text]").val(),'option_header_id':$('#dialog-form').find("input[name=option_header_id]").val(),
 													'option_text':$("#dialog-form input[name=option_text]").val()
 													};
 													
@@ -234,12 +234,7 @@ $(function() {
 			close: function() {
 				$( "#dialog-form input").removeClass( "ui-state-error" );
 			}
-	});
-		
-		
-		
-		
-		
+	});	
 		
 });
 </script>
@@ -258,7 +253,7 @@ $(function() {
 </div>
 <br/><br/>
 <form method="post" class="form-search">{% csrf_token %}
-<div id="tabs">
+<div id="tabs" style="width:100%;">
 	 <ul>
 	    {%for value, text in questionCreateform.type.field.choices %}
     		<li><a value={{text}} name="liQuestionType" href="#tabs-{{value}}">{{text}}</a></li>
@@ -268,7 +263,7 @@ $(function() {
 	{{questionCreateform.questionID}}
 	<div >
 	<table><tr><td style="vertical-align:top;">
-	<table id="tabs-1" class="table tableDisplay" style="margin-left:5px;" Common="true">
+	<table id="tabs-1" class="table tableDisplay" style="margin-left:5px;width:100%;" Common="true">
 	<!-- <tr>
 		<td>
 			{{ questionCreateform.type.label }}	
@@ -281,10 +276,9 @@ $(function() {
 		</td>
 	</tr> -->
 	<tr class="">
-		<td width="300px">
+		<td width="200px">
 			{{ questionCreateform.question.label }}	
-		</td>
-		<td width="400px">
+		
 			{{ questionCreateform.question }}
 		</td>
 		<td>
@@ -294,8 +288,6 @@ $(function() {
 	<tr>
 		<td>
 			{{ questionCreateform.intent.label }}	
-		</td>
-		<td>
 			 {{ questionCreateform.intent}}
 		</td>
 		<td>
@@ -305,8 +297,6 @@ $(function() {
 	<tr class="">
 		<td>
 			{{ questionCreateform.level.label }}	
-		</td>
-		<td>
 			<div id="questionLevel" class="sliders"></div>
 		</td>
 		<td>
@@ -316,8 +306,6 @@ $(function() {
 	<tr class="">
 		<td>
 			{{ questionCreateform.weight.label }}	
-		</td>
-		<td>
 			<div id="questionWeight" class="sliders"></div>
 		</td>
 		<td>
@@ -327,15 +315,13 @@ $(function() {
 	<tr>
 		<td>
 			{{ questionCreateform.info.label }}	
-		</td>
-		<td>
 			{{ questionCreateform.info }}
 		</td>
 		<td>
 		</td>
 	</tr>
 	<tr>
-		<td colspan="3">
+		<td colspan="2">
 		{% if questionCreateform.questionID.value == '0'%}
 			<input id="CreateQuestion" type="submit" value="Create" class="btn btn-medium btn-inverse">
 		{% else %}
@@ -344,7 +330,7 @@ $(function() {
 		</td>
 	</tr>
 	<tr>
-	<td colspan="3">
+	<td colspan="2">
 		{% if questionCreateform.errors|length > 0 %}
 	<div class="alert alert-error"> 
 		{% for key, value in questionCreateform.errors.items %} 
@@ -367,7 +353,7 @@ $(function() {
 	</table>
 	</td>
 	<td style="vertical-align:top;">
-		<table id="tabs-2" width="100%">
+		<table id="tabs-2" style="width:100%;">
 		<tr>
 		<td style="vertical-align:top;">{% include "Questions\CreateOptions.html" %}</td>
 		</tr>
@@ -375,14 +361,8 @@ $(function() {
 		</table>
 	</td>
 	</tr>
-	
 	</table>
-			
-	</div>
-
-	
-	
-	
+	</div>	
 </div>
 
 </form>
