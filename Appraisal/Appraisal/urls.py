@@ -8,6 +8,7 @@ urlpatterns=patterns('',
                      url(r'^question/', include('Question.questionurls')),
                      url(r'^userprofile/', include('UserProfile.urls')),
                      url(r'^masters/', include('Masters.urls')),
+                     url(r'^userAppraisal/', include('Question.userappraisalurls')),
                      url(r'', include('Login.loginurls')),
                      )
 

@@ -41,8 +41,6 @@ def checkIfAdmin(sUserID):
         bFlag =False
         try:
             objUserDetails = UserDetails.objects.get(user_id=sUserID)
-            print '---------------'
-            print sUserID
             if objUserDetails.type == "Administrator":
                 bFlag=True
         except UserDetails.DoesNotExist:
@@ -58,7 +56,7 @@ def homeScreen(request):
     if checkIfAdmin(request.session['UserID']):
         return render_to_response('Welcome.html',args)
     else :
-        return HttpResponseRedirect("/userprofile/") 
+        return HttpResponseRedirect("/userprofile/Authenticate/") 
          
 def logout(request):
     args={}

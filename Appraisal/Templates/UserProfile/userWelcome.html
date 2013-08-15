@@ -8,7 +8,19 @@
 	<div class="label headerGradient headerPosition" >{% csrf_token %}
 		<p class=" headerFont" style="float: left; padding-top: 15px">Welcome {{username}}</p>
 	</div>
-	<br/><br/>
-	
+	<br/>
+	{% if error %}
+		<div class="alert alert-error">{{error}}</div>
+	{% endif%}
+	<div>
+		<a class="btn btn-primary" href="/userAppraisal/appraise/{{UserID}}"> Appraise your self</a>
+	</div>
+	<div>
+<br/><br/>
+Appraisement List
+{%for objapp in Appraisement%}
+          <br/><br/>  <a class="btn btn-primary" href="/userAppraisal/appraise/{{objapp.appraisee.user_id}}">{{objapp.appraisee.firstname}}</a>
+ {%endfor%}
+</div>
 	{{ successMsg }}
 {% endblock %}

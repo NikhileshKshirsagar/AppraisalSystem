@@ -10,7 +10,9 @@ from django.utils import timezone
 from django.utils import simplejson
 
 from UserProfile.UserProfileForms import UserCreate, userListForm, UserProfile_UserDetailForm, UserProfile_LanguageForm, UserProfile_DesignationForm, UserProfile_ProjectForm
-from Login.models import UserDetails, Designation, Project, Language, Technology
+from Login.models import UserDetails, Designation, Project, Language, Technology,Appraisment,AppraisalContent
+
+#from Login.models import Appraisment,AppraisalContent
 
 def CreateUser(request):
     if request.method == 'POST':
@@ -113,5 +115,10 @@ def userProfile(request):
 def userWelcome(request):
     args={}
     args.update(csrf(request))
+    objappraisment = Appraisment.objects.filter(appraiser=request.session['UserID']).exclude(appraisee=request.session['UserID'])
+    args['UserID']=  request.session['UserID']
     args['username']=request.session['UserName']
+    args['Appraisement']=objappraisment
     return render_to_response('UserProfile/userWelcome.html',args)
+
+
