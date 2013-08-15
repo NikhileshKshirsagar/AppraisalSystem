@@ -140,11 +140,13 @@ def editQuestion(request, questionId):
     objOptionForm = OptionFrom(request.POST or None)
     if request.method == 'POST':
         flag=False
+        
         if request.POST['type_text'] == 'MCQ':
  #           objOptionForm.clean_optionheadertext(sOptionHeaderText=request.POST['option_header_text'],nOptionHeaderID=request.POST['option_header_id'])
             if objQuestionForm.is_valid() and objOptionForm.is_valid():
                 flag=True
         else:
+            objOptionForm = OptionFrom()
             if objQuestionForm.is_valid():
                 flag=True   
                 
@@ -163,7 +165,6 @@ def editQuestion(request, questionId):
             return HttpResponseRedirect("/question/QuestionList")
         else:
             args['optionCreateform']=objOptionForm
-            print '--------------------'
             args['questionCreateform']=objQuestionForm         
     else:    
         objQuestion=Question.objects.get(question_id=int(questionId))
