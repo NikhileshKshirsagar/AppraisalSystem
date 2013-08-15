@@ -12,6 +12,14 @@
 	</div>	
 	{% block Answer %}
 	{% endblock %}
+	
+	<div class="pagination pagination-large" style="float: bottom; ">
+		<ul>
+			{% for page in pages %}				
+				<li><a href="/question/{{ page.question_order }}">{{ page.question_order }}</a></li>
+			{% endfor %}
+		</ul>
+	</div>
 </form>
 
 {% endblock %}

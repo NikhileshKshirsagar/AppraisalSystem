@@ -6,11 +6,10 @@
 <div>
 	<br><br>
 	{{ AppraisalContents.question.option_header.option_text }}
-	
-	{% for option in options %}
-		{{ option.option_text }}
-		<br><br>
-	{% endfor %}
+		{% for option in options %}
+			<input type="radio" name="abc"> {{ option.option_text }}</input>
+			<br>
+		{% endfor %}
 </div>
 
 {% endblock %}

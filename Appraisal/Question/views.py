@@ -240,5 +240,27 @@ def userwiseQuestionList(request,requestUserID):
     args['error']=errMessage
     return render_to_response('Questions/UserWiseQuestionList.html', args)
 
-    
-     
+def QuestionAnswer(request, questionId):
+    print request.method
+    print questionId
+    AppraisalContents = AppraisalContent.objects.get(appresment=2, question_order=questionId)
+    #print AppraisalContents.question.question
+    #args={}
+    #args.update(csrf(request))
+    #if AppraisalContents.count() > 0:
+        #for contents in AppraisalContents :
+            #args['question_number'] = contents.question_order
+            #args['question'] = contents.question.question
+            #args['question_type'] = contents.question.type
+            #args['question_number'] = contents.question_order
+            
+    pages = AppraisalContent.objects.filter(appresment=2)
+    for page in pages:
+        print page.question_order
+    if AppraisalContents.question.type == 'Subjective':
+        return render_to_response('Questions/Subjective.html', { 'AppraisalContents' : AppraisalContents, 'pages' : pages }, context_instance = RequestContext( request))
+    if AppraisalContents.question.type == 'MCQ':
+        options = Option.objects.filter(option_header=AppraisalContents.question.option_header)
+        return render_to_response('Questions/MCQ.html', { 'AppraisalContents' : AppraisalContents, 'options' : options, 'pages' : pages }, context_instance = RequestContext( request))    
+    if AppraisalContents.question.type == 'Scale':
+        return render_to_response('Questions/Scale.html', { 'AppraisalContents' : AppraisalContents, 'pages' : pages }, context_instance = RequestContext( request))    
