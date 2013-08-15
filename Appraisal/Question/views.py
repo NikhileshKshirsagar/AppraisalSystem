@@ -233,7 +233,7 @@ def userwiseQuestionList(request,requestUserID):
             objAppraisment.status = 'Created'
             objAppraisment.save()#Appraisment.objects.filter(appraisment_id=objAppraisment.appraisment_id).update(status='Created')    
         objAppraisalContent = AppraisalContent.objects.filter(appresment=objAppraisment).order_by('question_order');
-              
+        request.session['appraisee']= objAppraisment.appraisee     
     else:
         errMessage="You are not authorised to appraise this user"
     args['Question']= objAppraisalContent
