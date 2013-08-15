@@ -242,8 +242,11 @@ def userwiseQuestionList(request,requestUserID):
 
 def QuestionAnswer(request, questionId):
     print request.method
-    print questionId
-    AppraisalContents = AppraisalContent.objects.get(appresment=2, question_order=questionId)
+    #print questionId
+    
+    Appraisment_Id = Appraisment.objects.get(appraiser=request.session['UserID'],appraisee=request.session['appraisee']).appraisment_id
+    print Appraisment_Id
+    AppraisalContents = AppraisalContent.objects.get(appresment=Appraisment_Id, question_order=questionId)
     #print AppraisalContents.question.question
     #args={}
     #args.update(csrf(request))
@@ -254,9 +257,8 @@ def QuestionAnswer(request, questionId):
             #args['question_type'] = contents.question.type
             #args['question_number'] = contents.question_order
             
-    pages = AppraisalContent.objects.filter(appresment=2)
-    for page in pages:
-        print page.question_order
+    pages = AppraisalContent.objects.filter(appresment=Appraisment_Id)
+    
     if AppraisalContents.question.type == 'Subjective':
         return render_to_response('Questions/Subjective.html', { 'AppraisalContents' : AppraisalContents, 'pages' : pages }, context_instance = RequestContext( request))
     if AppraisalContents.question.type == 'MCQ':
