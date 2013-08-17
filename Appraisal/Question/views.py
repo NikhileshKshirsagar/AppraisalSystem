@@ -243,27 +243,48 @@ def userwiseQuestionList(request,requestUserID):
 
 def QuestionAnswer(request, questionId):
     print request.method
-    #print questionId
-    
     Appraisment_Id = Appraisment.objects.get(appraiser=request.session['UserID'],appraisee=request.session['appraisee']).appraisment_id
-    print Appraisment_Id
-    AppraisalContents = AppraisalContent.objects.get(appresment=Appraisment_Id, question_order=questionId)
-    #print AppraisalContents.question.question
-    #args={}
-    #args.update(csrf(request))
-    #if AppraisalContents.count() > 0:
-        #for contents in AppraisalContents :
-            #args['question_number'] = contents.question_order
-            #args['question'] = contents.question.question
-            #args['question_type'] = contents.question.type
-            #args['question_number'] = contents.question_order
-            
     pages = AppraisalContent.objects.filter(appresment=Appraisment_Id)
     
-    if AppraisalContents.question.type == 'Subjective':
-        return render_to_response('Questions/Subjective.html', { 'AppraisalContents' : AppraisalContents, 'pages' : pages }, context_instance = RequestContext( request))
-    if AppraisalContents.question.type == 'MCQ':
-        options = Option.objects.filter(option_header=AppraisalContents.question.option_header)
-        return render_to_response('Questions/MCQ.html', { 'AppraisalContents' : AppraisalContents, 'options' : options, 'pages' : pages }, context_instance = RequestContext( request))    
-    if AppraisalContents.question.type == 'Scale':
-        return render_to_response('Questions/Scale.html', { 'AppraisalContents' : AppraisalContents, 'pages' : pages }, context_instance = RequestContext( request))    
+    if request.method == 'POST' :
+        print "Question Id : " + questionId
+        print request.POST
+        AppraisalContents = AppraisalContent.objects.get(appresment=Appraisment_Id, question_order=questionId + 1)
+        
+        if AppraisalContents.question.type == 'Subjective':
+            return render_to_response('Questions/Subjective.html', { 'AppraisalContents' : AppraisalContents, 'pages' : pages }, context_instance = RequestContext( request))
+        if AppraisalContents.question.type == 'MCQ':
+            options = Option.objects.filter(option_header=AppraisalContents.question.option_header)
+            return render_to_response('Questions/MCQ.html', { 'AppraisalContents' : AppraisalContents, 'options' : options, 'pages' : pages }, context_instance = RequestContext( request))    
+        if AppraisalContents.question.type == 'Scale':
+            return render_to_response('Questions/Scale.html', { 'AppraisalContents' : AppraisalContents, 'pages' : pages }, context_instance = RequestContext( request))
+        
+    else:    
+        
+        print Appraisment_Id
+        AppraisalContents = AppraisalContent.objects.get(appresment=Appraisment_Id, question_order=questionId)
+        #pages = AppraisalContent.objects.filter(appresment=Appraisment_Id)
+        
+        if AppraisalContents.question.type == 'Subjective':
+            return render_to_response('Questions/Subjective.html', { 'AppraisalContents' : AppraisalContents, 'pages' : pages }, context_instance = RequestContext( request))
+        if AppraisalContents.question.type == 'MCQ':
+            options = Option.objects.filter(option_header=AppraisalContents.question.option_header)
+            return render_to_response('Questions/MCQ.html', { 'AppraisalContents' : AppraisalContents, 'options' : options, 'pages' : pages }, context_instance = RequestContext( request))    
+        if AppraisalContents.question.type == 'Scale':
+            return render_to_response('Questions/Scale.html', { 'AppraisalContents' : AppraisalContents, 'pages' : pages }, context_instance = RequestContext( request))    
+        
+def demo(request):
+    obj_searchResult = UserDetails.objects.get(user_id=1)
+    initial = {    "error" : '',
+                    "firstname": obj_searchResult.firstname,
+                    "lastname": obj_searchResult.lastname, 
+                    "emailid": obj_searchResult.emailid, 
+                    "user_level": obj_searchResult.user_level, 
+                    "user_weight": obj_searchResult.user_weight, 
+                    "type": obj_searchResult.type,
+                    "user_id" : obj_searchResult.user_id
+                }
+        
+    data = simplejson.dumps(initial)
+    return HttpResponse(content=data, content_type='json')    
+    #return render_to_response('test.html', {'data' : data})

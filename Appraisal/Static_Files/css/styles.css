@@ -44,6 +44,11 @@ height: 28px;font-size:16;}
 	float: right;
 	padding-bottom: 8px !important;
 }
+.slide
+{
+	width: 50%;
+	height: 50px !important;
+}
 .tableDisplay td
 {
      border-top: 0px none #DDDDDD !important;
@@ -264,4 +269,56 @@ body
 	font-size: 15px !important;
 	padding-left: 66px;
 	font-family: cursive;	
+}
+.questionNum
+{
+	font-size: 20px;
+	background: #f4f4f4;  
+    /*border: 1px solid #bbbbbb;*/
+    border-top-width: 4px;
+    border-left-width: 4px;
+	border-bottom-width: 4px;
+	border-top-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-top-color: #E1A60A;
+	border-left-color: #E1A60A;
+	border-bottom-color: #E1A60A;  
+    width: 10%;  
+    height: 7%;
+    border-radius: 5px 25px 25px 5px;    
+}
+.InnerQuesNum
+{
+	padding-left: 15px;
+	padding-top: 13px;
+}
+.question
+{
+	font-size: 18px;
+	height: 20%
+}
+.questionOutter
+{
+	padding-top: 20px;
+	width: 90%;
+}
+.questionBorder
+{
+	border: 1px solid #000000;
+    border-radius: 3px 3px 3px 3px;
+    box-shadow: 2px 2px 2px #181818;
+}
+.questioHeader
+{
+	background-color: #FFFFFF;
+    /*border-bottom: 1px solid #101010;
+    border-top: 1px solid #4B4B4C;*/
+    height: 30%;
+    width: 100%;
+}
+.pageNumber
+{
+	position: absolute;
+	bottom: 100px;
 }

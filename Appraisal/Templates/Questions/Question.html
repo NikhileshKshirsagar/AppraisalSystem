@@ -3,21 +3,38 @@
 
 {% block pagecontent %}
 
-<form id="formCreateUser" action={{ AppraisalContents.question_number }} method="post" class="form-search" >{% csrf_token %}
+<form id="formCreateUser" action="/question/{{ AppraisalContents.question_order }}/" method="post" style="padding-left: 10px;" >{% csrf_token %}
 	
-	<div name="Question">
-		
-		{{ AppraisalContents.question_order }}
-		{{ AppraisalContents.question.question }}
+	<div id="questionid" name="questionid" class="questionNum">
+		<div class="InnerQuesNum">Question {{ AppraisalContents.question_order }}</div>
+	</div>
+	<div id="question" name="question" class="questionOutter">	
+		<div class="questionBorder ">
+			<div class="question ">
+				<div class="questioHeader">{{ AppraisalContents.question.info }}</div>
+				<div>{{ AppraisalContents.question.question }}</div>
+			</div>
+		</div>
 	</div>	
 	{% block Answer %}
 	{% endblock %}
 	
-	<div class="pagination pagination-large" style="float: bottom; ">
+	<div>
+		<ul class="pager">
+		    <input type="submit" name="Previous" value="Previous"></input>
+		    <li><a href="">&larr;Previous</a></li>
+		    <li><a href="">Next &rarr;</a></li>
+		    <input type="submit" name="Next" value="Next"></input>
+	    </ul>
+	</div>
+	
+	<div class="pagination pagination-large pagination-centered pageNumber">
 		<ul>
+			<li><a href="#">&laquo;</a></li>
 			{% for page in pages %}				
 				<li><a href="/question/{{ page.question_order }}">{{ page.question_order }}</a></li>
 			{% endfor %}
+			<li><a href="#">&raquo;</a></li>
 		</ul>
 	</div>
 </form>
