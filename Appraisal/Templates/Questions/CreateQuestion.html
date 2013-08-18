@@ -40,6 +40,7 @@ $(function() {
 		{
 			$( "#sortable" ).sortable('enable');
 			$("#id_option_header_id").val('0');
+			$( "#sortable" ).enableSelection();
 			$("*[name=option_header_text]").removeAttr('readonly','readonly');
 			$("#btnPlus,#btnPlus1,#btnMinus,#btnMinus1").show();
 		}
@@ -275,6 +276,14 @@ $(function() {
 		
 		</td>
 	</tr> -->
+	<tr>
+		<td>
+			{{ questionCreateform.info.label }}	
+			{{ questionCreateform.info }}
+		</td>
+		<td>
+		</td>
+	</tr>
 	<tr class="">
 		<td width="200px">
 			{{ questionCreateform.question.label }}	
@@ -312,14 +321,7 @@ $(function() {
 			<input name="weight" id="questionWeightVal" class="sliderValue" type="text">
 		</td>
 	</tr>
-	<tr>
-		<td>
-			{{ questionCreateform.info.label }}	
-			{{ questionCreateform.info }}
-		</td>
-		<td>
-		</td>
-	</tr>
+	
 	<tr>
 		<td colspan="2">
 		{% if questionCreateform.questionID.value == '0'%}
@@ -353,7 +355,7 @@ $(function() {
 	</table>
 	</td>
 	<td style="vertical-align:top;">
-		<table id="tabs-2" style="width:100%;">
+		<table id="tabs-2" style="width:100%;" class="table tableDisplay">
 		<tr>
 		<td style="vertical-align:top;">{% include "Questions\CreateOptions.html" %}</td>
 		</tr>

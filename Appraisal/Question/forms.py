@@ -14,10 +14,10 @@ class QuestionForm(forms.ModelForm):
                 )
     questionID=forms.CharField(required=False,widget=forms.HiddenInput(),initial='0')
     question = forms.CharField(error_messages={'required': 'Please enter question'}, widget=forms.Textarea(attrs={'rows':4,'class':'span4', 'style': 'width:auto;'}),label="Question")
-    info = forms.CharField(required=False, widget=forms.Textarea(attrs={'rows':4,'class':'span4', 'style': 'width:auto;'}), label="Additional information (optional)")
+    info = forms.CharField(error_messages={'required':'Enter question header'}, widget=forms.Textarea(attrs={'rows':2,'class':'span4', 'style': 'width:auto;'}), label="Question header")
     intent = forms.ChoiceField(choices=intentType, error_messages={'required': 'Please select intent'}, widget=forms.Select(attrs={'class':'tableRow span4 search-query', 'style': 'border-radius: 15px 15px 15px 15px;width:98%;'}),label="Intent")
-    level = forms.CharField(required=False,label="Question level",initial=0)
     weight = forms.CharField(required=False,label="Question weight",initial=0)
+    level = forms.CharField(required=False,label="Question level",initial=0)
     type = forms.ChoiceField(required=False,choices=questionType, error_messages={'required': 'Please select question type'},widget=forms.Select(attrs={'class':'tableRow span4 search-query', 'style': 'border-radius: 15px 15px 15px 15px;width:auto;'}),label="Question type")
     category=forms.CharField(required=False)
     type_text=forms.CharField(required=False,widget=forms.HiddenInput(),initial='Subjective')
@@ -25,15 +25,16 @@ class QuestionForm(forms.ModelForm):
         model=Question
         fields=("questionID","question","level","weight","type","info","intent","type_text")
                
+    def clean_level(self):
+        if self.cleaned_data['level'] == '0':
+            raise forms.ValidationError("Please select level of question.")
+        return self.cleaned_data['level']
+    
     def clean_weight(self):
         if self.cleaned_data['weight'] == '0':
             raise forms.ValidationError("Please select weight of question.")
         return self.cleaned_data['weight']
     
-    def clean_level(self):
-        if self.cleaned_data['level'] == '0':
-            raise forms.ValidationError("Please select level of question.")
-        return self.cleaned_data['level']
     
     def save(self,userId,optionHeaderId, commit=True):
         objQuestionForm = super(QuestionForm, self).save(commit=False)
@@ -54,7 +55,7 @@ class QuestionForm(forms.ModelForm):
 class OptionFrom(forms.ModelForm):
     option_header_text = forms.CharField(label="Option header",widget=forms.Textarea(attrs={'rows':2,'class':'span4', 'style': 'width:auto;'}),error_messages={'required':'Enter Option header'})
     option_text = forms.CharField(label="Options",widget=forms.HiddenInput(),error_messages={'required':'Enter Options'})
-    option_header_id = forms.CharField(required=False,widget=forms.HiddenInput(),initial=0)
+    option_header_id = forms.CharField(required=False,widget=forms.HiddenInput(),initial='0')
     
     class Meta:
         model=Option
