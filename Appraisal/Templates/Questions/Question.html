@@ -2,8 +2,17 @@
 {% load url from future %}
 
 {% block pagecontent %}
-
-<form id="formCreateUser" action="/question/{{ AppraisalContents.question_order }}/" method="post" style="padding-left: 10px;" >{% csrf_token %}
+<script type="text/javascript">
+/*
+$(function(){
+	var pageno = 0;
+	pageno = {{ AppraisalContents.question_order }};
+	pageno += 1;
+	action = '/question/' + pageno.toString() + '/';
+	$('#formAppraisal').attr('action', action);
+});*/
+</script>
+<form id="formAppraisal" action="/question/{{ AppraisalContents.question_order }}/" method="post" style="padding-left: 10px;" >{% csrf_token %}
 	
 	<div id="questionid" name="questionid" class="questionNum">
 		<div class="InnerQuesNum">Question {{ AppraisalContents.question_order }}</div>
@@ -30,11 +39,15 @@
 	
 	<div class="pagination pagination-large pagination-centered pageNumber">
 		<ul>
-			<li><a href="#">&laquo;</a></li>
+			{% if AppraisalContents.question_order == 1 %}
+				<li><a href="#">&laquo;</a></li>
+			{% else %}	
+				<li><a href="/question/{{ previousPageNumber }}/">&laquo;</a></li>
+			{% endif %}	
 			{% for page in pages %}				
 				<li><a href="/question/{{ page.question_order }}">{{ page.question_order }}</a></li>
 			{% endfor %}
-			<li><a href="#">&raquo;</a></li>
+			<li><a href="/question/{{ nextPageNumber }}/">&raquo;</a></li>
 		</ul>
 	</div>
 </form>
