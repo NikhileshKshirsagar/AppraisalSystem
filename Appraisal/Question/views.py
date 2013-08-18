@@ -176,14 +176,14 @@ def editQuestion(request, questionId):
             for option in objOption:
                 optionText+=option.option_text + ','
             optionText=optionText[:-1]
-            objOptionForm = OptionFrom(initial={'option_header_id':objOptionHeader.option_header_id,'option_text':optionText,'option_header_text':objOptionHeader.title})
+            objOptionForm = OptionFrom(initial={'option_header_id':str(objOptionHeader.option_header_id),'option_text':optionText,'option_header_text':objOptionHeader.title})
             
         args['optionCreateform']=objOptionForm
         
         objQuestionForm = QuestionForm(initial={'questionID':questionId,'question':objQuestion.question,'level':objQuestion.level,'weight':objQuestion.weight,'info':objQuestion.info,'intent':objQuestion.intent,'type_text':objQuestion.type})
         args['questionCreateform']=objQuestionForm
     
-    return render_to_response('Questions/CreateQuestion.html',args)   
+    return render_to_response('Questions/CreateQuestion.html',args)
     
 def userwiseQuestionList(request,requestUserID):   
     args={}
@@ -192,28 +192,42 @@ def userwiseQuestionList(request,requestUserID):
     objAppraisalContent=None
     errMessage=''
     i_UserId = UserDetails.objects.get(user_id=request.session['UserID'])
-    try:
-        objAppraisment = Appraisment.objects.get(appraiser=request.session['UserID'],appraisee=requestUserID)
-    except Appraisment.DoesNotExist:
-        errMessage= "You are not authorised to appraise this user"
-    
-    if objAppraisment:
-        if objAppraisment.status == 'Initial':
-            value= objAppraisment.appraiser.user_level
-            if objAppraisment.appraisee.user_level <= objAppraisment.appraiser.user_level :
-                value= objAppraisment.appraisee.user_level
-            objQuestion = Question.objects.filter(level__lte=value).order_by('level')
-            index=0
-            for question in objQuestion:
-                index=index+1
-                AppraisalContent.objects.create( appresment = objAppraisment, question = question ,question_order = index,modified_by = i_UserId,modified_on=timezone.now() )
-            objAppraisment.status = 'Created'
-            objAppraisment.save()#Appraisment.objects.filter(appraisment_id=objAppraisment.appraisment_id).update(status='Created')    
-        objAppraisalContent = AppraisalContent.objects.filter(appresment=objAppraisment).order_by('question_order');
-        request.session['appraisee']= objAppraisment.appraisee     
-    else:
-        errMessage="You are not authorised to appraise this user"
-    args['Question']= objAppraisalContent
+    flag=True
+    if int(request.session['UserID'])!=int(requestUserID):
+        objAppraisment1=None
+        try:
+            objAppraisment1 = Appraisment.objects.get(appraiser=i_UserId,appraisee=i_UserId)
+        except Appraisment  .DoesNotExist:
+            errMessage= "First complete appraising youself"
+            
+        if objAppraisment1.status == "Completed":
+            flag=True
+        else :
+            flag=False
+            errMessage='First complete appraising youself'
+    if flag:
+        try:
+            objAppraisment = Appraisment.objects.get(appraiser=request.session['UserID'],appraisee=requestUserID)
+        except Appraisment.DoesNotExist:
+            errMessage= "You are not authorised to appraise this user"
+        
+        if objAppraisment:
+            if objAppraisment.status == 'Initial':
+                value= objAppraisment.appraiser.user_level
+                if objAppraisment.appraisee.user_level <= objAppraisment.appraiser.user_level :
+                    value= objAppraisment.appraisee.user_level
+                objQuestion = Question.objects.filter(level__lte=value).order_by('level')
+                index=0
+                for question in objQuestion:
+                    index=index+1
+                    AppraisalContent.objects.create( appresment = objAppraisment, question = question ,question_order = index,modified_by = i_UserId,modified_on=timezone.now() )
+                objAppraisment.status = 'Created'
+                objAppraisment.save()#Appraisment.objects.filter(appraisment_id=objAppraisment.appraisment_id).update(status='Created')    
+            objAppraisalContent = AppraisalContent.objects.filter(appresment=objAppraisment).order_by('question_order');
+            request.session['appraisee']= objAppraisment.appraisee     
+        else:
+            errMessage="You are not authorised to appraise this user"
+        args['Question']= objAppraisalContent
     args['error']=errMessage
     return render_to_response('Questions/UserWiseQuestionList.html', args)
 

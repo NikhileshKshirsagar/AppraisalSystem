@@ -4,9 +4,11 @@
 	<div>
 	{% if Question%}
 	{%for objQuestion in Question%}
-		<a href="/question/{{objQuestion.question_order}}"><div>Question : {{objQuestion.question.question}}</div>
-		<br/>
-		<div>Answer: {{objQuestion.question.level}}</div></a>
+		<a href="/question/{{objQuestion.question_order}}">
+			<div> <label style="font-weight:bold;">{{objQuestion.question.info}}</label><br/>{{objQuestion.question.question}}</div>
+			<br/>
+			<div>Answer: {{objQuestion.question.level}}</div>
+		</a>
 		<br/><br/>
 	{%endfor%}	
 	{%endif%}
