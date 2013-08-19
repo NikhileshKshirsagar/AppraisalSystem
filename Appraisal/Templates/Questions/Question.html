@@ -12,6 +12,14 @@ $(function(){
 	$('#formAppraisal').attr('action', action);
 });*/
 </script>
+<script type="text/javascript">
+	function paging(pageNum)
+	{
+		console.log("Page Number : " + pageNum);
+		$('#formAppraisal').attr('action', '/question/' + pageNum + '/');
+		$('#formAppraisal').submit();
+	}
+</script>
 <form id="formAppraisal" action="/question/{{ AppraisalContents.question_order }}/" method="post" style="padding-left: 10px;" >{% csrf_token %}
 	
 	<div id="questionid" name="questionid" class="questionNum">
@@ -30,24 +38,20 @@ $(function(){
 	
 	<div>
 		<ul class="pager">
-		    <input type="submit" name="Previous" value="Previous"></input>
+		    
 		    <li><a href="">&larr;Previous</a></li>
 		    <li><a href="">Next &rarr;</a></li>
-		    <input type="submit" name="Next" value="Next"></input>
+		    
 	    </ul>
 	</div>
 	
 	<div class="pagination pagination-large pagination-centered pageNumber">
 		<ul>
-			{% if AppraisalContents.question_order == 1 %}
-				<li><a href="#">&laquo;</a></li>
-			{% else %}	
-				<li><a href="/question/{{ previousPageNumber }}/">&laquo;</a></li>
-			{% endif %}	
+			<li><a pageNumber="/question/{{ previousPageNumber }}/" onclick="paging({{ previousPageNumber }})">&laquo;</a></li>	
 			{% for page in pages %}				
-				<li><a href="/question/{{ page.question_order }}">{{ page.question_order }}</a></li>
+				<li><a pageNumber="/question/{{ page.question_order }}" onclick="paging({{ page.question_order }})">{{ page.question_order }}</a></li>
 			{% endfor %}
-			<li><a href="/question/{{ nextPageNumber }}/">&raquo;</a></li>
+			<li><a pageNumber="/question/{{ nextPageNumber }}/" onclick="paging({{ nextPageNumber }})">&raquo;</a></li>
 		</ul>
 	</div>
 </form>
