@@ -2,12 +2,20 @@
 {% load url from future %}
 
 {% block Answer %}
+
+
 <script type="text/javascript">
-LoadSlider($( "#answer_scale" ).get("selector"),  $( "#answerValue" ).get("selector"), 10, 0, 0 );
+	LoadSlider($( "#answer_scale" ).get("selector"),  $( "#answerValue" ).get("selector"), 10, 0, 0 );
 </script>
+
 <div class="slide">
 	<input name="answerValue" id="answerValue" class="sliderValue" type="text">
 	<div id="answer_scale" class="sliders"></div>
 </div>
+{% if userCreateform.user_level.value != None %} 
+	<script type="text/javascript">	
+		setSliderValue($( "#answer_scale" ).get("selector"), {{ AppraisalContents.answer.answer }});
+	</script>
+{% endif %}
 
 {% endblock %}

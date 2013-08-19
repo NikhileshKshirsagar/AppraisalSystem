@@ -10,7 +10,8 @@ from django.utils import simplejson
 from django.utils import timezone
 from django.template.context import RequestContext
 
-from Login.models import UserDetails, AppraisalContent,AppraisalContent,Appraisment
+from Login.models import UserDetails, AppraisalContent, AppraisalContent, Appraisment, Answer
+
 def questionCreateView(request):
     
     args={}
@@ -197,7 +198,7 @@ def userwiseQuestionList(request,requestUserID):
         objAppraisment1=None
         try:
             objAppraisment1 = Appraisment.objects.get(appraiser=i_UserId,appraisee=i_UserId)
-        except Appraisment  .DoesNotExist:
+        except Appraisment.DoesNotExist:
             errMessage= "First complete appraising youself"
             
         if objAppraisment1.status == "Completed":
@@ -247,8 +248,19 @@ def QuestionAnswer(request, questionId):
     if request.method == 'POST' :
         print "Question Id : " + questionId
         print request.POST
+        answer = request.POST.get('appAnswer')
+        print "Answer : " 
+        print request.POST.get('appAnswer')
+        #Answer.objects.create( answer = answer, modified_by = request.session['UserID'] ,modified_on = timezone.now() )
         
-        print questionId  
+        try:
+            answer = Answer.objects.create( answer = answer, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
+            print "Answer Id --------------------"
+            print answer.answer_id
+            AppraisalContent.objects.filter(question_order = questionId).filter(appresment = Appraisment_Id).update(answer=answer.answer_id ,modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
+        except :
+            print "ERROR............."
+          
         AppraisalContents = AppraisalContent.objects.get(appresment=Appraisment_Id, question_order=questionId)
         
         if AppraisalContents.question.type == 'Subjective':
@@ -263,7 +275,6 @@ def QuestionAnswer(request, questionId):
         
         print Appraisment_Id
         AppraisalContents = AppraisalContent.objects.get(appresment=Appraisment_Id, question_order=questionId)
-        #pages = AppraisalContent.objects.filter(appresment=Appraisment_Id)
         
         if AppraisalContents.question.type == 'Subjective':
             return render_to_response('Questions/Subjective.html', { 'AppraisalContents' : AppraisalContents, 'pages' : pages, 'nextPageNumber' : nextPageNumber, 'previousPageNumber' : previousPageNumber }, context_instance = RequestContext( request))

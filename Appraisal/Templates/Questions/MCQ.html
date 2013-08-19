@@ -2,14 +2,24 @@
 {% load url from future %}
 
 {% block Answer %}
+<script type="text/javascript">
 
+/*$(function(){
+	$('input[name="abc"]').change(function(event){
+		
+		$('#appAnswer').val($('input[name="abc"]:checked').val())
+	});
+});
+*/
+</script>
 <div>
 	<br><br>
 	{{ AppraisalContents.question.option_header.option_text }}
 		{% for option in options %}
-			<input type="radio" name="abc"> {{ option.option_text }}</input>
+			<input type="radio" name="appAnswer" value="{{ option.option_id }}"> {{ option.option_text }}</input>
 			<br>
 		{% endfor %}
+		
 </div>
 
 {% endblock %}
