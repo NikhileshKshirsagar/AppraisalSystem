@@ -11,7 +11,7 @@ from __future__ import unicode_literals
 from django.db import models
 
 class Answer(models.Model):
-    answer_id = models.IntegerField(primary_key=True)
+    answer_id = models.AutoField(primary_key=True)
     answer = models.TextField()
     modified_by = models.ForeignKey('UserDetails', null=True, db_column='modified_by', blank=True)
     modified_on = models.DateTimeField(null=True, blank=True)
@@ -19,7 +19,7 @@ class Answer(models.Model):
         db_table = 'answer'
 
 class AppraisalContent(models.Model):
-    appraisal_content_id = models.IntegerField(primary_key=True)
+    appraisal_content_id = models.AutoField(primary_key=True)
     appresment = models.ForeignKey('Appraisment')
     question = models.ForeignKey('Question')
     answer = models.ForeignKey(Answer, null=True, blank=True)
@@ -30,7 +30,7 @@ class AppraisalContent(models.Model):
         db_table = 'appraisal_content'
 
 class Appraisment(models.Model):
-    appraisment_id = models.IntegerField(primary_key=True)
+    appraisment_id = models.AutoField(primary_key=True)
     appraiser = models.ForeignKey('UserDetails', db_column='appraiser')
     appraisee = models.ForeignKey('UserDetails', db_column='appraisee')
     status = models.CharField(max_length=45L, blank=True)
@@ -40,7 +40,7 @@ class Appraisment(models.Model):
         db_table = 'appraisment'
 
 class Designation(models.Model):
-    designation_id = models.IntegerField(primary_key=True)
+    designation_id = models.AutoField(primary_key=True)
     designation = models.CharField(max_length=200L)
     modified_by = models.ForeignKey('UserDetails', db_column='modified_by')
     modified_on = models.DateTimeField()
@@ -55,7 +55,7 @@ class DjangoSession(models.Model):
         db_table = 'django_session'
 
 class Event(models.Model):
-    event_id = models.IntegerField(primary_key=True)
+    event_id = models.AutoField(primary_key=True)
     description = models.TextField()
     category = models.CharField(max_length=50L, blank=True)
     event_date = models.DateField(null=True, blank=True)
@@ -65,7 +65,7 @@ class Event(models.Model):
         db_table = 'event'
 
 class Language(models.Model):
-    language_id = models.IntegerField(primary_key=True)
+    language_id = models.AutoField(primary_key=True)
     language = models.CharField(max_length=100L)
     description = models.TextField(blank=True)
     modified_by = models.ForeignKey('UserDetails', db_column='modified_by')
@@ -74,7 +74,7 @@ class Language(models.Model):
         db_table = 'language'
 
 class Option(models.Model):
-    option_id = models.IntegerField(primary_key=True)
+    option_id = models.AutoField(primary_key=True)
     option_header = models.ForeignKey('OptionHeader')
     option_text = models.TextField()
     order = models.IntegerField(null=True, blank=True)
@@ -84,7 +84,7 @@ class Option(models.Model):
         db_table = 'option'
 
 class OptionHeader(models.Model):
-    option_header_id = models.IntegerField(primary_key=True)
+    option_header_id = models.AutoField(primary_key=True)
     title = models.TextField(blank=True)
     modified_by = models.ForeignKey('UserDetails', db_column='modified_by')
     modified_on = models.DateTimeField()
@@ -92,7 +92,7 @@ class OptionHeader(models.Model):
         db_table = 'option_header'
 
 class Project(models.Model):
-    project_id = models.IntegerField(primary_key=True)
+    project_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200L)
     description = models.TextField(blank=True)
     start_date = models.DateField(null=True, blank=True)
@@ -113,7 +113,7 @@ class ProjectDesignation(models.Model):
         db_table = 'project_designation'
 
 class Question(models.Model):
-    question_id = models.IntegerField(primary_key=True)
+    question_id = models.AutoField(primary_key=True)
     question = models.TextField()
     level = models.IntegerField(null=True, blank=True)
     weight = models.IntegerField(null=True, blank=True)
@@ -128,7 +128,7 @@ class Question(models.Model):
         db_table = 'question'
 
 class Technology(models.Model):
-    technology_id = models.IntegerField(primary_key=True)
+    technology_id = models.AutoField(primary_key=True)
     technology = models.CharField(max_length=100L)
     description = models.TextField(blank=True)
     modified_by = models.ForeignKey('UserDetails', db_column='modified_by')
@@ -151,7 +151,7 @@ class UserAttributes(models.Model):
         db_table = 'user_attributes'
 
 class UserDetails(models.Model):
-    user_id = models.IntegerField(primary_key=True)
+    user_id = models.AutoField(primary_key=True)
     firstname = models.CharField(max_length=45L, blank=True)
     lastname = models.CharField(max_length=45L, blank=True)
     username = models.CharField(max_length=45L, blank=True)
