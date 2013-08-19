@@ -55,7 +55,7 @@ class QuestionForm(forms.ModelForm):
 class OptionFrom(forms.ModelForm):
     option_header_text = forms.CharField(label="Option header",widget=forms.Textarea(attrs={'rows':2,'class':'span4', 'style': 'width:auto;'}),error_messages={'required':'Enter Option header'})
     option_text = forms.CharField(label="Options",widget=forms.HiddenInput(),error_messages={'required':'Enter Options'})
-    option_header_id = forms.CharField(required=False,widget=forms.HiddenInput(),initial='0')
+    option_header_id = forms.CharField(required=False,widget=forms.TextInput(attrs={'class':'hide'}),initial='0')
     
     class Meta:
         model=Option

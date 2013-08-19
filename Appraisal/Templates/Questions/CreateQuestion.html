@@ -61,6 +61,7 @@ $(function() {
 		$("input[name=type_text]").val($(this).attr("value"));
 		if ($("input[name=type_text]").val() == 'MCQ')
 		{
+			$("*[name=option_header_id]").val({{optionCreateform.option_header_id.value}});
 			setOptions();
 			if($("#id_option_header_id").val()!="" && $("#id_option_header_id").val()!="0")
 			{
