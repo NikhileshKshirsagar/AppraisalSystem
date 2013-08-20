@@ -1,18 +1,21 @@
 {% extends "base.html" %}
 {% block pagecontent %}
 	<br/>
-	<div>
+	<div style="padding-left:30px;padding-right:30px;">
+<div style="padding:30px;border:2px solid;width:90%;border-radius:20px;background:#ffffff">
 	{% if Question%}
+		<legend style="text-align:center">Questions</legend>
 	{%for objQuestion in Question%}
+	<div class="well" style="padding:10px;padding-bottom:20px;">
 		<a href="/question/{{objQuestion.question_order}}">
 			<div> <label style="font-weight:bold;">{{objQuestion.question.info}}</label><br/>{{objQuestion.question.question}}</div>
 			<br/>
 			<div>Answer: {{objQuestion.question.level}}</div>
 		</a>
-		<br/><br/>
+		</div>
 	{%endfor%}	
 	{%endif%}
-	</div>
+	</div></div>
 	{% if error %}
 		<div class="alert alert-error">{{error}}</div>
 		<a href="/welcome/" class="btn btn-primary">Back to user list</a>
