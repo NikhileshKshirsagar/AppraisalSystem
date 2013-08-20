@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block pagecontent %}
+{% block pagecontent %}    
 	<script type="text/javascript">
 	$(function() {
 		$("body").css("background-color" , "#e3e8e4 !important");
@@ -12,15 +12,42 @@
 	{% if error %}
 		<div class="alert alert-error">{{error}}</div>
 	{% endif%}
-	<div>
-		<a class="btn btn-primary" href="/userAppraisal/appraise/{{UserID}}"> Appraise your self</a>
-	</div>
-	<div>
+<div style="float:left;">
+<div>
+	<div style="background:#ffffff;float:left;margin:10px;">
+	<a class="btn btn-primary" href="/userAppraisal/appraise/{{UserID}}">
+			<div style="background:#999333;float:left;height:100px;width: 10px;">&nbsp;</div>
+		<div style="float:left;">
+		    <div style="padding:10px;padding-left:20px;">
+		           <legend>Appraise your self </legend>
+		           <div style="text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);background:#999333" class="btn">pending</div>
+		    </div>
+		</div>
+		<div style="float:right;padding-right:10px;padding-top:40px;"><h4>20/20</h4></div>
+	</a>
+	</div>		 
+</div>
+<div>
+	<div style="float:left;">
 <br/><br/>
 Appraisement List
-{%for objapp in Appraisement%}
-          <br/><br/>  <a class="btn btn-primary" href="/userAppraisal/appraise/{{objapp.appraisee.user_id}}">{{objapp.appraisee.firstname}}</a>
- {%endfor%}
+{%for objapp in Appraisement%} 
+<div>
+<div style="background:#ffffff;float:left;margin:10px;">
+	<a href="/userAppraisal/appraise/{{objapp.appraisee.user_id}}">		
+		<div style="background:#999333;float:left;height:100px;width: 10px;">&nbsp;</div>
+		<div style="float:left;">
+		    <div style="padding:10px;padding-left:20px;">
+		           <legend>{{objapp.appraisee.firstname}}&nbsp; {{objapp.appraisee.lastname}} </legend>
+		           <div style="text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);background:#999333" class="btn">pending</div>
+		    </div>
+		</div>
+		<div style="float:right;padding-right:10px;padding-top:40px;"><h4>20/20</h4></div>
+	</a>
 </div>
+</div>
+
+ {%endfor%}
+</div></div></div>
 	{{ successMsg }}
 {% endblock %}
