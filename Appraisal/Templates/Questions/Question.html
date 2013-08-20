@@ -25,6 +25,7 @@ $(function(){
 	<div id="questionid" name="questionid" class="questionNum">
 		<div class="InnerQuesNum">Question {{ AppraisalContents.question_order }}</div>
 	</div>
+	
 	<div id="question" name="question" class="questionOutter">	
 		<div class="questionBorder ">
 			<div class="question ">
@@ -35,16 +36,7 @@ $(function(){
 	</div>	
 	{% block Answer %}
 	{% endblock %}
-	
-	<!-- <div>
-		<ul class="pager">
-		    
-		    <li><a href="">&larr;Previous</a></li>
-		    <li><a href="">Next &rarr;</a></li>
-		    
-	    </ul>
-	</div>
-	 -->
+	<input type="hidden" name="qustnNmbr" value="{{ AppraisalContents.question_order }}" >
 	<div class="pagination pagination-large pagination-centered pageNumber">
 		<ul>
 			<li><a pageNumber="/question/{{ previousPageNumber }}/" onclick="paging({{ previousPageNumber }})">&laquo;</a></li>	

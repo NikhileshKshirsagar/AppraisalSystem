@@ -9,6 +9,7 @@ from django.core.context_processors import csrf
 from django.utils import simplejson
 from django.utils import timezone
 from django.template.context import RequestContext
+import pdb;
 
 from Login.models import UserDetails, AppraisalContent, AppraisalContent, Appraisment, Answer
 
@@ -233,7 +234,8 @@ def userwiseQuestionList(request,requestUserID):
     return render_to_response('Questions/UserWiseQuestionList.html', args)
 
 def QuestionAnswer(request, questionId):
-    print request.method
+    #pdb.set_trace()
+    
     Appraisment_Id = Appraisment.objects.get(appraiser=request.session['UserID'],appraisee=request.session['appraisee']).appraisment_id
     pages = AppraisalContent.objects.filter(appresment=Appraisment_Id)
     
@@ -246,27 +248,41 @@ def QuestionAnswer(request, questionId):
     
     
     if request.method == 'POST' :
-        print "Question Id : " + questionId
         print request.POST
-        answer = request.POST.get('appAnswer')
-        print "Answer : " 
-        print request.POST.get('appAnswer')
-        #Answer.objects.create( answer = answer, modified_by = request.session['UserID'] ,modified_on = timezone.now() )
+        useranswer = request.POST.get('appAnswer')
+        
+        #Saving answer
+        #try:    
+        questionNumber = request.POST.get('qustnNmbr')
+        print "Question Id : " + questionNumber
+        print "Appresment Id : "  
+        print Appraisment_Id
         
         try:
-            exitingAnswer = AppraisalContent.objects.get(question_order = questionId, appresment = Appraisment_Id).answer
+            exitingAnswer = AppraisalContent.objects.get(question_order = questionNumber, appresment = Appraisment_Id)
+            print "Answer after query............."
+            print exitingAnswer
+        except AppraisalContent.DoesNotExist:
+            print "Exception.........."
+            
+        if exitingAnswer.answer != None:
             print "Existing answer : ==============="
-            print exitingAnswer.answer_id
-            if existingAnswer != '':
-                AppraisalContent.objects.filter(question_order = questionId).filter(appresment = Appraisment_Id).update(answer=answer.answer_id ,modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
-            else:
-                answer = Answer.objects.create( answer = answer, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
-                print "Answer Id --------------------"
-                print answer.answer_id
-                AppraisalContent.objects.filter(question_order = questionId).filter(appresment = Appraisment_Id).update(answer=answer.answer_id ,modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
-        except :
-            print "ERROR............."
-          
+            print exitingAnswer.answer
+        else:
+            print "Inside else]]]]]]]]]]]]]]]"    
+        
+        if exitingAnswer.answer != None:
+            print "Inside if"
+            Answer.objects.filter(answer_id=exitingAnswer.answer.answer_id).update(answer=useranswer, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
+        else:
+            answer = Answer.objects.create( answer = useranswer, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
+            print "Creating answer --------------------"
+            print answer.answer_id
+            AppraisalContent.objects.filter(question_order = questionNumber).filter(appresment = Appraisment_Id).update(answer=answer.answer_id ,modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
+        #except :
+            #print "ERROR............."
+        
+        # Data for next question
         AppraisalContents = AppraisalContent.objects.get(appresment=Appraisment_Id, question_order=questionId)
         
         if AppraisalContents.question.type == 'Subjective':
