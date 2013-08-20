@@ -134,15 +134,15 @@ def userWelcome(request):
         appraismentlist['status'] = appraisment.status
         if appraisment.status=='Initial':
             status='Start appraising'
-            scolor='#ee3b09'
+            scolor='#999333'
         else:
             if appraisment.status=='Created':
                 status='In progress'
-                scolor='#eeb509'
+                scolor='#eed79f'
             else:
                 if answeredcount == totalcount:
                     status="Done appraising"
-                    scolor='#53ee09'
+                    scolor='#cfeeb1'
     
         appraismentlist['statustext'] = status   
         appraismentlist['color'] = scolor
