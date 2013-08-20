@@ -254,10 +254,16 @@ def QuestionAnswer(request, questionId):
         #Answer.objects.create( answer = answer, modified_by = request.session['UserID'] ,modified_on = timezone.now() )
         
         try:
-            answer = Answer.objects.create( answer = answer, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
-            print "Answer Id --------------------"
-            print answer.answer_id
-            AppraisalContent.objects.filter(question_order = questionId).filter(appresment = Appraisment_Id).update(answer=answer.answer_id ,modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
+            exitingAnswer = AppraisalContent.objects.get(question_order = questionId, appresment = Appraisment_Id).answer
+            print "Existing answer : ==============="
+            print exitingAnswer.answer_id
+            if existingAnswer != '':
+                AppraisalContent.objects.filter(question_order = questionId).filter(appresment = Appraisment_Id).update(answer=answer.answer_id ,modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
+            else:
+                answer = Answer.objects.create( answer = answer, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
+                print "Answer Id --------------------"
+                print answer.answer_id
+                AppraisalContent.objects.filter(question_order = questionId).filter(appresment = Appraisment_Id).update(answer=answer.answer_id ,modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
         except :
             print "ERROR............."
           

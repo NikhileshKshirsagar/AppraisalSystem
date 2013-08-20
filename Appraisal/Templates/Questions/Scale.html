@@ -9,12 +9,14 @@
 </script>
 
 <div class="slide">
-	<input name="answerValue" id="answerValue" class="sliderValue" type="text">
+	<input name="appAnswer" id="answerValue" class="sliderValue" type="text">
 	<div id="answer_scale" class="sliders"></div>
 </div>
-{% if userCreateform.user_level.value != None %} 
+{{ AppraisalContents.answer.answer_id }}
+
+{% if AppraisalContents.answer.answer != None %} 
 	<script type="text/javascript">	
-		setSliderValue($( "#answer_scale" ).get("selector"), {{ AppraisalContents.answer.answer }});
+		//setSliderValue($( "#answer_scale" ).get("selector"), {{ AppraisalContents.answer.answer.value }});
 	</script>
 {% endif %}
 
