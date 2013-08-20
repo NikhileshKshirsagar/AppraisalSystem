@@ -12,42 +12,58 @@
 	{% if error %}
 		<div class="alert alert-error">{{error}}</div>
 	{% endif%}
+	{%for objapp in appraismentList%}
+	{% if objapp.appraisee == objapp.appraiser%}
 <div style="float:left;">
 <div>
 	<div style="background:#ffffff;float:left;margin:10px;">
 	<a class="btn btn-primary" href="/userAppraisal/appraise/{{UserID}}">
-			<div style="background:#999333;float:left;height:100px;width: 10px;">&nbsp;</div>
+			<div style="background:{{objapp.color}};float:left;height:100px;width: 10px;">&nbsp;</div>
 		<div style="float:left;">
 		    <div style="padding:10px;padding-left:20px;">
 		           <legend>Appraise your self </legend>
-		           <div style="text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);background:#999333" class="btn">pending</div>
+		           <div style="text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);background:{{objapp.color}}" class="btn">{{objapp.statustext}}</div>
 		    </div>
 		</div>
-		<div style="float:right;padding-right:10px;padding-top:40px;"><h4>20/20</h4></div>
+		<div style="float:right;padding-right:10px;padding-top:40px;"><h4>{{objapp.answeredcount}}/{{objapp.totalcount}}</h4></div>
 	</a>
 	</div>		 
 </div>
 <div>
+{%endif%}
+{%endfor%}
 	<div style="float:left;">
 <br/><br/>
 Appraisement List
-{%for objapp in Appraisement%} 
+<table>
+<tr>
+
+{%for objapp in appraismentList%}
+{% ifnotequal objapp.appraisee objapp.appraiser%}
+{% cycle </tr><tr>,&nbsp; %}
+<td>
 <div>
-<div style="background:#ffffff;float:left;margin:10px;">
-	<a href="/userAppraisal/appraise/{{objapp.appraisee.user_id}}">		
-		<div style="background:#999333;float:left;height:100px;width: 10px;">&nbsp;</div>
+<div style="background:#ffffff;float:left;margin:10px;width:300px;">
+	<a href="/userAppraisal/appraise/{{objapp.appraisee}}">		
+		<div style="background:{{objapp.color}};float:left;height:100px;width: 10px;">&nbsp;</div>
 		<div style="float:left;">
 		    <div style="padding:10px;padding-left:20px;">
-		           <legend>{{objapp.appraisee.firstname}}&nbsp; {{objapp.appraisee.lastname}} </legend>
-		           <div style="text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);background:#999333" class="btn">pending</div>
+		           <legend>{{objapp.firstname}}&nbsp; {{objapp.lastname}} </legend>
+		           <div style="text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);background:{{objapp.color}}" class="btn">{{objapp.statustext}}</div>
 		    </div>
 		</div>
-		<div style="float:right;padding-right:10px;padding-top:40px;"><h4>20/20</h4></div>
+		{%ifnotequal objapp.status 'Initial'%}
+			<div style="float:right;padding-right:10px;padding-top:40px;"><h4>{{objapp.answeredcount}}/{{objapp.totalcount}}</h4></div>
+		{%endifnotequal%}
 	</a>
 </div>
 </div>
+</td>
+{% endifnotequal%}
+{%endfor%}
 
- {%endfor%}
+
+ </tr></table>
 </div></div></div>
 	{{ successMsg }}
 {% endblock %}

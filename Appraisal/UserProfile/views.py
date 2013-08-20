@@ -115,10 +115,40 @@ def userProfile(request):
 def userWelcome(request):
     args={}
     args.update(csrf(request))
-    objappraisment = Appraisment.objects.filter(appraiser=request.session['UserID']).exclude(appraisee=request.session['UserID'])
+    objappraisment = Appraisment.objects.filter(appraiser=request.session['UserID'])#.exclude(appraisee=request.session['UserID'])
+    appraisment_list = []
+    for appraisment in objappraisment:
+        appraismentlist = {}
+        answeredcount=0
+        totalcount=0
+        status=''
+        scolor=''
+        appraismentlist['appraisee'] = appraisment.appraisee.user_id
+        appraismentlist['appraiser'] = appraisment.appraiser.user_id
+        appraismentlist['firstname'] = appraisment.appraisee.firstname
+        appraismentlist['lastname'] = appraisment.appraisee.lastname
+        totalcount = appraisment.appraisalcontent_set.count
+        appraismentlist['totalcount'] = totalcount
+        answeredcount = AppraisalContent.objects.filter(appresment=appraisment).exclude(answer__isnull=True).count
+        appraismentlist['answeredcount'] = answeredcount
+        appraismentlist['status'] = appraisment.status
+        if appraisment.status=='Initial':
+            status='Start appraising'
+            scolor='#ee3b09'
+        else:
+            if appraisment.status=='Created':
+                status='In progress'
+                scolor='#eeb509'
+            else:
+                if answeredcount == totalcount:
+                    status="Done appraising"
+                    scolor='#53ee09'
+    
+        appraismentlist['statustext'] = status   
+        appraismentlist['color'] = scolor
+        appraisment_list.append(appraismentlist)
+     
     args['UserID']=  request.session['UserID']
     args['username']=request.session['UserName']
-    args['Appraisement']=objappraisment
+    args['appraismentList']=appraisment_list
     return render_to_response('UserProfile/userWelcome.html',args)
-
-
