@@ -273,42 +273,37 @@ body
 .questionNum
 {
 	font-size: 20px;
-	background: #f4f4f4;  
+	 
+	background: #A19FA0;  
     /*border: 1px solid #bbbbbb;*/
     border-top-width: 2px;
     border-left-width: 2px;
+    border-right-width: 2px;
 	border-bottom-width: 2px;
 	border-top-style: solid;
 	border-bottom-style: solid;
+	border-right-style: solid;
 	border-left-style: solid;
 	border-top-color: #525151;
 	border-left-color: #525151;
+	border-right-color: #525151;
 	border-bottom-color: #525151;  
     width: 150px;  
-    height: 40px;
-    border-radius: 3px 25px 25px 3px;    
+    height: 30px;
+    margin-top: -8px;
+    border-radius: 35px 0px 35px 0px;
 }
 .InnerQuesNum
 {
-	padding-left: 15px;
-	padding-top: 11px;
+	padding-left: 25px;
+	padding-top: 6px;
 }
 .question
 {
-	font-size: 18px;
-	height: 20%
-}
-.questionOutter
-{
-	padding-top: 20px;
-	padding-bottom: 20px;
-	width: 90%;
-}
-.questionBorder
-{
-	border: 1px solid #000000;
-    border-radius: 3px 3px 3px 3px;
-    box-shadow: 2px 2px 2px #181818;
+	font-size: 15px;
+	height: 20%;
+	padding-top: 8px;
+	
 }
 .questioHeader
 {
@@ -317,6 +312,7 @@ body
     border-top: 1px solid #4B4B4C;*/
     height: 30%;
     width: 100%;
+    
 }
 .pageNumber
 {
