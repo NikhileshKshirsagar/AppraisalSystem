@@ -12,11 +12,10 @@
 	<input name="appAnswer" id="answerValue" class="sliderValue" type="text">
 	<div id="answer_scale" class="sliders"></div>
 </div>
-{{ AppraisalContents.answer.answer_id }}
 
 {% if AppraisalContents.answer.answer != None %} 
 	<script type="text/javascript">	
-		//setSliderValue($( "#answer_scale" ).get("selector"), {{ AppraisalContents.answer.answer.value }});
+		setSliderValue($( "#answer_scale" ).get("selector"), {{ AppraisalContents.answer.answer }});
 	</script>
 {% endif %}
 

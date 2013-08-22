@@ -273,53 +273,76 @@ body
 .questionNum
 {
 	font-size: 20px;
-	background: #f4f4f4;  
+	 
+	background: #A19FA0;  
     /*border: 1px solid #bbbbbb;*/
     border-top-width: 2px;
     border-left-width: 2px;
+    border-right-width: 2px;
 	border-bottom-width: 2px;
 	border-top-style: solid;
 	border-bottom-style: solid;
+	border-right-style: solid;
 	border-left-style: solid;
 	border-top-color: #525151;
 	border-left-color: #525151;
+	border-right-color: #525151;
 	border-bottom-color: #525151;  
     width: 150px;  
-    height: 40px;
-    border-radius: 3px 25px 25px 3px;    
+    height: 30px;
+    margin-top: -8px;
+    border-radius: 35px 0px 35px 0px;
 }
 .InnerQuesNum
 {
-	padding-left: 15px;
-	padding-top: 11px;
+	padding-left: 25px;
+	padding-top: 6px;
 }
 .question
 {
-	font-size: 18px;
-	height: 20%
-}
-.questionOutter
-{
-	padding-top: 20px;
-	padding-bottom: 20px;
-	width: 90%;
-}
-.questionBorder
-{
-	border: 1px solid #000000;
-    border-radius: 3px 3px 3px 3px;
-    box-shadow: 2px 2px 2px #181818;
+	height: 30%;
+	padding-top: 8px;	
 }
 .questioHeader
 {
-	background-color: #FFFFFF;
     /*border-bottom: 1px solid #101010;
     border-top: 1px solid #4B4B4C;*/
     height: 30%;
     width: 100%;
+    font-size: 16px;
+    font-weight: bold;
+    padding-top: 5px;
 }
 .pageNumber
 {
 	position: absolute;
 	bottom: 100px;
+}
+.questionContent
+{
+	font-size: 15px;
+	font-style: oblique;
+	background-color: #FFFFFF;
+	margin-top: 15px; 
+}
+.outterQuestion
+{
+	width: 80% !important;
+	height: 35%;
+	float: left;
+	margin-right: 8px;
+}
+.beforeQuestion
+{
+	float: left;
+	width: 5%;
+	height: 35%;
+	margin-right: 13px;
+}
+.afterQuestion
+{
+	float: right;
+	width: 5%;
+	height: 35%;
+	margin-right: 20px;
 }
