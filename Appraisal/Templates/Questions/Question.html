@@ -20,22 +20,27 @@ $(function(){
 		$('#formAppraisal').submit();
 	}
 </script>
-<form id="formAppraisal" action="/question/{{ AppraisalContents.question_order }}/" method="post" style="padding-left: 10px;" >{% csrf_token %}
-	<div class="beforeQuestion well"></div>
-	<div class="afterQuestion well"></div>
-	<div class="well outterQuestion">
-		<div id="questionid" name="questionid" class="questionNum">
-			<div class="InnerQuesNum">Question {{ AppraisalContents.question_order }}</div>
-		</div>
-		
-		<div id="question" name="question" class="">	
-			<div class=" ">
-				<div class="question">
-					<div class="questioHeader">
-						{{ AppraisalContents.question.info }}
-					</div>
-					<div class="questionContent  well">
-						{{ AppraisalContents.question.question }}
+<form id="formAppraisal" action="/question/{{ AppraisalContents.question_order }}/" method="post" style="margin-left: -5px; margin-right: 5px;" >{% csrf_token %}
+	<div style="width: 100%;">
+		<div class="beforeQuestion "></div>
+		<div class="midDiv" style="float: left; margin-left: -1px;"></div>
+		<div class="afterQuestion "></div>
+		<div class="midDiv" style="float: right;"></div>
+		<div class="outterQuestion">
+			<div id="questionid" name="questionid" class="questionNum">
+				<div class="InnerQuesNum">Question {{ AppraisalContents.question_order }}</div>
+			</div>
+			
+			<div id="question" name="question" style="padding: 5px 5px 5px 5px;">	
+				<div class=" ">
+					<div class="question">
+						<div class="questioHeader">
+							<legend>{{ AppraisalContents.question.info }}</legend>
+						</div>
+						<div></div>
+						<div class="questionContent ">
+							{{ AppraisalContents.question.question }}
+						</div>
 					</div>
 				</div>
 			</div>
