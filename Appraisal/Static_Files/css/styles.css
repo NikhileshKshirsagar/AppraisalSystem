@@ -300,22 +300,49 @@ body
 }
 .question
 {
-	font-size: 15px;
-	height: 20%;
-	padding-top: 8px;
-	
+	height: 30%;
+	padding-top: 8px;	
 }
 .questioHeader
 {
-	background-color: #FFFFFF;
     /*border-bottom: 1px solid #101010;
     border-top: 1px solid #4B4B4C;*/
     height: 30%;
     width: 100%;
-    
+    font-size: 16px;
+    font-weight: bold;
+    padding-top: 5px;
 }
 .pageNumber
 {
 	position: absolute;
 	bottom: 100px;
+}
+.questionContent
+{
+	font-size: 15px;
+	font-style: oblique;
+	background-color: #FFFFFF;
+	margin-top: 15px; 
+}
+.outterQuestion
+{
+	width: 80% !important;
+	height: 35%;
+	float: left;
+	margin-right: 8px;
+}
+.beforeQuestion
+{
+	float: left;
+	width: 5%;
+	height: 35%;
+	margin-right: 13px;
+}
+.afterQuestion
+{
+	float: right;
+	width: 5%;
+	height: 35%;
+	margin-right: 20px;
 }

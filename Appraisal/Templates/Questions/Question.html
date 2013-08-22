@@ -21,24 +21,26 @@ $(function(){
 	}
 </script>
 <form id="formAppraisal" action="/question/{{ AppraisalContents.question_order }}/" method="post" style="padding-left: 10px;" >{% csrf_token %}
-	<div class=" well">
+	<div class="beforeQuestion well"></div>
+	<div class="afterQuestion well"></div>
+	<div class="well outterQuestion">
 		<div id="questionid" name="questionid" class="questionNum">
 			<div class="InnerQuesNum">Question {{ AppraisalContents.question_order }}</div>
 		</div>
 		
 		<div id="question" name="question" class="">	
 			<div class=" ">
-				<div class="question ">
+				<div class="question">
 					<div class="questioHeader">
 						{{ AppraisalContents.question.info }}
 					</div>
-					<div>
+					<div class="questionContent  well">
 						{{ AppraisalContents.question.question }}
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>	
+	</div>
 	{% block Answer %}
 	{% endblock %}
 	<input type="hidden" name="qustnNmbr" value="{{ AppraisalContents.question_order }}" >

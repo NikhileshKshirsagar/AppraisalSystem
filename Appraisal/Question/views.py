@@ -246,7 +246,6 @@ def QuestionAnswer(request, questionId):
     
     nextPageNumber =  int(questionId) + 1
     
-    
     if request.method == 'POST' :
         print request.POST
         useranswer = request.POST.get('appAnswer')
