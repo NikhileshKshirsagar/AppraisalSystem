@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block pagecontent %}
+	<br/>
+	<div style="padding-left:30px;padding-right:30px;">
+<div style="padding:30px;border:2px solid;width:90%;border-radius:20px;background:#ffffff">
+	{% if reports%}
+		<legend style="text-align:center">Report</legend>
+	<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Quality</th>
+			<th>Self-assessment</th>
+			<th>Others(Average)</th>
+			<th>Total</th>
+		</tr>
+	</thead>
+	
+	<tbody>
+	
+	{%for objReport in reports%}
+	<tr  style="padding:10px;padding-bottom:20px;">
+		<td  width="40%">{{objReport.header}}</td>
+		<td  width="15%">{{objReport.answerYourself}}</td>
+		<td  width="15%">{{objReport.answerOther}}</td>
+		<td  width="15%">&nbsp;</td>
+	</tr>
+	{%endfor%}
+	</tbody>	
+	</table>
+	{%endif%}
+	</div></div>
+	{% if error %}
+		<div class="alert alert-error">{{error}}</div>
+		<a href="/welcome/" class="btn btn-primary">Back to user list</a>
+	{% endif%}
+{% endblock %}
