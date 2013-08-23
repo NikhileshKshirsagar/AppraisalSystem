@@ -10,7 +10,11 @@
 		<a href="/question/{{objQuestion.question_order}}">
 			<div> <label style="font-weight:bold;">{{objQuestion.question.info}}</label><br/>{{objQuestion.question.question}}</div>
 			<br/>
-			<div>Answer: {{objQuestion.question.level}}</div>
+			{% ifnotequal objQuestion.question.type 'MCQ'%}
+				<div>Answer: {{objQuestion.answer.answer}}</div>
+			{%else%}
+				<div>Answer: {{objQuestion.answer.answer}}</div>
+			{%endifnotequal%}
 		</a>
 		</div>
 	{%endfor%}	
