@@ -305,8 +305,12 @@ body
 .pageNumber
 {
 	position: absolute;
-	bottom: 100px;
-	vertical-align: middle;
+	bottom: 60px;
+	margin-left: 25%;
+}
+.pageNumber a
+{
+	color: #7B967B !important;
 }
 .questioHeader
 {
@@ -325,14 +329,13 @@ body
 .questionContent
 {
 	/*background-color: #FFFFFF;*/
-	margin-top: 15px;
+	margin-top: 3%;
 	height: 100%; 
-	margin-top: 15px;
 	/*border-radius : 10px 10px 10px 10px;*/
 }
 .questionContentText
 {
-	font-size: 18px;
+	font-size: 16px;
 	margin-left: 10px;
 }
 .outterQuestion
@@ -359,6 +362,7 @@ body
 	background: linear-gradient(135deg, #aebcbf 0%,#0a0e0a 0%,#6e7774 100%,#0a0809 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#aebcbf', endColorstr='#0a0809',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 	border-radius: 20px 0px 0px 20px;
+	color: #7B967B;
 }
 .afterQuestion
 {
@@ -375,7 +379,7 @@ body
 	background: linear-gradient(135deg, #aebcbf 0%,#0a0e0a 0%,#6e7774 100%,#0a0809 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#aebcbf', endColorstr='#0a0809',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 	border-radius: 0px 20px 20px 0px;
-	
+	color: #7B967B;
 }
 .midDiv
 {
@@ -411,7 +415,7 @@ body
 {
 	width: 70%;
 	font-size: 13px;
-	padding-top: 20px !important;
+	margin-top: 17%;
 }
 .WelcomeMessage
 {
@@ -435,4 +439,22 @@ body
 	border-radius: 5px 5px 5px 5px;
 	text-shadow: silver;
 	padding-left: 10px;
+}
+.NavsTextRight
+{
+	padding-left: 30%;
+	margin-top: 100%;
+}
+.NavsTextLeft
+{
+	padding-left: 20%;
+	margin-top: 100%;
+}
+.line
+{
+	height: 1px;
+	background: white !important;
+	width: 96%;
+	border-raduius: 10px 10px 10px 10px ;
+	margin-left: 10px;
 }

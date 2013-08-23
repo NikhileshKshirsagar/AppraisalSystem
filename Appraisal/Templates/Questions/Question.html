@@ -21,11 +21,11 @@ $(function(){
 	}
 </script>
 <form id="formAppraisal" action="/question/{{ AppraisalContents.question_order }}/" method="post" style="margin-left: -5px; margin-right: 5px;" >{% csrf_token %}
-	<div class=""><span class="label label-success WelcomeMessage">You are appraising {{ appraisee.firstname }} {{ appraisee.lastname }}</span></div>
+	<div class="WelcomeMessage">You are appraising {{ appraisee.firstname }} {{ appraisee.lastname }}</div>
 	<div style="width: 100%; margin-bottom: 20px;">
-		<div class="beforeQuestion "><i class="icon-arrow-left icon-white" style="margin-bottom : 50px; padding-left: 40%;"></i></div>
+		<div class="beforeQuestion" onclick="paging({{ previousPageNumber }})"><p class="NavsTextLeft">Previous</p></div>
 		<div class="midDiv" style="float: left; margin-left: -1px;"></div>
-		<div class="afterQuestion "></div>
+		<div class="afterQuestion" onclick="paging({{ nextPageNumber }})"><p class="NavsTextRight">Next</p></div>
 		<div class="midDiv" style="float: right;"></div>
 		<div class="outterQuestion">
 			<div id="questionid" name="questionid" class="questionNum">
@@ -37,6 +37,7 @@ $(function(){
 					<div class="question">
 						<div class="questioHeader">
 							<p class="questionHeaderText">{{ AppraisalContents.question.info }}</p>
+							<div class="line"></div>
 						</div>
 						
 						<div class="questionContent">
