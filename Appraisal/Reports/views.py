@@ -17,8 +17,10 @@ def GenerateReports(request):
     nUserID = request.session['UserID']
     objAppUser = Appraisment.objects.get(appraisee=nUserID,appraiser=nUserID)
     objAppOthers=None
+    index=0
+    arrAnswerUserList=[]
     try:
-        objAppOthers = Appraisment.objects.filter(appraiser=nUserID).exclude(appraisee=nUserID)
+        objAppOthers = Appraisment.objects.filter(appraisee=nUserID).exclude(appraiser=nUserID)
     except:
         objAppOthers=None
     appraisment_list = []
@@ -27,14 +29,25 @@ def GenerateReports(request):
         appraisment = {}
         appraisment['header']=questionUser.question.info
         appraisment['question']=questionUser.question.question
+        appraisment['status']=questionUser.question.type
         if questionUser.answer!=None:
-            if questionUser.question.type == 'Scale':
+            if questionUser.question.type == 'Scale' and questionUser.question.type == 'Subjective':
                 appraisment['answerYourself']=questionUser.answer.answer
             else:
-                appraisment['answerYourself']=Option.objects.get(option_id=questionUser.answer.answer).option_text
+                objoptionHeader = Option.objects.get(option_id=questionUser.answer.answer)
+                appraisment['answerYourself']=objoptionHeader.option_id
+                option_list = []
+                objOption = Option.objects.filter(option_header=objoptionHeader.option_header)
+                for options in objOption:
+                    option={}
+                    option['text']=options.option_text
+                    option['ID']=options.option_id
+                    option_list.append(option)
+                appraisment['option']=option_list
                                 
         answerOther=''
         if objAppOthers!=None:
+            sAnswer=None
             for questionOther in objAppOthers:
                 try:
                     objappContent = AppraisalContent.objects.get(appresment=questionOther.appraisment_id,question=questionUser.question)
@@ -42,13 +55,17 @@ def GenerateReports(request):
                     objappContent=None
                 if objappContent!=None:
                     if objappContent.answer!=None:
-                        print '---------'
-                        if objappContent.question.type == 'Scale':
+                        if objappContent.question.type == 'Scale' and questionUser.question.type == 'Subjective':
                             sAnswer=sAnswer+objappContent.answer.answer
+                            appraisment['answerOther']=sAnswer
                         else:
-                            sAnswer=Option.objects.get(option_id=objappContent.answer.answer).option_text
-                        answerOther=sAnswer
-        appraisment['answerOther']=answerOther
+                            arrAnswerUser={}
+                            #sAnswer=Option.objects.get(option_id=objappContent.answer.answer).option_id
+                            arrAnswerUser['ID']=Option.objects.get(option_id=questionUser.answer.answer).option_id
+                            arrAnswerUserList.append(arrAnswerUser)
+                            sAnswer=arrAnswerUserList
+                            appraisment['answerOther']=arrAnswerUserList
+     
         appraisment_list.append(appraisment)
     
     args['UserID']=  request.session['UserID']
