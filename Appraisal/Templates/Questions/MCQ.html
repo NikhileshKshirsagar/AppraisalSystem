@@ -12,8 +12,14 @@
 });
 */
 </script>
-<div class="MCQ">
-	<br><br>
+<script type="text/javascript">
+
+$(function(){
+	$('input[value={{ AppraisalContents.answer.answer }}]').attr('checked','checked');
+});
+
+</script>
+<div id="MCQDiv" class="MCQ">
 	{{ AppraisalContents.question.option_header.option_text }}
 		{% for option in options %}
 			<input type="radio" name="appAnswer" value="{{ option.option_id }}"> {{ option.option_text }}</input>

@@ -251,35 +251,35 @@ def QuestionAnswer(request, questionId):
         useranswer = request.POST.get('appAnswer')
         
         #Saving answer
-        #try:    
-        questionNumber = request.POST.get('qustnNmbr')
-        print "Question Id : " + questionNumber
-        print "Appresment Id : "  
-        print Appraisment_Id
-        
-        try:
-            exitingAnswer = AppraisalContent.objects.get(question_order = questionNumber, appresment = Appraisment_Id)
-            print "Answer after query............."
-            print exitingAnswer
-        except AppraisalContent.DoesNotExist:
-            print "Exception.........."
+        try:    
+            questionNumber = request.POST.get('qustnNmbr')
+            print "Question Id : " + questionNumber
+            print "Appresment Id : "  
+            print Appraisment_Id
             
-        if exitingAnswer.answer != None:
-            print "Existing answer : ==============="
-            print exitingAnswer.answer
-        else:
-            print "Inside else]]]]]]]]]]]]]]]"    
-        
-        if exitingAnswer.answer != None:
-            print "Inside if"
-            Answer.objects.filter(answer_id=exitingAnswer.answer.answer_id).update(answer=useranswer, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
-        else:
-            answer = Answer.objects.create( answer = useranswer, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
-            print "Creating answer --------------------"
-            print answer.answer_id
-            AppraisalContent.objects.filter(question_order = questionNumber).filter(appresment = Appraisment_Id).update(answer=answer.answer_id ,modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
-        #except :
-            #print "ERROR............."
+            try:
+                exitingAnswer = AppraisalContent.objects.get(question_order = questionNumber, appresment = Appraisment_Id)
+                print "Answer after query............."
+                print exitingAnswer
+            except AppraisalContent.DoesNotExist:
+                print "Exception.........."
+                
+            if exitingAnswer.answer != None:
+                print "Existing answer : ==============="
+                print exitingAnswer.answer
+            else:
+                print "Inside else]]]]]]]]]]]]]]]"    
+            
+            if exitingAnswer.answer != None:
+                print "Inside if"
+                Answer.objects.filter(answer_id=exitingAnswer.answer.answer_id).update(answer=useranswer, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
+            else:
+                answer = Answer.objects.create( answer = useranswer, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
+                print "Creating answer --------------------"
+                print answer.answer_id
+                AppraisalContent.objects.filter(question_order = questionNumber).filter(appresment = Appraisment_Id).update(answer=answer.answer_id ,modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
+        except :
+            print "ERROR............."
         
         # Data for next question
         AppraisalContents = AppraisalContent.objects.get(appresment=Appraisment_Id, question_order=questionId)
