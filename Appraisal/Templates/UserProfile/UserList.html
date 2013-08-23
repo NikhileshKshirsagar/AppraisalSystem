@@ -4,13 +4,14 @@
 {% block pagecontent %}
 
 	<form action="/UserList/" method="post" class="form-search" style="padding-top: 30px; margin-left: -0px;">{% csrf_token %}
+		<legend class="userListHead" style="margin-top: -2%;">User List </legend>
 		<div class="UserListing">
 			<div>
 				{% for user in userList %}
-					<div style="width: 30%; float: left; border: 1px solid #111111">
+					<div class="well" style="width: 30%; float: left; border: 1px solid #111111; padding: 10px 10px 10px 10px; margin-right: 10px;">
 						<table>	
 							<tr>	
-								<td width="20%">
+								<td width="23%">
 									<label>Name : </label>
 								</td>
 								<td>	
@@ -31,7 +32,7 @@
 									<label style="float: left;">Level : </label>
 								</td>		
 								<td>
-									<div class="progress progress-info" style="float: left; width: 90%;">
+									<div class="progress progress-info" style="float: left; width: 100%;">
 										<div class="bar" style="width : {{ user.user_level }}0%">
 										</div>
 									</div>	
@@ -42,8 +43,8 @@
 								<td>
 									<label style="float: left;">Weight : </label>
 								</td>
-								<td>		
-									<div class="progress progress-info span4" style="float: left;width: 300px;">
+								<td valign="middle">		
+									<div class="progress progress-info" style="float: left; width: 100%">
 										<div class="bar" style="width : {{ user.user_weight }}0%">
 										</div>
 									</div>
