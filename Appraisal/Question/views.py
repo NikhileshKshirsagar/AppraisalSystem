@@ -285,12 +285,16 @@ def QuestionAnswer(request, questionId):
         AppraisalContents = AppraisalContent.objects.get(appresment=Appraisment_Id, question_order=questionId)
         
         if AppraisalContents.question.type == 'Subjective':
-            return render_to_response('Questions/Subjective.html', { 'AppraisalContents' : AppraisalContents, 'pages' : pages, 'nextPageNumber' : nextPageNumber, 'previousPageNumber' : previousPageNumber }, context_instance = RequestContext( request))
+            return render_to_response('Questions/Subjective.html', { 'AppraisalContents' : AppraisalContents, 'pages' : pages, 'nextPageNumber' : nextPageNumber, 
+                                                                    'previousPageNumber' : previousPageNumber, 'appraisee' : request.session['appraisee'] }, context_instance = RequestContext( request))
         if AppraisalContents.question.type == 'MCQ':
             options = Option.objects.filter(option_header=AppraisalContents.question.option_header)
-            return render_to_response('Questions/MCQ.html', { 'AppraisalContents' : AppraisalContents, 'options' : options, 'pages' : pages, 'nextPageNumber' : nextPageNumber, 'previousPageNumber' : previousPageNumber }, context_instance = RequestContext( request))    
+            return render_to_response('Questions/MCQ.html', { 'AppraisalContents' : AppraisalContents, 'options' : options, 'pages' : pages, 
+                                                             'nextPageNumber' : nextPageNumber, 'previousPageNumber' : previousPageNumber,
+                                                             'appraisee' : request.session['appraisee'] }, context_instance = RequestContext( request))    
         if AppraisalContents.question.type == 'Scale':
-            return render_to_response('Questions/Scale.html', { 'AppraisalContents' : AppraisalContents, 'pages' : pages, 'nextPageNumber' : nextPageNumber, 'previousPageNumber' : previousPageNumber }, context_instance = RequestContext( request))
+            return render_to_response('Questions/Scale.html', { 'AppraisalContents' : AppraisalContents, 'pages' : pages, 'nextPageNumber' : nextPageNumber, 
+                                                               'previousPageNumber' : previousPageNumber, 'appraisee' : request.session['appraisee'] }, context_instance = RequestContext( request))
         
     else:    
         
@@ -298,12 +302,16 @@ def QuestionAnswer(request, questionId):
         AppraisalContents = AppraisalContent.objects.get(appresment=Appraisment_Id, question_order=questionId)
         
         if AppraisalContents.question.type == 'Subjective':
-            return render_to_response('Questions/Subjective.html', { 'AppraisalContents' : AppraisalContents, 'pages' : pages, 'nextPageNumber' : nextPageNumber, 'previousPageNumber' : previousPageNumber }, context_instance = RequestContext( request))
+            return render_to_response('Questions/Subjective.html', { 'AppraisalContents' : AppraisalContents, 'pages' : pages, 'nextPageNumber' : nextPageNumber, 
+                                                                    'previousPageNumber' : previousPageNumber, 'appraisee' : request.session['appraisee'] }, context_instance = RequestContext( request))
         if AppraisalContents.question.type == 'MCQ':
             options = Option.objects.filter(option_header=AppraisalContents.question.option_header)
-            return render_to_response('Questions/MCQ.html', { 'AppraisalContents' : AppraisalContents, 'options' : options, 'pages' : pages, 'nextPageNumber' : nextPageNumber, 'previousPageNumber' : previousPageNumber }, context_instance = RequestContext( request))    
+            return render_to_response('Questions/MCQ.html', { 'AppraisalContents' : AppraisalContents, 'options' : options, 'pages' : pages, 
+                                                             'nextPageNumber' : nextPageNumber, 'previousPageNumber' : previousPageNumber,
+                                                             'appraisee' : request.session['appraisee'] }, context_instance = RequestContext( request))    
         if AppraisalContents.question.type == 'Scale':
-            return render_to_response('Questions/Scale.html', { 'AppraisalContents' : AppraisalContents, 'pages' : pages, 'nextPageNumber' : nextPageNumber, 'previousPageNumber' : previousPageNumber }, context_instance = RequestContext( request))    
+            return render_to_response('Questions/Scale.html', { 'AppraisalContents' : AppraisalContents, 'pages' : pages, 'nextPageNumber' : nextPageNumber, 
+                                                               'previousPageNumber' : previousPageNumber, 'appraisee' : request.session['appraisee'] }, context_instance = RequestContext( request))    
         
 def demo(request):
     obj_searchResult = UserDetails.objects.get(user_id=1)

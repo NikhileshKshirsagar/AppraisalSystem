@@ -8,33 +8,11 @@ function LoadSlider(sliderElement, sliderValueElement, maxValue, minValue, defau
 			 value: defaultValue,
 			 slide: function( event, ui ) {
 			 	$( sliderValueElement ).val( ui.value );
-			 	if(ui.value == 0)
-			 	{
-			 		$('#scaleNarrator').html('');
-			 	}
-			 	if(ui.value > 0 && ui.value <= 2)
-			 	{
-			 		$('#scaleNarrator').html('NOVICE');
-			 	}
-			 	if(ui.value > 2 && ui.value <= 4)
-			 	{
-			 		$('#scaleNarrator').html('BASIC');
-			 	}
-			 	if(ui.value > 4 && ui.value <= 6)
-			 	{
-			 		$('#scaleNarrator').html('COMPETENT');
-			 	}
-			 	if(ui.value > 6 && ui.value <= 8)
-			 	{
-			 		$('#scaleNarrator').html('ADVANCED');
-			 	}
-			 	if(ui.value > 8 && ui.value <= 10)
-			 	{
-			 		$('#scaleNarrator').html('EXPERT');
-			 	}
+			 	//ChangeAnswerNarration(ui.value);
 			 },
 			 change:function(event,ui){
 			 	$( sliderValueElement ).val(ui.value );
+			 	ChangeAnswerNarration(ui.value);
 			 }
 			 });
 			 $( sliderValueElement ).val(defaultValue);
@@ -71,4 +49,30 @@ function DatePicker(dateElement1, dateElement2, number_of_months)
 		 }
 		});
 	});
+}
+function ChangeAnswerNarration(value){	
+	if(value == 0)
+	{
+		$('#scaleNarrator').html('');
+	}
+	if(value > 0 && value <= 2)
+	{
+		$('#scaleNarrator').html('NOVICE');
+	}
+	if(value > 2 && value <= 4)
+	{
+		$('#scaleNarrator').html('BASIC');
+	}
+	if(value > 4 && value <= 6)
+	{
+		$('#scaleNarrator').html('COMPETENT');
+	}
+	if(value > 6 && value <= 8)
+	{
+		$('#scaleNarrator').html('ADVANCED');
+	}
+	if(value > 8 && value <= 10)
+	{
+		$('#scaleNarrator').html('EXPERT');
+	}
 }

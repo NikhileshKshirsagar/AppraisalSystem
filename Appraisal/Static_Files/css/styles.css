@@ -265,9 +265,7 @@ body
 }
 .listHeader
 {
-	
 	font-size: 15px !important;
-	padding-left: 66px;
 	font-family: cursive;	
 }
 .questionNum
@@ -304,30 +302,38 @@ body
 	height: 40%;
 	padding-top: 8px;	
 }
-.questioHeader
-{
-    /*border-bottom: 1px solid #101010;
-    border-top: 1px solid #4B4B4C;*/
-    height: 30%;
-    width: 100%;
-    font-size: 16px;
-    font-weight: bold;
-    padding-top: 5px;
-}
 .pageNumber
 {
 	position: absolute;
 	bottom: 100px;
 	vertical-align: middle;
 }
+.questioHeader
+{
+    /*border-bottom: 1px solid #101010;
+    border-top: 1px solid #4B4B4C;*/
+    height: 30%;
+    width: 100%;
+    padding-top: 5px;
+}
+.questionHeaderText
+{
+	font-size: 16px !important;
+	font-weight: bold;
+	margin-left: 10px;
+}
 .questionContent
 {
-	font-size: 15px;
-	font-style: oblique;
 	/*background-color: #FFFFFF;*/
 	margin-top: 15px;
-	height: 90%; 
+	height: 100%; 
+	margin-top: 15px;
 	/*border-radius : 10px 10px 10px 10px;*/
+}
+.questionContentText
+{
+	font-size: 18px;
+	margin-left: 10px;
 }
 .outterQuestion
 {
@@ -400,4 +406,33 @@ body
 	font-size: 15px;
 	font-weight: bold;
 	
+}
+.MCQ
+{
+	width: 70%;
+	font-size: 13px;
+	padding-top: 20px !important;
+}
+.WelcomeMessage
+{
+	height: 3%;
+	margin-top: -10px;
+	margin-bottom: 10px;
+	font-size: 15px;
+	font-weight: bold;
+	margin-left: 8px;
+}
+.userListHead
+{
+	background: rgb(30,87,153); /* Old browsers */
+	background: -moz-linear-gradient(-45deg, rgba(30,87,153,1) 0%, rgba(41,137,216,1) 33%, rgba(32,124,202,1) 69%, rgba(125,185,232,1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(30,87,153,1)), color-stop(33%,rgba(41,137,216,1)), color-stop(69%,rgba(32,124,202,1)), color-stop(100%,rgba(125,185,232,1))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(-45deg, rgba(30,87,153,1) 0%,rgba(41,137,216,1) 33%,rgba(32,124,202,1) 69%,rgba(125,185,232,1) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(-45deg, rgba(30,87,153,1) 0%,rgba(41,137,216,1) 33%,rgba(32,124,202,1) 69%,rgba(125,185,232,1) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(-45deg, rgba(30,87,153,1) 0%,rgba(41,137,216,1) 33%,rgba(32,124,202,1) 69%,rgba(125,185,232,1) 100%); /* IE10+ */
+	background: linear-gradient(135deg, rgba(30,87,153,1) 0%,rgba(41,137,216,1) 33%,rgba(32,124,202,1) 69%,rgba(125,185,232,1) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#7db9e8',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+	border-radius: 5px 5px 5px 5px;
+	text-shadow: silver;
+	padding-left: 10px;
 }
