@@ -21,7 +21,7 @@ $(function(){
 	}
 </script>
 <form id="formAppraisal" action="/question/{{ AppraisalContents.question_order }}/" method="post" style="margin-left: -5px; margin-right: 5px;" >{% csrf_token %}
-	<div class="WelcomeMessage">You are appraising {{ appraisee.firstname }} {{ appraisee.lastname }}</div>
+	<div class="WelcomeMessage">You are appraising <sapn class="badge badge-inverse" style="font-size:15px; font-style: italic;">{{ appraisee.firstname }} {{ appraisee.lastname }} </sapn></div>
 	<div style="width: 100%; margin-bottom: 20px;">
 		<div class="beforeQuestion" onclick="paging({{ previousPageNumber }})"><p class="NavsTextLeft">Previous</p></div>
 		<div class="midDiv" style="float: left; margin-left: -1px;"></div>
@@ -48,10 +48,13 @@ $(function(){
 			</div>
 		</div>
 	</div>
+	<div class="AnswerMessage">
+		<p>Your answer</p>
+	</div>
 	{% block Answer %}
 	{% endblock %}
 	<input type="hidden" name="qustnNmbr" value="{{ AppraisalContents.question_order }}" >
-	<div class="pagination pagination-large pagination-centered pageNumber">
+	<div class="pagination pagination-centered pageNumber">
 		<ul>
 			<li><a pageNumber="/question/{{ previousPageNumber }}/" onclick="paging({{ previousPageNumber }})">&laquo;</a></li>	
 			{% for page in pages %}				

@@ -8,7 +8,7 @@ function LoadSlider(sliderElement, sliderValueElement, maxValue, minValue, defau
 			 value: defaultValue,
 			 slide: function( event, ui ) {
 			 	$( sliderValueElement ).val( ui.value );
-			 	//ChangeAnswerNarration(ui.value);
+			 	ChangeAnswerNarration(ui.value);
 			 },
 			 change:function(event,ui){
 			 	$( sliderValueElement ).val(ui.value );

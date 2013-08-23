@@ -271,9 +271,7 @@ body
 .questionNum
 {
 	font-size: 20px;
-	 
 	background: #A19FA0;  
-    /*border: 1px solid #bbbbbb;*/
     border-top-width: 2px;
     border-left-width: 2px;
     border-right-width: 2px;
@@ -290,7 +288,16 @@ body
     height: 30px;
     margin-top: 10px;
     margin-left: 10px;
-    border-radius: 35px 0px 35px 0px;
+    border-radius: 35px 10px 35px 10px;
+	background: #262626; /* Old browsers */
+	background: -moz-linear-gradient(-45deg, #262626 0%, #424242 27%, #161616 41%, #0e0e0e 50%, #575757 66%, #191919 99%, #9a9a9a 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#262626), color-stop(27%,#424242), color-stop(41%,#161616), color-stop(50%,#0e0e0e), color-stop(66%,#575757), color-stop(99%,#191919), color-stop(100%,#9a9a9a)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(-45deg, #262626 0%,#424242 27%,#161616 41%,#0e0e0e 50%,#575757 66%,#191919 99%,#9a9a9a 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(-45deg, #262626 0%,#424242 27%,#161616 41%,#0e0e0e 50%,#575757 66%,#191919 99%,#9a9a9a 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(-45deg, #262626 0%,#424242 27%,#161616 41%,#0e0e0e 50%,#575757 66%,#191919 99%,#9a9a9a 100%); /* IE10+ */
+	background: linear-gradient(135deg, #262626 0%,#424242 27%,#161616 41%,#0e0e0e 50%,#575757 66%,#191919 99%,#9a9a9a 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#262626', endColorstr='#9a9a9a',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+	color: white;
 }
 .InnerQuesNum
 {
@@ -304,9 +311,10 @@ body
 }
 .pageNumber
 {
-	position: absolute;
+	
 	bottom: 60px;
-	margin-left: 25%;
+	vertical-align: middle;
+	margin-top: 10%;
 }
 .pageNumber a
 {
@@ -325,6 +333,7 @@ body
 	font-size: 16px !important;
 	font-weight: bold;
 	margin-left: 10px;
+	color: white;
 }
 .questionContent
 {
@@ -337,6 +346,7 @@ body
 {
 	font-size: 16px;
 	margin-left: 10px;
+	color: white;
 }
 .outterQuestion
 {
@@ -392,30 +402,31 @@ body
 {
 	width: 84%;
 	height: 20%;
-	margin-top: 20px;
+	margin-top: 1%;
+	margin-left: 8%;
 	background: none repeat scroll 0 0 #7B967B;
 	font-size: 15px;
-	margin-left: 8%;
+	color: white;
 }
 .Scale
 {
 	width: 60%;
 	float: left;
 	margin-top: 20px;
-	margin-left: 20px;
+	margin-left: 8%;
 }
 .scaleLabel
 {
 	margin-top: 10px;
 	font-size: 15px;
-	font-weight: bold;
-	
+	font-weight: bold;	
 }
 .MCQ
 {
 	width: 70%;
-	font-size: 13px;
-	margin-top: 17%;
+	font-size: 14px;
+	margin-top: 2%;
+	margin-left: 8%;
 }
 .WelcomeMessage
 {
@@ -457,4 +468,11 @@ body
 	width: 96%;
 	border-raduius: 10px 10px 10px 10px ;
 	margin-left: 10px;
+}
+.AnswerMessage
+{
+	font-size: 17px;
+	font-weight: bolder;
+	margin-left: 8%;
+	margin-top: 27%;
 }
