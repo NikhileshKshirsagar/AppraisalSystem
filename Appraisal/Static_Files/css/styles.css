@@ -408,8 +408,7 @@ body
 .subjective
 {
 	width: 84%;
-	height: 25%;
-	margin-top: 0%;
+	height: 100%;
 	margin-left: 8%;
 	background: none repeat scroll 0 0 #7B967B;
 	font-size: 16px;
@@ -419,7 +418,6 @@ body
 {
 	width: 100%;
 	float: left;
-	margin-top: 1%;
 	margin-left: 8%;
 	height: 20%;
 }
@@ -435,7 +433,6 @@ body
 	height: 20%;
 	float: left;
 	font-size: 14px;
-	margin-top: 1%;
 	margin-left: 8%;
 }
 .WelcomeMessage
@@ -497,4 +494,10 @@ body
 	width: 60%;
 	height: 16px;
 	border-radius: 5px 5px 5px 5px !important;
+}
+.AnswerBlock
+{
+	margin-top: 1%;
+	height: 28% !important;
+	margin-bottom: 15% !important; 
 }

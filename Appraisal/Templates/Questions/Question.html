@@ -51,10 +51,12 @@ $(function(){
 	<div class="AnswerMessage">
 		<label class="AnswerMessageLabel">Your answer</label>
 	</div>
-	{% block Answer %}
-	{% endblock %}
+	<div class="AnswerBlock">
+		{% block Answer %}
+		{% endblock %}
+	</div>
 	<input type="hidden" name="qustnNmbr" value="{{ AppraisalContents.question_order }}" >
-	<div class="pagination pagination-centered pageNumber">
+	<div class="pagination pagination-centered pageNumber" style="float: left;">
 		<ul>
 			<li><a pageNumber="/question/{{ previousPageNumber }}/" onclick="paging({{ previousPageNumber }})">&laquo;</a></li>	
 			{% for page in pages %}				

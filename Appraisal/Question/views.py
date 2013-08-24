@@ -9,6 +9,7 @@ from django.core.context_processors import csrf
 from django.utils import simplejson
 from django.utils import timezone
 from django.template.context import RequestContext
+from django.db.models import Max
 import pdb;
 
 from Login.models import UserDetails, AppraisalContent, AppraisalContent, Appraisment, Answer
@@ -244,7 +245,18 @@ def QuestionAnswer(request, questionId):
     else:
         previousPageNumber =  int(questionId) - 1    
     
-    nextPageNumber =  int(questionId) + 1
+    lastPageNumber = AppraisalContent.objects.filter(appresment=Appraisment_Id).aggregate(Max('question_order'))['question_order__max']
+    print "Last page number"
+    print lastPageNumber
+    
+    if  int(questionId) >= int(lastPageNumber) :
+        print "Greater"
+        nextPageNumber = '#'
+    else:    
+        print "Lesser"
+        nextPageNumber =  int(questionId) + 1
+    print "Next Page number"
+    print nextPageNumber
     
     if request.method == 'POST' :
         print request.POST
