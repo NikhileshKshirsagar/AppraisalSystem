@@ -8,13 +8,11 @@
 	LoadSlider($( "#answer_scale" ).get("selector"),  $( "#answerValue" ).get("selector"), 10, 0, 0 );
 	
 </script>
-
 <div class="Scale">
-	<input name="appAnswer" id="answerValue" class="sliderValue" type="text">
-	<div id="answer_scale" class="sliders"></div>
+	<div id="answer_scale" class="Answerslider"></div>
 	<label id="scaleNarrator" class="scaleLabel"></label>
 </div>
-
+<input name="appAnswer" id="answerValue" class="sliderValue" type="text" style="float: right;">
 {% if AppraisalContents.answer.answer != None %} 
 	<script type="text/javascript">	
 		setSliderValue($( "#answer_scale" ).get("selector"), {{ AppraisalContents.answer.answer }});
