@@ -27,7 +27,7 @@ $(function() {
 				arroptions = $("input[name=option_text]").val().split(",");
 				$.each(arroptions, function(index,value)
 				{
-					$( "#sortable li:last input[name=options]" ).val(value);
+					$( "#sortable li:last textArea[name=options]" ).val(value);
 					$("#btnPlus").trigger('click');
 				}
 				);
@@ -81,7 +81,7 @@ $(function() {
 
 	$("#CreateQuestion").click(function(){
 		var data="";
-		$( "input[name=options]" ).each(function( index ) {
+		$( "textArea[name=options]" ).each(function( index ) {
 			if($(this).val()!='')
 				data = data + $(this).val() +',';
 		});
@@ -132,6 +132,7 @@ $(function() {
 			
 			$('*[name=btnEditIt]').click(function() {
 				$( "#dialog-form" ).dialog( "open" );
+				$('#dialog-form').find('*[name=option_header_text]').removeAttr('readonly','readonly');
 				data = {'search_txt':$(this).attr('data')};
 				AjaxEvent(data, '/question/optionDetails/',function(data, textStatus, jqXHR){
 							var response=jQuery.parseJSON(data);
@@ -145,7 +146,7 @@ $(function() {
 								arroptions = $('#dialog-form').find("input[name=option_text]").val().split(",");
 								$.each(arroptions, function(index,value)
 								{
-									$('#dialog-form').find( "#sortable1 li:last input[name=options]" ).val(value);
+									$('#dialog-form').find( "#sortable1 li:last textArea[name=options]" ).val(value);
 									$('#dialog-form').find("#btnPlus1").trigger('click');
 								}
 								);
@@ -179,7 +180,7 @@ $(function() {
 					var data="";
 					flag=true;
 					$( "#dialog-form input").removeClass( "ui-state-error" );
-					$( "#dialog-form input[name=options]" ).each(function( index ) {
+					$( "#dialog-form textArea[name=options]" ).each(function( index ) {
 						if($(this).val()!='')
 							data = data + $(this).val() +',';
 					});
@@ -188,7 +189,7 @@ $(function() {
 					if(data=='')
 					{
 						updateTips('Enter options');
-						$( "#dialog-form input[name=options]").addClass( "ui-state-error" );
+						$( "#dialog-form textArea[name=options]").addClass( "ui-state-error" );
 					}
 					
 					if($("#dialog-form *[name=option_header_text]").val()=="")

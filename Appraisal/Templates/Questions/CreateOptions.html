@@ -2,7 +2,7 @@
 <div style="font-size:15px;">
 	<style>
 		#sortable,#sortable1 { list-style-type: none; margin: 0; padding: 0; }
-		#sortable li, #sortable1 li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.1em; height: 18px; }
+		#sortable li, #sortable1 li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.1em; height: 48px; }
 		#sortable li span, #sortable1 li span { position: absolute; margin-left: -1.3em; }
 	</style>
 	{{ optionCreateform.option_header_text.label }} <br/>
@@ -17,7 +17,7 @@
 		<a id="btnPlus" class="btn btn-primary"><i class="icon-plus-sign"></i></a>
 	</div>
 	<ul id="sortable">
-		<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><input type="text" style="margin-top:-5px;width:100%;" name="options"/></li>
+		<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><textarea type="text" name="options" style="margin-top:-5px;width:100%;height:52px;" rows="2"></textarea></li>
 	</ul>
 	<br/>
 	<div id="divRdList" class="hide">
@@ -47,7 +47,7 @@
 		<a id="btnPlus1" class="btn btn-primary"><i class="icon-plus-sign"></i></a>
 	</div>
 	<ul id="sortable1">
-		<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><input type="text" style="margin-top:-5px;width:100%;" name="options"/></li>
+		<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span><textarea type="text" name="options" style="margin-top:-5px;width:100%;height:52px;" rows="2"></textarea></li>
 	</ul>
 	</fieldset>
 	</form>
