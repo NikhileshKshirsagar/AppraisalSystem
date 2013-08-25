@@ -31,19 +31,21 @@ def GenerateReports(request):
         appraisment['question']=questionUser.question.question
         appraisment['status']=questionUser.question.type
         if questionUser.answer!=None:
-            if questionUser.question.type == 'Scale' and questionUser.question.type == 'Subjective':
+            if questionUser.question.type == 'Scale' or questionUser.question.type == 'Subjective':
                 appraisment['answerYourself']=questionUser.answer.answer
             else:
                 objoptionHeader = Option.objects.get(option_id=questionUser.answer.answer)
                 appraisment['answerYourself']=objoptionHeader.option_id
-                option_list = []
-                objOption = Option.objects.filter(option_header=objoptionHeader.option_header)
-                for options in objOption:
-                    option={}
-                    option['text']=options.option_text
-                    option['ID']=options.option_id
-                    option_list.append(option)
-                appraisment['option']=option_list
+                
+                objOption =Option.objects.filter(option_header=questionUser.question.option_header)
+                appraisment['option']=objOption
+              #  option_list = []
+              #  for options in objOption:
+              #      option={}
+              #      option['text']=options.option_text
+              #      option['ID']=options.option_id
+              #      option_list.append(option)
+               # appraisment['option']=option_list
                                 
         answerOther=''
         if objAppOthers!=None:
@@ -55,7 +57,7 @@ def GenerateReports(request):
                     objappContent=None
                 if objappContent!=None:
                     if objappContent.answer!=None:
-                        if objappContent.question.type == 'Scale' and questionUser.question.type == 'Subjective':
+                        if objappContent.question.type == 'Scale' or questionUser.question.type == 'Subjective':
                             sAnswer=sAnswer+objappContent.answer.answer
                             appraisment['answerOther']=sAnswer
                         else:
