@@ -51,10 +51,12 @@ $(function(){
 	<div class="AnswerMessage">
 		<label class="AnswerMessageLabel">Your answer</label>
 	</div>
+	<a href="/userAppraisal/appraise/{{ appraisee.user_id }}"><div class="QuestionListButton"><p style="">Back to Question List</p></div></a>
 	<div class="AnswerBlock">
 		{% block Answer %}
 		{% endblock %}
 	</div>
+	<div class="AppraisalDoneButton"></div>
 	<input type="hidden" name="qustnNmbr" value="{{ AppraisalContents.question_order }}" >
 	<div class="pagination pagination-centered pageNumber" style="float: left;">
 		<ul>

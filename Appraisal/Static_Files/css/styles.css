@@ -276,7 +276,7 @@ body
 }
 .questionNum
 {
-	font-size: 20px;
+	font-size: 18px;
 	background: #A19FA0;  
     border-top-width: 2px;
     border-left-width: 2px;
@@ -286,14 +286,14 @@ body
 	border-bottom-style: solid;
 	border-right-style: solid;
 	border-left-style: solid;
-	border-top-color: #525151;
-	border-left-color: #525151;
-	border-right-color: #525151;
-	border-bottom-color: #525151;  
-    width: 150px;  
-    height: 30px;
-    margin-top: 10px;
-    margin-left: 10px;
+	border-top-color: #E0DCDD;
+	border-left-color: #E0DCDD;
+	border-right-color: #E0DCDD;
+	border-bottom-color: #E0DCDD;  
+    width: 13%;  
+    height: 9%;
+    margin-top: 1%;
+    margin-left: 1%;
     border-radius: 35px 10px 35px 10px;
 	background: #262626; /* Old browsers */
 	background: -moz-linear-gradient(-45deg, #262626 0%, #424242 27%, #161616 41%, #0e0e0e 50%, #575757 66%, #191919 99%, #9a9a9a 100%); /* FF3.6+ */
@@ -307,8 +307,9 @@ body
 }
 .InnerQuesNum
 {
-	padding-left: 25px;
-	padding-top: 6px;
+	padding-left: 15%;
+	padding-top: 3%;
+	padding-bottom: 1%;
 }
 .question
 {
@@ -398,6 +399,38 @@ body
 	border-radius: 0px 20px 20px 0px;
 	color: #7B967B;
 }
+.QuestionListButton
+{
+	height: 28%;
+	width: 7%;
+	background: #aebcbf; /* Old browsers */
+	background: -moz-linear-gradient(-45deg, #aebcbf 0%, #0a0e0a 0%, #6e7774 100%, #0a0809 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#aebcbf), color-stop(0%,#0a0e0a), color-stop(100%,#6e7774), color-stop(100%,#0a0809)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(-45deg, #aebcbf 0%,#0a0e0a 0%,#6e7774 100%,#0a0809 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(-45deg, #aebcbf 0%,#0a0e0a 0%,#6e7774 100%,#0a0809 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(-45deg, #aebcbf 0%,#0a0e0a 0%,#6e7774 100%,#0a0809 100%); /* IE10+ */
+	background: linear-gradient(135deg, #aebcbf 0%,#0a0e0a 0%,#6e7774 100%,#0a0809 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#aebcbf', endColorstr='#0a0809',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+	border-radius: 10px 10px 10px 10px;
+	color: #7B967B;
+	float: left;
+}
+.AppraisalDoneButton
+{
+	height: 28%;
+	width: 7%;
+	background: #aebcbf; /* Old browsers */
+	background: -moz-linear-gradient(-45deg, #aebcbf 0%, #0a0e0a 0%, #6e7774 100%, #0a0809 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#aebcbf), color-stop(0%,#0a0e0a), color-stop(100%,#6e7774), color-stop(100%,#0a0809)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(-45deg, #aebcbf 0%,#0a0e0a 0%,#6e7774 100%,#0a0809 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(-45deg, #aebcbf 0%,#0a0e0a 0%,#6e7774 100%,#0a0809 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(-45deg, #aebcbf 0%,#0a0e0a 0%,#6e7774 100%,#0a0809 100%); /* IE10+ */
+	background: linear-gradient(135deg, #aebcbf 0%,#0a0e0a 0%,#6e7774 100%,#0a0809 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#aebcbf', endColorstr='#0a0809',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+	border-radius: 10px 10px 10px 10px;
+	color: #7B967B;
+	float: right;
+}
 .midDiv
 {
 	width: 1% !important;
@@ -407,19 +440,18 @@ body
 }
 .subjective
 {
-	width: 84%;
+	width: 100%;
 	height: 100%;
-	margin-left: 8%;
 	background: none repeat scroll 0 0 #7B967B;
 	font-size: 16px;
 	color: white;
 }
 .Scale
 {
-	width: 100%;
+	width: 80%;
 	float: left;
-	margin-left: 8%;
 	height: 20%;
+	margin: 2% 0% 0%  1% ;	
 }
 .scaleLabel
 {
@@ -431,9 +463,7 @@ body
 {
 	width: 100%;
 	height: 20%;
-	float: left;
 	font-size: 14px;
-	margin-left: 8%;
 }
 .WelcomeMessage
 {
@@ -491,13 +521,16 @@ body
 }
 .Answerslider
 {
-	width: 60%;
+	width: 100%;
 	height: 16px;
 	border-radius: 5px 5px 5px 5px !important;
 }
 .AnswerBlock
 {
-	margin-top: 1%;
-	height: 28% !important;
-	margin-bottom: 15% !important; 
+	/*background: none repeat scroll 0 0 #7B967B;*/
+    float: left;
+    height: 28% !important;
+    margin-left: 1%;
+    margin-top: 0;
+    width: 84%; 
 }
