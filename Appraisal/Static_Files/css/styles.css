@@ -290,10 +290,10 @@ body
 	border-left-color: #E0DCDD;
 	border-right-color: #E0DCDD;
 	border-bottom-color: #E0DCDD;  
-    width: 11%;  
+    width: 13%;  
     height: 10%;
-    margin-top: 10px;
-    margin-left: 10px;
+    margin-top: 1%;
+    margin-left: 1%;
     border-radius: 35px 10px 35px 10px;
 	background: #262626; /* Old browsers */
 	background: -moz-linear-gradient(-45deg, #262626 0%, #424242 27%, #161616 41%, #0e0e0e 50%, #575757 66%, #191919 99%, #9a9a9a 100%); /* FF3.6+ */
@@ -307,8 +307,9 @@ body
 }
 .InnerQuesNum
 {
-	padding-left: 25px;
-	padding-top: 6px;
+	padding-left: 14%;
+	padding-top: 3%;
+	padding-bottom: 1%;
 }
 .question
 {
@@ -439,7 +440,7 @@ body
 }
 .subjective
 {
-	width: 98%;
+	width: 100%;
 	height: 100%;
 	background: none repeat scroll 0 0 #7B967B;
 	font-size: 16px;
@@ -450,6 +451,7 @@ body
 	width: 80%;
 	float: left;
 	height: 20%;
+	margin: 2% 0% 0%  1% ;	
 }
 .scaleLabel
 {
@@ -519,14 +521,16 @@ body
 }
 .Answerslider
 {
-	width: 60%;
+	width: 100%;
 	height: 16px;
 	border-radius: 5px 5px 5px 5px !important;
 }
 .AnswerBlock
 {
-	width: 86%;	
-	height: 28% !important;
-	margin-left: 8%;
-	margin-top: 1%; 
+	/*background: none repeat scroll 0 0 #7B967B;*/
+    float: left;
+    height: 28% !important;
+    margin-left: 1%;
+    margin-top: 0;
+    width: 84%; 
 }

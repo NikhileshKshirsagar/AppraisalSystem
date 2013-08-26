@@ -12,7 +12,7 @@
 	<div id="answer_scale" class="Answerslider"></div>
 	<label id="scaleNarrator" class="scaleLabel"></label>
 </div>
-<!-- <input name="appAnswer" id="answerValue" class="sliderValue" type="text" style="float: right;"> -->
+<input name="appAnswer" id="answerValue" class="sliderValue" type="text" style="float: left; margin: 2% 0% 0% 5%;">
 {% if AppraisalContents.answer.answer != None %} 
 	<script type="text/javascript">	
 		setSliderValue($( "#answer_scale" ).get("selector"), {{ AppraisalContents.answer.answer }});
