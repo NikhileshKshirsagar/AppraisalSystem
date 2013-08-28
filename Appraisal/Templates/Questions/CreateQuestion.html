@@ -14,7 +14,17 @@ $(function() {
 								"<span class=\"ui-icon ui-icon-arrowthick-2-n-s\" style=\"margin-left:-1.0em;\"></span>"+
 								"<textarea type=\"text\" name=\"options\" style=\"margin-top:-5px;width:89%;height:52px;\" rows=\"2\"></textarea>"+
 								"<input name=\"spinner\" style=\"width:25px;margin-left:0px;height:25px;padding-left:4px;\"/></li>");
-			$('input[name=spinner]').spinner();
+			$('input[name=spinner]').spinner({
+					spin: function( event, ui ) {
+						if ( ui.value > 10 ) {
+							$( this ).spinner( "value", 0 );
+						return false;
+						} else if ( ui.value < 0 ) {
+							$( this ).spinner( "value", 10 );
+							return false;
+						}
+					}
+				});
 			}
 		else
 			alert("Cannot have more than 10 options");
@@ -153,7 +163,9 @@ $(function() {
 								arroptions = $('#dialog-form').find("input[name=option_text]").val().split(",");
 								$.each(arroptions, function(index,value)
 								{
-									$('#dialog-form').find( "#sortable1 li:last textArea[name=options]" ).val(value);
+									arrValue = value.split('|');
+									$('#dialog-form').find( "#sortable1 li:last textArea[name=options]" ).val(arrValue[0]);
+									$('#dialog-form').find( "#sortable1 li:last input[name=spinner]" ).val(arrValue[1]);
 									$('#dialog-form').find("#btnPlus1").trigger('click');
 								}
 								);
@@ -188,8 +200,8 @@ $(function() {
 					flag=true;
 					$( "#dialog-form input").removeClass( "ui-state-error" );
 					$( "#dialog-form textArea[name=options]" ).each(function( index ) {
-						if($(this).val()!='')
-							data = data + $(this).val() +',';
+						if($(this).val()!='' && $(this).parent().find('input[name=spinner]').val()!='')
+							data = data + $(this).val()+'|'+$(this).parent().find('input[name=spinner]').val() +',';
 					});
 					data = data.slice(0,-1);
 					$("#dialog-form input[name=option_text]").val(data);
@@ -227,8 +239,8 @@ $(function() {
 																		{
 																			alert(response.success);
 																			$( "#dialog-form" ).dialog( "close" );
-																		}
-																		
+																			$("#hrefUserExisting").trigger('click');
+																		}	
 																	},null);
 												}
 											}

@@ -68,8 +68,8 @@ def OptionList(request):
     result=''
     for optionheader in objOptions:
         result += '<div class=\"accordion\" id=\"accordion_'+str(optionheader.option_header_id)+'\" ><div class=\"accordion-group\"><div class=\"accordion-heading\"><a data-toggle=\"collapse\" data-parent=\"#accordion_'+str(optionheader.option_header_id)+'\" href=\"#accordionCollapse_'+str(optionheader.option_header_id)+'\" class=\"accordion-toggle\"><i class=\"icon-minus-sign icon-white\"></i>&nbsp;'+optionheader.title+' </a><a name=\"btnUseIt\" class=\"btn btn-primary\" data=\"'+ str(optionheader.option_header_id) +'\">Use it</a><a name=\"btnEditIt\" class=\"btn btn-primary\" data=\"'+ str(optionheader.option_header_id) +'\">Edit</a></div><div class=\"accordion-body collapse\" id=\"accordionCollapse_'+str(optionheader.option_header_id)+'\"><div class=\"accordion-inner\">' 
-        for option in optionheader.option_set.filter():
-            result+= option.option_text + '<br/>'
+        for index,option in enumerate(optionheader.option_set.filter()):
+            result+=str(index+1)+'. '+ option.option_text +  ' | ' + str(option.option_level) +'<br/>'
         result+='</div></div></div></div>'
     return HttpResponse(content=result, content_type='text/html')
 
@@ -79,7 +79,7 @@ def OptionDetails(request):
         objOptions = OptionHeader.objects.get(option_header_id=search_text);
         result =''
         for option in objOptions.option_set.filter():
-            result+= option.option_text + ','
+            result+= option.option_text + '|'+ str(option.option_level) +','
         objDetails = {'OptionHeaderID':objOptions.option_header_id,
                       'OptionHeader' :objOptions.title,
                       'Options' : result[:-1]
@@ -177,7 +177,7 @@ def editQuestion(request, questionId):
             objOption=Option.objects.filter(option_header=objOptionHeader.option_header_id)
             optionText=''
             for option in objOption:
-                optionText+=option.option_text + ','
+                optionText+=option.option_text + '|' + str(option.option_level)+','
             optionText=optionText[:-1]
             objOptionForm = OptionFrom(initial={'option_header_id':str(objOptionHeader.option_header_id),'option_text':optionText,'option_header_text':objOptionHeader.title})
             

@@ -74,8 +74,10 @@ class OptionFrom(forms.ModelForm):
          objOptionFrom = super(OptionFrom, self).save(commit=False)
          options = (self.data['option_text']).split(",")
          for index, option in enumerate(options):
+             arroption = option.split("|")
              objOptionFrom.option_header = optionHeaderId#OptionHeader.objects.latest('option_header_id')
-             objOptionFrom.option_text = option#self.data['option_text']
+             objOptionFrom.option_text = arroption[0]#self.data['option_text']
+             objOptionFrom.option_level = arroption[1]
              objOptionFrom.order = index + 1
              objOptionFrom.modified_by = userId
              objOptionFrom.modified_on = timezone.now()
