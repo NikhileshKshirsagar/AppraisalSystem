@@ -18,6 +18,7 @@ class UserCreate(forms.ModelForm):
     firstname = forms.CharField(label='First name', error_messages={'required': 'Please enter user first name.'}, widget=forms.TextInput(attrs={'class':'tableRow span5 search-query textSearch'}))
     lastname = forms.CharField(label='Last name',error_messages={'required': 'Please enter user last name.'}, widget=forms.TextInput(attrs={'class':'tableRow span5 search-query'}))
     emailid = forms.CharField(label='Email address',error_messages={'required': 'Please enter email address.'}, widget=forms.TextInput(attrs={'class':'tableRow span5 search-query'}))
+    password = form.CharField(label='Password', error_messages={'required': 'Please enter the password'} )
     user_level = forms.CharField()
     user_weight = forms.CharField()
     type = forms.ChoiceField(label='User type',choices=usertype, widget=forms.Select(attrs={'class':'tableRow span5 search-query', 'style': 'border-radius: 15px 15px 15px 15px;'}))
@@ -78,7 +79,7 @@ class UserCreate(forms.ModelForm):
         
     class Meta():
         model=UserDetails
-        fields = ('firstname','lastname','emailid','user_level', 'user_weight', 'type', 'action', 'userid',)
+        fields = ('firstname','lastname','emailid','user_level', 'user_weight', 'type', 'action', 'userid', 'password')
         
 class userListForm(forms.ModelForm):
     class Meta():

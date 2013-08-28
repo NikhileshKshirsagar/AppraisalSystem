@@ -106,6 +106,21 @@
 			</tr>
 			<tr>
 				<td>
+					{{ userCreateform.password.label }}	
+				</td>
+				<td>
+					{{ userCreateform.password }}
+					{% if  errorEmail %}
+						<div id="errorEMail" style="width: auto;">
+							{{ errorEmail }}
+						</div>
+					{% endif %}
+				</td>
+				<td>
+				</td>
+			</tr>
+			<tr>
+				<td>
 					{{ userCreateform.type.label }}	
 				</td>
 				<td>
