@@ -23,9 +23,15 @@ $(function(){
 <form id="formAppraisal" action="/question/{{ AppraisalContents.question_order }}/" method="post" style="margin-left: -5px; margin-right: 5px;" >{% csrf_token %}
 	<div class="WelcomeMessage">You are appraising <sapn class="badge badge-inverse" style="font-size:15px; font-style: italic;">{{ appraisee.firstname }} {{ appraisee.lastname }} </sapn></div>
 	<div style="width: 100%; margin-bottom: 20px;">
-		<div class="beforeQuestion" onclick="paging({{ previousPageNumber }})"><p class="NavsTextLeft">Previous</p></div>
+		<div class="beforeQuestion" onclick="paging({{ previousPageNumber }})">
+			<div style="height: 45%;"></div>
+			<p class="NavsTextLeft">Previous</p>
+		</div>
 		<div class="midDiv" style="float: left; margin-left: -1px;"></div>
-		<div class="afterQuestion" onclick="paging({{ nextPageNumber }})"><p class="NavsTextRight">Next</p></div>
+		<div class="afterQuestion" onclick="paging({{ nextPageNumber }})">
+			<div style="height: 45%;"></div>	
+			<p class="NavsTextRight">Next</p>
+		</div>
 		<div class="midDiv" style="float: right;"></div>
 		<div class="outterQuestion">
 			<div id="questionid" name="questionid" class="questionNum">
@@ -49,14 +55,25 @@ $(function(){
 		</div>
 	</div>
 	<div class="AnswerMessage">
-		<label class="AnswerMessageLabel">Your answer</label>
+		<p class="AnswerMessageLabel">Your answer</p>
 	</div>
-	<a href="/userAppraisal/appraise/{{ appraisee.user_id }}"><div class="QuestionListButton"><p style="">Back to Question List</p></div></a>
+	<a href="/userAppraisal/appraise/{{ appraisee.user_id }}">
+		<div class="QuestionListButton">
+			<div style="height: 45%;"></div>
+			<p style="padding-left: 18%;">Question</p>
+			<p style=" margin: -10px 0px 0px 30px !important; "> List</p>
+		</div>
+	</a>
 	<div class="AnswerBlock">
 		{% block Answer %}
 		{% endblock %}
 	</div>
-	<div class="AppraisalDoneButton"></div>
+	<a>
+		<div class="AppraisalDoneButton">
+			<div style="height: 45%;"></div>
+			<p style="padding-left: 30%;">Save</p>
+		</div>
+	</a>
 	<input type="hidden" name="qustnNmbr" value="{{ AppraisalContents.question_order }}" >
 	<div class="pagination pagination-centered pageNumber" style="float: left;">
 		<ul>
