@@ -286,13 +286,13 @@ body
 	border-bottom-style: solid;
 	border-right-style: solid;
 	border-left-style: solid;
-	border-top-color: #E0DCDD;
-	border-left-color: #E0DCDD;
-	border-right-color: #E0DCDD;
-	border-bottom-color: #E0DCDD;  
+	border-top-color: olive;
+	border-left-color: olive;
+	border-right-color: olive;
+	border-bottom-color: olive;  
     width: 13%;  
-    height: 50px%;
-    margin-top: 1%;
+    height: 25px;
+    margin-top: 5px;
     margin-left: 1%;
     border-radius: 35px 10px 35px 10px;
 	background: #262626; /* Old browsers */
@@ -490,12 +490,10 @@ body
 .NavsTextRight
 {
 	padding-left: 30%;
-	margin-top: 100%;
 }
 .NavsTextLeft
 {
 	padding-left: 20%;
-	margin-top: 100%;
 }
 .line
 {
@@ -508,7 +506,8 @@ body
 .AnswerMessage
 {
 	margin-left: 8%;
-	margin-top: 1% !important;
+	margin-top: 5px !important;
+	margin-bottom: -10px;
 	height: 5%;
 	float: left;
 	width: 100%;
