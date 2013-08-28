@@ -9,8 +9,13 @@ $(function() {
 	$("#tabs-1, #tabs-2").removeClass("ui-widget-content");
 	$( "#sortable,#sortable1" ).sortable();
 	$("#btnPlus,#btnPlus1").click(function(){
-		if($(this).parent().parent().find("#sortable li,#sortable1 li").length <= 10)	
-			$(this).parent().parent().find("#sortable,#sortable1").append("<li class=\"ui-state-default ui-corner-left\">"+$("#sortable li:first").html()+"</li>");
+		if($(this).parent().parent().find("#sortable li,#sortable1 li").length <= 10)	{
+			$(this).parent().parent().find("#sortable,#sortable1").append("<li class=\"ui-state-default ui-corner-left\">"+
+								"<span class=\"ui-icon ui-icon-arrowthick-2-n-s\" style=\"margin-left:-1.0em;\"></span>"+
+								"<textarea type=\"text\" name=\"options\" style=\"margin-top:-5px;width:89%;height:52px;\" rows=\"2\"></textarea>"+
+								"<input name=\"spinner\" style=\"width:25px;margin-left:0px;height:25px;padding-left:4px;\"/></li>");
+			$('input[name=spinner]').spinner();
+			}
 		else
 			alert("Cannot have more than 10 options");
 	});
@@ -27,7 +32,9 @@ $(function() {
 				arroptions = $("input[name=option_text]").val().split(",");
 				$.each(arroptions, function(index,value)
 				{
-					$( "#sortable li:last textArea[name=options]" ).val(value);
+					arrSetOpt = value.split("|");
+					$( "#sortable li:last textArea[name=options]" ).val(arrSetOpt[0]);
+					$("#sortable li:last input[name=spinner]").val(arrSetOpt[1]);
 					$("#btnPlus").trigger('click');
 				}
 				);
@@ -42,7 +49,7 @@ $(function() {
 			$("#id_option_header_id").val('0');
 			$( "#sortable" ).enableSelection();
 			$("*[name=option_header_text]").removeAttr('readonly','readonly');
-			$("#btnPlus,#btnPlus1,#btnMinus,#btnMinus1").show();
+			$("#btnPlus,#btnMinus").show();
 		}
 		else
 		{
@@ -50,7 +57,7 @@ $(function() {
 			$( "#sortable" ).disableSelection();
 			$("input[name=option_header_id]").val($("#option_header_id_temp").val());
 			$("*[name=option_header_text]").attr('readonly','readonly');
-			$("#btnPlus,#btnPlus1,#btnMinus,#btnMinus1").hide();
+			$("#btnPlus,#btnMinus").hide();
 		}
 	}
 	$('*[name=liQuestionType]').click(function(){
@@ -81,9 +88,9 @@ $(function() {
 
 	$("#CreateQuestion").click(function(){
 		var data="";
-		$( "textArea[name=options]" ).each(function( index ) {
-			if($(this).val()!='')
-				data = data + $(this).val() +',';
+		$( " form textArea[name=options]" ).each(function( index ) {
+			if($(this).val()!='' && $(this).parent().find('input[name=spinner]').val()!='')
+				data = data + $(this).val()+'|'+$(this).parent().find('input[name=spinner]').val() +',';
 		});
 		data = data.slice(0,-1);
 		$("input[name=option_text]").val(data);
