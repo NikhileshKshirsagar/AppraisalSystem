@@ -291,7 +291,7 @@ body
 	border-right-color: #E0DCDD;
 	border-bottom-color: #E0DCDD;  
     width: 13%;  
-    height: 9%;
+    height: 50px%;
     margin-top: 1%;
     margin-left: 1%;
     border-radius: 35px 10px 35px 10px;
@@ -307,9 +307,8 @@ body
 }
 .InnerQuesNum
 {
-	padding-left: 15%;
-	padding-top: 3%;
-	padding-bottom: 1%;
+	padding-left: 23px;
+	padding-top: 2px;
 }
 .question
 {
