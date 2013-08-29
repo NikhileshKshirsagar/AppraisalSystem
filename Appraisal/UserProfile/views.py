@@ -30,7 +30,7 @@ def CreateUser(request):
             # Update user
             elif request.POST.get('action') == 'Beta' :
                 try:
-                    UserDetails.objects.filter(user_id=request.POST.get('userid')).update(firstname=request.POST.get('firstname'), lastname=request.POST.get('lastname'), emailid=request.POST.get('emailid'), user_level=request.POST.get('user_level'), user_weight=request.POST.get('user_weight'), type=request.POST.get('type'))
+                    UserDetails.objects.filter(user_id=request.POST.get('userid')).update(firstname=request.POST.get('firstname'), lastname=request.POST.get('lastname'), emailid=request.POST.get('emailid'), username=request.POST.get('username'), password=request.POST.get('password'), user_level=request.POST.get('user_level'), user_weight=request.POST.get('user_weight'), type=request.POST.get('type'))
                     userCreateform = UserCreate()
                     return render_to_response('Userprofile/CreateUser.html', {'successMsg' : 'User updated successfully', 'btn' : 'Create','userCreateform' : userCreateform}, context_instance = RequestContext( request))
                 except:
@@ -45,6 +45,7 @@ def CreateUser(request):
     else:
         userCreateform = UserCreate()
         return render_to_response('Userprofile/CreateUser.html', { 'userCreateform' : userCreateform, 'btn' : 'Create' }, context_instance = RequestContext( request))
+
 def UserList(request):
     if request.method == 'POST':
         userList = UserDetails.objects.all()
@@ -74,7 +75,9 @@ def userInfo(request):
             initial = {"error" : '',
                        "firstname": obj_searchResult.firstname,
                         "lastname": obj_searchResult.lastname, 
-                        "emailid": obj_searchResult.emailid, 
+                        "emailid": obj_searchResult.emailid,
+                        "username":  obj_searchResult.username,
+                        "password":  obj_searchResult.password,
                         "user_level": obj_searchResult.user_level, 
                         "user_weight": obj_searchResult.user_weight, 
                         "type": obj_searchResult.type,
@@ -87,8 +90,7 @@ def userInfo(request):
         return HttpResponse(content=data, content_type='json')    
         
     else:
-        return HttpResponse(content='error occured', content_type='application/json')
-    
+        return HttpResponse(content='error occured', content_type='application/json')    
     
 def userProfile(request):
     if request.POST:

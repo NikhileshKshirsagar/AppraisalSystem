@@ -18,7 +18,8 @@ class UserCreate(forms.ModelForm):
     firstname = forms.CharField(label='First name', error_messages={'required': 'Please enter user first name.'}, widget=forms.TextInput(attrs={'class':'tableRow span5 search-query textSearch'}))
     lastname = forms.CharField(label='Last name',error_messages={'required': 'Please enter user last name.'}, widget=forms.TextInput(attrs={'class':'tableRow span5 search-query'}))
     emailid = forms.CharField(label='Email address',error_messages={'required': 'Please enter email address.'}, widget=forms.TextInput(attrs={'class':'tableRow span5 search-query'}))
-    password = form.CharField(label='Password', error_messages={'required': 'Please enter the password'} )
+    username = forms.CharField(label='User name',error_messages={'required': 'Please enter user name.'}, widget=forms.TextInput(attrs={'class':'tableRow span5 search-query'}))
+    password = forms.CharField(label='Password', error_messages={'required': 'Please enter the password'}, widget=forms.TextInput(attrs={'class':'tableRow span5 search-query'}))
     user_level = forms.CharField()
     user_weight = forms.CharField()
     type = forms.ChoiceField(label='User type',choices=usertype, widget=forms.Select(attrs={'class':'tableRow span5 search-query', 'style': 'border-radius: 15px 15px 15px 15px;'}))
@@ -28,6 +29,8 @@ class UserCreate(forms.ModelForm):
     def save(self,  userId,commit=True):
         obj_userForm = super(UserCreate, self).save(commit=False)
         obj_userForm.emailid = self.data['emailid']
+        obj_userForm.username = self.data['username']
+        obj_userForm.password = self.data['password']
         obj_userForm.user_level = self.data['user_level']
         obj_userForm.user_weight = self.data['user_weight']
         obj_userForm.type = self.data['type']
@@ -46,7 +49,7 @@ class UserCreate(forms.ModelForm):
                 s_existingEmail = 0
 
             if s_existingEmail > 0:
-                raise forms.ValidationError("Email address already exists.")
+                raise forms.ValidationError("Email address '" + self.cleaned_data['emailid'] + "' already exists.")
             
         elif self.data['action'] == "Beta":
             s_existingEmail = 0
@@ -58,10 +61,36 @@ class UserCreate(forms.ModelForm):
                 print s_existingEmail
            
             if s_existingEmail > 0:
-                raise forms.ValidationError("Email address already exists.")
+                raise forms.ValidationError("Email address '" + self.cleaned_data['emailid'] + "' already exists.")
                     
         return self.cleaned_data['emailid']
     
+    def clean_username(self):
+        if self.data['action'] == "Alpha":
+            print "Alpha"
+            s_existingusername = 0
+            try:
+                print self.cleaned_data['username']
+                s_existingusername = UserDetails.objects.filter(username=self.cleaned_data['username']).count()
+            except UserDetails.DoesNotExist:
+                s_existingusername = 0
+
+            if s_existingusername > 0:
+                raise forms.ValidationError("User name '" + self.cleaned_data['username'] +"' already exists.")
+            
+        elif self.data['action'] == "Beta":
+            s_existingusername = 0
+            try:
+                s_existingusername = UserDetails.objects.filter(username=self.cleaned_data['username']).exclude(user_id=self.data['userid']).count()
+            except UserDetails.DoesNotExist:
+                s_existingusername = 1
+                print s_existingusername
+           
+            if s_existingusername > 0:
+                raise forms.ValidationError("User name '" + self.cleaned_data['username'] +"' already exists.")
+        
+        return self.cleaned_data['username']
+        
     def clean_type(self):
         if self.cleaned_data['type'] == "select":
             raise forms.ValidationError("Please select user type.")

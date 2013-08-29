@@ -32,6 +32,8 @@
 								$('#id_firstname').val(response.firstname);
 								$('#id_lastname').val(response.lastname);
 								$('#id_emailid').val(response.emailid);
+								$('#id_username').val(response.username);
+								$('#id_password').val(response.password);
 								$('#id_type').val(response.type);
 								setSliderValue($( "#userLevel" ).get("selector"), response.user_level );
 								setSliderValue($( "#userWeight" ).get("selector"), response.user_weight);
@@ -106,13 +108,28 @@
 			</tr>
 			<tr>
 				<td>
+					{{ userCreateform.username.label }}	
+				</td>
+				<td>
+					{{ userCreateform.username }}
+					{% if  errorEmail %}
+						<div id="errorEMail" style="width: auto;">
+							{{ errorEmail }}
+						</div>
+					{% endif %}
+				</td>
+				<td>
+				</td>
+			</tr>
+			<tr>
+				<td>
 					{{ userCreateform.password.label }}	
 				</td>
 				<td>
 					{{ userCreateform.password }}
-					{% if  errorEmail %}
+					{% if errorPassword %}
 						<div id="errorEMail" style="width: auto;">
-							{{ errorEmail }}
+							{{ errorPassword }}
 						</div>
 					{% endif %}
 				</td>
