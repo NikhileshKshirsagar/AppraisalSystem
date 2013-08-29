@@ -3,14 +3,15 @@
 
 {% block pagecontent %}
 <script type="text/javascript">
-/*
 $(function(){
-	var pageno = 0;
-	pageno = {{ AppraisalContents.question_order }};
-	pageno += 1;
-	action = '/question/' + pageno.toString() + '/';
-	$('#formAppraisal').attr('action', action);
-});*/
+	$('#save').click(function(){ 
+		AjaxEvent({'search_txt' : 'empty'}, '/question/save/', function(data, textStatus, jqXHR){
+			console.log(data);	
+		}
+	);
+	});
+});
+
 </script>
 <script type="text/javascript">
 	function paging(pageNum)
@@ -68,12 +69,10 @@ $(function(){
 		{% block Answer %}
 		{% endblock %}
 	</div>
-	<a>
-		<div class="AppraisalDoneButton">
-			<div style="height: 45%;"></div>
-			<p style="padding-left: 30%;">Save</p>
-		</div>
-	</a>
+	<div id="save" class="AppraisalDoneButton">
+		<div style="height: 45%;"></div>
+		<p style="padding-left: 30%;">Save</p>
+	</div>
 	<input type="hidden" name="qustnNmbr" value="{{ AppraisalContents.question_order }}" >
 	<div class="pagination pagination-centered pageNumber" style="float: left;">
 		<ul>
