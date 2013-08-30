@@ -2,34 +2,43 @@
 {% load url from future %}
 
 {% block pagecontent %}
-<script type="text/javascript">
-$(function(){
+
+<!-- <script type="text/javascript">
+function(){
 	$('#save').click(function(){ 
 		AjaxEvent({'search_txt' : 'empty'}, '/question/save/', function(data, textStatus, jqXHR){
 			console.log(data);	
 		}
-	);
+		$('#formAppraisal').submit();
 	});
-});
+	});
+</script> -->
 
-</script>
 <script type="text/javascript">
-	function paging(pageNum)
+	function paging(pageNum, saveType)
 	{
-		console.log("Page Number : " + pageNum);
-		$('#formAppraisal').attr('action', '/question/' + pageNum + '/');
+		if(saveType == 'paging')
+		{
+			console.log("Page Number : " + pageNum);
+			$('#formAppraisal').attr('action', '/question/' + pageNum + '/');
+		}
+		else if(saveType == 'save')
+		{
+			$('#formAppraisal').attr('action', '/question/' + pageNum + '/save');
+		}
 		$('#formAppraisal').submit();
 	}
 </script>
+
 <form id="formAppraisal" action="/question/{{ AppraisalContents.question_order }}/" method="post" style="margin-left: -5px; margin-right: 5px;" >{% csrf_token %}
 	<div class="WelcomeMessage">You are appraising <sapn class="badge badge-inverse" style="font-size:15px; font-style: italic;">{{ appraisee.firstname }} {{ appraisee.lastname }} </sapn></div>
 	<div style="width: 100%; margin-bottom: 20px;">
-		<div class="beforeQuestion" onclick="paging({{ previousPageNumber }})">
+		<div class="beforeQuestion" onclick="paging({{ previousPageNumber }}, 'paging')">
 			<div style="height: 45%;"></div>
 			<p class="NavsTextLeft">Previous</p>
 		</div>
 		<div class="midDiv" style="float: left; margin-left: -1px;"></div>
-		<div class="afterQuestion" onclick="paging({{ nextPageNumber }})">
+		<div class="afterQuestion" onclick="paging({{ nextPageNumber }}, 'paging')">
 			<div style="height: 45%;"></div>	
 			<p class="NavsTextRight">Next</p>
 		</div>
@@ -69,18 +78,18 @@ $(function(){
 		{% block Answer %}
 		{% endblock %}
 	</div>
-	<div id="save" class="AppraisalDoneButton">
+	<div id="save" class="AppraisalDoneButton" onclick="paging({{ AppraisalContents.question_order }}, 'save')">
 		<div style="height: 45%;"></div>
 		<p style="padding-left: 30%;">Save</p>
 	</div>
 	<input type="hidden" name="qustnNmbr" value="{{ AppraisalContents.question_order }}" >
 	<div class="pagination pagination-centered pageNumber" style="float: left;">
 		<ul>
-			<li><a pageNumber="/question/{{ previousPageNumber }}/" onclick="paging({{ previousPageNumber }})">&laquo;</a></li>	
+			<li><a pageNumber="/question/{{ previousPageNumber }}/" onclick="paging({{ previousPageNumber }}, 'paging')">&laquo;</a></li>	
 			{% for page in pages %}				
-				<li><a pageNumber="/question/{{ page.question_order }}" onclick="paging({{ page.question_order }})">{{ page.question_order }}</a></li>
+				<li><a pageNumber="/question/{{ page.question_order }}" onclick="paging({{ page.question_order }}, 'paging')">{{ page.question_order }}</a></li>
 			{% endfor %}
-			<li><a pageNumber="/question/{{ nextPageNumber }}/" onclick="paging({{ nextPageNumber }})">&raquo;</a></li>
+			<li><a pageNumber="/question/{{ nextPageNumber }}/" onclick="paging({{ nextPageNumber }}, 'paging')">&raquo;</a></li>
 		</ul>
 	</div>
 </form>

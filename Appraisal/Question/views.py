@@ -191,8 +191,8 @@ def editQuestion(request, questionId):
 def userwiseQuestionList(request,requestUserID):   
     args={}
     args.update(csrf(request))
-    objAppraisment=None
-    objAppraisalContent=None
+    objAppraisment = None
+    objAppraisalContent = None
     errMessage=''
     i_UserId = UserDetails.objects.get(user_id=request.session['UserID'])
     flag=True
@@ -216,7 +216,7 @@ def userwiseQuestionList(request,requestUserID):
         
         if objAppraisment:
             if objAppraisment.status == 'Initial':
-                value= objAppraisment.appraiser.user_level
+                value = objAppraisment.appraiser.user_level
                 if objAppraisment.appraisee.user_level <= objAppraisment.appraiser.user_level :
                     value= objAppraisment.appraisee.user_level
                 objQuestion = Question.objects.filter(level__lte=value).order_by('level')
@@ -234,9 +234,10 @@ def userwiseQuestionList(request,requestUserID):
     args['error']=errMessage
     return render_to_response('Questions/UserWiseQuestionList.html', args)
 
-def QuestionAnswer(request, questionId):
+def QuestionAnswer(request, questionId, saveType):
     #pdb.set_trace()
-    
+    print "Save type"
+    print saveType
     Appraisment_Id = Appraisment.objects.get(appraiser=request.session['UserID'],appraisee=request.session['appraisee']).appraisment_id
     pages = AppraisalContent.objects.filter(appresment=Appraisment_Id)
     
