@@ -74,7 +74,7 @@ class Language(models.Model):
         db_table = 'language'
 
 class Option(models.Model):
-    option_id = models.AutoField(primary_key=True)
+    option_id = models.IntegerField(primary_key=True)
     option_header = models.ForeignKey('OptionHeader')
     option_text = models.TextField()
     option_level = models.IntegerField(null=True, blank=True)
