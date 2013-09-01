@@ -18,7 +18,7 @@ def GenerateReports(request):
     objAppUser = Appraisment.objects.get(appraisee=nUserID,appraiser=nUserID)
     objAppOthers=None
     index=0
-    arrAnswerUserList=[]
+    
     try:
         objAppOthers = Appraisment.objects.filter(appraisee=nUserID).exclude(appraiser=nUserID)
     except:
@@ -31,7 +31,9 @@ def GenerateReports(request):
         appraisment['question']=questionUser.question.question
         appraisment['status']=questionUser.question.type
         if questionUser.answer!=None:
-            if questionUser.question.type == 'Scale' or questionUser.question.type == 'Subjective':
+            if questionUser.question.type == 'Scale' :
+                appraisment['answerYourself']=questionUser.answer.answer
+            elif questionUser.question.type == 'Subjective':
                 appraisment['answerYourself']=questionUser.answer.answer
             else:
                 objoptionHeader = Option.objects.get(option_id=questionUser.answer.answer)
@@ -49,24 +51,33 @@ def GenerateReports(request):
                                 
         answerOther=''
         if objAppOthers!=None:
-            sAnswer=None
+            sAnswer=''
+            
             for questionOther in objAppOthers:
+                arrAnswerUserList=[]
                 try:
+                    #data = AppraisalContent.objects.filter(appresment=objAppOthers.appraisment_id,question=questionUser.question).count()
+                   # print data
                     objappContent = AppraisalContent.objects.get(appresment=questionOther.appraisment_id,question=questionUser.question)
                 except:
                     objappContent=None
                 if objappContent!=None:
+                    
                     if objappContent.answer!=None:
-                        if objappContent.question.type == 'Scale' or questionUser.question.type == 'Subjective':
-                            sAnswer=sAnswer+objappContent.answer.answer
+                        if objappContent.question.type == 'Scale' :
+                            sAnswer=objappContent.answer.answer
+                            appraisment['answerOther']=sAnswer
+                        elif questionUser.question.type == 'Subjective':
+                            sAnswer=sAnswer+' '+objappContent.answer.answer
                             appraisment['answerOther']=sAnswer
                         else:
                             arrAnswerUser={}
                             #sAnswer=Option.objects.get(option_id=objappContent.answer.answer).option_id
-                            arrAnswerUser['ID']=Option.objects.get(option_id=questionUser.answer.answer).option_id
+                            arrAnswerUser['ID']=Option.objects.get(option_id=objappContent.answer.answer).option_id
                             arrAnswerUserList.append(arrAnswerUser)
                             sAnswer=arrAnswerUserList
-                            appraisment['answerOther']=arrAnswerUserList
+                if questionUser.question.type == 'MCQ':
+                    appraisment['answerOther']=arrAnswerUserList
      
         appraisment_list.append(appraisment)
     
