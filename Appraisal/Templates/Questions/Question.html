@@ -3,17 +3,6 @@
 
 {% block pagecontent %}
 
-<!-- <script type="text/javascript">
-function(){
-	$('#save').click(function(){ 
-		AjaxEvent({'search_txt' : 'empty'}, '/question/save/', function(data, textStatus, jqXHR){
-			console.log(data);	
-		}
-		$('#formAppraisal').submit();
-	});
-	});
-</script> -->
-
 <script type="text/javascript">
 	function paging(pageNum, saveType)
 	{
@@ -70,8 +59,7 @@ function(){
 	<a href="/userAppraisal/appraise/{{ appraisee.user_id }}">
 		<div class="QuestionListButton">
 			<div style="height: 45%;"></div>
-			<p style="padding-left: 18%;">Question</p>
-			<p style=" margin: -10px 0px 0px 30px !important; "> List</p>
+			<p style="padding-left: 18%;">Questions</p>
 		</div>
 	</a>
 	<div class="AnswerBlock">

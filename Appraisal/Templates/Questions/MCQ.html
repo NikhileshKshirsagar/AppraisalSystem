@@ -12,6 +12,12 @@
 });
 */
 </script>
+
+ <script>
+$(function() {
+$( "#radio" ).buttonset();
+});
+</script>
 <script type="text/javascript">
 
 $(function(){
@@ -20,12 +26,14 @@ $(function(){
 
 </script>
 <div id="MCQDiv" class="MCQ">
+	<div id="radio">
 	{{ AppraisalContents.question.option_header.option_text }}
 		{% for option in options %}
-			<input type="radio" name="appAnswer" value="{{ option.option_id }}"> {{ option.option_text }}</input>
+			<input id="{{ option.option_id }}" type="radio" name="appAnswer" value="{{ option.option_id }}" /><label for="{{ option.option_id }}" style="width: 100%;"> {{ option.option_text }} </label>
 			<br>
 		{% endfor %}
-		
+		 
+	</div>
 </div>
 
 {% endblock %}
