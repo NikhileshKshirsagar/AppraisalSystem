@@ -276,12 +276,11 @@ body
 }
 .questionNum
 {
-	font-size: 18px;
-	background: #A19FA0;  
-    border-top-width: 2px;
-    border-left-width: 2px;
-    border-right-width: 2px;
-	border-bottom-width: 2px;
+	font-size: 19px;  
+    /*border-top-width: 1px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+	border-bottom-width: 1px;
 	border-top-style: solid;
 	border-bottom-style: solid;
 	border-right-style: solid;
@@ -289,12 +288,12 @@ body
 	border-top-color: olive;
 	border-left-color: olive;
 	border-right-color: olive;
-	border-bottom-color: olive;  
-    width: 13%;  
+	border-bottom-color: olive;*/
+	border-radius: 35px 10px 35px 10px;  
+    width: 130px;  
     height: 25px;
-    margin-top: 5px;
-    margin-left: 1%;
-    border-radius: 35px 10px 35px 10px;
+    /*margin-top: 5px;
+    margin-left: 1%;*/
 	background: #262626; /* Old browsers */
 	background: -moz-linear-gradient(-45deg, #262626 0%, #424242 27%, #161616 41%, #0e0e0e 50%, #575757 66%, #191919 99%, #9a9a9a 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#262626), color-stop(27%,#424242), color-stop(41%,#161616), color-stop(50%,#0e0e0e), color-stop(66%,#575757), color-stop(99%,#191919), color-stop(100%,#9a9a9a)); /* Chrome,Safari4+ */
@@ -303,7 +302,8 @@ body
 	background: -ms-linear-gradient(-45deg, #262626 0%,#424242 27%,#161616 41%,#0e0e0e 50%,#575757 66%,#191919 99%,#9a9a9a 100%); /* IE10+ */
 	background: linear-gradient(135deg, #262626 0%,#424242 27%,#161616 41%,#0e0e0e 50%,#575757 66%,#191919 99%,#9a9a9a 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#262626', endColorstr='#9a9a9a',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
-	color: white;
+	color: #7B967B;
+	font-weight: lighter;
 }
 .InnerQuesNum
 {
@@ -320,7 +320,7 @@ body
 	width: 100%;
 	bottom: 60px;
 	vertical-align: middle;
-	margin-top: 5%;
+	margin-top: 4%;
 }
 .pageNumber a
 {
@@ -363,6 +363,7 @@ body
 	background: none repeat scroll 0 0 #7B967B;
 	/*background: #649C99;*/
 	padding-right: 1px;
+	border-radius: 18px 10px 10px 10px;
 }
 .beforeQuestion
 {
@@ -400,7 +401,7 @@ body
 }
 .QuestionListButton
 {
-	height: 28%;
+	height: 35%;
 	width: 7%;
 	background: #aebcbf; /* Old browsers */
 	background: -moz-linear-gradient(-45deg, #aebcbf 0%, #0a0e0a 0%, #6e7774 100%, #0a0809 100%); /* FF3.6+ */
@@ -410,13 +411,13 @@ body
 	background: -ms-linear-gradient(-45deg, #aebcbf 0%,#0a0e0a 0%,#6e7774 100%,#0a0809 100%); /* IE10+ */
 	background: linear-gradient(135deg, #aebcbf 0%,#0a0e0a 0%,#6e7774 100%,#0a0809 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#aebcbf', endColorstr='#0a0809',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
-	border-radius: 10px 10px 10px 10px;
+	border-radius: 15px 0px 0px 15px;
 	color: #7B967B;
 	float: left;
 }
 .AppraisalDoneButton
 {
-	height: 28%;
+	height: 35%;
 	width: 7%;
 	background: #aebcbf; /* Old browsers */
 	background: -moz-linear-gradient(-45deg, #aebcbf 0%, #0a0e0a 0%, #6e7774 100%, #0a0809 100%); /* FF3.6+ */
@@ -426,7 +427,7 @@ body
 	background: -ms-linear-gradient(-45deg, #aebcbf 0%,#0a0e0a 0%,#6e7774 100%,#0a0809 100%); /* IE10+ */
 	background: linear-gradient(135deg, #aebcbf 0%,#0a0e0a 0%,#6e7774 100%,#0a0809 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#aebcbf', endColorstr='#0a0809',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
-	border-radius: 10px 10px 10px 10px;
+	border-radius: 0px 15px 15px 0px;
 	color: #7B967B;
 	float: right;
 }
@@ -527,8 +528,10 @@ body
 {
 	/*background: none repeat scroll 0 0 #7B967B;*/
     float: left;
-    height: 28% !important;
+    height: 35% !important;
     margin-left: 1%;
     margin-top: 0;
     width: 84%; 
+    background: #7B967B;
+    border-radius: 0px 0px 10px 10px;
 }
