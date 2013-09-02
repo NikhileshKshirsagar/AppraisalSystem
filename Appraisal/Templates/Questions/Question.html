@@ -17,17 +17,27 @@
 		}
 		$('#formAppraisal').submit();
 	}
+	
+	$(function(){
+		$('.control').hover(function(event){
+			$(event.currentTarget).addClass('controlHover');
+		},
+		function(event){
+			$(event.currentTarget).removeClass('controlHover');
+		});
+	});
+	
 </script>
 
 <form id="formAppraisal" action="/question/{{ AppraisalContents.question_order }}/" method="post" style="margin-left: -5px; margin-right: 5px;" >{% csrf_token %}
 	<div class="WelcomeMessage">You are appraising <sapn class="badge badge-inverse" style="font-size:15px; font-style: italic;">{{ appraisee.firstname }} {{ appraisee.lastname }} </sapn></div>
 	<div style="width: 100%; margin-bottom: 20px;">
-		<div class="beforeQuestion" onclick="paging({{ previousPageNumber }}, 'paging')">
+		<div class="beforeQuestion control" onclick="paging({{ previousPageNumber }}, 'paging')">
 			<div style="height: 45%;"></div>
 			<p class="NavsTextLeft">Previous</p>
 		</div>
 		<div class="midDiv" style="float: left; margin-left: -1px;"></div>
-		<div class="afterQuestion" onclick="paging({{ nextPageNumber }}, 'paging')">
+		<div class="afterQuestion control" onclick="paging({{ nextPageNumber }}, 'paging')">
 			<div style="height: 45%;"></div>	
 			<p class="NavsTextRight">Next</p>
 		</div>
@@ -57,7 +67,7 @@
 		<p class="AnswerMessageLabel">Your answer</p>
 	</div>
 	<a href="/userAppraisal/appraise/{{ appraisee.user_id }}">
-		<div class="QuestionListButton">
+		<div class="QuestionListButton control">
 			<div style="height: 45%;"></div>
 			<p style="padding-left: 18%;">Questions</p>
 		</div>
@@ -66,7 +76,7 @@
 		{% block Answer %}
 		{% endblock %}
 	</div>
-	<div id="save" class="AppraisalDoneButton" onclick="paging({{ AppraisalContents.question_order }}, 'save')">
+	<div id="save" class="AppraisalDoneButton control" onclick="paging({{ AppraisalContents.question_order }}, 'save')">
 		<div style="height: 45%;"></div>
 		<p style="padding-left: 30%;">Save</p>
 	</div>

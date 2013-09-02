@@ -191,7 +191,7 @@
 			<tr>
 				<td colspan="3">
 					{% if userCreateform.errors|length > 0 %}
-						<div class="alert alert-error" style="width: 50%;"> 
+						<div class="alert alert-error" style="width: 50%; list-style-type: none;"> 
 							{% for key, value in userCreateform.errors.items %} 
 								{{value}}
 							{% endfor %}
