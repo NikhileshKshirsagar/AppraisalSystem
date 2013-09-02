@@ -1,4 +1,4 @@
-<table class="table tableDisplay"><tr><td>
+<table class="table tableDisplay"><tr><td style="width:70% !important;">
 <div style="font-size:15px;">
 	<style>
 		#sortable,#sortable1 { list-style-type: none; margin: 0; padding: 0; }
@@ -7,39 +7,39 @@
 	</style>
 	<script type="text/javascript">
 	$(function(){
-		$('input[name=spinner]').spinner({
-	spin: function( event, ui ) {
-		if ( ui.value > 10 ) {
-			$( this ).spinner( "value", 0 );
-		return false;
-		} else if ( ui.value < 0 ) {
-			$( this ).spinner( "value", 10 );
-			return false;
-		}
-	}
-});
+			$('input[name=spinner]').spinner({
+				spin: function( event, ui ) {
+					if ( ui.value > 10 ) {
+						$( this ).spinner( "value", 0 );
+					return false;
+					} else if ( ui.value < 0 ) {
+						$( this ).spinner( "value", 10 );
+						return false;
+					}
+				}
+		});
 	});
 	</script>
-	{{ optionCreateform.option_header_text.label }} <br/>
+	<label  class="fontSize">{{ optionCreateform.option_header_text.label }} </label><br/>
 	{{optionCreateform.option_header_text }}<br/>
 	<br/>
 	<input type="hidden" id="option_header_id_temp" name="option_header_id"/>
 	{{optionCreateform.option_header_id}}
-	{{optionCreateform.option_text.label}}
+	<label  class="fontSize">{{optionCreateform.option_text.label}}</label>
 	{{optionCreateform.option_text}} <br/>
 	<div class="btn-group">
-		<a id="btnMinus" class="btn btn-primary"><i class="icon-minus-sign"></i></a>
-		<a id="btnPlus" class="btn btn-primary"><i class="icon-plus-sign"></i></a>
+		<a id="btnMinus" class="btn btn-inverse"><i class="icon-minus-sign"></i></a>
+		<a id="btnPlus" class="btn btn-inverse"><i class="icon-plus-sign"></i></a>
 	</div>
 	<ul id="sortable">
 		<li class="ui-state-default">
 			<span class="ui-icon ui-icon-arrowthick-2-n-s" style="margin-left:-1.0em;"></span>
-			<textarea type="text" name="options" style="margin-top:-5px;width:89%;height:52px;" rows="2"></textarea>
-			<input name="spinner" style="width:26px;margin-left:0px;height:25px;padding-left:2px;"/>
+			<textarea type="text" name="options" class="fontSize" style="margin-top:-5px;width:85%;height:52px;" rows="2"></textarea>
+			<input name="spinner" class="fontSize" style="width:26px;margin-left:0px;height:25px;padding-left:2px;"/>
 		</li>
 	</ul>
 	<br/>
-	<div id="divRdList" class="hide">
+	<div id="divRdList" class="hide fontSize">
 		<input type="radio" name="OptionList" id="rdUseExisting" value="1" checked="checked">&nbsp;Use Existing<br/>
 		<input type="radio"  name="OptionList" id="rdUseExistingforCreateNew" value="2">&nbsp;Use Existing and create new
 	</div>
@@ -48,34 +48,35 @@
 </td></tr></table>
 </td>
 <td style="vertical-align:top;">
-<table class="table tableDisplay"><tr><td>
-<a class="btn btn-primary" id="hrefUserExisting">Populate option list</a>
+<table class="table tableDisplay" ><tr><td>
+<a class="btn btn-inverse fontSize" id="hrefUserExisting">Populate option list</a>
 <div id="dialog-form" title="Edit Options" style="font-size:15px;">
- 	<p class="validateTips">All form fields are required.</p>
+ 	<p class="validateTips fontSize">All form fields are required.</p>
 	<form>
 	<fieldset>
-	{{ optionCreateform.option_header_text.label }} <br/>
-	{{optionCreateform.option_header_text }}<br/>
+	<label class="fontSize">{{ optionCreateform.option_header_text.label }}</label>
+	{{optionCreateform.option_header_text }}
+	<br/>
 	<br/>
 	<input type="hidden" id="option_header_id_temp" name="option_header_id"/>
 	{{optionCreateform.option_header_id}}
-	{{optionCreateform.option_text.label}}
-	{{optionCreateform.option_text}} <br/>
+	<label class="fontSize">{{optionCreateform.option_text.label}}</label>
+	{{optionCreateform.option_text}}
 	<div class="btn-group">
-		<a id="btnMinus1" class="btn btn-primary"><i class="icon-minus-sign"></i></a>
-		<a id="btnPlus1" class="btn btn-primary"><i class="icon-plus-sign"></i></a>
+		<a id="btnMinus1" class="btn btn-inverse"><i class="icon-minus-sign icon-white"></i></a>
+		<a id="btnPlus1" class="btn btn-inverse"><i class="icon-plus-sign icon-white"></i></a>
 	</div>
 	<ul id="sortable1">
 		<li class="ui-state-default">
 			<span class="ui-icon ui-icon-arrowthick-2-n-s" style="margin-left:-1.0em;"></span>
-			<textarea type="text" name="options" style="margin-top:-5px;width:89%;height:52px;" rows="2"></textarea>
-			<input name="spinner" style="width:26px;margin-left:0px;height:25px;padding-left:2px;"/>
+			<textarea type="text" class="fontSize" name="options" style="margin-top:-5px;width:85%;height:52px;" rows="2"></textarea>
+			<input name="spinner" class="fontSize" style="width:26px;margin-left:0px;height:25px;padding-left:2px;"/>
 		</li>
 	</ul>
 	</fieldset>
 	</form>
 </div>
-<div id="divOptionList" style="overflow:auto;height:600px;font-size:15px;">
+<div id="divOptionList" style="overflow:auto;height:600px;font-size:13px;">
 </div>
 </td></tr></table>
 </td>

@@ -12,8 +12,8 @@ $(function() {
 		if($(this).parent().parent().find("#sortable li,#sortable1 li").length <= 10)	{
 			$(this).parent().parent().find("#sortable,#sortable1").append("<li class=\"ui-state-default ui-corner-left\">"+
 								"<span class=\"ui-icon ui-icon-arrowthick-2-n-s\" style=\"margin-left:-1.0em;\"></span>"+
-								"<textarea type=\"text\" name=\"options\" style=\"margin-top:-5px;width:89%;height:52px;\" rows=\"2\"></textarea>"+
-								"<input name=\"spinner\" style=\"width:25px;margin-left:0px;height:25px;padding-left:4px;\"/></li>");
+								"<textarea type=\"text\" name=\"options\" class=\"fontSize\" style=\"margin-top:-5px;width:85%;height:52px;\" rows=\"2\"></textarea>"+
+								"<input name=\"spinner\" class=\"fontSize\" style=\"width:25px;margin-left:0px;height:25px;padding-left:4px;\"/></li>");
 			$('input[name=spinner]').spinner({
 					spin: function( event, ui ) {
 						if ( ui.value > 10 ) {
@@ -274,7 +274,7 @@ $(function() {
 		<p class=" headerFont" style="float: left; padding-top: 15px">Create question</p>
 </div>
 <br/><br/>
-<form method="post" class="form-search">{% csrf_token %}
+<form method="post" class="form-search" >{% csrf_token %}
 <div id="tabs" style="width:100%;">
 	 <ul>
 	    {%for value, text in questionCreateform.type.field.choices %}
@@ -284,8 +284,8 @@ $(function() {
 	{{questionCreateform.type_text}}
 	{{questionCreateform.questionID}}
 	<div >
-	<table><tr><td style="vertical-align:top;">
-	<table id="tabs-1" class="table tableDisplay" style="margin-left:5px;width:100%;" Common="true">
+	<table><tr><td style="vertical-align:top;" width="40%">
+	<table id="tabs-1" class="table tableDisplay fontSize" style="margin-left:5px;width:100%;" Common="true">
 	<!-- <tr>
 		<td>
 			{{ questionCreateform.type.label }}	
@@ -299,7 +299,7 @@ $(function() {
 	</tr> -->
 	<tr>
 		<td>
-			{{ questionCreateform.info.label }}	<br/>
+			<label  class="fontSize">{{ questionCreateform.info.label }}</label>	<br/>
 			{{ questionCreateform.info }}
 		</td>
 		<td>
@@ -307,7 +307,7 @@ $(function() {
 	</tr>
 	<tr class="">
 		<td width="200px">
-			{{ questionCreateform.question.label }}	<br/>
+			<label  class="fontSize">{{ questionCreateform.question.label }}	</label><br/>
 		
 			{{ questionCreateform.question }}
 		</td>
@@ -317,7 +317,7 @@ $(function() {
 	
 	<tr>
 		<td>
-			{{ questionCreateform.intent.label }}	<br/>
+			<label  class="fontSize">{{ questionCreateform.intent.label }}	</label><br/>
 			 {{ questionCreateform.intent}}
 		</td>
 		<td>
@@ -326,7 +326,7 @@ $(function() {
 	</tr>
 	<tr class="">
 		<td>
-			{{ questionCreateform.level.label }}	<br/>
+			<label  class="fontSize">{{ questionCreateform.level.label }}</label>	<br/>
 			<div id="questionLevel" class="sliders"></div>
 		</td>
 		<td>
@@ -335,7 +335,7 @@ $(function() {
 	</tr>
 	<tr class="">
 		<td>
-			{{ questionCreateform.weight.label }}	<br/>
+			<label  class="fontSize">{{ questionCreateform.weight.label }}</label>	<br/>
 			<div id="questionWeight" class="sliders"></div>
 		</td>
 		<td>
@@ -346,9 +346,9 @@ $(function() {
 	<tr>
 		<td colspan="2">
 		{% if questionCreateform.questionID.value == '0'%}
-			<input id="CreateQuestion" type="submit" value="Create" class="btn btn-medium btn-inverse">
+			<input id="CreateQuestion" type="submit" value="Create" class="btn btn-medium btn-inverse fontSize">
 		{% else %}
-			<input id="CreateQuestion" type="submit" value="Update" class="btn btn-medium btn-inverse">
+			<input id="CreateQuestion" type="submit" value="Update" class="btn btn-medium btn-inverse fontSize">
 		{%endif%}
 		</td>
 	</tr>
@@ -357,14 +357,14 @@ $(function() {
 		{% if questionCreateform.errors|length > 0 %}
 	<div class="alert alert-error"> 
 		{% for key, value in questionCreateform.errors.items %} 
-			{{value}}
+			<label  class="fontSize">{{value}}</label>
 		{% endfor %}
 	</div>
 {% endif %}
 {% if optionCreateform.errors|length > 0 %}
 	<div class="alert alert-error"> 
 		{% for key, value in optionCreateform.errors.items %} 
-			{{value}}
+			<label  class="fontSize">{{value}}</label>
 		{% endfor %}
 	</div>
 {% endif %}
@@ -375,7 +375,7 @@ $(function() {
 	</tr>
 	</table>
 	</td>
-	<td style="vertical-align:top;">
+	<td style="vertical-align:top;" width="60%">
 		<table id="tabs-2" style="width:100%;display:none;" class="table tableDisplay">
 		<tr>
 		<td style="vertical-align:top;">{% include "Questions\CreateOptions.html" %}</td>
