@@ -71,7 +71,7 @@ $(function() {
 		}
 	}
 	$('*[name=liQuestionType]').click(function(){
-		if($("#tabs-2").css('display')=="block")
+		if($("#tabs-2").css('display')=="block" || $("#tabs-2").css('display')=="table")
 		{
 			$("#tabs-1").css('display','block');
 		}
@@ -299,7 +299,7 @@ $(function() {
 	</tr> -->
 	<tr>
 		<td>
-			{{ questionCreateform.info.label }}	
+			{{ questionCreateform.info.label }}	<br/>
 			{{ questionCreateform.info }}
 		</td>
 		<td>
@@ -307,7 +307,7 @@ $(function() {
 	</tr>
 	<tr class="">
 		<td width="200px">
-			{{ questionCreateform.question.label }}	
+			{{ questionCreateform.question.label }}	<br/>
 		
 			{{ questionCreateform.question }}
 		</td>
@@ -317,7 +317,7 @@ $(function() {
 	
 	<tr>
 		<td>
-			{{ questionCreateform.intent.label }}	
+			{{ questionCreateform.intent.label }}	<br/>
 			 {{ questionCreateform.intent}}
 		</td>
 		<td>
@@ -326,7 +326,7 @@ $(function() {
 	</tr>
 	<tr class="">
 		<td>
-			{{ questionCreateform.level.label }}	
+			{{ questionCreateform.level.label }}	<br/>
 			<div id="questionLevel" class="sliders"></div>
 		</td>
 		<td>
@@ -335,7 +335,7 @@ $(function() {
 	</tr>
 	<tr class="">
 		<td>
-			{{ questionCreateform.weight.label }}	
+			{{ questionCreateform.weight.label }}	<br/>
 			<div id="questionWeight" class="sliders"></div>
 		</td>
 		<td>
@@ -376,7 +376,7 @@ $(function() {
 	</table>
 	</td>
 	<td style="vertical-align:top;">
-		<table id="tabs-2" style="width:100%;" class="table tableDisplay">
+		<table id="tabs-2" style="width:100%;display:none;" class="table tableDisplay">
 		<tr>
 		<td style="vertical-align:top;">{% include "Questions\CreateOptions.html" %}</td>
 		</tr>

@@ -707,7 +707,7 @@ button.ui-button::-moz-focus-inner {
 	padding: 0;
 	margin: 0;
 	text-align: center;
-	position: absolute;
+	position: absolute !important;
 	cursor: default;
 	display: block;
 	overflow: hidden;
