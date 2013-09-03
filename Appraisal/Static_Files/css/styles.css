@@ -419,7 +419,7 @@ body
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#aebcbf', endColorstr='#0a0809',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 	border-radius: 20px 20px 20px 20px;
 	color: #7B967B;
-	box-shadow: 0 10px 20px 
+	box-shadow: 0 10px 20px
 	black
 	inset, 0 0 8px gray;
 	color: white;
@@ -608,5 +608,5 @@ body
 	outline: 0 none;
 	font-size: 15px;
 	color: black;
-	background: #7B967B;
+	background: #D8D9D7;
 }
