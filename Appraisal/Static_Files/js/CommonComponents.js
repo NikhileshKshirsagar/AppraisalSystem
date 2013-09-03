@@ -53,7 +53,7 @@ function DatePicker(dateElement1, dateElement2, number_of_months)
 function ChangeAnswerNarration(value){	
 	if(value == 0)
 	{
-		$('#scaleNarrator').html('');
+		$('#scaleNarrator').html('SLIDE');
 	}
 	if(value > 0 && value <= 2)
 	{

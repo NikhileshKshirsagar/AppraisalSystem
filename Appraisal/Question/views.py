@@ -265,7 +265,7 @@ def QuestionAnswer(request, questionId, saveType):
         question_type = AppraisalContent.objects.get(appresment=Appraisment_Id, question_order=questionNumber).question.type
         print question_type
         print useranswer
-        if (question_type == 'Scale' and useranswer != '0') or (question_type == 'Subjective' and useranswer != ''):
+        if (question_type == 'Scale' and useranswer != '0') or (question_type == 'Subjective' and useranswer != '') or (question_type == 'MCQ'):
             print 'Saving answer'
             #try:    
             print "Question Id : " + questionNumber
