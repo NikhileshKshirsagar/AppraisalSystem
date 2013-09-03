@@ -52,9 +52,9 @@ def GenerateReports(request):
         answerOther=''
         if objAppOthers!=None:
             sAnswer=''
-            
+            arrAnswerUserList=[]
             for questionOther in objAppOthers:
-                arrAnswerUserList=[]
+                
                 try:
                     #data = AppraisalContent.objects.filter(appresment=objAppOthers.appraisment_id,question=questionUser.question).count()
                    # print data
@@ -68,7 +68,7 @@ def GenerateReports(request):
                             sAnswer=objappContent.answer.answer
                             appraisment['answerOther']=sAnswer
                         elif questionUser.question.type == 'Subjective':
-                            sAnswer=sAnswer+' '+objappContent.answer.answer
+                            sAnswer=sAnswer+objappContent.answer.answer+'\n'
                             appraisment['answerOther']=sAnswer
                         else:
                             arrAnswerUser={}
