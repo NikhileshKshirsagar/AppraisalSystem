@@ -18,12 +18,12 @@ $(function() {
 $( "#radio" ).buttonset();
 });
 </script>
-<script type="text/javascript">
 
+<script type="text/javascript">
 $(function(){
 	$('input[value={{ AppraisalContents.answer.answer }}]').attr('checked','checked');
+	$('label[for={{ AppraisalContents.answer.answer }}]').addClass('ui-state-active');
 });
-
 </script>
 <div id="MCQDiv" class="MCQ">
 	<div id="radio">

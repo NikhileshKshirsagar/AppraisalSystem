@@ -46,19 +46,12 @@
 			<div id="questionid" name="questionid" class="questionNum">
 				<div class="InnerQuesNum">Question {{ AppraisalContents.question_order }}</div>
 			</div>
-			
-			<div id="question" name="question" style="padding: 5px 5px 5px 5px;">	
-				<div class=" ">
-					<div class="question">
-						<div class="questioHeader">
-							<p class="questionHeaderText">{{ AppraisalContents.question.info }}</p>
-							<div class="line"></div>
-						</div>
-						
-						<div class="questionContent">
-							<p class="questionContentText">{{ AppraisalContents.question.question }}</p>
-						</div>
-					</div>
+			<div id="question" name="question" style="padding: 10px 5px 5px 5px; height: 78%;">	
+				<div class="questionHeader">
+					<p class="questionHeaderText">{{ AppraisalContents.question.info }}</p>
+				</div>
+				<div class="questionContent">
+					<p class="questionContentText">{{ AppraisalContents.question.question }}</p>
 				</div>
 			</div>
 		</div>

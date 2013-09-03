@@ -236,8 +236,7 @@ def userwiseQuestionList(request,requestUserID):
 
 def QuestionAnswer(request, questionId, saveType):
     #pdb.set_trace()
-    print "Save type"
-    print saveType
+    
     Appraisment_Id = Appraisment.objects.get(appraiser=request.session['UserID'],appraisee=request.session['appraisee']).appraisment_id
     pages = AppraisalContent.objects.filter(appresment=Appraisment_Id)
     
@@ -262,32 +261,35 @@ def QuestionAnswer(request, questionId, saveType):
     if request.method == 'POST' :
         print request.POST
         useranswer = request.POST.get('appAnswer')
-        
-        #Saving answer
-        #try:    
         questionNumber = request.POST.get('qustnNmbr')
-        print "Question Id : " + questionNumber
-        print "Appresment Id : "  
-        print Appraisment_Id
-        
-        try:
-            exitingAnswer = AppraisalContent.objects.get(question_order = questionNumber, appresment = Appraisment_Id)
-            print "Answer after query............."
-            print exitingAnswer
-        except AppraisalContent.DoesNotExist:
-            print "Exception.........."
-        
-        if exitingAnswer.answer != None:
-            print "Inside if"
-            Answer.objects.filter(answer_id=exitingAnswer.answer.answer_id).update(answer=useranswer, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
-        else:
-            answer = Answer.objects.create( answer = useranswer, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
-            print "Creating answer --------------------"
-            print answer.answer_id
-            AppraisalContent.objects.filter(question_order = questionNumber).filter(appresment = Appraisment_Id).update(answer=answer.answer_id ,modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
-        #except :
-            #print "ERROR............."
-        
+        question_type = AppraisalContent.objects.get(appresment=Appraisment_Id, question_order=questionNumber).question.type
+        print question_type
+        print useranswer
+        if (question_type == 'Scale' and useranswer != '0') or (question_type == 'Subjective' and useranswer != ''):
+            print 'Saving answer'
+            #try:    
+            print "Question Id : " + questionNumber
+            print "Appresment Id : "  
+            print Appraisment_Id
+            
+            try:
+                exitingAnswer = AppraisalContent.objects.get(question_order = questionNumber, appresment = Appraisment_Id)
+                print "Answer after query............."
+                print exitingAnswer
+            except AppraisalContent.DoesNotExist:
+                print "Exception.........."
+            
+            if exitingAnswer.answer != None:
+                print "Inside if"
+                Answer.objects.filter(answer_id=exitingAnswer.answer.answer_id).update(answer=useranswer, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
+            else:
+                answer = Answer.objects.create( answer = useranswer, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
+                print "Creating answer --------------------"
+                print answer.answer_id
+                AppraisalContent.objects.filter(question_order = questionNumber).filter(appresment = Appraisment_Id).update(answer=answer.answer_id ,modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
+            #except :
+                #print "ERROR............."
+            
         # Data for next question
         AppraisalContents = AppraisalContent.objects.get(appresment=Appraisment_Id, question_order=questionId)
         
@@ -300,8 +302,8 @@ def QuestionAnswer(request, questionId, saveType):
                                                              'nextPageNumber' : nextPageNumber, 'previousPageNumber' : previousPageNumber,
                                                              'appraisee' : request.session['appraisee'] }, context_instance = RequestContext( request))    
         if AppraisalContents.question.type == 'Scale':
-            return render_to_response('Questions/Scale.html', { 'AppraisalContents' : AppraisalContents, 'pages' : pages, 'nextPageNumber' : nextPageNumber, 
-                                                               'previousPageNumber' : previousPageNumber, 'appraisee' : request.session['appraisee'] }, context_instance = RequestContext( request))
+                return render_to_response('Questions/Scale.html', { 'AppraisalContents' : AppraisalContents, 'pages' : pages, 'nextPageNumber' : nextPageNumber, 
+                                                                   'previousPageNumber' : previousPageNumber, 'appraisee' : request.session['appraisee'] }, context_instance = RequestContext( request))
         
     else:    
         
@@ -318,46 +320,4 @@ def QuestionAnswer(request, questionId, saveType):
                                                              'appraisee' : request.session['appraisee'] }, context_instance = RequestContext( request))    
         if AppraisalContents.question.type == 'Scale':
             return render_to_response('Questions/Scale.html', { 'AppraisalContents' : AppraisalContents, 'pages' : pages, 'nextPageNumber' : nextPageNumber, 
-                                                               'previousPageNumber' : previousPageNumber, 'appraisee' : request.session['appraisee'] }, context_instance = RequestContext( request))    
-
-def saveAnswer(request):
-    print request.POST
-    questionNumber = request.POST.get('qustnNmbr')
-    Appraisment_Id = Appraisment.objects.get(appraiser=request.session['UserID'],appraisee=request.session['appraisee']).appraisment_id
-    useranswer = request.POST.get('appAnswer')
-    print questionNumber
-    print Appraisment_Id
-    print useranswer 
-    try:
-        exitingAnswer = AppraisalContent.objects.get(question_order = questionNumber, appresment = Appraisment_Id)
-        print "Answer after query............."
-        print exitingAnswer
-    except AppraisalContent.DoesNotExist:
-        print "Exception.........."
-    
-    if exitingAnswer.answer != None:
-        print "Inside if"
-        Answer.objects.filter(answer_id=exitingAnswer.answer.answer_id).update(answer=useranswer, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
-    else:
-        answer = Answer.objects.create( answer = useranswer, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
-        print "Creating answer --------------------"
-        print answer.answer_id
-        AppraisalContent.objects.filter(question_order = questionNumber).filter(appresment = Appraisment_Id).update(answer=answer.answer_id ,modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
-
-    return HttpResponse(content='Answer saved successfully', content_type='text/html')
-        
-def demo(request):
-    obj_searchResult = UserDetails.objects.get(user_id=1)
-    initial = {    "error" : '',
-                    "firstname": obj_searchResult.firstname,
-                    "lastname": obj_searchResult.lastname, 
-                    "emailid": obj_searchResult.emailid, 
-                    "user_level": obj_searchResult.user_level, 
-                    "user_weight": obj_searchResult.user_weight, 
-                    "type": obj_searchResult.type,
-                    "user_id" : obj_searchResult.user_id
-              }
-        
-    data = simplejson.dumps(initial)
-    return HttpResponse(content=data, content_type='json')    
-    #return render_to_response('test.html', {'data' : data})
+                                                               'previousPageNumber' : previousPageNumber, 'appraisee' : request.session['appraisee'] }, context_instance = RequestContext( request))

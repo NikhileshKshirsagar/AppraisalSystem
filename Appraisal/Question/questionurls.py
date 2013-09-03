@@ -11,5 +11,4 @@ urlpatterns = patterns('Question',
                 url(r'^editQuestion/([0-9]+)/$','views.editQuestion'),
                 url(r'^([0-9]+)/([a-zA-Z]*?)$','views.QuestionAnswer'),
                 url(r'^save/$','views.saveAnswer'),
-                url(r'^demo/$','views.demo'),
                         )
