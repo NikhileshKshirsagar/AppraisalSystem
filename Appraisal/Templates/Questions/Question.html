@@ -39,7 +39,9 @@
 				content : '{{ userInstructions }}'
 			});
 		});
-		
+	});
+	
+	$(function(){
 		$('#userInstructions').popover({
 			placement : 'bottom', 
 			title : 'Navigation info',
@@ -67,7 +69,9 @@
 			<sapn class="badge badge-inverse" style="font-size:15px; font-style: italic;">{{ appraisee.firstname }} {{ appraisee.lastname }} 
 			</sapn>
 		</div>
-		<div id="userInstructions" class="userInstructions"><p style="margin-left: 15px; margin-top: 1px; margin-bottom: 1px; margin-right: 10px;">Instructions</p></div>
+		<div id="userInstructions" class="userInstructions">
+			<button class="btn btn-small btn-inverse" type="button" style="border-radius: 50px 50px 50px 50px;">Instructions <span class="caret"></span></button>
+		</div>
 	</div>
 	<div style="width: 100%; margin-bottom: 20px;">
 		<div class="beforeQuestion control" onclick="paging({{ previousPageNumber }}, 'paging')">

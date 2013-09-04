@@ -239,11 +239,11 @@ def QuestionAnswer(request, questionId, saveType):
     
     Appraisment_Id = Appraisment.objects.get(appraiser=request.session['UserID'],appraisee=request.session['appraisee']).appraisment_id
     pages = AppraisalContent.objects.filter(appresment=Appraisment_Id)
-    userInstructions = ''
+    userInstructions = 'Navigate through the question using the paging control @ bottom or use navigation controls \'Next\' and \'Previous\'. Click on home to see your progress.'
     
     if(questionId == '1'):
         previousPageNumber = '#'
-        userInstructions = 'Navigate through the question using the paging control @ bottom or use navigation controls \'Next\' and \'Previous\'.'
+        
     else:
         previousPageNumber =  int(questionId) - 1    
     
@@ -254,10 +254,6 @@ def QuestionAnswer(request, questionId, saveType):
     if  int(questionId) >= int(lastPageNumber) :
         print "Greater"
         nextPageNumber = int(lastPageNumber)
-        if saveType == 'save' :
-            userInstructions = 'Click on home to see your progress.'
-        else:
-            userInstructions = 'This is last question, save the answer by hitting save button. Click on home to see your progress.'
     else:    
         print "Lesser"
         nextPageNumber =  int(questionId) + 1

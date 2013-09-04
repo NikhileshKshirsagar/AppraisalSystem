@@ -131,7 +131,18 @@ def userWelcome(request):
         appraismentlist['lastname'] = appraisment.appraisee.lastname
         totalcount = appraisment.appraisalcontent_set.count()
         appraismentlist['totalcount'] = totalcount
-        answeredcount = AppraisalContent.objects.filter(appresment=appraisment).exclude(answer__isnull=True).count()
+        Questions = AppraisalContent.objects.filter(appresment=appraisment).exclude(answer__isnull=True)
+        
+        for question in Questions:
+            print "-------------------------------------------------------------------"
+            print "Appraisment : " +  str(question.appresment.appraisee.firstname)
+            print "Question order: " + str(question.question_order)
+            print "Question type: "  + str(question.question.type) 
+            print "Answer : " + str(question.answer.answer)
+            if (question.question.type == 'Scale' and question.answer.answer != '0') or (question.question.type == 'Subjective' and question.answer.answer != '') or question.question.type == 'MCQ':
+                answeredcount += 1
+            print "Final Answer count" + str(answeredcount)
+            
         appraismentlist['answeredcount'] = answeredcount
         appraismentlist['status'] = appraisment.status
         if appraisment.status=='Initial':
@@ -148,7 +159,8 @@ def userWelcome(request):
                 else: 
                     status='In progress'
                     scolor='#eed79f'
-    
+            elif appraisment.status=='Completed':
+                print "Don't allow to update answer"      
         appraismentlist['statustext'] = status   
         appraismentlist['color'] = scolor
         appraisment_list.append(appraismentlist)
