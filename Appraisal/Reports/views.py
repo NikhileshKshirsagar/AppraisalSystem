@@ -36,23 +36,35 @@ def GenerateReports(request):
             elif questionUser.question.type == 'Subjective':
                 appraisment['answerYourself']=questionUser.answer.answer
             else:
+                print questionUser.question_id
+                
                 objoptionHeader = Option.objects.get(option_id=questionUser.answer.answer)
+                print objoptionHeader.option_id
                 appraisment['answerYourself']=objoptionHeader.option_id
                 
                 objOption =Option.objects.filter(option_header=questionUser.question.option_header)
-                appraisment['option']=objOption
-              #  option_list = []
-              #  for options in objOption:
-              #      option={}
-              #      option['text']=options.option_text
-              #      option['ID']=options.option_id
-              #      option_list.append(option)
-               # appraisment['option']=option_list
+              #  appraisment['option']=objOption
+                option_list = []
+                for options in objOption:
+                    option={}
+                    option['option_text']=options.option_text
+                    option['option_id']=options.option_id
+                    option['option_count']=0
+                    for questionOther in objAppOthers:
+                         objappContent = AppraisalContent.objects.get(appresment=questionOther.appraisment_id,question=questionUser.question)
+                         if objappContent.answer!=None:
+                             if objappContent.question.type == 'MCQ' :
+                                 if str(objappContent.answer.answer) == str(options.option_id):
+                                     option['option_count']=option['option_count']+1
+                    option_list.append(option)
+                appraisment['options']=option_list
                                 
         answerOther=''
         if objAppOthers!=None:
             sAnswer=''
             arrAnswerUserList=[]
+            count=0
+            appraisment['answerOther']=0
             for questionOther in objAppOthers:
                 
                 try:
@@ -62,22 +74,15 @@ def GenerateReports(request):
                 except:
                     objappContent=None
                 if objappContent!=None:
-                    
                     if objappContent.answer!=None:
                         if objappContent.question.type == 'Scale' :
                             sAnswer=objappContent.answer.answer
-                            appraisment['answerOther']=sAnswer
+                            appraisment['answerOther']=float((appraisment['answerOther']*count+int(sAnswer))/(count+1))
+                            count = count +1
+                            appraisment['count']=count
                         elif questionUser.question.type == 'Subjective':
-                            sAnswer=sAnswer+objappContent.answer.answer+'\n'
+                            sAnswer=sAnswer+objappContent.answer.answer+'\n\n'
                             appraisment['answerOther']=sAnswer
-                        else:
-                            arrAnswerUser={}
-                            #sAnswer=Option.objects.get(option_id=objappContent.answer.answer).option_id
-                            arrAnswerUser['ID']=Option.objects.get(option_id=objappContent.answer.answer).option_id
-                            arrAnswerUserList.append(arrAnswerUser)
-                            sAnswer=arrAnswerUserList
-                if questionUser.question.type == 'MCQ':
-                    appraisment['answerOther']=arrAnswerUserList
      
         appraisment_list.append(appraisment)
     
