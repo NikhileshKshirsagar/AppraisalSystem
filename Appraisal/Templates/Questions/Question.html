@@ -27,10 +27,48 @@
 		});
 	});
 	
+	/* User Instuctions */
+	options = {};
+	
+	$(function(){
+		$('#userInstructions').click(function(){
+			$('#userInstructions').popover({
+				placement : 'bottom', 
+				title : 'Navigation info',
+				html : true,
+				content : '{{ userInstructions }}'
+			});
+		});
+		
+		$('#userInstructions').popover({
+			placement : 'bottom', 
+			title : 'Navigation info',
+			html : true,
+			content : '{{ userInstructions }}'
+		});
+		$( "#userInstructions" ).effect("bounce", options, 1000, callback );
+	});
+	
+	function callback() {
+		$( "#userInstructions" ).removeAttr( "style" );
+	};
+	
+	/*setTimeout(function(){
+		//$( "#userInstructions" ).effect("Clip", options, 500, callback );
+		//$('#userInstructions').addClass('hide');
+	}, 5000)*/	
+	
 </script>
 
 <form id="formAppraisal" action="/question/{{ AppraisalContents.question_order }}/" method="post" style="margin-left: -5px; margin-right: 5px;" >{% csrf_token %}
-	<div class="WelcomeMessage">You are appraising <sapn class="badge badge-inverse" style="font-size:15px; font-style: italic;">{{ appraisee.firstname }} {{ appraisee.lastname }} </sapn></div>
+	<div style="width: 100%;">
+		<div class="WelcomeMessage">
+			You are appraising 
+			<sapn class="badge badge-inverse" style="font-size:15px; font-style: italic;">{{ appraisee.firstname }} {{ appraisee.lastname }} 
+			</sapn>
+		</div>
+		<div id="userInstructions" class="userInstructions"><p style="margin-left: 15px; margin-top: 1px; margin-bottom: 1px; margin-right: 10px;">Instructions</p></div>
+	</div>
 	<div style="width: 100%; margin-bottom: 20px;">
 		<div class="beforeQuestion control" onclick="paging({{ previousPageNumber }}, 'paging')">
 			<div style="height: 45%;"></div>

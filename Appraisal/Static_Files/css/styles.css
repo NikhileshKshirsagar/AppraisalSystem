@@ -531,6 +531,7 @@ body
 	font-size: 15px;
 	font-weight: bold;
 	margin-left: 8px;
+	width: 40%;
 }
 .userListHead
 {
@@ -609,4 +610,19 @@ body
 	font-size: 15px;
 	color: black;
 	background: #D8D9D7;
+}
+.userInstructions
+{
+	zindex : 1000;
+	border: 1px solid black	;
+	font-size: 16px;
+	background-color: rgb(53,53,53);
+	border-radius: 50px 50px 50px 50px ;
+	color: white;
+	position: absolute;
+	top: 45px;
+	right: 10px;
+	margin-right: 8.5%;
+	margin-bottom: 15px;
+	margin-top: 5px;
 }

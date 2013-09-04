@@ -129,22 +129,25 @@ def userWelcome(request):
         appraismentlist['appraiser'] = appraisment.appraiser.user_id
         appraismentlist['firstname'] = appraisment.appraisee.firstname
         appraismentlist['lastname'] = appraisment.appraisee.lastname
-        totalcount = appraisment.appraisalcontent_set.count
+        totalcount = appraisment.appraisalcontent_set.count()
         appraismentlist['totalcount'] = totalcount
-        answeredcount = AppraisalContent.objects.filter(appresment=appraisment).exclude(answer__isnull=True).count
+        answeredcount = AppraisalContent.objects.filter(appresment=appraisment).exclude(answer__isnull=True).count()
         appraismentlist['answeredcount'] = answeredcount
         appraismentlist['status'] = appraisment.status
         if appraisment.status=='Initial':
             status='Start appraising'
             scolor='#999333'
         else:
+            print "ANSWER COUNTS........."
+            print answeredcount
+            print totalcount
             if appraisment.status=='Created':
-                status='In progress'
-                scolor='#eed79f'
-            else:
                 if answeredcount == totalcount:
                     status="Done appraising"
                     scolor='#cfeeb1'
+                else: 
+                    status='In progress'
+                    scolor='#eed79f'
     
         appraismentlist['statustext'] = status   
         appraismentlist['color'] = scolor
