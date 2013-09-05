@@ -14,12 +14,20 @@
 				}
 				AjaxEvent(data, '/userprofile/submitAppraisal/', function successSerach(data, textStatus, jqXHR)
 				{
-					
+					$('#userAlerts').find('p').html(data);
+					$('#userAlerts').removeClass('hide');
+					$('#userAlerts').effect("slide", null, 500, null );
+					setTimeout(function(){
+						$('#userAlerts').effect("fold", null, 1200, callback );
+						function callback(){
+							$('#userAlerts').addClass('hide');	
+						}
+					}, 10000);
 				});
 			});
 		});	
 	</script>
-	
+	<div id="userAlerts" class="userAlerts hide"><p style="padding: 2px 2px 2px 2px;"></p></div>
 	<div class="label headerGradient headerPosition" >{% csrf_token %}
 		<p class=" headerFont" style="float: left; padding-top: 15px">Welcome {{username}}</p>
 	</div>

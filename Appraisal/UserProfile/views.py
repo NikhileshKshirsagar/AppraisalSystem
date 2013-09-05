@@ -160,7 +160,8 @@ def userWelcome(request):
                     status='In progress'
                     scolor='#eed79f'
             elif appraisment.status=='Completed':
-                print "Don't allow to update answer"      
+                status='Submitted'
+                scolor='#olive'      
         appraismentlist['statustext'] = status   
         appraismentlist['color'] = scolor
         appraisment_list.append(appraismentlist)
@@ -196,6 +197,6 @@ def submitAppraisal(request):
                 Appraisment.objects.filter(appraisment_id = i_appraismentId).update(status = 'Completed')
                 print "Successfully updated"
         except:
-            return HttpResponse(content='You are not allowed to submit appraisal for the this person.', content_type='application/json')
+            return HttpResponse(content='Cannot update status.', content_type='application/json')
         print i_appraismentId
     return HttpResponse(content='Status updated', content_type='application/json')

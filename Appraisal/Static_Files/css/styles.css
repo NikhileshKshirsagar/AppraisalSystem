@@ -623,6 +623,29 @@ body
 	top: 45px;
 	right: 10px;
 	margin-right: 8.5%;
-	
 	margin-top: 2px;
+}
+.userAlerts
+{
+	position: absolute;
+	top: 43px;
+	left: 40%;
+	color: black;
+	background-color: white;
+	border: 2px solid black;
+	border-radius: 5px 5px 5px 5px ;
+	height: 23px;
+	z-index: 2000;
+}
+.userAlertsQnA
+{
+	position: absolute;
+	top: 45px;
+	left: 30%;
+	color: black;
+	background-color: 7B967B;
+	border: 2px solid black;
+	border-radius: 5px 5px 5px 5px ;
+	height: 23px;
+	z-index: 2000;
 }

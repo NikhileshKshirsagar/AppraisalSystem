@@ -48,7 +48,7 @@
 			html : true,
 			content : '{{ userInstructions }}'
 		});
-		$( "#userInstructions" ).effect("bounce", options, 1000, callback );
+		//$( "#userInstructions" ).effect("bounce", options, 1000, callback );
 	});
 	
 	function callback() {
@@ -69,6 +69,21 @@
 			<sapn class="badge badge-inverse" style="font-size:15px; font-style: italic;">{{ appraisee.firstname }} {{ appraisee.lastname }} 
 			</sapn>
 		</div>
+		{% if userAlerts|length > 0 %}
+			<div id="userAlertsQnA" class="userAlertsQnA hide"><p style="padding: 2px 2px 2px 2px;">{{ userAlerts }}</p></div>
+			<script type="text/javascript">
+				$('#userAlertsQnA').removeClass('hide');
+				$('#userAlertsQnA').effect("slide", null, 1000, null );
+				
+				setTimeout(function(){
+					$('#userAlertsQnA').effect("fold", null, 1200, callback );
+					function callback()
+					{
+						$('#userAlertsQnA').addClass('hide');	
+					}
+				}, 10000);
+			</script>
+		{% endif %}
 		<div id="userInstructions" class="userInstructions">
 			<button class="btn btn-small btn-inverse" type="button" style="border-radius: 50px 50px 50px 50px;">Instructions <span class="caret"></span></button>
 		</div>
