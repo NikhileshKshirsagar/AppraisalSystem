@@ -35,63 +35,64 @@
 	{% if error %}
 		<div class="alert alert-error">{{error}}</div>
 	{% endif%}
+<div style="float: left; width: 60%;">	
 	{%for objapp in appraismentList%}
-	{% if objapp.appraisee == objapp.appraiser%}
-<div style="float:left;">
-<div>
-	<div style="background:#ffffff;float:left;margin:10px;">
-	<a class="btn btn-inverse" href="/userAppraisal/appraise/{{UserID}}">
-			<div style="background-image:-moz-linear-gradient(to bottom, {{objapp.color}},#ffffff);float:left;height:100px;width: 10px;">&nbsp;</div>
-		<div style="float:left;">
-		    <div style="padding:10px;padding-left:20px;">
-		           <legend style="color: white;">Appraise your self </legend>
-		           <div style="text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);background:-moz-linear-gradient(to bottom, {{objapp.color}},#ffffff);" class="btn">{{objapp.statustext}}</div>
-		    </div>
-		</div>
-		<input type="hidden" value="{{UserID}}">
-		<div style="float:right;padding-right:10px;padding-top:40px;"><h4>{{objapp.answeredcount}}/{{objapp.totalcount}}</h4></div>
-	</a>
-	<input type="button" class="completeAppraisal btn" value="Submit">
-	</div>		 
-</div>
-<div>
-{%endif%}
-{%endfor%}
+		{% if objapp.appraisee == objapp.appraiser%}
+			<div style="float:left;">
+				<div style="background:#ffffff;float:left;margin:10px;">
+					<a class="btn btn-inverse" href="/userAppraisal/appraise/{{UserID}}">
+						<div style="background-image:-moz-linear-gradient(to bottom, {{objapp.color}},#ffffff);float:left;height:100px;width: 10px;">&nbsp;</div>
+						<div style="float:left;">
+						    <div style="padding:10px;padding-left:20px;">
+						           <legend style="color: white;">Appraise your self </legend>
+						           <div style="text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);background:-moz-linear-gradient(to bottom, {{objapp.color}},#ffffff);" class="btn">{{objapp.statustext}}</div>
+						    </div>
+						</div>
+						<input type="hidden" value="{{UserID}}">
+						<div style="float:right;padding-right:10px;padding-top:40px;"><h4>{{objapp.answeredcount}}/{{objapp.totalcount}}</h4></div>
+					</a>
+					<input type="button" class="completeAppraisal btn" value="Submit">
+				</div>		 
+			</div>
+		{%endif%}
+	{%endfor%}
+
 	<div style="float:left;">
-<br/><br/>
-<legend>Appraisement List</legend>
-<table>
-<tr>
-
-{%for objapp in appraismentList%}
-{% ifnotequal objapp.appraisee objapp.appraiser%}
-{% cycle </tr><tr>,&nbsp; %}
-<td>
-<div>
-<div style="
-border-radius:10px;background: -moz-linear-gradient(to bottom, #f2f2f2, #dddaaa);float:left;margin:10px; box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1) inset, 0 20px 20px rgba(0, 0, 0, 0.2); width:300px;">
-	<a href="/userAppraisal/appraise/{{objapp.appraisee}}" style=" text-decoration: none;">		
-		<div style="background:-moz-linear-gradient(to bottom, {{objapp.color}}, #ffffff);float:left;height:100px;width: 10px;">&nbsp;</div>
-		<div style="float:left;">
-		    <div style="padding:10px;padding-left:20px;">
-		           <legend>{{objapp.firstname}}&nbsp; {{objapp.lastname}} </legend>
-		           <div style="text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);background:-moz-linear-gradient(to bottom, {{objapp.color}}, #ffffff);" class="btn">{{objapp.statustext}}</div>
-		    </div>
-		    <input type="hidden" value="{{objapp.appraisee}}">
-		</div>
-		{%ifnotequal objapp.status 'Initial'%}
-			<div style="float:right;padding-right:10px;padding-top:40px;"><h4>{{objapp.answeredcount}}/{{objapp.totalcount}}</h4></div>
-		{%endifnotequal%}
-	</a>
-	<input type="button" class="completeAppraisal btn" value="Submit">
+		<br/><br/>
+		<legend>Appraisement List</legend>
+		
+		<table style="float:left;">
+			<tr>
+			
+			{%for objapp in appraismentList%}
+				{% ifnotequal objapp.appraisee objapp.appraiser%}
+				{% cycle </tr><tr>,&nbsp; %}
+					<td>
+						<div>
+							<div style="border-radius:10px;background: -moz-linear-gradient(to bottom, #f2f2f2, #dddaaa);float:left;margin:10px; 
+								box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1) inset, 0 20px 20px rgba(0, 0, 0, 0.2); width:300px;">
+								<a href="/userAppraisal/appraise/{{objapp.appraisee}}" style=" text-decoration: none;">		
+									<div style="background:-moz-linear-gradient(to bottom, {{objapp.color}}, #ffffff);float:left;height:100px;width: 10px;">&nbsp;</div>
+									<div style="float:left;">
+									    <div style="padding:10px;padding-left:20px;">
+									           <legend>{{objapp.firstname}}&nbsp; {{objapp.lastname}} </legend>
+									           <div style="text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);background:-moz-linear-gradient(to bottom, {{objapp.color}}, #ffffff);" class="btn">{{objapp.statustext}}</div>
+									    </div>
+									    <input type="hidden" value="{{objapp.appraisee}}">
+									</div>
+									{%ifnotequal objapp.status 'Initial'%}
+										<div style="float:right;padding-right:10px;padding-top:40px;"><h4>{{objapp.answeredcount}}/{{objapp.totalcount}}</h4></div>
+									{%endifnotequal%}
+								</a>
+								<input type="button" class="completeAppraisal btn" value="Submit">
+							</div>
+						</div>
+					</td>
+				{% endifnotequal%}
+			{%endfor%}
+			</tr>
+		</table>
+	</div>
 </div>
-</div>
-</td>
-{% endifnotequal%}
-{%endfor%}
-
-
- </tr></table>
-</div></div></div>
 	{{ successMsg }}
 {% endblock %}

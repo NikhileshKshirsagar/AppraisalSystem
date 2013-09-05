@@ -54,12 +54,6 @@
 	function callback() {
 		$( "#userInstructions" ).removeAttr( "style" );
 	};
-	
-	/*setTimeout(function(){
-		//$( "#userInstructions" ).effect("Clip", options, 500, callback );
-		//$('#userInstructions').addClass('hide');
-	}, 5000)*/	
-	
 </script>
 
 <form id="formAppraisal" action="/question/{{ AppraisalContents.question_order }}/" method="post" style="margin-left: -5px; margin-right: 5px;" >{% csrf_token %}
