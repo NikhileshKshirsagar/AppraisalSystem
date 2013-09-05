@@ -38,21 +38,19 @@
 <div style="float: left; width: 60%;">	
 	{%for objapp in appraismentList%}
 		{% if objapp.appraisee == objapp.appraiser%}
-			<div style="float:left;">
-				<div style="background:#ffffff;float:left;margin:10px;">
-					<a class="btn btn-inverse" href="/userAppraisal/appraise/{{UserID}}">
-						<div style="background-image:-moz-linear-gradient(to bottom, {{objapp.color}},#ffffff);float:left;height:100px;width: 10px;">&nbsp;</div>
-						<div style="float:left;">
-						    <div style="padding:10px;padding-left:20px;">
-						           <legend style="color: white;">Appraise your self </legend>
-						           <div style="text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);background:-moz-linear-gradient(to bottom, {{objapp.color}},#ffffff);" class="btn">{{objapp.statustext}}</div>
-						    </div>
-						</div>
-						<input type="hidden" value="{{UserID}}">
-						<div style="float:right;padding-right:10px;padding-top:40px;"><h4>{{objapp.answeredcount}}/{{objapp.totalcount}}</h4></div>
-					</a>
-					<input type="button" class="completeAppraisal btn" value="Submit">
-				</div>		 
+			<div style="float:left; background:#96544A; margin-top: 15px; width: 35%;">
+				<a class="" href="/userAppraisal/appraise/{{UserID}}" style="float:left; width: 100%">
+				    <div style="padding:1px; text-align: center;">
+				           <p style="color: white; font-size: 18px;">Appraise your self </p>
+				    </div>
+					<input type="hidden" value="{{UserID}}">
+				</a>
+				<div style="width: 100%; float: left;">
+					<div style="float:right; color: white;">{{objapp.answeredcount}}/{{objapp.totalcount}}</div>
+					<div style="font-size: 16px; float: left; margin-top: 2%;  padding-left: 10px;" class=""><p style="background-color: white; color: black;">{{objapp.statustext}}</p></div>
+				</div>
+				
+				<input type="button" class="completeAppraisal btn" value="Submit" style="float: right;">
 			</div>
 		{%endif%}
 	{%endfor%}
