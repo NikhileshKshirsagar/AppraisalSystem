@@ -5,6 +5,21 @@
 		$("body").css("background-color" , "#e3e8e4 !important");
 	});
 	</script>
+		
+	<script type="text/javascript">
+		$(function(){
+			$('.completeAppraisal').click(function(event){
+				var data = {
+						'search_txt' : 	$(event.currentTarget).parent().find('input').val()
+				}
+				AjaxEvent(data, '/userprofile/submitAppraisal/', function successSerach(data, textStatus, jqXHR)
+				{
+					
+				});
+			});
+		});	
+	</script>
+	
 	<div class="label headerGradient headerPosition" >{% csrf_token %}
 		<p class=" headerFont" style="float: left; padding-top: 15px">Welcome {{username}}</p>
 	</div>
@@ -25,8 +40,10 @@
 		           <div style="text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);background:-moz-linear-gradient(to bottom, {{objapp.color}},#ffffff);" class="btn">{{objapp.statustext}}</div>
 		    </div>
 		</div>
+		<input type="hidden" value="{{UserID}}">
 		<div style="float:right;padding-right:10px;padding-top:40px;"><h4>{{objapp.answeredcount}}/{{objapp.totalcount}}</h4></div>
 	</a>
+	<input type="button" class="completeAppraisal btn" value="Submit">
 	</div>		 
 </div>
 <div>
@@ -52,11 +69,13 @@ border-radius:10px;background: -moz-linear-gradient(to bottom, #f2f2f2, #dddaaa)
 		           <legend>{{objapp.firstname}}&nbsp; {{objapp.lastname}} </legend>
 		           <div style="text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);background:-moz-linear-gradient(to bottom, {{objapp.color}}, #ffffff);" class="btn">{{objapp.statustext}}</div>
 		    </div>
+		    <input type="hidden" value="{{objapp.appraisee}}">
 		</div>
 		{%ifnotequal objapp.status 'Initial'%}
 			<div style="float:right;padding-right:10px;padding-top:40px;"><h4>{{objapp.answeredcount}}/{{objapp.totalcount}}</h4></div>
 		{%endifnotequal%}
 	</a>
+	<input type="button" class="completeAppraisal btn" value="Submit">
 </div>
 </div>
 </td>

@@ -169,3 +169,33 @@ def userWelcome(request):
     args['username']=request.session['UserName']
     args['appraismentList']=appraisment_list
     return render_to_response('UserProfile/userWelcome.html',args)
+
+def submitAppraisal(request):
+    if request.method == 'POST' :
+        answeredcount=0
+        try:
+            appraisee = request.POST.get('search_txt')
+            i_appraismentId = Appraisment.objects.get(appraiser=request.session['UserID'],appraisee=appraisee).appraisment_id
+            
+            Questions = AppraisalContent.objects.filter(appresment=i_appraismentId).exclude(answer__isnull=True)
+        
+            for question in Questions:
+                print "-------------------------------------------------------------------"
+                print "Appraisment : " +  str(question.appresment.appraisee.firstname)
+                print "Question order: " + str(question.question_order)
+                print "Question type: "  + str(question.question.type) 
+                print "Answer : " + str(question.answer.answer)
+                if (question.question.type == 'Scale' and question.answer.answer != '0') or (question.question.type == 'Subjective' and question.answer.answer != '') or question.question.type == 'MCQ':
+                    answeredcount += 1
+                print "Final Answer count" + str(answeredcount)
+            
+            i_totalQuestionCount = AppraisalContent.objects.filter(appresment=i_appraismentId).count()
+            print "Total count : " + str(i_totalQuestionCount)
+            print "Answered question count : " + str(answeredcount)
+            if int(i_totalQuestionCount) == int(answeredcount) :
+                Appraisment.objects.filter(appraisment_id = i_appraismentId).update(status = 'Completed')
+                print "Successfully updated"
+        except:
+            return HttpResponse(content='You are not allowed to submit appraisal for the this person.', content_type='application/json')
+        print i_appraismentId
+    return HttpResponse(content='Status updated', content_type='application/json')
