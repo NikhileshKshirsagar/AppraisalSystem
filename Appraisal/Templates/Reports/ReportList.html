@@ -3,111 +3,119 @@
 	<br/>
 	<style>
 	td{border-top: 0px !important; }
-	td div{border:1px solid #FF0000; border-radius:8px;box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.1) inset, 0 1px 10px rgba(0, 0, 0, 0.1);}
+	td div{border:1px solid #000000; border-radius:8px;box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4) inset, 0 1px 10px rgba(0, 0, 0, 0.4);}
+	.negative{border:1px solid #FF0000 !important;padding:0 20px 0 20px;}
+	.positive{border:1px solid #00FF00 !important;padding:0 20px 0 20px;}
+	.rightAlign{text-align:right !important;}
+	.fontBold{font-weight:Bold;}
 	</style>
-	<div style="padding-left:30px;padding-right:30px;">
-<div style="padding:30px;border:2px solid;width:90%;border-radius:20px;background:#ffffff">
-	
-			<legend style="text-align:center">Report</legend>
+<div style="padding-left:30px;padding-right:30px;">
+	<div style="padding:30px;border:2px solid;width:70%;border-radius:20px;background:#ffffff">
+		<legend style="text-align:center">Report</legend>
 		<table class="table" width="100%">
-		<thead>
-			<tr style="background:#dadada">
-				<th  width="40%">Quality</th>
-				<th  width="15%" style="text-align:right;">Self-assessment</th>
-				<th  width="15%" style="text-align:right;">Others(Average)</th>
-				<th  width="15%" style="text-align:right;">Total</th>
+			<thead>
+				<tr style="background:#dadada;box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4) inset, 0 1px 15px rgba(0, 0, 0, 0.4);">
+					<th  width="40%" style="padding-left:40px;">Quality</th>
+					<th  width="15%" class="rightAlign">Self-assessment</th>
+					<th  width="15%" class="rightAlign">Others(Average)</th>
+					<th  width="15%" class="rightAlign" style="padding-right:40px;">Total</th>
+				</tr>
+			</thead>
+			
+			<tbody>
+			{% for objReport in reports %}
+				{% if objReport.status == 'Scale' %}
+					<tr  style="padding:10px;padding-bottom:20px;">
+						<td colspan="5">
+							{%if objReport.answerYourself <= objReport.answerOther%}
+								<div class="positive">
+							{%else%}
+								<div class="negative">
+							{%endif%}
+							<table width="100%">
+								<tr>	
+									<td  width="40%" colspan="2"><label  class="fontBold">{{objReport.header}}</label></td>
+									<td  width="15%" class="rightAlign">{{objReport.answerYourself}}</td>
+									<td  width="15%" class="rightAlign">{{objReport.answerOther}}</td>
+									<td  width="15%" class="rightAlign">{{objReport.total}}</td>
+								</tr>
+							</table>
+							</div>	
+						</td>
+					</tr>
+				{% endif %}
+				{% if objReport.status == 'MCQ' %}
+					<tr style="padding:10px;padding-bottom:20px;">
+						<td colspan="5">
+						{%if objReport.mcqSelfCount <= objReport.mcqOtherCount%}
+								<div class="positive">
+							{%else%}
+								<div class="negative">
+							{%endif%}
+								<table width="100%">
+									<tr>
+										<td  width="100%" ><label  class="fontBold">{{objReport.header}}</label></td>
+										<td class="rightAlign">{{objReport.total}}</td>
+									</tr>
+									<tr>
+										<td colspan="2">
+											<table width="100%">
+												{% for option in objReport.options %}
+														<tr>
+															<td width="40%" style="border-top: 0px"><label>{{option.option_text}}</label></td>
+													
+															{% if objReport.answerYourself == option.option_id %}
+																<td width="15%" class="rightAlign" style="border-top: 0px;"><i class="icon-ok"></i></td>
+															{% else %}
+																<td width="15%" class="rightAlign" style="border-top: 0px;"><label>&nbsp;</label></td>
+															{% endif %}
+													
+															{% if option.option_count == 0 %}
+																<td width="15%" class="rightAlign" style="border-top: 0px;"><label>&nbsp;</label></td>
+															{% else %}
+																<td width="15%" class="rightAlign" style="border-top: 0px;">{{option.option_count}}</td>
+															{% endif %}
+															<td width="15%">&nbsp;</td>
+														</tr>
+												{% endfor %}
+												
+											</table>
+										</td>
+									</tr>
+								</table>
+							</div>	
+						</td>
+					</tr>
+				{% endif %}
+			{% endfor %}
+			
+			
+			
+			<tr style="padding:10px;padding-bottom:20px;">
+				<td colspan="4">
+					<br/><br/><br/>
+					<!-- <legend style="margin-bottom:5px;">Subjective</legend> -->
+				</td>
 			</tr>
-		</thead>
-		
-		<tbody>
-		{% for objReport in reports %}
-			{% if objReport.status == 'Scale' %}
-				<tr  style="padding:10px;padding-bottom:20px;">
-					<td colspan="5">
-						<div>
-						<table width="100%">
-							<tr>	
-								<td  width="40%" colspan="2">{{objReport.header}}</td>
-								<td  width="15%" style="text-align:right;">{{objReport.answerYourself}}</td>
-								<td  width="15%" style="text-align:right;">{{objReport.answerOther}}</td>
-								<td  width="15%">&nbsp;</td>
-							</tr>
-						</table>
-						</div>	
-					</td>
-				</tr>
-			{% endif %}
-			{% if objReport.status == 'MCQ' %}
-				<tr style="padding:10px;padding-bottom:20px;">
-					<td colspan="5">
-						<div style="border:1px solid #00FF00;">
-						<table width="100%"><tr>
-							<td  width="40%">{{objReport.header}}
-								<table width="100%;">
-									{% for option in objReport.options %}
-											<tr><td style="text-align:right;border-top: 0px">{{option.option_text}}</td></tr>
-									{% endfor %}
-								</table>
-							</td>
-							<td  width="15%">
-								<br/>
-								<table  width="100%;">
-									{% for option in objReport.options %}
-										
-										{% if objReport.answerYourself == option.option_id %}
-										<tr><td style="text-align:right;border-top: 0px;">	<i class="icon-ok"></i></td></tr>
-										{% else %}
-											<tr><td style="text-align:right;border-top: 0px;"><label>&nbsp;</label></td></tr>
-										{% endif %}
-										
-									{% endfor %}
-								</table>
-							</td>
-							<td  width="15%">
-							<br/>
-								<table  width="100%;">
-									{% for option in objReport.options %}
-											{% if option.option_count == 0 %}
-															<td style="text-align:right;border-top: 0px;"><label>&nbsp;</label></td></tr>
-														{% else %}
-															<td style="text-align:right;border-top: 0px;">{{option.option_count}}</td></tr>
-											{% endif %}
-									{% endfor %}
-								</table>
-							</td>
-							<td  width="15%">&nbsp;</td>
-							</tr></table>
-						</div>	
-					</td>
-				</tr>
-			{% endif %}
-		{% endfor %}
-		
-		
-		
-		<tr  style="padding:10px;padding-bottom:20px;"><td colspan="4">
-		<br/>
-		<legend style="margin-bottom:5px;">Subjective</legend>
-		</td></tr>
-		{% for objReport in reports %}
-			{% if objReport.status == 'Subjective' %}
-				<tr  style="padding:10px;padding-bottom:20px;">
-					<td  width="40%" colspan="4">
-						<div>
-						<table width="100%">
-							<tr style="background:#dadada"><td>{{objReport.header}}</td></tr>
-							<tr><td>Yourself : {{objReport.answerYourself}}</td></tr>
-							<tr><td>Others : {{objReport.answerOther|linebreaksbr}}</td></tr>
-						</table>
-						</div>
-					</td>
-				</tr>
-			{% endif %}
-		{% endfor %}
-		</tbody>	
+			{% for objReport in reports %}
+				{% if objReport.status == 'Subjective' %}
+					<tr  style="padding:10px;padding-bottom:20px;">
+						<td  width="40%" colspan="4">
+							<div>
+							<table width="100%">
+								<tr style="background:#dadada"><td class="fontBold">{{objReport.header}}</td></tr>
+								<tr><td><label class="fontBold">Yourself :</label> <label>{{objReport.answerYourself}}</label></td></tr>
+								<tr><td><label class="fontBold">Others : </label><label>{{objReport.answerOther|linebreaksbr}}</label></td></tr>
+							</table>
+							</div>
+						</td>
+					</tr>
+				{% endif %}
+			{% endfor %}
+			</tbody>	
 		</table>
-	
-	</div></div>
+	</div>
+</div>
 	{% if error %}
 		<div class="alert alert-error">{{error}}</div>
 		<a href="/welcome/" class="btn btn-primary">Back to user list</a>
