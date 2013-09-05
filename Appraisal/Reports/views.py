@@ -32,7 +32,7 @@ def GenerateReports(request):
         appraisment['status']=questionUser.question.type
         if questionUser.answer!=None:
             if questionUser.question.type == 'Scale' :
-                appraisment['answerYourself']=questionUser.answer.answer
+                appraisment['answerYourself']=float(questionUser.answer.answer)
             elif questionUser.question.type == 'Subjective':
                 appraisment['answerYourself']=questionUser.answer.answer
             else:
@@ -51,11 +51,15 @@ def GenerateReports(request):
                     option['option_id']=options.option_id
                     option['option_count']=0
                     for questionOther in objAppOthers:
-                         objappContent = AppraisalContent.objects.get(appresment=questionOther.appraisment_id,question=questionUser.question)
-                         if objappContent.answer!=None:
-                             if objappContent.question.type == 'MCQ' :
-                                 if str(objappContent.answer.answer) == str(options.option_id):
-                                     option['option_count']=option['option_count']+1
+                         try:
+                             objappContent = AppraisalContent.objects.get(appresment=questionOther.appraisment_id,question=questionUser.question)
+                         except:
+                             objappContent=None
+                         if objappContent!=None:
+                             if objappContent.answer!=None:
+                                 if objappContent.question.type == 'MCQ' :
+                                     if str(objappContent.answer.answer) == str(options.option_id):
+                                         option['option_count']=option['option_count']+1
                     option_list.append(option)
                 appraisment['options']=option_list
                                 
