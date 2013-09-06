@@ -649,3 +649,47 @@ body
 	height: 23px;
 	z-index: 2000;
 }
+.userWelcomeDiv
+{
+	float:left;
+	background:#96544A;
+	margin-top: 15px;
+	width: 280px;
+	height: 112px;
+	border-radius: 10px 10px 10px 10px;
+	border: 2px solid white; 
+	background: rgb(183,222,237); /* Old browsers */
+	background: -moz-linear-gradient(top, rgba(183,222,237,1) 0%, rgba(113,206,239,1) 22%, rgba(183,222,237,1) 91%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(183,222,237,1)), color-stop(22%,rgba(113,206,239,1)), color-stop(91%,rgba(183,222,237,1))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, rgba(183,222,237,1) 0%,rgba(113,206,239,1) 22%,rgba(183,222,237,1) 91%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, rgba(183,222,237,1) 0%,rgba(113,206,239,1) 22%,rgba(183,222,237,1) 91%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, rgba(183,222,237,1) 0%,rgba(113,206,239,1) 22%,rgba(183,222,237,1) 91%); /* IE10+ */
+	background: linear-gradient(to bottom, rgba(183,222,237,1) 0%,rgba(113,206,239,1) 22%,rgba(183,222,237,1) 91%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b7deed', endColorstr='#b7deed',GradientType=0 ); /* IE6-9 */
+	
+	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1) inset, 0 10px 14px rgba(0, 0, 0, 0.2);
+}
+.userWelcomeDivStatus
+{
+	font-size: 16px;
+	float: left;
+	margin-top: 2%;
+	padding-left: 10px;
+	color: white;
+	overflow:  auto;
+	max-width: 150px;
+	max-height: 40px;
+}
+.userWelcomeTitle
+{
+	color: white;
+	font-size: 19px;
+	border: 0px solid #E89797;
+	border-radius: 10px 10px 10px 10px;
+}
+.userWelcomeSubmitButton
+{
+	width: 260px !important;
+	height: 30px;
+	font-size: 16px;
+}

@@ -10,7 +10,7 @@
 		$(function(){
 			$('.completeAppraisal').click(function(event){
 				var data = {
-						'search_txt' : 	$(event.currentTarget).parent().find('input').val()
+						'search_txt' : 	$(event.currentTarget).parent().parent().find('input[type="hidden"]').val()
 				}
 				AjaxEvent(data, '/userprofile/submitAppraisal/', function successSerach(data, textStatus, jqXHR)
 				{
@@ -39,21 +39,20 @@
 	{%for objapp in appraismentList%}
 		{% if objapp.appraisee == objapp.appraiser%}
 			<div>
-				<div style="float:left; background:#96544A; margin-top: 15px; width: 280px; height: 110px; border-radius: 10px 10px 10px 10px; border-left: 2px solid white; 
-					border-top: 2px solid white; border-bottom: 2px solid white;">
+				<div class="userWelcomeDiv">
 					<a class="" href="/userAppraisal/appraise/{{UserID}}" style="float:left; width: 100%;">
 					    <div style="padding:1px; text-align: center;">
-					           <p style="color: white; font-size: 18px; border: 0px solid #E89797; border-radius: 10px 10px 10px 10px">Appraise your self </p>
+					           <p class="userWelcomeTitle">Appraise your self </p>
 					    </div>
 						<input type="hidden" value="{{UserID}}">
 					</a>
 					<div style="width: 100%; float: left; width: 100%;">
-						<div style="float:right; color: white; padding-right: 10px; font-size: 18px; font-weight: 600;"><p style="">{{objapp.answeredcount}}/{{objapp.totalcount}}</p></div>
-						<div style="font-size: 16px; float: left; margin-top: 2%;  padding-left: 10px; color: white; " class="" >
-							<p style="background-color: white; color: black; padding: 4px ; border-radius: 5px 5px 5px 5px;">{{objapp.statustext}}</p>
+						<div style="float:right; color: white; padding-right: 10px; padding-top: 8px; font-size: 18px; font-weight: 600;"><p style="">{{objapp.answeredcount}}/{{objapp.totalcount}}</p></div>
+						<div class="userWelcomeDivStatus" >
+							<p style="color: white;  font-weight: bold; padding: 4px ; border-radius: 5px 5px 5px 5px; {{ objapp.color }}">{{objapp.statustext}}</p>
 						</div>
 						<div class="completeAppraisal" style="width: 280px;  padding-left: 10px;">
-				  			<input type="button" class="btn btn-medium" value="submit" style="width: 260px; background: ; height: 30px;">
+				  			<input type="button" class="btn btn-medium userWelcomeSubmitButton" value="Submit Appraisal">
 				  		</div>
 					</div>
 				</div>

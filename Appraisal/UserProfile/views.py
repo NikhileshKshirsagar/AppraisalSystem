@@ -161,7 +161,7 @@ def userWelcome(request):
                     scolor='#eed79f'
             elif appraisment.status=='Completed':
                 status='Submitted'
-                scolor='#olive'      
+                scolor='background: rgb(211,229,171); background: -moz-linear-gradient(top, rgba(211,229,171,1) 0%, rgba(78,179,73,1) 97%); /* FF3.6+ */ background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(211,229,171,1)), color-stop(97%,rgba(78,179,73,1))); /* Chrome,Safari4+ */background: -webkit-linear-gradient(top, rgba(211,229,171,1) 0%,rgba(78,179,73,1) 97%); /* Chrome10+,Safari5.1+ */background: -o-linear-gradient(top, rgba(211,229,171,1) 0%,rgba(78,179,73,1) 97%); /* Opera 11.10+ */background: -ms-linear-gradient(top, rgba(211,229,171,1) 0%,rgba(78,179,73,1) 97%); /* IE10+ */background: linear-gradient(to bottom, rgba(211,229,171,1) 0%,rgba(78,179,73,1) 97%); /* W3C */filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=\'#d3e5ab\', endColorstr=\'#4eb349\',GradientType=0 ); /* IE6-9 */'      
         appraismentlist['statustext'] = status   
         appraismentlist['color'] = scolor
         appraisment_list.append(appraismentlist)
@@ -176,10 +176,11 @@ def submitAppraisal(request):
         answeredcount=0
         try:
             appraisee = request.POST.get('search_txt')
+            print appraisee
             i_appraismentId = Appraisment.objects.get(appraiser=request.session['UserID'],appraisee=appraisee).appraisment_id
-            
+            print "i_appraismentId : "  + str(i_appraismentId)
             Questions = AppraisalContent.objects.filter(appresment=i_appraismentId).exclude(answer__isnull=True)
-        
+            
             for question in Questions:
                 print "-------------------------------------------------------------------"
                 print "Appraisment : " +  str(question.appresment.appraisee.firstname)
