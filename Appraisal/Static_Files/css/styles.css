@@ -230,7 +230,7 @@ body
 {
 	padding-top:60px !important;
 	padding-left:10px !important;
-	background-color:#e3e8e4 !important;
+	background: url("images/bg.jpg") repeat scroll 0 0 transparent !important;
 }
 .UserListing
 {
