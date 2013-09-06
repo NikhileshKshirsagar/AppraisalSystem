@@ -39,30 +39,36 @@
 	{%for objapp in appraismentList%}
 		{% if objapp.appraisee == objapp.appraiser%}
 			<div>
-				<div style="float:left; background:#96544A; margin-top: 15px; width: 280px; height: 110px; border-radius: 8px 0px 0px 8px; border: 2px solid white;">
-					<a class="" href="/userAppraisal/appraise/{{UserID}}" style="float:left; width: 100%">
+				<div style="float:left; background:#96544A; margin-top: 15px; width: 280px; height: 110px; border-radius: 10px 10px 10px 10px; border-left: 2px solid white; 
+					border-top: 2px solid white; border-bottom: 2px solid white;">
+					<a class="" href="/userAppraisal/appraise/{{UserID}}" style="float:left; width: 100%;">
 					    <div style="padding:1px; text-align: center;">
-					           <p style="color: white; font-size: 18px;">Appraise your self </p>
+					           <p style="color: white; font-size: 18px; border: 0px solid #E89797; border-radius: 10px 10px 10px 10px">Appraise your self </p>
 					    </div>
 						<input type="hidden" value="{{UserID}}">
 					</a>
 					<div style="width: 100%; float: left; width: 100%;">
-						<div style="float:right; color: white; padding-right: 10px;"><p style="">{{objapp.answeredcount}}/{{objapp.totalcount}}</p></div>
-						<div style="font-size: 16px; float: left; margin-top: 2%;  padding-left: 10px; color: white; width: 60%;" class="" >
-							Status : <p style="background-color: white; color: black; padding: 4px ; border-radius: 5px 5px 5px 5px;">{{objapp.statustext}}</p>
+						<div style="float:right; color: white; padding-right: 10px; font-size: 18px; font-weight: 600;"><p style="">{{objapp.answeredcount}}/{{objapp.totalcount}}</p></div>
+						<div style="font-size: 16px; float: left; margin-top: 2%;  padding-left: 10px; color: white; " class="" >
+							<p style="background-color: white; color: black; padding: 4px ; border-radius: 5px 5px 5px 5px;">{{objapp.statustext}}</p>
 						</div>
+						<div class="completeAppraisal" style="width: 280px;  padding-left: 10px;">
+				  			<input type="button" class="btn btn-medium" value="submit" style="width: 260px; background: ; height: 30px;">
+				  		</div>
 					</div>
 				</div>
-				<div class="completeAppraisal" style="float: left; margin-top: 15px; width: 18px; height: 110px; border: 1px solid white; background:#96544A; border-radius: 0px 5px 5px 0px; margin-left: 1px;  box-shadow: 0 2px 1px white inset, 5px 5px 5px gray;">  
-				   <table style="font-size: 12px; text-align: center; color: white; font-family: fantasy;">
-					   <tr> <td style="padding-left: 4px; padding-top: 5px;"> S </td></tr>  
-					   <tr> <td style="padding-left: 4px;"> u </td></tr>  
-					   <tr> <td style="padding-left: 4px;"> b </td></tr>
-					   <tr> <td style="padding-left: 4px;"> m </td></tr>
-					   <tr> <td style="padding-left: 4px;"> i </td></tr>
-					   <tr> <td style="padding-left: 4px;"> t  </td></tr>
-				  </table>
-				  </div>
+				<!--<div class="completeAppraisal" style="float: left; margin-top: 15px; width: 25px; height: 111px; border: 0px solid white; 
+					background:#96544A; border-radius: 0px 8px 8px 0px; margin-left: 1px;  box-shadow: 0 1px 1px white inset, 1px 0px 1px gray;  
+						border-right: 2px solid white;">  
+				    <table style="font-size: 12px; text-align: center; color: white; font-family: fantasy;  font-weight: bold;">
+					   <tr> <td style="padding-left: 7px; padding-top: 4px;"> S </td></tr>  
+					   <tr> <td style="padding-left: 7px;"> U </td></tr>  
+					   <tr> <td style="padding-left: 7px;"> B </td></tr>
+					   <tr> <td style="padding-left: 7px;"> M </td></tr>
+					   <tr> <td style="padding-left: 7px;"> I </td></tr>
+					   <tr> <td style="padding-left: 7px;"> T  </td></tr>
+				  </table> 
+				  </div>-->
 			</div>
 		{%endif%}
 	{%endfor%}
