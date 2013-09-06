@@ -49,7 +49,7 @@
 					<div style="width: 100%; float: left; width: 100%;">
 						<div style="float:right; color: white; padding-right: 10px; padding-top: 8px; font-size: 18px; font-weight: 600;"><p style="">{{objapp.answeredcount}}/{{objapp.totalcount}}</p></div>
 						<div class="userWelcomeDivStatus" >
-							<p style="color: white;  font-weight: bold; padding: 4px ; border-radius: 5px 5px 5px 5px; {{ objapp.color }}">{{objapp.statustext}}</p>
+							<p style="color: white; padding: 4px ; border-radius: 5px 5px 5px 5px; {{ objapp.color }}">{{objapp.statustext}}</p>
 						</div>
 						<div class="completeAppraisal" style="width: 280px;  padding-left: 10px;">
 				  			<input type="button" class="btn btn-medium userWelcomeSubmitButton" value="Submit Appraisal">
@@ -83,8 +83,8 @@
 				{% ifnotequal objapp.appraisee objapp.appraiser%}
 				{% cycle </tr><tr>,&nbsp; %}
 					<td>
-						<div>
-							<div style="border-radius:10px;background: -moz-linear-gradient(to bottom, #f2f2f2, #dddaaa);float:left;margin:10px; 
+						<!--<div>
+							 <div style="border-radius:10px;background: -moz-linear-gradient(to bottom, #f2f2f2, #dddaaa);float:left;margin:10px; 
 								box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1) inset, 0 20px 20px rgba(0, 0, 0, 0.2); width:300px;">
 								<a href="/userAppraisal/appraise/{{objapp.appraisee}}" style=" text-decoration: none;">		
 									<div style="background:-moz-linear-gradient(to bottom, {{objapp.color}}, #ffffff);float:left;height:100px;width: 10px;">&nbsp;</div>
@@ -101,6 +101,24 @@
 								</a>
 								<input type="button" class="completeAppraisal btn" value="Submit">
 							</div>
+							<div> -->
+				<div class="userWelcomeDivOthers">
+					<a class="" href="/userAppraisal/appraise/{{ objapp.appraisee }}" style="float:left; width: 100%;">
+					    <div style="padding:1px; text-align: center;">
+					           <p class="userWelcomeTitle">{{objapp.firstname}}&nbsp; {{objapp.lastname}}</p>
+					    </div>
+						<input type="hidden" value="{{ objapp.appraisee }}">
+					</a>
+					<div style="width: 100%; float: left; width: 100%;">
+						<div style="float:right; color: white; padding-right: 10px; padding-top: 8px; font-size: 18px; font-weight: 600;"><p style="">{{objapp.answeredcount}}/{{objapp.totalcount}}</p></div>
+						<div class="userWelcomeDivStatus" >
+							<p style="color: white; padding: 4px ; border-radius: 5px 5px 5px 5px; {{ objapp.color }}">{{objapp.statustext}}</p>
+						</div>
+						<div class="completeAppraisal" style="width: 280px;  padding-left: 10px;">
+				  			<input type="button" class="btn btn-medium userWelcomeSubmitButton" value="Submit Appraisal">
+				  		</div>
+					</div>
+				</div>
 						</div>
 					</td>
 				{% endifnotequal%}

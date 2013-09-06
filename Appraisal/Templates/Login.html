@@ -3,6 +3,7 @@
 		<br/><br/><br/><br/><br/><br/><br/>
 		<script type="text/javascript">
 		$('li[showonloginscreen=false]').hide();
+		$(function(){$('body').css("background-color", "white !important")});
 		</script>
 		<form action="/login/" method="post">{% csrf_token %}
 			
