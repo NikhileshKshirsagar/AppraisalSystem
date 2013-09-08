@@ -9,9 +9,33 @@
 	.rightAlign{text-align:right !important;}
 	.fontBold{font-weight:Bold;}
 	</style>
+
+	
 <div style="padding-left:30px;padding-right:30px;">
 	<div style="padding:30px;border:2px solid;width:70%;border-radius:20px;background:#ffffff">
 		<legend style="text-align:center">Report</legend>
+		
+		<div>
+		{% if UserList%}
+		<form method="post">{% csrf_token %}
+		<select name="drpUser">
+			<option value="0">-- Please Select -- </option>
+			{% for user in UserList%}
+				{% if user.user_id == drpUser%}
+					<option value="{{user.user_id}}" selected="true">{{user.firstname}}</option>
+				{%else%}
+					<option value="{{user.user_id}}">{{user.firstname}}</option>
+				{%endif%}
+			{%endfor%}
+		</select>
+		<input type="Submit" value="Submit" class="btn btn-inverse"/>
+		</form>
+		{%endif%}
+		</div>	
+		{% if error %}
+		<div class="alert alert-error">{{error}}</div>
+		{% endif%}
+		{% if reports%}
 		<table class="table" width="100%">
 			<thead>
 				<tr style="background:#dadada;box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4) inset, 0 1px 15px rgba(0, 0, 0, 0.4);">
@@ -114,10 +138,11 @@
 			{% endfor %}
 			</tbody>	
 		</table>
+		{%endif%}
+		
 	</div>
+	
 </div>
-	{% if error %}
-		<div class="alert alert-error">{{error}}</div>
-		<a href="/welcome/" class="btn btn-primary">Back to user list</a>
-	{% endif%}
+	
+	
 {% endblock %}

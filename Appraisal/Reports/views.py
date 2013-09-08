@@ -15,10 +15,27 @@ def GenerateReports(request):
     args={}
     args.update(csrf(request))
     nUserID = request.session['UserID']
+    
+    if  Appraisment.objects.filter(appraisee=nUserID,appraiser=nUserID,status="Report").count() >=1 :
+        AppCount = Appraisment.objects.filter(appraisee=nUserID).exclude(appraiser=nUserID).count()
+        AppCompletedCount =Appraisment.objects.filter(appraisee=nUserID,status="Report").exclude(appraiser=nUserID).count()
+        if AppCount == AppCompletedCount :    
+            appraisment_list = GenerateReportList(request,nUserID)
+            args['reports']=appraisment_list
+        else :
+            args['error']="Reports not rolled out."
+    else:
+        args['error']="Reports not rolled out."
+    
+    args['UserID']=  request.session['UserID']
+    args['username']=request.session['UserName']
+    return render_to_response('Reports/ReportList.html',args)
+
+
+def GenerateReportList(request,nUserID):
     objAppUser = Appraisment.objects.get(appraisee=nUserID,appraiser=nUserID)
     objAppOthers=None
-    index=0
-    
+
     try:
         objAppOthers = Appraisment.objects.filter(appraisee=nUserID).exclude(appraiser=nUserID)
     except:
@@ -112,8 +129,48 @@ def GenerateReports(request):
             appraisment['total'] =  float(otherCount/userCount) -selfCount
         
         appraisment_list.append(appraisment)
+    return appraisment_list
+
+
+def adminGenerateEmployeeReports(request):
+    args={}
+    args.update(csrf(request))
+    nUserID = request.session['UserID']
+    objUserId = UserDetails.objects.get(user_id=request.session['UserID'])
+    if objUserId.type=="Administrator":
+        objUsers = UserDetails.objects.filter(type="Employee")
+        if request.POST:
+            print '--------------'
+            if request.POST['drpUser']!='0':
+                userID = int(request.POST['drpUser'])
+                print Appraisment.objects.filter(appraisee=userID,appraiser=userID,status="Completed").count()
+                if  Appraisment.objects.filter(appraisee=userID,appraiser=userID,status="Completed").count() >=1 :
+                    AppCount = Appraisment.objects.filter(appraisee=userID).exclude(appraiser=userID).count()
+                    AppCompletedCount =Appraisment.objects.filter(appraisee=userID,status="Completed").exclude(appraiser=userID).count()
+                    if AppCount == AppCompletedCount :    
+                        appraisment_list=GenerateReportList(request, request.POST['drpUser'])
+                        args['reports']=appraisment_list
+                    else :
+                        args['error']="Appraisal not completed for selected user"
+                else:
+                    args['error']="Self appraisal not completed"
+            else:
+                args['error']="Please select user"
+            args['UserID']=  request.session['UserID']
+            args['username']=request.session['UserName']
+            args['UserList']=objUsers
+            args['drpUser']=int(request.POST['drpUser'])
+            return render_to_response('Reports/ReportList.html',args)
+        else:
+            args['UserID']=  request.session['UserID']
+            args['username']=request.session['UserName']
+            args['UserList']=objUsers
+            return render_to_response('Reports/ReportList.html',args)
+    else:
+        args['UserID']=  request.session['UserID']
+        args['username']=request.session['UserName']
+        args['error']="Not valid user"
+        return render_to_response('Reports/ReportList.html',args)
+
     
-    args['UserID']=  request.session['UserID']
-    args['username']=request.session['UserName']
-    args['reports']=appraisment_list
-    return render_to_response('Reports/ReportList.html',args)
+    
