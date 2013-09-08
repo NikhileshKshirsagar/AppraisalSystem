@@ -13,6 +13,7 @@ urlpatterns = patterns('UserProfile',
     
     url(r'^Authenticate/$', 'views.userWelcome', name='userProfile'),
     url(r'^submitAppraisal/$', 'views.submitAppraisal', name='submitAppraisal'),
+    url(r'^AppraisalStatus/$', 'views.AppraisalStatus', name='AppraisalStatus'),
     # url(r'^Appraisal/', include('Appraisal.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

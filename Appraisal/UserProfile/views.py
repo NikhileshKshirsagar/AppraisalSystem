@@ -154,6 +154,7 @@ def userWelcome(request):
             print totalcount
             if appraisment.status=='Created':
                 if answeredcount == totalcount:
+                    Appraisment.objects.filter(appraisment_id=appraisment.appraisment_id).update(status="Done")
                     status="Done appraising"
                     scolor='background-color: white; color: black;'
                 else: 
@@ -161,7 +162,10 @@ def userWelcome(request):
                     scolor='background: rgb(146,219,242); /* Old browsers */ background: -moz-linear-gradient(top, rgba(146,219,242,1) 32%, rgba(222,239,246,1) 100%); /* FF3.6+ */ background: -webkit-gradient(linear, left top, left bottom, color-stop(32%,rgba(146,219,242,1)), color-stop(100%,rgba(222,239,246,1))); /* Chrome,Safari4+ */ background: -webkit-linear-gradient(top, rgba(146,219,242,1) 32%,rgba(222,239,246,1) 100%); /* Chrome10+,Safari5.1+ */ background: -o-linear-gradient(top, rgba(146,219,242,1) 32%,rgba(222,239,246,1) 100%); /* Opera 11.10+ */ background: -ms-linear-gradient(top, rgba(146,219,242,1) 32%,rgba(222,239,246,1) 100%); /* IE10+ */ background: linear-gradient(to bottom, rgba(146,219,242,1) 32%,rgba(222,239,246,1) 100%); /* W3C */ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=\'#92dbf2\', endColorstr=\'#deeff6\',GradientType=0 ); /* IE6-9 */'
             elif appraisment.status=='Completed':
                 status='Submitted'
-                scolor='background: rgb(211,229,171); background: -moz-linear-gradient(top, rgba(211,229,171,1) 0%, rgba(78,179,73,1) 97%); /* FF3.6+ */ background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(211,229,171,1)), color-stop(97%,rgba(78,179,73,1))); /* Chrome,Safari4+ */background: -webkit-linear-gradient(top, rgba(211,229,171,1) 0%,rgba(78,179,73,1) 97%); /* Chrome10+,Safari5.1+ */background: -o-linear-gradient(top, rgba(211,229,171,1) 0%,rgba(78,179,73,1) 97%); /* Opera 11.10+ */background: -ms-linear-gradient(top, rgba(211,229,171,1) 0%,rgba(78,179,73,1) 97%); /* IE10+ */background: linear-gradient(to bottom, rgba(211,229,171,1) 0%,rgba(78,179,73,1) 97%); /* W3C */filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=\'#d3e5ab\', endColorstr=\'#4eb349\',GradientType=0 ); /* IE6-9 */'      
+                scolor='background: rgb(211,229,171); background: -moz-linear-gradient(top, rgba(211,229,171,1) 0%, rgba(78,179,73,1) 97%); /* FF3.6+ */ background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(211,229,171,1)), color-stop(97%,rgba(78,179,73,1))); /* Chrome,Safari4+ */background: -webkit-linear-gradient(top, rgba(211,229,171,1) 0%,rgba(78,179,73,1) 97%); /* Chrome10+,Safari5.1+ */background: -o-linear-gradient(top, rgba(211,229,171,1) 0%,rgba(78,179,73,1) 97%); /* Opera 11.10+ */background: -ms-linear-gradient(top, rgba(211,229,171,1) 0%,rgba(78,179,73,1) 97%); /* IE10+ */background: linear-gradient(to bottom, rgba(211,229,171,1) 0%,rgba(78,179,73,1) 97%); /* W3C */filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=\'#d3e5ab\', endColorstr=\'#4eb349\',GradientType=0 ); /* IE6-9 */'
+            elif appraisment.status=='Done':
+                status='Done appraising'
+                scolor='background-color: white; color: black;'
         appraismentlist['statustext'] = status   
         appraismentlist['color'] = scolor
         appraisment_list.append(appraismentlist)
@@ -202,3 +206,18 @@ def submitAppraisal(request):
         except:
             return HttpResponse(content='Cannot update status.', content_type='application/json')
         print i_appraismentId
+
+def AppraisalStatus(request):
+    if request.method == 'POST' :
+        print request.POST
+        appraisment_id = request.POST.get('search_txt')
+        appraisal_status = request.POST.get('status')
+        try:
+            Appraisment.objects.filter(appraisment_id = appraisment_id).update(status=appraisal_status)
+            return HttpResponse(content='Status updated', content_type='application/json')
+        except:
+            return HttpResponse(content='Status not updated', content_type='application/json')    
+    else:
+        appraisment = Appraisment.objects.all().order_by('appraiser')
+        print request.POST
+        return render_to_response('UserProfile/AppraisalStatus.html', { 'Appraisment' : appraisment }, context_instance = RequestContext( request))
