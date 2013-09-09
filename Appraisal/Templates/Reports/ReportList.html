@@ -2,12 +2,14 @@
 {% block pagecontent %}
 	<br/>
 	<style>
-	td{border-top: 0px !important; }
-	td div{border:1px solid #000000; border-radius:8px;box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4) inset, 0 1px 10px rgba(0, 0, 0, 0.4);}
+	td{border-top: 0px !important;font-size:14px; }
+	.roundBorder,td div{border:1px solid #000000; border-radius:8px;box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4) inset, 0 1px 10px rgba(0, 0, 0, 0.4);}
 	.negative{border:1px solid #FF0000 !important;padding:0 20px 0 20px;}
 	.positive{border:1px solid #00FF00 !important;padding:0 20px 0 20px;}
 	.rightAlign{text-align:right !important;}
-	.fontBold{font-weight:Bold;}
+	.fontBold{font-weight:Bold;font-size:14px !important;}
+	.colortd{background:#dadada;font-weight:Bold;font-size:14px;}
+	.fontSize{font-size:14px !important;}
 	</style>
 
 	
@@ -28,7 +30,7 @@
 				{%endif%}
 			{%endfor%}
 		</select>
-		<input type="Submit" value="Submit" class="btn btn-inverse"/>
+		<input type="Submit" value="Fetch" class="btn btn-inverse"/>
 		</form>
 		{%endif%}
 		</div>	
@@ -56,7 +58,7 @@
 							{%else%}
 								<div class="negative">
 							{%endif%}
-							<table width="100%">
+							<table  width="100%">
 								<tr>	
 									<td  width="40%" colspan="2"><label  class="fontBold">{{objReport.header}}</label></td>
 									<td  width="15%" class="rightAlign">{{objReport.answerYourself}}</td>
@@ -115,10 +117,28 @@
 			
 			
 			
+			<tr><td><br/>
+			<legend style="margin-bottom:5px !important;">Index</legend>
+				<table class="roundBorder">
+					<tr>
+						<td width="50%" class="colortd" >Maximun Possible</td>
+						<td style="padding-right:20%;" class="rightAlign">100.00</td>
+					</tr>
+					<tr>
+						<td class="colortd">Self-Appraisal</td>
+						<td style="padding-right:20%;" class="rightAlign">{{selfTotal|floatformat:"2"}}</td>
+					</tr>
+					<tr>
+						<td class="colortd">Others</td>
+						<td style="padding-right:20%;" class="rightAlign">{{othersTotal|floatformat:"2"}}</td>
+					</tr>
+			
+				</table>
+			</td></tr>
 			<tr style="padding:10px;padding-bottom:20px;">
 				<td colspan="4">
-					<br/><br/><br/>
-					<!-- <legend style="margin-bottom:5px;">Subjective</legend> -->
+					<br/><br/>
+					 <legend style="margin-bottom:0px;">Comments</legend> 
 				</td>
 			</tr>
 			{% for objReport in reports %}
@@ -128,8 +148,8 @@
 							<div>
 							<table width="100%">
 								<tr style="background:#dadada"><td class="fontBold">{{objReport.header}}</td></tr>
-								<tr><td><label class="fontBold">Yourself :</label> <label>{{objReport.answerYourself}}</label></td></tr>
-								<tr><td><label class="fontBold">Others : </label><label>{{objReport.answerOther|linebreaksbr}}</label></td></tr>
+								<tr><td><label class="fontBold">Yourself :</label> <label class="fontSize">{{objReport.answerYourself}}</label></td></tr>
+								<tr><td><label class="fontBold">Others : </label><label class="fontSize">{{objReport.answerOther|linebreaksbr}}</label></td></tr>
 							</table>
 							</div>
 						</td>
