@@ -24,9 +24,12 @@ $(function(){
 		{
 			$('#userNotification').removeClass('hide');
 			$('#userNotification').html(data);
-			
+			$('#userNotification').effect("slide", null, 500, null );
 			setTimeout( function(){
-				$('#userNotification').addClass('hide');
+				$('#userNotification').effect("fold", null, 1200, callback );
+				function callback(){
+					$('#userNotification').addClass('hide');	
+				}
 			}, 10000);
 		}
 		);
@@ -36,7 +39,9 @@ $(function(){
 </script>
 
 <form id="formAppraisalStatus" name="formAppraisalStatus" action="/userprofile/AppraisalStatus/" method="post" class="form-search" style="padding-top: 30px; margin-left: -0px;">{% csrf_token %}
-	<p id="userNotification" class="hide AppraisalStatususerNotification"></p>
+	<div class="AppraisalStatususerNotification">
+		<p id="userNotification" class="hide" style="margin: 5px;"></p>
+	</div>
 	
 	<table class="table">
 		<thead>
@@ -65,6 +70,7 @@ $(function(){
 				</td>
 				<td style="width: 250px;">
 					<select id=dropdown{{forloop.counter}} name="status">
+						<option value="select">Select status</option>
 						<option value="Done">Done Appraising</option>
 						<option value="Completed">Submitted</option>
 						<option value="Reports">Reports</option>

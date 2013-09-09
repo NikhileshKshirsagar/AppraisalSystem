@@ -28,7 +28,7 @@
 		});	
 	</script>
 	<div id="userAlerts" class="userAlerts hide"><p style="padding: 2px 2px 2px 2px;"></p></div>
-	<div class="label headerGradient headerPosition" >{% csrf_token %}
+	<div class="label headerGradientUserWelcome headerPosition" >{% csrf_token %}
 		<p class=" headerFont" style="float: left; padding-top: 15px">Welcome {{username}}</p>
 	</div>
 	<br/>
@@ -72,17 +72,13 @@
 		{%endif%}
 	{%endfor%}
 
-	<div style="float:left; width: 100%;">
-		<br/><br/>
-		<legend class="userWelcomeHeader"><p style="padding-left: 10px; margin: 0px;">Appraise others</p></legend>
+	<div style="float:left; width: 100%; padding-top: 25px;">
+		<legend class="userWelcomeHeader"><p style=" margin: 0px; margin-top: -2px;">Appraise others</p></legend>
 		
-		<table style="float:left;">
-			<tr>
-			
 			{%for objapp in appraismentList%}
 				{% ifnotequal objapp.appraisee objapp.appraiser%}
-				{% cycle </tr><tr>,&nbsp; %}
-					<td>
+				
+					
 						<!--<div>
 							 <div style="border-radius:10px;background: -moz-linear-gradient(to bottom, #f2f2f2, #dddaaa);float:left;margin:10px; 
 								box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1) inset, 0 20px 20px rgba(0, 0, 0, 0.2); width:300px;">
@@ -115,18 +111,14 @@
 							<p style="color: white; padding: 4px ; border-radius: 5px 5px 5px 5px; {{ objapp.color }}">{{objapp.statustext}}</p>
 						</div>
 						<div class="completeAppraisal" style="width: 280px;  padding-left: 10px;">
-				  			<input type="button" class="btn btn-medium userWelcomeSubmitButton" value="Submit Appraisal">
+				  			<input type="button" class="btn btn-medium userWelcomeSubmitButtonOthers" value="Submit Appraisal">
 				  		</div>
 					</div>
 				</div>
-						</div>
-					</td>
 				{% endifnotequal%}
 			{%endfor%}
-			</tr>
-		</table>
 	</div>
-</div>
+</div>	
 <a href="/reports/user/">Reports</a>
 	{{ successMsg }}
 {% endblock %}

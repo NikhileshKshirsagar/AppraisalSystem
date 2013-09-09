@@ -147,7 +147,7 @@ def userWelcome(request):
         appraismentlist['status'] = appraisment.status
         if appraisment.status=='Initial':
             status='Start appraising'
-            scolor='#999333'
+            scolor='background-color: white; color: black;'
         else:
             print "ANSWER COUNTS........."
             print answeredcount
@@ -212,11 +212,14 @@ def AppraisalStatus(request):
         print request.POST
         appraisment_id = request.POST.get('search_txt')
         appraisal_status = request.POST.get('status')
-        try:
-            Appraisment.objects.filter(appraisment_id = appraisment_id).update(status=appraisal_status)
-            return HttpResponse(content='Status updated', content_type='application/json')
-        except:
-            return HttpResponse(content='Status not updated', content_type='application/json')    
+        if appraisal_status != 'select' :
+            try:
+                Appraisment.objects.filter(appraisment_id = appraisment_id).update(status=appraisal_status)
+                return HttpResponse(content='Status updated', content_type='application/json')
+            except:
+                return HttpResponse(content='Status not updated', content_type='application/json')
+        else:
+            return HttpResponse(content='Select status to update', content_type='application/json')
     else:
         appraisment = Appraisment.objects.all().order_by('appraiser')
         print request.POST
