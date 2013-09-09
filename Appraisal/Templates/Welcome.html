@@ -9,14 +9,39 @@
 		<p class=" headerFont" style="float: left; padding-top: 15px">Welcome {{username}}</p>
 	</div>
 	<br/><br/>
-	<a href="/userprofile/CreateUser">Create user</a><br/><br/>
-	<a href="/question/questionCreation">Create Question</a><br/><br/>
-	<a href="/question/QuestionList">Question List</a><br/><br/>
-	<a href="/reports/employee">Reports</a><br/><br/>
-	<a href="/userprofile/UserList">User List</a><br/><br/>
-	<a href="/masters/DataInput">Data Input</a><br/><br/>
-	<a href="/userprofile/profile">User Profile</a><br/><br/>
-	<a href="/question/demo">Demo</a><br/><br/>
-	
+	<a href="/userprofile/CreateUser" class="well welcomeDiv" style="position: absolute; top: 200px; left: 500px;">
+		<p style="padding-top: 10px; float: right; ">Create user</p> 
+		<div style="float: left; padding-left: 2px; margin-bottom: 20px; font-size: 17px;">
+			<i class="icon-user icon-3x"></i>
+		</div>
+	</a>
+	<a href="/question/questionCreation" class="well welcomeDiv" style="position: absolute; top: 200px; left: 200px;">
+		<p style="padding-top: 10px; float: right; ">Create Question</p>
+		<div style="float: left; padding-left: 2px; margin-bottom: 20px; font-size: 17px;">
+			<i class="icon-question-sign icon-3x"></i>
+		</div>	
+	</a>
+	<a href="/question/QuestionList" class="well welcomeDiv" style="position: absolute; top: 380px; left: 200px;">
+		<p style="padding-top: 10px; float: right; ">Question List</p>
+		<div style="float: left; padding-left: 2px; margin-bottom: 20px; font-size: 17px;">
+			<i class="icon-list icon-3x"></i>
+		</div>
+	</a>
+	<a href="/reports/employee" class="well welcomeDiv" style="position: absolute; top: 200px; left: 810px;">
+		<p style="padding-top: 10px; float: right; ">Appraisal reports</p>
+		<div style="float: left; padding-left: 2px; margin-bottom: 20px; font-size: 17px;">
+			<i class="icon-bar-chart icon-3x"></i>
+		</div>
+	</a>
+	<!-- <a href="/userprofile/UserList" class="well">User List</a><br/><br/>
+	<a href="/masters/DataInput" class="well">Data Input</a><br/><br/>
+	<a href="/userprofile/profile" class="well">User Profile</a><br/><br/>
+	<a href="/question/demo" class="well">Demo</a><br/><br/> -->
+	<a href="/userprofile/AppraisalStatus" class="well welcomeDiv" style="position: absolute; top: 380px; left: 500px;">
+		<p style="padding-top: 10px; float: right; ">Appraisal status</p>
+		<div style="float: left; padding-left: 2px; margin-bottom: 20px; font-size: 17px;">
+			<i class="icon-file-text-alt icon-3x"></i>
+		</div>
+	</a>
 	{{ successMsg }}
 {% endblock %}

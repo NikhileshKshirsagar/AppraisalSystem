@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% load url from future %}
+
+{% block pagecontent %}
+
+<script type="text/javascript">
+	$(function(){
+		{% for app in Appraisment %}
+			$('#dropdown{{forloop.counter}}').val('{{ app.status }}');
+		{% endfor %}
+	});
+</script>
+
+<script type="text/javascript">
+
+$(function(){
+	$('.submitAppraisalStatus').click(function(event){
+		var data = {
+					'search_txt' : $(event.currentTarget).parent().parent().find('input[type="hidden"]').val(),
+					'status' : $(event.currentTarget).parent().parent().find('select').val()
+				   }
+		
+		AjaxEvent(data, '/userprofile/AppraisalStatus/', function successSerach(data, textStatus, jqXHR)
+		{
+			$('#userNotification').removeClass('hide');
+			$('#userNotification').html(data);
+			$('#userNotification').effect("slide", null, 500, null );
+			setTimeout( function(){
+				$('#userNotification').effect("fold", null, 1200, callback );
+				function callback(){
+					$('#userNotification').addClass('hide');	
+				}
+			}, 10000);
+		}
+		);
+	});
+});
+
+</script>
+
+<form id="formAppraisalStatus" name="formAppraisalStatus" action="/userprofile/AppraisalStatus/" method="post" class="form-search" style="padding-top: 30px; margin-left: -0px;">{% csrf_token %}
+	<div class="AppraisalStatususerNotification">
+		<p id="userNotification" class="hide" style="margin: 5px;"></p>
+	</div>
+	
+	<table class="table">
+		<thead>
+			<tr>
+				<td>#</td>
+				<td class="tableHeaders">Appraiser</td>
+				<td class="tableHeaders">Appraisee</td>
+				<td class="tableHeaders">Status</td>
+			</tr>
+		</thead>
+		
+		<tbody>
+		{% for app in Appraisment %}
+			<tr>
+				<input type="hidden" value="{{ app.appraisment_id }}">
+				<td>
+					{{forloop.counter}}
+				</td>
+				<td>
+					{{ app.appraiser.firstname }}
+					{{ app.appraiser.lastname }}
+				</td>
+				<td>	
+					{{ app.appraisee.firstname }}
+					{{ app.appraisee.lastname }}
+				</td>
+				<td style="width: 250px;">
+					<select id=dropdown{{forloop.counter}} name="status">
+						<option value="select">Select status</option>
+						<option value="Done">Done Appraising</option>
+						<option value="Completed">Submitted</option>
+						<option value="Reports">Reports</option>
+					</select>
+				</td>
+				<td style="float: left;">
+					<input type="button" value="Update status" class="submitAppraisalStatus btn">
+				</td>
+			</tr>
+		{% endfor %}
+		</tbody>	
+	</table>
+</form>
+
+{% endblock %}
