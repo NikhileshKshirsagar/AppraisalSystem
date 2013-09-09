@@ -761,3 +761,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#68c8b5', end
 	top: 45px;
 	left : 40%;
 }
+.welcomeDiv
+{
+	width: 200px;
+	height: 42px;
+	font-size: 18px;
+	text-align: center;
+	/*color: #BD374D;*/
+}
