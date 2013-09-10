@@ -8,13 +8,9 @@
 	{%for objQuestion in Question%}
 	<div class="well" style="padding:10px;padding-bottom:20px;">
 		<a href="/question/{{objQuestion.question_order}}">
-			<div> <label style="font-weight:bold;">{{objQuestion.question.info}}</label><br/>{{objQuestion.question.question}}</div>
+			<div> <label style="font-weight:bold;">{{objQuestion.question_header}}</label><br/>{{objQuestion.question}}</div>
 			<br/>
-			{% ifnotequal objQuestion.question.type 'MCQ'%}
-				<div>Answer: {{objQuestion.answer.answer}}</div>
-			{%else%}
-				<div>Answer: {{objQuestion.answer.answer}}</div>
-			{%endifnotequal%}
+				<div>Answer: {{objQuestion.question_answer}}</div>
 		</a>
 		</div>
 	{%endfor%}	

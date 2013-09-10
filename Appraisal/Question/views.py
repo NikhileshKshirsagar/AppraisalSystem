@@ -227,10 +227,27 @@ def userwiseQuestionList(request,requestUserID):
                 objAppraisment.status = 'Created'
                 objAppraisment.save()#Appraisment.objects.filter(appraisment_id=objAppraisment.appraisment_id).update(status='Created')    
             objAppraisalContent = AppraisalContent.objects.filter(appresment=objAppraisment).order_by('question_order');
-            request.session['appraisee']= objAppraisment.appraisee     
+            request.session['appraisee']= objAppraisment.appraisee
+            arrAppraisalContent=[]  
+            for appraisalContent in objAppraisalContent:
+                lstAppraisal = {}
+                lstAppraisal['question_order']=appraisalContent.question_order
+                lstAppraisal['question_header']=appraisalContent.question.info
+                lstAppraisal['question']=appraisalContent.question.question
+                lstAppraisal['question_type']=appraisalContent.question.type
+                if appraisalContent.answer!=None and appraisalContent.answer.answer!='':
+                    if appraisalContent.question.type!='MCQ':
+                        lstAppraisal['question_answer']=appraisalContent.answer.answer
+                    else:
+                        lstAppraisal['question_answer']=Option.objects.get(option_id=appraisalContent.answer.answer).option_text
+                else:
+                    lstAppraisal['question_answer']=''   
+                arrAppraisalContent.append(lstAppraisal) 
+                
+               
         else:
             errMessage="You are not authorised to appraise this user"
-        args['Question']= objAppraisalContent
+        args['Question']= arrAppraisalContent
     args['error']=errMessage
     return render_to_response('Questions/UserWiseQuestionList.html', args)
 
