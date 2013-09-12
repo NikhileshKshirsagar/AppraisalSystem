@@ -11,7 +11,110 @@
 	.colortd{background:#dadada;font-weight:Bold;font-size:14px;}
 	.fontSize{font-size:14px !important;}
 	</style>
+<script>
+$(function(){
 
+ 	tips = $( ".validateTips" );
+	 flag=true;
+	function updateTips( t ) {
+		flag=false;
+		tips
+		.text( t )
+		.addClass( "ui-state-highlight" );
+		setTimeout(function() {
+		tips.removeClass( "ui-state-highlight", 1500 );
+		}, 500 );
+	}
+	$( "#dialog-form" ).dialog({
+			autoOpen: false,
+			height: 400,
+			width: 500,
+			modal: true,
+			buttons: {
+				"Edit": function() {
+					var data="";
+					flag=true;
+					$( "#dialog-form input").removeClass( "ui-state-error" );
+					$( "#dialog-form textArea[name=options]" ).each(function( index ) {
+						if($(this).val()!='' && $(this).parent().find('input[name=spinner]').val()!='')
+							data = data + $(this).val()+'|'+$(this).parent().find('input[name=spinner]').val() +',';
+					});
+					data = data.slice(0,-1);
+					$("#dialog-form input[name=option_text]").val(data);
+					if(data=='')
+					{
+						updateTips('Enter options');
+						$( "#dialog-form textArea[name=options]").addClass( "ui-state-error" );
+					}
+					
+					if($("#dialog-form *[name=option_header_text]").val()=="")
+					{
+						updateTips('Enter option header');
+						$( "#dialog-form *[name=option_header_text]").addClass( "ui-state-error" );
+					}
+					else
+					{
+						data={'search_txt':'Validate','stitle':$("#dialog-form *[name=option_header_text]").val(),'nOptionHeaderID':$('#dialog-form').find("input[name=option_header_id]").val()};
+						AjaxEvent(data, '/question/validateOptionHeader/',function(data, textStatus, jqXHR){
+											var response=jQuery.parseJSON(data);
+											if(response.error != '')
+											{
+												updateTips(response.error);
+											}
+											else
+											{
+												if(flag)
+												{
+													data={'search_txt':'Validate','option_header_text':$("#dialog-form *[name=option_header_text]").val(),'option_header_id':$('#dialog-form').find("input[name=option_header_id]").val(),
+													'option_text':$("#dialog-form input[name=option_text]").val()
+													};
+													
+													AjaxEvent(data, '/question/updateOption/',function(data, textStatus, jqXHR){
+																		var response=jQuery.parseJSON(data);
+																		if(response.success != '')
+																		{
+																			alert(response.success);
+																			$( "#dialog-form" ).dialog( "close" );
+																			$("#hrefUserExisting").trigger('click');
+																		}	
+																	},null);
+												}
+											}
+										},null);
+					}
+					
+					
+				},
+				Cancel: function() {
+					$( this ).dialog( "close" );
+				}
+			},
+			close: function() {
+				$( "#dialog-form input").removeClass( "ui-state-error" );
+			}
+	});	
+	
+	$("*[name=OthersDetails]").click(function(event){
+		nSelectedQuestion = $(this).attr('value');
+		nSelectedUserID = $('*[name=drpUser] option:selected').attr('value');
+			data={'search_txt':'Validate','UserID':nSelectedUserID,'QuestionID':nSelectedQuestion};
+			AjaxEvent(data, '/reports/IndividualQuestion/',function(data, textStatus, jqXHR){
+										var response=jQuery.parseJSON(data);
+										if(response.success != '')
+										{
+											alert(response.success);
+											$( "#dialog-form" ).dialog( "close" );
+											$("#hrefUserExisting").trigger('click');
+										}	
+									},null);
+	
+	
+	$( "#dialog-form" ).dialog( "open" );
+	});
+	
+});
+
+</script>
 	
 <div style="padding-left:30px;padding-right:30px;">
 	<div style="padding:30px;border:2px solid;width:70%;border-radius:20px;background:#ffffff">
@@ -62,7 +165,15 @@
 								<tr>	
 									<td  width="40%" colspan="2"><label  class="fontBold">{{objReport.header}}</label></td>
 									<td  width="15%" class="rightAlign">{{objReport.answerYourself}}</td>
-									<td  width="15%" class="rightAlign">{{objReport.answerOther}}</td>
+									<td  width="15%" class="rightAlign">
+										{%if type == 'Administrator'%}
+											<a name="OthersDetails" href="#" value="{{objReport.questionID}}">
+										{%endif%}
+											{{objReport.answerOther}}
+										{%if type == 'Administrator'%}
+											</a>
+										{%endif%}
+										</td>
 									<td  width="15%" class="rightAlign">{{objReport.total}}</td>
 								</tr>
 							</table>
@@ -99,7 +210,16 @@
 															{% if option.option_count == 0 %}
 																<td width="15%" class="rightAlign" style="border-top: 0px;"><label>&nbsp;</label></td>
 															{% else %}
-																<td width="15%" class="rightAlign" style="border-top: 0px;">{{option.option_count}}</td>
+																<td width="15%" class="rightAlign" style="border-top: 0px;">
+																{%if type == 'Administrator'%}
+																	<a name="OthersDetails" href="#" value="{{objReport.questionID}}">
+																{%endif%}
+																{{option.option_count}}
+																{%if type == 'Administrator'%}
+																	</a>
+																{%endif%}
+																
+																</td>
 															{% endif %}
 															<td width="15%">&nbsp;</td>
 														</tr>
@@ -162,6 +282,17 @@
 		
 	</div>
 	
+	
+	
+	
+	<div id="dialog-form" title="Edit Options" style="font-size:15px;">
+ 	<p class="validateTips fontSize"></p>
+	<form>
+	<fieldset>
+	List
+	</fieldset>
+	</form>
+</div>
 </div>
 	
 	

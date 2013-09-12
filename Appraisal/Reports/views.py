@@ -15,7 +15,8 @@ def GenerateReports(request):
     args={}
     args.update(csrf(request))
     nUserID = request.session['UserID']
-    
+    objUserId = UserDetails.objects.get(user_id=request.session['UserID'])
+    args['type']=objUserId.type
     if  Appraisment.objects.filter(appraisee=nUserID,appraiser=nUserID,status="Report").count() >=1 :
         AppCount = Appraisment.objects.filter(appraisee=nUserID).exclude(appraiser=nUserID).count()
         AppCompletedCount =Appraisment.objects.filter(appraisee=nUserID,status="Report").exclude(appraiser=nUserID).count()
@@ -47,6 +48,7 @@ def GenerateReportList(request,nUserID):
     objQuestionUser = AppraisalContent.objects.filter(appresment=objAppUser.appraisment_id)
     for questionUser in objQuestionUser:
         appraisment = {}
+        appraisment['questionID']=questionUser.question.question_id
         appraisment['header']=questionUser.question.info
         appraisment['question']=questionUser.question.question
         appraisment['status']=questionUser.question.type
@@ -174,6 +176,7 @@ def adminGenerateEmployeeReports(request):
     args.update(csrf(request))
     nUserID = request.session['UserID']
     objUserId = UserDetails.objects.get(user_id=request.session['UserID'])
+    args['type']=objUserId.type
     if objUserId.type=="Administrator":
         objUsers = UserDetails.objects.filter(type="Employee")
         if request.POST:
@@ -214,4 +217,27 @@ def adminGenerateEmployeeReports(request):
         return render_to_response('Reports/ReportList.html',args)
 
     
-    
+def IndividualQuestionDetails(request):
+      if request.is_ajax():
+        nQuestionID = request.POST.get('QuestionID')
+        nUserID = request.POST.get('UserID')
+        objAppOthers = Appraisment.objects.filter(appraisee=nUserID).exclude(appraiser=nUserID)
+        
+        for appOther in objAppOthers:
+               try:
+                   objappContent = AppraisalContent.objects.get(appresment=appOther.appraisment_id,question=nQuestionID)
+               except:
+                   objappContent=None
+               if objappContent:
+                   print objappContent.answer.answer
+                   print appOther.appraiser.firstname 
+        #//objOptions = OptionHeader.objects.get(option_header_id=search_text);
+        #//result =''
+        #//for option in objOptions.option_set.filter():
+       # //    result+= option.option_text + '|'+ str(option.option_level) +','
+        objDetails = {'OptionHeaderID':'',#objOptions.option_header_id,
+                      'OptionHeader' :'',#objOptions.title,
+                      'Options' :''# result[:-1]
+                      }
+        data = simplejson.dumps(objDetails)
+        return HttpResponse(content=data, content_type='json')        
