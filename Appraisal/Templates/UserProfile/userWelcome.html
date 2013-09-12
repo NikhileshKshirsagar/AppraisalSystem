@@ -56,48 +56,19 @@
 				  		</div>
 					</div>
 				</div>
-				<!--<div class="completeAppraisal" style="float: left; margin-top: 15px; width: 25px; height: 111px; border: 0px solid white; 
-					background:#96544A; border-radius: 0px 8px 8px 0px; margin-left: 1px;  box-shadow: 0 1px 1px white inset, 1px 0px 1px gray;  
-						border-right: 2px solid white;">  
-				    <table style="font-size: 12px; text-align: center; color: white; font-family: fantasy;  font-weight: bold;">
-					   <tr> <td style="padding-left: 7px; padding-top: 4px;"> S </td></tr>  
-					   <tr> <td style="padding-left: 7px;"> U </td></tr>  
-					   <tr> <td style="padding-left: 7px;"> B </td></tr>
-					   <tr> <td style="padding-left: 7px;"> M </td></tr>
-					   <tr> <td style="padding-left: 7px;"> I </td></tr>
-					   <tr> <td style="padding-left: 7px;"> T  </td></tr>
-				  </table> 
-				  </div>-->
 			</div>
 		{%endif%}
 	{%endfor%}
-
+	<a href="/reports/user/">
+		<div class="userWelcomeReportsdiv">
+			<p style="font-size: 20px; text-align: center; margin-top: 45px; color: white;"> Appraisal reports </p>
+		</div>
+	</a>
 	<div style="float:left; width: 100%; padding-top: 25px;">
-		<legend class="userWelcomeHeader"><p style=" margin: 0px; margin-top: -2px;">Appraise others</p></legend>
+		<legend class="userWelcomeHeader"><p style=" margin: 0px; margin-top: -2px;">Appraise your colleagues</p></legend>
 		
 			{%for objapp in appraismentList%}
 				{% ifnotequal objapp.appraisee objapp.appraiser%}
-				
-					
-						<!--<div>
-							 <div style="border-radius:10px;background: -moz-linear-gradient(to bottom, #f2f2f2, #dddaaa);float:left;margin:10px; 
-								box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1) inset, 0 20px 20px rgba(0, 0, 0, 0.2); width:300px;">
-								<a href="/userAppraisal/appraise/{{objapp.appraisee}}" style=" text-decoration: none;">		
-									<div style="background:-moz-linear-gradient(to bottom, {{objapp.color}}, #ffffff);float:left;height:100px;width: 10px;">&nbsp;</div>
-									<div style="float:left;">
-									    <div style="padding:10px;padding-left:20px;">
-									           <legend>{{objapp.firstname}}&nbsp; {{objapp.lastname}} </legend>
-									           <div style="text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);background:-moz-linear-gradient(to bottom, {{objapp.color}}, #ffffff);" class="btn">{{objapp.statustext}}</div>
-									    </div>
-									    <input type="hidden" value="{{objapp.appraisee}}">
-									</div>
-									{%ifnotequal objapp.status 'Initial'%}
-										<div style="float:right;padding-right:10px;padding-top:40px;"><h4>{{objapp.answeredcount}}/{{objapp.totalcount}}</h4></div>
-									{%endifnotequal%}
-								</a>
-								<input type="button" class="completeAppraisal btn" value="Submit">
-							</div>
-							<div> -->
 				<div class="userWelcomeDivOthers">
 					<a class="" href="/userAppraisal/appraise/{{ objapp.appraisee }}" style="float:left; width: 100%;">
 					    <div style="padding:1px; text-align: center;">
@@ -119,6 +90,5 @@
 			{%endfor%}
 	</div>
 </div>	
-<a href="/reports/user/">Reports</a>
 	{{ successMsg }}
 {% endblock %}
