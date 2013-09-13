@@ -9,6 +9,7 @@ from django.http import HttpResponse
 from django.core.context_processors import csrf
 from django.utils import timezone
 from django.utils import simplejson
+import json
 
 
 def GenerateReports(request):
@@ -222,22 +223,30 @@ def IndividualQuestionDetails(request):
         nQuestionID = request.POST.get('QuestionID')
         nUserID = request.POST.get('UserID')
         objAppOthers = Appraisment.objects.filter(appraisee=nUserID).exclude(appraiser=nUserID)
-        
+        arrQuestionList=[]
         for appOther in objAppOthers:
-               try:
-                   objappContent = AppraisalContent.objects.get(appresment=appOther.appraisment_id,question=nQuestionID)
-               except:
-                   objappContent=None
-               if objappContent:
-                   print objappContent.answer.answer
-                   print appOther.appraiser.firstname 
+           try:
+               objappContent = AppraisalContent.objects.get(appresment=appOther.appraisment_id,question=nQuestionID)
+           except:
+               objappContent=None
+           if objappContent:
+               lstQuestionList={}
+               lstQuestionList['AppraisalContentID']=objappContent.appraisal_content_id
+               lstQuestionList['appresmentID']=appOther.appraisment_id
+               lstQuestionList['UserName']=appOther.appraiser.firstname
+               if objappContent.question.type != 'MCQ':
+                   lstQuestionList['answer']=objappContent.answer.answer
+               else:
+                   lstQuestionList['answer']=Option.objects.get(option_id=objappContent.answer.answer).option_text     
+               arrQuestionList.append(lstQuestionList)
+        data= json.dumps(arrQuestionList) 
+        return HttpResponse(content=data, content_type='json')
         #//objOptions = OptionHeader.objects.get(option_header_id=search_text);
         #//result =''
         #//for option in objOptions.option_set.filter():
        # //    result+= option.option_text + '|'+ str(option.option_level) +','
-        objDetails = {'OptionHeaderID':'',#objOptions.option_header_id,
-                      'OptionHeader' :'',#objOptions.title,
-                      'Options' :''# result[:-1]
-                      }
-        data = simplejson.dumps(objDetails)
-        return HttpResponse(content=data, content_type='json')        
+       
+        #data = simplejson.dumps(arrQuestionList)
+        #data =json.dumps(arrQuestionList)
+        #return HttpResponse(content=data, content_type='json')
+                

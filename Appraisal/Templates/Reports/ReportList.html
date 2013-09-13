@@ -97,16 +97,19 @@ $(function(){
 	$("*[name=OthersDetails]").click(function(event){
 		nSelectedQuestion = $(this).attr('value');
 		nSelectedUserID = $('*[name=drpUser] option:selected').attr('value');
-			data={'search_txt':'Validate','UserID':nSelectedUserID,'QuestionID':nSelectedQuestion};
-			AjaxEvent(data, '/reports/IndividualQuestion/',function(data, textStatus, jqXHR){
-										var response=jQuery.parseJSON(data);
-										if(response.success != '')
-										{
-											alert(response.success);
-											$( "#dialog-form" ).dialog( "close" );
-											$("#hrefUserExisting").trigger('click');
-										}	
-									},null);
+		data={'search_txt':'Validate','UserID':nSelectedUserID,'QuestionID':nSelectedQuestion};
+		AjaxEvent(data, '/reports/IndividualQuestion/',function(data, textStatus, jqXHR){
+									var response=jQuery.parseJSON(data);
+			
+							        for (var i=0;i<response.length;i++) {
+									            $('#divModalContainer table').append("<tr value="+response[i].AppraisalContentID+">"+
+				"<td><input type=\"checkbox\" name=\"chkRecordCheck\"/></td>"+
+				"<td><label name=\"lblUserSelection\">"+response[i].answer+"</label></td>"+
+				"<td><label name=\"lblUserName\">"+response[i].UserName+"</label></td>"+
+				"<td></td>"+
+			"</tr>");				            
+			}
+								},null);
 	
 	
 	$( "#dialog-form" ).dialog( "open" );
@@ -289,7 +292,14 @@ $(function(){
  	<p class="validateTips fontSize"></p>
 	<form>
 	<fieldset>
-	List
+		<div id="divModalContainer">
+			List of appraiser answer to the selected user
+			<table width="100%" class="table">
+			
+			</table>
+		
+		
+		</div>
 	</fieldset>
 	</form>
 </div>
