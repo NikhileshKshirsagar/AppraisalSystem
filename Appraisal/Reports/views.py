@@ -74,7 +74,7 @@ def GenerateReportList(request,nUserID):
             if questionUser.question.type == 'Scale' :
                 appraisment['answerYourself']=float(questionUser.answer.answer)
                 appraisment['SelfCalculation']=float(int(questionUser.answer.answer)*objAppUser.appraiser.user_weight*intentValue*questionUser.question.weight)
-                appraisment['TotalCalculationSelf']=10*objAppUser.appraiser.user_weight*intentValue*questionUser.question.weight
+                appraisment['TotalCalculationSelf']=float(10*objAppUser.appraiser.user_weight*intentValue*questionUser.question.weight)
             elif questionUser.question.type == 'Subjective':
                 appraisment['answerYourself']=questionUser.answer.answer
             else:
@@ -87,7 +87,7 @@ def GenerateReportList(request,nUserID):
               #  appraisment['option']=objOption
                 option_list = []
                 objOptionMax = Option.objects.filter(option_header=questionUser.question.option_header).order_by('-order')[0]
-                mcqCount=0
+                
                 for options in objOption:
                     option={}
                     option['option_text']=options.option_text
@@ -95,6 +95,7 @@ def GenerateReportList(request,nUserID):
                     option['option_level']=options.option_level
                     option['option_order']=options.order
                     option['option_count']=0
+                    mcqCount=0
                     appraisment['TotalCalculationSelf']=int(objOptionMax.order*objOptionMax.option_level)*objAppUser.appraiser.user_weight*intentValue*questionUser.question.weight
                     #Calculating others appraisment values for MCQ (Need this because it has to be added with options list)
                     for questionOther in objAppOthers:
@@ -108,7 +109,7 @@ def GenerateReportList(request,nUserID):
                              if objappContent.answer!=None:
                                  if objappContent.question.type == 'MCQ' :
                                      if str(objappContent.answer.answer) == str(options.option_id):
-                                         appraisment['UserCalculation']=float((appraisment['UserCalculation']*mcqCount +float(int(options.order*options.option_level)*questionOther.appraiser.user_weight*intentValue*questionUser.question.weight))/(mcqCount+1))
+                                         appraisment['UserCalculation']=float(appraisment['UserCalculation']*mcqCount +float(int(options.order*options.option_level)*questionOther.appraiser.user_weight*intentValue*questionUser.question.weight))
                                          appraisment['TotalCalculation']=float((appraisment['TotalCalculation']*mcqCount+float(int(objOptionMax.order*objOptionMax.option_level)*questionOther.appraiser.user_weight*intentValue*questionUser.question.weight))/(mcqCount+1))
                                          mcqCount=mcqCount+1
                                          option['option_count']=option['option_count']+1
@@ -161,7 +162,6 @@ def GenerateReportList(request,nUserID):
                     selfCount = option['option_level']*option['option_order']
                 otherCount = otherCount + float((option['option_level']*option['option_order'])*option['option_count'])
             appraisment['mcqSelfCount']=selfCount
-            print selfCount
 
             appraisment['mcqOtherCount']=otherCount
             if  questionUser.question.intent ==1:
@@ -187,6 +187,7 @@ def calculateFinalIndex(appraismentList):
             nUserCalculation = nUserCalculation + appraisment['UserCalculation']
             nTotalCalculation = nTotalCalculation + appraisment['TotalCalculation']
             nTotalCalculationSelf =nTotalCalculationSelf+ appraisment['TotalCalculationSelf']
+    
             
 def adminGenerateEmployeeReports(request):
     args={}
