@@ -13,6 +13,7 @@ from django.db import models
 class Answer(models.Model):
     answer_id = models.AutoField(primary_key=True)
     answer = models.TextField()
+    extended_answer = models.TextField(blank=True)
     modified_by = models.ForeignKey('UserDetails', null=True, db_column='modified_by', blank=True)
     modified_on = models.DateTimeField(null=True, blank=True)
     class Meta:
@@ -24,6 +25,8 @@ class AppraisalContent(models.Model):
     question = models.ForeignKey('Question')
     answer = models.ForeignKey(Answer, null=True, blank=True)
     question_order = models.IntegerField()
+    answer_forbid_user = models.IntegerField(null=True, blank=True)
+    answer_forbid_admin = models.IntegerField(null=True, blank=True)
     modified_by = models.ForeignKey('UserDetails', db_column='modified_by')
     modified_on = models.DateTimeField()
     class Meta:
@@ -74,7 +77,7 @@ class Language(models.Model):
         db_table = 'language'
 
 class Option(models.Model):
-    option_id = models.IntegerField(primary_key=True)
+    option_id = models.AutoField(primary_key=True)
     option_header = models.ForeignKey('OptionHeader')
     option_text = models.TextField()
     option_level = models.IntegerField(null=True, blank=True)
@@ -109,7 +112,7 @@ class ProjectDesignation(models.Model):
     project = models.ForeignKey(Project)
     designation = models.ForeignKey(Designation)
     modified_by = models.ForeignKey('UserDetails', db_column='modified_by')
-    modified_on = models.CharField(max_length=45L)
+    modified_on = models.DateTimeField()
     class Meta:
         db_table = 'project_designation'
 
@@ -153,13 +156,13 @@ class UserAttributes(models.Model):
 
 class UserDetails(models.Model):
     user_id = models.AutoField(primary_key=True)
-    firstname = models.CharField(max_length=45L, blank=True)
-    lastname = models.CharField(max_length=45L, blank=True)
-    username = models.CharField(max_length=45L, blank=True)
-    password = models.CharField(max_length=45L, blank=True)
-    emailid = models.CharField(max_length=45L)
-    user_level = models.IntegerField()
-    user_weight = models.IntegerField()
+    firstname = models.CharField(max_length=45L)
+    lastname = models.CharField(max_length=45L)
+    username = models.CharField(max_length=45L)
+    password = models.CharField(max_length=45L)
+    emailid = models.CharField(max_length=45L, blank=True)
+    user_level = models.IntegerField(null=True, blank=True)
+    user_weight = models.IntegerField(null=True, blank=True)
     type = models.CharField(max_length=45L, blank=True)
     modified_by = models.IntegerField(null=True, blank=True)
     modified_on = models.DateTimeField()

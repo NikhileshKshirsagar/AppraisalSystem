@@ -198,13 +198,14 @@ def submitAppraisal(request):
             i_totalQuestionCount = AppraisalContent.objects.filter(appresment=i_appraismentId).count()
             print "Total count : " + str(i_totalQuestionCount)
             print "Answered question count : " + str(answeredcount)
+            userAppraised = UserDetails.objects.get(user_id=appraisee)
             if int(i_totalQuestionCount) == int(answeredcount) :
                 Appraisment.objects.filter(appraisment_id = i_appraismentId).update(status = 'Completed')
-                return HttpResponse(content='Status updated', content_type='application/json')
+                return HttpResponse(content='Status updated for ' + userAppraised.firstname + ' ' + userAppraised.lastname, content_type='application/json')
             else:
-                return HttpResponse(content='First answer all the questions', content_type='application/json')    
+                return HttpResponse(content='Please answer all the questions for ' + userAppraised.firstname + ' ' + userAppraised.lastname , content_type='application/json')    
         except:
-            return HttpResponse(content='Cannot update status.', content_type='application/json')
+            return HttpResponse(content='Cannot update status for ' + userAppraised.firstname + ' ' + userAppraised.lastname, content_type='application/json')
         print i_appraismentId
 
 def AppraisalStatus(request):

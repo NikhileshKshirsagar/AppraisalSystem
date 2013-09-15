@@ -27,9 +27,27 @@
 			});
 		});	
 	</script>
+	
+	<script type="text/javascript">
+	$(function(){
+		//$('.userWelcomeDiv').effect("slide", null, 1000, callback );
+		//$('.userWelcomeReportsDiv').effect("bounce", null, 10000, null );
+		//function callback(){
+		$('#othersDiv .userWelcomeDivOthers').fadeIn(1200, function(){
+			$('#othersDiv .userWelcomeDivOthers').removeClass('hide')
+		});
+		//}
+		
+		$('#othersDiv .userWelcomeDivOthers').hover(function(){
+			
+		});
+	});
+	
+	</script>
+	
 	<div id="userAlerts" class="userAlerts hide"><p style="padding: 2px 2px 2px 2px;"></p></div>
 	<div class="label headerGradientUserWelcome headerPosition" >{% csrf_token %}
-		<p class=" headerFont" style="float: left; padding-top: 15px">Welcome {{username}}</p>
+		<p class="headerFont" style="float: left; padding-top: 15px;">Welcome {{username}}</p>
 	</div>
 	<br/>
 	{% if error %}
@@ -59,17 +77,17 @@
 			</div>
 		{%endif%}
 	{%endfor%}
-	<a href="/reports/user/">
+	<a id="userWelcomeReportsDiv" href="/reports/user/">
 		<div class="userWelcomeReportsdiv">
 			<p style="font-size: 20px; text-align: center; margin-top: 45px; color: white;"> Appraisal reports </p>
 		</div>
 	</a>
-	<div style="float:left; width: 100%; padding-top: 25px;">
-		<legend class="userWelcomeHeader"><p style=" margin: 0px; margin-top: -2px;">Appraise your colleagues</p></legend>
-		
+	<div id="othersDiv" style="float:left; width: 100%; padding-top: 25px;">
+		<!-- <legend class="userWelcomeHeader"></legend> -->
+		<p style=" margin: 0px; margin-top: 2px; margin-bottom: 6px; margin-left: 15px; font-size: 22px; " class="userWelcomeFont">Appraise your colleagues</p>
 			{%for objapp in appraismentList%}
 				{% ifnotequal objapp.appraisee objapp.appraiser%}
-				<div class="userWelcomeDivOthers">
+				<div class="userWelcomeDivOthers hide">
 					<a class="" href="/userAppraisal/appraise/{{ objapp.appraisee }}" style="float:left; width: 100%;">
 					    <div style="padding:1px; text-align: center;">
 					           <p class="userWelcomeTitle">{{objapp.firstname}}&nbsp; {{objapp.lastname}}</p>

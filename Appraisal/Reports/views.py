@@ -21,7 +21,7 @@ def GenerateReports(request):
     if  Appraisment.objects.filter(appraisee=nUserID,appraiser=nUserID,status="Report").count() >=1 :
         AppCount = Appraisment.objects.filter(appraisee=nUserID).exclude(appraiser=nUserID).count()
         AppCompletedCount =Appraisment.objects.filter(appraisee=nUserID,status="Report").exclude(appraiser=nUserID).count()
-        if AppCount == AppCompletedCount :    
+        if  AppCount == AppCompletedCount  :    
             appraisment_list = GenerateReportList(request,nUserID)
             args['reports']=appraisment_list
             calculateFinalIndex(appraisment_list)
