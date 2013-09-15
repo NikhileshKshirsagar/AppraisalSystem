@@ -9,7 +9,7 @@
 	.rightAlign{text-align:right !important;}
 	.fontBold{font-weight:Bold;font-size:14px !important;}
 	.colortd{background:#dadada;font-weight:Bold;font-size:14px;}
-	.fontSize{font-size:14px !important;}
+	.fontSize{font-size:13px !important;}
 	</style>
 <script>
 $(function(){
@@ -30,65 +30,41 @@ $(function(){
 			height: 400,
 			width: 500,
 			modal: true,
+			position:[(screen.width-500)/2,(screen.height-500)/2],
 			buttons: {
-				"Edit": function() {
-					var data="";
-					flag=true;
-					$( "#dialog-form input").removeClass( "ui-state-error" );
-					$( "#dialog-form textArea[name=options]" ).each(function( index ) {
-						if($(this).val()!='' && $(this).parent().find('input[name=spinner]').val()!='')
-							data = data + $(this).val()+'|'+$(this).parent().find('input[name=spinner]').val() +',';
+				"Update": function() {
+					var sAnswerForbid='';
+					$('#divModalContainer table tbody tr').each(function(){
+						if($(this).find('*[name=chkRecordCheck]').is(":checked"))
+							nRecordCheck=1;
+						else
+							nRecordCheck=0
+						sAnswerForbid= sAnswerForbid + $(this).attr('value')+'|'+nRecordCheck+',';
 					});
-					data = data.slice(0,-1);
-					$("#dialog-form input[name=option_text]").val(data);
-					if(data=='')
-					{
-						updateTips('Enter options');
-						$( "#dialog-form textArea[name=options]").addClass( "ui-state-error" );
-					}
+					sAnswerForbid = sAnswerForbid.slice(0,-1);
 					
-					if($("#dialog-form *[name=option_header_text]").val()=="")
-					{
-						updateTips('Enter option header');
-						$( "#dialog-form *[name=option_header_text]").addClass( "ui-state-error" );
-					}
-					else
-					{
-						data={'search_txt':'Validate','stitle':$("#dialog-form *[name=option_header_text]").val(),'nOptionHeaderID':$('#dialog-form').find("input[name=option_header_id]").val()};
-						AjaxEvent(data, '/question/validateOptionHeader/',function(data, textStatus, jqXHR){
-											var response=jQuery.parseJSON(data);
-											if(response.error != '')
-											{
-												updateTips(response.error);
-											}
-											else
-											{
-												if(flag)
-												{
-													data={'search_txt':'Validate','option_header_text':$("#dialog-form *[name=option_header_text]").val(),'option_header_id':$('#dialog-form').find("input[name=option_header_id]").val(),
-													'option_text':$("#dialog-form input[name=option_text]").val()
-													};
-													
-													AjaxEvent(data, '/question/updateOption/',function(data, textStatus, jqXHR){
-																		var response=jQuery.parseJSON(data);
-																		if(response.success != '')
-																		{
-																			alert(response.success);
-																			$( "#dialog-form" ).dialog( "close" );
-																			$("#hrefUserExisting").trigger('click');
-																		}	
-																	},null);
-												}
-											}
-										},null);
-					}
-					
+					data={'search_txt':'Validate','AnswerForbid':sAnswerForbid};
+					AjaxEvent(data, '/reports/AnswerForbid/',function(data, textStatus, jqXHR){
+						var response=jQuery.parseJSON(data);
+						if(response.success!='')
+						{
+							alert("Success");
+							$("#btnFetch").trigger('click');
+						}
+						else
+						{
+							alert('ERROR : '+response.error);
+						}
+					},null);
+	
 					
 				},
 				Cancel: function() {
 					$( this ).dialog( "close" );
 				}
 			},
+			create: function (event) { $(event.target).parent().css('position', 'fixed');},
+   
 			close: function() {
 				$( "#dialog-form input").removeClass( "ui-state-error" );
 			}
@@ -100,12 +76,17 @@ $(function(){
 		data={'search_txt':'Validate','UserID':nSelectedUserID,'QuestionID':nSelectedQuestion};
 		AjaxEvent(data, '/reports/IndividualQuestion/',function(data, textStatus, jqXHR){
 									var response=jQuery.parseJSON(data);
-			
+									 $('#divModalContainer table tbody').html("");
 							        for (var i=0;i<response.length;i++) {
-									            $('#divModalContainer table').append("<tr value="+response[i].AppraisalContentID+">"+
-				"<td><input type=\"checkbox\" name=\"chkRecordCheck\"/></td>"+
-				"<td><label name=\"lblUserSelection\">"+response[i].answer+"</label></td>"+
-				"<td><label name=\"lblUserName\">"+response[i].UserName+"</label></td>"+
+							        		flag="";
+							        		if(response[i].answer_forbid_admin==1)
+											{
+												flag="checked=checked";
+											}
+									            $('#divModalContainer table tbody').append("<tr value="+response[i].AppraisalContentID+">"+
+				"<td><input type=\"checkbox\" "+flag+" name=\"chkRecordCheck\"/></td>"+
+				"<td><label name=\"lblUserSelection\" class=\"fontSize\">"+response[i].answer+"</label></td>"+
+				"<td><label name=\"lblUserName\" class=\"fontSize\">"+response[i].UserName+"</label></td>"+
 				"<td></td>"+
 			"</tr>");				            
 			}
@@ -136,7 +117,7 @@ $(function(){
 				{%endif%}
 			{%endfor%}
 		</select>
-		<input type="Submit" value="Fetch" class="btn btn-inverse"/>
+		<input type="Submit" id="btnFetch" value="Fetch" class="btn btn-inverse"/>
 		</form>
 		{%endif%}
 		</div>	
@@ -211,7 +192,13 @@ $(function(){
 															{% endif %}
 													
 															{% if option.option_count == 0 %}
-																<td width="15%" class="rightAlign" style="border-top: 0px;"><label>&nbsp;</label></td>
+																<td width="15%" class="rightAlign" style="border-top: 0px;"><label>&nbsp;
+																{%if type == 'Administrator'%}
+																	<a name="OthersDetails" href="#" value="{{objReport.questionID}}">
+																	 {{option.option_count}}
+																	</a>
+																{%endif%}
+																</label></td>
 															{% else %}
 																<td width="15%" class="rightAlign" style="border-top: 0px;">
 																{%if type == 'Administrator'%}
@@ -292,10 +279,17 @@ $(function(){
  	<p class="validateTips fontSize"></p>
 	<form>
 	<fieldset>
-		<div id="divModalContainer">
-			List of appraiser answer to the selected user
-			<table width="100%" class="table">
-			
+		<div id="divModalContainer" class="fontSize">
+			List of appraiser answer to the selected user<br/><br/>
+			<table width="100%" class="table table-striped">
+			<thead>
+				<tr class="fontSize">
+					<th>&nbsp;</th>
+					<th>Answer</th>
+					<th>User</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
 			</table>
 		
 		
