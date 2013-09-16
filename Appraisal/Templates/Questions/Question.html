@@ -6,16 +6,34 @@
 <script type="text/javascript">
 	function paging(pageNum, saveType)
 	{
-		if(saveType == 'paging')
+		if($('#questiontype').val() == 'Scale' && ($('#answerValue').val() == 0 || $('#answerValue').val() == 10))
 		{
-			console.log("Page Number : " + pageNum);
-			$('#formAppraisal').attr('action', '/question/' + pageNum + '/');
+			$('#userAlertsQnA').find('p').html('If your answer is 0 or 10 then adding elaboration for the answer is mandotary');
+			$('#userAlertsQnA').removeClass('hide');
+			
+			$('#userAlertsQnA').effect("slide", null, 1000, null );
+			
+			setTimeout(function(){
+				$('#userAlertsQnA').effect("fold", null, 1200, callback );
+				function callback()
+				{
+					$('#userAlertsQnA').addClass('hide');	
+				}
+			}, 20000);
 		}
-		else if(saveType == 'save')
-		{
-			$('#formAppraisal').attr('action', '/question/' + pageNum + '/save');
+		else
+		{	
+			if(saveType == 'paging')
+			{
+				console.log("Page Number : " + pageNum);
+				$('#formAppraisal').attr('action', '/question/' + pageNum + '/');
+			}
+			else if(saveType == 'save')
+			{
+				$('#formAppraisal').attr('action', '/question/' + pageNum + '/save');
+			}
+			$('#formAppraisal').submit();
 		}
-		$('#formAppraisal').submit();
 	}
 	
 	$(function(){
@@ -63,8 +81,8 @@
 			<sapn class="badge badge-inverse" style="font-size:15px; font-style: italic;">{{ appraisee.firstname }} {{ appraisee.lastname }} 
 			</sapn>
 		</div>
+		<div id="userAlertsQnA" class="userAlertsQnA hide"><p style="padding: 2px 10px 2px 10px;">{{ userAlerts }}</p></div>
 		{% if userAlerts|length > 0 %}
-			<div id="userAlertsQnA" class="userAlertsQnA hide"><p style="padding: 2px 2px 2px 2px;">{{ userAlerts }}</p></div>
 			<script type="text/javascript">
 				$('#userAlertsQnA').removeClass('hide');
 				$('#userAlertsQnA').effect("slide", null, 1000, null );
@@ -125,7 +143,7 @@
 		<p style="padding-left: 30%;">Save</p>
 	</div>
 	<input type="hidden" name="qustnNmbr" value="{{ AppraisalContents.question_order }}" >
-	<div class="pagination pagination-centered pageNumber" style="float: left;">
+	<div class="pagination pagination-small pagination-centered pageNumber" style="float: left;">
 		<ul>
 			<li><a pageNumber="/question/{{ previousPageNumber }}/" onclick="paging({{ previousPageNumber }}, 'paging')">&laquo;</a></li>	
 			{% for page in pages %}				
@@ -134,6 +152,7 @@
 			<li><a pageNumber="/question/{{ nextPageNumber }}/" onclick="paging({{ nextPageNumber }}, 'paging')">&raquo;</a></li>
 		</ul>
 	</div>
+	<input id="questiontype" type="hidden" value="{{ AppraisalContents.question.type }}">
 </form>
 
 {% endblock %}

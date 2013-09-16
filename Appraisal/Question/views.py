@@ -253,7 +253,7 @@ def userwiseQuestionList(request,requestUserID):
 
 def QuestionAnswer(request, questionId, saveType):
     #pdb.set_trace()
-    
+ 
     appraisment = Appraisment.objects.get(appraiser=request.session['UserID'],appraisee=request.session['appraisee'])
     pages = AppraisalContent.objects.filter(appresment=appraisment.appraisment_id)
     userInstructions = 'Navigate through the question using the paging control @ bottom or use navigation controls \'Next\' and \'Previous\'. Click on home to see your progress.'
@@ -279,13 +279,17 @@ def QuestionAnswer(request, questionId, saveType):
     
     if request.method == 'POST' :
         print request.POST
-        if appraisment.status != 'Completed' :
+        if appraisment.status != 'Completed' and appraisment.status != 'Reports' :
             useranswer = request.POST.get('appAnswer')
+            user_extended_answer = request.POST.get('extended_answer')
             questionNumber = request.POST.get('qustnNmbr')
             question_type = AppraisalContent.objects.get(appresment=appraisment.appraisment_id, question_order=questionNumber).question.type
             print question_type
             print useranswer
             #if (question_type == 'Scale' and useranswer != '0') or (question_type == 'Subjective' and useranswer != '') or (question_type == 'MCQ'):
+            #if((question_type == 'Scale' and (useranswer == '0' or useranswer == '10')) and user_extended_answer == ''):
+             #   userAlerts = "Please elaborate your answer."
+            #else:    
             print 'Saving answer'
             try:    
                 print "Question Id : " + questionNumber
@@ -301,9 +305,9 @@ def QuestionAnswer(request, questionId, saveType):
                 
                 if exitingAnswer.answer != None:
                     print "Inside if"
-                    Answer.objects.filter(answer_id=exitingAnswer.answer.answer_id).update(answer=useranswer, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
+                    Answer.objects.filter(answer_id=exitingAnswer.answer.answer_id).update(answer=useranswer, extended_answer=user_extended_answer, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
                 else:
-                    answer = Answer.objects.create( answer = useranswer, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
+                    answer = Answer.objects.create( answer = useranswer, extended_answer=user_extended_answer, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
                     print "Creating answer --------------------"
                     print answer.answer_id
                     AppraisalContent.objects.filter(question_order = questionNumber).filter(appresment = appraisment.appraisment_id).update(answer=answer.answer_id ,modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
