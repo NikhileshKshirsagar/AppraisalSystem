@@ -34,8 +34,8 @@ class AppraisalContent(models.Model):
 
 class Appraisment(models.Model):
     appraisment_id = models.AutoField(primary_key=True)
-    appraiser = models.ForeignKey('UserDetails', db_column='appraiser')
-    appraisee = models.ForeignKey('UserDetails', db_column='appraisee')
+    appraiser = models.ForeignKey('UserDetails', db_column='appraiser', related_name='appraisal_appraising')
+    appraisee = models.ForeignKey('UserDetails', db_column='appraisee', related_name='appraisal_appraissed')
     status = models.CharField(max_length=45L, blank=True)
     modified_by = models.ForeignKey('UserDetails', db_column='modified_by')
     modified_on = models.DateTimeField()
@@ -102,7 +102,7 @@ class Project(models.Model):
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
     status = models.TextField(blank=True)
-    contact_person = models.ForeignKey('UserDetails', null=True, db_column='contact_person', blank=True)
+    contact_person = models.ForeignKey('UserDetails', null=True, db_column='contact_person', blank=True, related_name='appraisal_responsible')
     modified_by = models.ForeignKey('UserDetails', db_column='modified_by')
     modified_on = models.DateTimeField()
     class Meta:
@@ -171,8 +171,8 @@ class UserDetails(models.Model):
 
 class UserEvent(models.Model):
     user = models.ForeignKey(UserDetails)
-    event = models.ForeignKey(Event)
-    modified_by = models.ForeignKey(UserDetails, db_column='modified_by')
+    event = models.ForeignKey(Event, related_name='appraisal_events')
+    modified_by = models.ForeignKey(UserDetails, db_column='modified_by', related_name='appraisal_modifier')
     modified_on = models.DateTimeField()
     class Meta:
         db_table = 'user_event'
