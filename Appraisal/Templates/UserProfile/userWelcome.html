@@ -53,7 +53,7 @@
 	{% if error %}
 		<div class="alert alert-error">{{error}}</div>
 	{% endif%}
-<div style="float: left; width: 60%;">	
+<div style="float: left; width: 70%;">	
 	{%for objapp in appraismentList%}
 		{% if objapp.appraisee == objapp.appraiser%}
 			<div>
@@ -108,5 +108,17 @@
 			{%endfor%}
 	</div>
 </div>	
+<div id="appraisalInstructions" class="userWelcomeappraisalInstructions">
+		<div class="userWelcomeInstructionHeader">
+			<div style="height: 3px;"></div>
+			<p style="">Instructions </p>
+		</div>
+		<ul style="list-style: outside; margin-top: 10px; margin-right: 5px;">
+			<li>sdbsdvsj dbngsk djbg ndkn fdk nfn fsn wbwb dbngsk djbg ndkn fdk nfn fsn wbwb</li>
+			<li>sdbwbwb dbngsk djbg ndkn fdk nfn fsn wbwb asdvadb dbngsk djbg ndkn fdk nfn fsn wbwb </li>
+			<li>sdbwbwb afssadb adbdb adbadb </li>
+			<li>dbngsk djbg ndkn fdk nfn fsn wbwbdb ngsk djbg ndkn fdk nfn fsn wbwb</li>
+		</ul>
+</div>
 	{{ successMsg }}
 {% endblock %}
