@@ -194,6 +194,7 @@ $(function() {
 			height: 400,
 			width: 500,
 			modal: true,
+			position:[(screen.width-500)/2,(screen.height-600)/2],
 			buttons: {
 				"Edit": function() {
 					var data="";
@@ -253,6 +254,8 @@ $(function() {
 					$( this ).dialog( "close" );
 				}
 			},
+			create: function (event) { $(event.target).parent().css('position', 'fixed');},
+   
 			close: function() {
 				$( "#dialog-form input").removeClass( "ui-state-error" );
 			}

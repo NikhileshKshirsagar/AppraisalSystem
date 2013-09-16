@@ -21,12 +21,20 @@ def GenerateReports(request):
     if  Appraisment.objects.filter(appraisee=nUserID,appraiser=nUserID,status="Report").count() >=1 :
         AppCount = Appraisment.objects.filter(appraisee=nUserID).exclude(appraiser=nUserID).count()
         AppCompletedCount =Appraisment.objects.filter(appraisee=nUserID,status="Report").exclude(appraiser=nUserID).count()
-        if  AppCount == AppCompletedCount  :    
+        if  AppCount>0 and AppCompletedCount>0 and AppCount == AppCompletedCount  :    
             appraisment_list = GenerateReportList(request,nUserID)
             args['reports']=appraisment_list
             calculateFinalIndex(appraisment_list)
-            args['othersTotal']=(nUserCalculation/nTotalCalculation)* 100
-            args['selfTotal']=(nSelfCalculation/nTotalCalculation)*100
+            if nTotalCalculation>=1:
+                args['othersTotal']=(nUserCalculation /nTotalCalculation)* 100
+            else:
+                args['othersTotal']=0
+            
+            if nTotalCalculationSelf>=1:
+                 args['selfTotal']=(nSelfCalculation/nTotalCalculationSelf)*100
+            else:
+                args['selfTotal']=0
+
         else :
             args['error']="Reports not rolled out."
     else:
@@ -55,7 +63,8 @@ def GenerateReportList(request,nUserID):
         appraisment['status']=questionUser.question.type
         appraisment['TotalCalculation']=0
         appraisment['UserCalculation']=0
-        appraisment['SelfCalculation']=0    
+        appraisment['SelfCalculation']=0  
+        appraisment['TotalCalculationSelf']=0  
         if questionUser.question.intent ==1:
             intentValue = 1
         else:
@@ -65,6 +74,7 @@ def GenerateReportList(request,nUserID):
             if questionUser.question.type == 'Scale' :
                 appraisment['answerYourself']=float(questionUser.answer.answer)
                 appraisment['SelfCalculation']=float(int(questionUser.answer.answer)*objAppUser.appraiser.user_weight*intentValue*questionUser.question.weight)
+                appraisment['TotalCalculationSelf']=float(10*objAppUser.appraiser.user_weight*intentValue*questionUser.question.weight)
             elif questionUser.question.type == 'Subjective':
                 appraisment['answerYourself']=questionUser.answer.answer
             else:
@@ -77,25 +87,29 @@ def GenerateReportList(request,nUserID):
               #  appraisment['option']=objOption
                 option_list = []
                 objOptionMax = Option.objects.filter(option_header=questionUser.question.option_header).order_by('-order')[0]
-                mcqCount=0
+                
                 for options in objOption:
                     option={}
                     option['option_text']=options.option_text
                     option['option_id']=options.option_id
                     option['option_level']=options.option_level
+                    option['option_order']=options.order
                     option['option_count']=0
-         
+                    mcqCount=0
+                    appraisment['TotalCalculationSelf']=int(objOptionMax.order*objOptionMax.option_level)*objAppUser.appraiser.user_weight*intentValue*questionUser.question.weight
                     #Calculating others appraisment values for MCQ (Need this because it has to be added with options list)
                     for questionOther in objAppOthers:
+                         
+                
                          try:
-                             objappContent = AppraisalContent.objects.get(appresment=questionOther.appraisment_id,question=questionUser.question)
+                             objappContent = AppraisalContent.objects.get(appresment=questionOther.appraisment_id,question=questionUser.question,answer_forbid_admin=1)
                          except:
                              objappContent=None
                          if objappContent!=None:
                              if objappContent.answer!=None:
                                  if objappContent.question.type == 'MCQ' :
                                      if str(objappContent.answer.answer) == str(options.option_id):
-                                         appraisment['UserCalculation']=float((appraisment['UserCalculation']*mcqCount +float(int(options.order*options.option_level)*questionOther.appraiser.user_weight*intentValue*questionUser.question.weight))/(mcqCount+1))
+                                         appraisment['UserCalculation']=float(appraisment['UserCalculation']*mcqCount +float(int(options.order*options.option_level)*questionOther.appraiser.user_weight*intentValue*questionUser.question.weight))
                                          appraisment['TotalCalculation']=float((appraisment['TotalCalculation']*mcqCount+float(int(objOptionMax.order*objOptionMax.option_level)*questionOther.appraiser.user_weight*intentValue*questionUser.question.weight))/(mcqCount+1))
                                          mcqCount=mcqCount+1
                                          option['option_count']=option['option_count']+1
@@ -111,11 +125,10 @@ def GenerateReportList(request,nUserID):
             
             appraisment['answerOther']=0
             for questionOther in objAppOthers:
-                
                 try:
                     #data = AppraisalContent.objects.filter(appresment=objAppOthers.appraisment_id,question=questionUser.question).count()
                    # print data
-                    objappContent = AppraisalContent.objects.get(appresment=questionOther.appraisment_id,question=questionUser.question)
+                    objappContent = AppraisalContent.objects.get(appresment=questionOther.appraisment_id,question=questionUser.question,answer_forbid_admin=1)
                 except:
                     objappContent=None
                 if objappContent!=None:
@@ -146,15 +159,15 @@ def GenerateReportList(request,nUserID):
             userCount=0
             for option in appraisment['options']:
                 if option['option_id'] == appraisment['answerYourself']:
-                    selfCount = option['option_level']
-                otherCount = otherCount + float(option['option_level']*option['option_count'])
-                userCount=userCount + option['option_count']
+                    selfCount = option['option_level']*option['option_order']
+                otherCount = otherCount + float((option['option_level']*option['option_order'])*option['option_count'])
             appraisment['mcqSelfCount']=selfCount
-            appraisment['mcqOtherCount']=float(otherCount/userCount)
+
+            appraisment['mcqOtherCount']=otherCount
             if  questionUser.question.intent ==1:
-                appraisment['total'] =  float(otherCount/userCount) -selfCount
+                appraisment['total'] =  otherCount -selfCount
             else:
-                appraisment['total'] =  selfCount - float(otherCount/userCount) 
+                appraisment['total'] =  selfCount - otherCount 
         
         appraisment_list.append(appraisment)    
     return appraisment_list
@@ -163,15 +176,19 @@ def calculateFinalIndex(appraismentList):
     global nSelfCalculation
     global nUserCalculation
     global nTotalCalculation
+    global nTotalCalculationSelf
     nSelfCalculation=0
     nUserCalculation=0
     nTotalCalculation=0
+    nTotalCalculationSelf=0
     for appraisment in appraismentList:
         if appraisment['status']!="Subjective":
             nSelfCalculation = nSelfCalculation + appraisment['SelfCalculation']
             nUserCalculation = nUserCalculation + appraisment['UserCalculation']
             nTotalCalculation = nTotalCalculation + appraisment['TotalCalculation']
-
+            nTotalCalculationSelf =nTotalCalculationSelf+ appraisment['TotalCalculationSelf']
+    
+            
 def adminGenerateEmployeeReports(request):
     args={}
     args.update(csrf(request))
@@ -192,8 +209,15 @@ def adminGenerateEmployeeReports(request):
                         appraisment_list=GenerateReportList(request, request.POST['drpUser'])
                         args['reports']=appraisment_list
                         calculateFinalIndex(appraisment_list)
-                        args['othersTotal']=(nUserCalculation /nTotalCalculation)* 100
-                        args['selfTotal']=(nSelfCalculation/nTotalCalculation)*100
+                        if nTotalCalculation>=1:
+                            args['othersTotal']=(nUserCalculation /nTotalCalculation)* 100
+                        else:
+                            args['othersTotal']=0
+                        
+                        if nTotalCalculationSelf>=1:
+                             args['selfTotal']=(nSelfCalculation/nTotalCalculationSelf)*100
+                        else:
+                            args['selfTotal']=0
 
                     else :
                         args['error']="Appraisal not completed for selected user"
@@ -234,6 +258,7 @@ def IndividualQuestionDetails(request):
                lstQuestionList['AppraisalContentID']=objappContent.appraisal_content_id
                lstQuestionList['appresmentID']=appOther.appraisment_id
                lstQuestionList['UserName']=appOther.appraiser.firstname
+               lstQuestionList['answer_forbid_admin']=objappContent.answer_forbid_admin
                if objappContent.question.type != 'MCQ':
                    lstQuestionList['answer']=objappContent.answer.answer
                else:
@@ -249,4 +274,26 @@ def IndividualQuestionDetails(request):
         #data = simplejson.dumps(arrQuestionList)
         #data =json.dumps(arrQuestionList)
         #return HttpResponse(content=data, content_type='json')
+        
+        
+def AnswerForbidUpdate(request):
+    flag=False
+    if request.is_ajax():
+        try:
+            sAnswerForbid = request.POST.get('AnswerForbid')
+            arrAnswerForbid = sAnswerForbid.split(",")
+            for index, sAnswer in enumerate(arrAnswerForbid):
+                 arrSplitForbidNID = sAnswer.split("|")
+                 AppraisalContent.objects.filter(appraisal_content_id=arrSplitForbidNID[0]).update(answer_forbid_admin=arrSplitForbidNID[1],modified_on=timezone.now())
+            flag=True
+        except:
+            flag=False     
+    if flag:
+        objResponse = {'success':'Records updated'}
+    else:
+        objResponse = {'error':'Error occurred while updating'}
+    
+    data = simplejson.dumps(objResponse)
+         
+    return HttpResponse(content=data, content_type='json')
                 
