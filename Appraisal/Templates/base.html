@@ -2,26 +2,27 @@
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0;" name="viewport">
 <meta charset="utf-8">
 	<head>
+	{% load staticfiles %}
 		<!-- CSS -->
-		<link href="/static/css/bootstrap.css" rel="stylesheet">
-		<link href="/static/css/font-awesome.css" rel="stylesheet">
-		 <link href="/static/css/jquery-ui.css" rel="stylesheet">
-		 <link rel="stylesheet" href="/static/css/styles.css"/>
-		 <link rel="stylesheet" href="/static/css/jquery.ui.button.css"/>
-		 <link rel="stylesheet" href="/static/css/jquery.ui.theme.css"/>
+		<link href="{% static "css/bootstrap.css"%}" rel="stylesheet">
+		<link href="{% static "css/font-awesome.css"%}" rel="stylesheet">
+		 <link href="{% static "css/jquery-ui.css"%}" rel="stylesheet">
+		 <link rel="stylesheet" href="{% static "css/styles.css"%}"/>
+		 <link rel="stylesheet" href="{% static "css/jquery.ui.button.css"%}"/>
+		 <link rel="stylesheet" href="{% static "css/jquery.ui.theme.css"%}"/>
 		<!-- JS libraries -->
 		
-		<script type="text/javascript" src="/static/js/jquery-1.9.1.js"></script>
-		<script type="text/javascript" src="/static/js/jquery-ui.js"></script>
-		<script type="text/javascript" src="/static/js/bootstrap.js"></script>
-		<script type="text/javascript" src="/static/js/CommonComponents.js"></script>
-		<script type="text/javascript" src="/static/js/ajax.js"></script>
-		<script type="text/javascript" src="/static/js/jquery.ui.button.js"></script>
-		<script type="text/javascript" src="/static/js/jquery.ui.effect-clip.js"></script>
-		<script type="text/javascript" src="/static/js/jquery.ui.effect-highlight.js"></script>
-		<script type="text/javascript" src="/static/js/jquery.ui.effect-bounce.js"></script>
-		<script type="text/javascript" src="/static/js/jquery.ui.effect-shake.js"></script>
-		<script type="text/javascript" src="/static/js/jquery.ui.effect-slide.js"></script>
+		<script type="text/javascript" src="{% static "js/jquery-1.9.1.js"%}"></script>
+		<script type="text/javascript" src="{% static "js/jquery-ui.js"%}"></script>
+		<script type="text/javascript" src="{% static "js/bootstrap.js"%}"></script>
+		<script type="text/javascript" src="{% static "js/CommonComponents.js"%}"></script>
+		<script type="text/javascript" src="{% static "js/ajax.js"%}"></script>
+		<script type="text/javascript" src="{% static "js/jquery.ui.button.js"%}"></script>
+		<script type="text/javascript" src="{% static "js/jquery.ui.effect-clip.js"%}"></script>
+		<script type="text/javascript" src="{% static "js/jquery.ui.effect-highlight.js"%}"></script>
+		<script type="text/javascript" src="{% static "js/jquery.ui.effect-bounce.js"%}"></script>
+		<script type="text/javascript" src="{% static "js/jquery.ui.effect-shake.js"%}"></script>
+		<script type="text/javascript" src="{% static "js/jquery.ui.effect-slide.js"%"></script>
 	</head>
 	
 	{% block pageheader %}
