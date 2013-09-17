@@ -26,32 +26,32 @@ def CreateUser(request):
                 userCreateform.save(commit=False, userId = i_UserId)
                 userCreateform = UserCreate()
                 # redirect to next page
-                return render_to_response('Userprofile/CreateUser.html', {'successMsg' : 'User created successfully', 'btn' : 'Create','userCreateform' : userCreateform}, context_instance = RequestContext( request))
+                return render_to_response('UserProfile/CreateUser.html', {'successMsg' : 'User created successfully', 'btn' : 'Create','userCreateform' : userCreateform}, context_instance = RequestContext( request))
             # Update user
             elif request.POST.get('action') == 'Beta' :
                 try:
                     UserDetails.objects.filter(user_id=request.POST.get('userid')).update(firstname=request.POST.get('firstname'), lastname=request.POST.get('lastname'), emailid=request.POST.get('emailid'), username=request.POST.get('username'), password=request.POST.get('password'), user_level=request.POST.get('user_level'), user_weight=request.POST.get('user_weight'), type=request.POST.get('type'))
                     userCreateform = UserCreate()
-                    return render_to_response('Userprofile/CreateUser.html', {'successMsg' : 'User updated successfully', 'btn' : 'Create','userCreateform' : userCreateform}, context_instance = RequestContext( request))
+                    return render_to_response('UserProfile/CreateUser.html', {'successMsg' : 'User updated successfully', 'btn' : 'Create','userCreateform' : userCreateform}, context_instance = RequestContext( request))
                 except:
                     userCreateform = UserCreate()
-                    return render_to_response('Userprofile/CreateUser.html', {'successMsg' : 'User cannot be updated', 'btn' : 'Update','userCreateform' : userCreateform}, context_instance = RequestContext( request))
+                    return render_to_response('UserProfile/CreateUser.html', {'successMsg' : 'User cannot be updated', 'btn' : 'Update','userCreateform' : userCreateform}, context_instance = RequestContext( request))
         else:
             print "Invalid form"
             if request.POST.get('action') == 'Alpha':
-                return render_to_response('Userprofile/CreateUser.html', { 'userCreateform' : userCreateform, 'btn' : 'Create' }, context_instance = RequestContext( request))
+                return render_to_response('UserProfile/CreateUser.html', { 'userCreateform' : userCreateform, 'btn' : 'Create' }, context_instance = RequestContext( request))
             else:
-                return render_to_response('Userprofile/CreateUser.html', { 'btn' : 'Update','userCreateform' : userCreateform}, context_instance = RequestContext( request))
+                return render_to_response('UserProfile/CreateUser.html', { 'btn' : 'Update','userCreateform' : userCreateform}, context_instance = RequestContext( request))
     else:
         userCreateform = UserCreate()
-        return render_to_response('Userprofile/CreateUser.html', { 'userCreateform' : userCreateform, 'btn' : 'Create' }, context_instance = RequestContext( request))
+        return render_to_response('UserProfile/CreateUser.html', { 'userCreateform' : userCreateform, 'btn' : 'Create' }, context_instance = RequestContext( request))
 
 def UserList(request):
     if request.method == 'POST':
         userList = UserDetails.objects.all()
     else:    
         userList = UserDetails.objects.all()
-        return render_to_response('Userprofile/UserList.html', { 'userList' : userList }, context_instance = RequestContext( request))
+        return render_to_response('UserProfile/UserList.html', { 'userList' : userList }, context_instance = RequestContext( request))
     
 def userSearch(request):
     if request.POST:
@@ -97,7 +97,7 @@ def userProfile(request):
         print request.POST
         #user = UserDetails.objects.get(user_id=request.session['UserID'])
         #designation = Designation.objects.filter()
-        return render_to_response('Userprofile/CreateUser.html', {}, context_instance = RequestContext( request))
+        return render_to_response('UserProfile/CreateUser.html', {}, context_instance = RequestContext( request))
     else:
         UserDetailForm = UserProfile_UserDetailForm()
         LanguageForm = UserProfile_LanguageForm()
@@ -109,7 +109,7 @@ def userProfile(request):
         designationList = Designation.objects.all()
         technologyList = Technology.objects.all()
         
-        return render_to_response('Userprofile/UserProfile.html', { 'UserDetailForm' : UserDetailForm, 'LanguageForm' : LanguageForm, 'DesignationForm' : DesignationForm, 
+        return render_to_response('UserProfile/UserProfile.html', { 'UserDetailForm' : UserDetailForm, 'LanguageForm' : LanguageForm, 'DesignationForm' : DesignationForm, 
                                                                    'ProjectForm' : ProjectForm, 'projectList' : projectList, 'languageList' : languageList, 
                                                                    'designationList' : designationList, 'technologyList' : technologyList }, 
                                  context_instance = RequestContext( request))
