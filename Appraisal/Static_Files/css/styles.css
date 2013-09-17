@@ -895,3 +895,11 @@ body
 {
 	background: url("/static/black50.png") repeat scroll left top transparent;
 }
+.userWelcomeBackground
+{
+	/*background: url('/static/black50.png') epeat scroll left top transparent;*/
+	background: url("/static/Images/fabric_plaid.png") repeat scroll left top transparent;
+    border-radius: 0 0 0 0 !important;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.15) !important;
+    margin: 0 auto !important;
+}
