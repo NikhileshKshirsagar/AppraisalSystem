@@ -103,7 +103,7 @@
 			<sapn class="badge badge-inverse" style="font-size:15px; font-style: italic;">{{ appraisee.firstname }} {{ appraisee.lastname }} 
 			</sapn>
 		</div>
-		<div id="userAlertsQnA" class="userAlertsQnA hide"><p style="padding: 2px 10px 2px 10px;">{{ userAlerts }}</p></div>
+		<div id="userAlertsQnA" class="userAlertsQnA hide"><p style="padding: 0px 10px 2px 10px;">{{ userAlerts }}</p></div>
 		{% if userAlerts|length > 0 %}
 			<script type="text/javascript">
 				$('#userAlertsQnA').removeClass('hide');
@@ -140,15 +140,16 @@
 			<div style="float: left; width: 100%;">
 				<div style="float: left; width: 100%;">
 					<div id="questionid" name="questionid" class="questionNum">
-						<div class="InnerQuesNum">Question Number {{ AppraisalContents.question_order }}</div>
-					</div>
+						<div class="InnerQuesNum" style="float: left;">Question Number {{ AppraisalContents.question_order }}</div>
+						
+						<div id="notAnswering" style="float: right; margin-top: 2px; color: white; font-size: 14px;" class="noAnswer">
+							<input type="checkbox" name="noAnswer" value="{{ AppraisalContents.answer_forbid_user }}" style="float: left; outline: white; outline-width: .1mm; ; ; outline-style: solid; ">
+							<p style="float: left; margin-left: 8px; margin-top: 2px; font-weight: bold; color: #7B967B;">I don't wish to answer this question</p> 
+						</div>
 				</div>
-				<div id="notAnswering" style="float: right; margin-top: 2px; color: white;" class="noAnswer">
-					<input type="checkbox" name="noAnswer" value="{{ AppraisalContents.answer_forbid_user }}" style="float: left; margin-top: ;">
-					<p style="float: left; margin-left: 8px; margin-top: 2px; font-weight: bold;">I don't wish to answer this question</p> 
 				</div>
 			</div>
-			<div id="question" name="question" style="float: left; margin: -10px 5px 5px 5px; height: 78%;">	
+			<div id="question" name="question" style="float: left; margin: 10px 5px 5px 5px; height: 78%;">	
 				<div class="questionHeader">
 					<p class="questionHeaderText">{{ AppraisalContents.question.info }}</p>
 				</div>

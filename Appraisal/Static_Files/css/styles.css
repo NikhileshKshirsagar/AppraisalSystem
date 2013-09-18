@@ -354,6 +354,7 @@ body
 	box-shadow: 10px 10px 20px 
 	black
 	inset, 1px 4px 3px black;
+	text-align: center;
 }
 .InnerQuesNum
 {
@@ -661,9 +662,10 @@ body
 	left: 30%;
 	color: white;
 	background-color: 7B967B;
-	border: 2px solid white;
-	border-radius: 5px 5px 5px 5px ;
+	border: 2px solid black;
+	border-radius: 8px 8px 8px 8px ;
 	height: 23px;
+	margin-top: 2px;
 	z-index: 2000;
 	background: rgb(125,126,125); /* Old browsers */
 	background: -moz-linear-gradient(top, rgba(125,126,125,1) 0%, rgba(14,14,14,1) 100%); /* FF3.6+ */
