@@ -13,6 +13,7 @@ from django.db.models import Max
 import pdb;
 
 from Login.models import UserDetails, AppraisalContent, AppraisalContent, Appraisment, Answer
+from MySQLdb.constants.FIELD_TYPE import NULL
 
 def questionCreateView(request):
     
@@ -284,6 +285,7 @@ def QuestionAnswer(request, questionId, saveType):
             user_extended_answer = request.POST.get('extended_answer')
             questionNumber = request.POST.get('qustnNmbr')
             question_type = AppraisalContent.objects.get(appresment=appraisment.appraisment_id, question_order=questionNumber).question.type
+            noAnswer = request.POST.get('noAnswer')
             print question_type
             print useranswer
             #if (question_type == 'Scale' and useranswer != '0') or (question_type == 'Subjective' and useranswer != '') or (question_type == 'MCQ'):
@@ -306,13 +308,19 @@ def QuestionAnswer(request, questionId, saveType):
                 if exitingAnswer.answer != None:
                     print "Inside if"
                     Answer.objects.filter(answer_id=exitingAnswer.answer.answer_id).update(answer=useranswer, extended_answer=user_extended_answer, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
+                    print "noAnswer value : " + noAnswer
+                    if noAnswer == 'NULL':
+                        print "noAnswer is NULL"
+                    else:    
+                        print "noAnswer not null"
+                        AppraisalContent.objects.filter(answer=exitingAnswer.answer.answer_id).filter(appresment=appraisment.appraisment_id, question_order=questionNumber).update(answer_forbid_user=noAnswer)
                 else:
-                    answer = Answer.objects.create( answer = useranswer, extended_answer=user_extended_answer, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
+                    answer = Answer.objects.create( answer = useranswer, extended_answer=user_extended_answer, answer_forbid_user=noAnswer, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
                     print "Creating answer --------------------"
                     print answer.answer_id
-                    AppraisalContent.objects.filter(question_order = questionNumber).filter(appresment = appraisment.appraisment_id).update(answer=answer.answer_id ,modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
-            except :
-                print "Answer not saved"
+                    AppraisalContent.objects.filter(question_order = questionNumber).filter(appresment = appraisment.appraisment_id).update(answer=answer.answer_id, answer_forbid_user=noAnswer, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
+            except Exception as exc:
+                print "Answer not saved" + str(exc)
         else :
             userAlerts = "You have submitted appraisal for this user, the answers cannot be changed."
         # Data for next question

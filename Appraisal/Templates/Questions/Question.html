@@ -4,9 +4,12 @@
 {% block pagecontent %}
 
 <script type="text/javascript">
+	$(function(){
+		$("body").addClass('userWelcomeBackground');
+	});
 	function paging(pageNum, saveType)
 	{
-		if($('#questiontype').val() == 'Scale' && ($('#answerValue').val() == 0 || $('#answerValue').val() == 10))
+		if($('#questiontype').val() == 'Scale' && ($('#answerValue').val() == 0 || $('#answerValue').val() == 10) && ($('[name="extended_answer"]').val() == ''))
 		{
 			$('#userAlertsQnA').find('p').html('If your answer is 0 or 10 then adding elaboration for the answer is mandotary');
 			$('#userAlertsQnA').removeClass('hide');
@@ -45,6 +48,24 @@
 		});
 	});
 	
+	$(function(){
+		{% if AppraisalContents.answer_forbid_user == 1 %}
+			$('[name="noAnswer"]').attr('checked', 'checked');
+		{% endif %}	
+		
+		$('[name="noAnswer"]').click(function(event){
+			if(($(this).is(':checked')) == true)
+			{
+				//alert("add");
+				$(event.currentTarget).val(1);
+			}
+			else if(($(this).is(':checked')) == false) 
+			{
+				$(event.currentTarget).val(0);
+			}
+		});
+	});
+	
 	/* User Instuctions */
 	options = {};
 	
@@ -75,6 +96,7 @@
 </script>
 
 <form id="formAppraisal" action="/question/{{ AppraisalContents.question_order }}/" method="post" style="margin-left: -5px; margin-right: 5px;" >{% csrf_token %}
+	
 	<div style="width: 100%;">
 		<div class="WelcomeMessage">
 			You are appraising 
@@ -96,8 +118,11 @@
 				}, 10000);
 			</script>
 		{% endif %}
+		 
 		<div id="userInstructions" class="userInstructions">
-			<button class="btn btn-small btn-inverse" type="button" style="border-radius: 50px 50px 50px 50px;">Instructions <span class="caret"></span></button>
+			<button class="btn btn-small btn-inverse" type="button" style="border-radius: 50px 50px 50px 50px; font-size: 15px; height: 25px;">
+				<p style="float: left; margin: -2px 5px 2px 2px;">Instructions</p> <span class="caret"></span>
+			</button>
 		</div>
 	</div>
 	<div style="width: 100%; margin-bottom: 20px;">
@@ -107,15 +132,23 @@
 		</div>
 		<div class="midDiv" style="float: left; margin-left: -1px;"></div>
 		<div class="afterQuestion control" onclick="paging({{ nextPageNumber }}, 'paging')">
-			<div style="height: 45%;"></div>	
+			<div style="height: 45%;"></div>
 			<p class="NavsTextRight">Next</p>
 		</div>
 		<div class="midDiv" style="float: right;"></div>
 		<div class="outterQuestion">
-			<div id="questionid" name="questionid" class="questionNum">
-				<div class="InnerQuesNum">Question {{ AppraisalContents.question_order }}</div>
+			<div style="float: left; width: 100%;">
+				<div style="float: left; width: 100%;">
+					<div id="questionid" name="questionid" class="questionNum">
+						<div class="InnerQuesNum">Question Number {{ AppraisalContents.question_order }}</div>
+					</div>
+				</div>
+				<div id="notAnswering" style="float: right; margin-top: 2px; color: white;" class="noAnswer">
+					<input type="checkbox" name="noAnswer" value="{{ AppraisalContents.answer_forbid_user }}" style="float: left; margin-top: ;">
+					<p style="float: left; margin-left: 8px; margin-top: 2px; font-weight: bold;">I don't wish to answer this question</p> 
+				</div>
 			</div>
-			<div id="question" name="question" style="padding: 10px 5px 5px 5px; height: 78%;">	
+			<div id="question" name="question" style="float: left; margin: -10px 5px 5px 5px; height: 78%;">	
 				<div class="questionHeader">
 					<p class="questionHeaderText">{{ AppraisalContents.question.info }}</p>
 				</div>
