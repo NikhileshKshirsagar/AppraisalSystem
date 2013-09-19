@@ -460,6 +460,7 @@ body
 {
 	height: 40%;
 	width: 7%;
+	margin-top: 10px;
 	background: #aebcbf; /* Old browsers */
 	background: -moz-linear-gradient(-45deg, #aebcbf 0%, #0a0e0a 0%, #6e7774 100%, #0a0809 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#aebcbf), color-stop(0%,#0a0e0a), color-stop(100%,#6e7774), color-stop(100%,#0a0809)); /* Chrome,Safari4+ */
@@ -480,6 +481,7 @@ body
 {
 	height: 40%;
 	width: 7%;
+	margin-top: 10px;
 	background: #aebcbf; /* Old browsers */
 	background: -moz-linear-gradient(-45deg, #aebcbf 0%, #0a0e0a 0%, #6e7774 100%, #0a0809 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#aebcbf), color-stop(0%,#0a0e0a), color-stop(100%,#6e7774), color-stop(100%,#0a0809)); /* Chrome,Safari4+ */
@@ -583,17 +585,22 @@ body
 }
 .AnswerMessage
 {
-	margin-left: 8%;
+	margin-left: 8.5%;
 	margin-top: 5px !important;
-	margin-bottom: -10px;
-	height: 5%;
+	margin-bottom: -7px;
+	height: 4%;
 	float: left;
-	width: 100%;
+	width: 160px;
+	border-radius: 30px 30px 30px 30px !important;
+	text-align: center;
+	color: white;
+	opacity: .5;
+	background: url("//www.blogblog.com/1kt/transparent/black50.png") repeat scroll left top transparent;
 }
 .AnswerMessageLabel
 {
 	font-size: 17px !important;
-	font-weight: bolder !important;
+	margin-top: 2px;
 }
 .Answerslider
 {
@@ -609,7 +616,7 @@ body
     float: left;
     height: 40% !important;
     margin-left: 1%;
-    margin-top: 0;
+    margin-top: 10px;
     width: 84%; 
     background: #7B967B;
     border-radius: 18px 18px 18px 18px;
