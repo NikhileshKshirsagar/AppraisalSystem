@@ -308,9 +308,9 @@ def QuestionAnswer(request, questionId, saveType):
                 if exitingAnswer.answer != None:
                     print "Inside if"
                     Answer.objects.filter(answer_id=exitingAnswer.answer.answer_id).update(answer=useranswer, extended_answer=user_extended_answer, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
-                    print "noAnswer value : " + noAnswer
-                    if noAnswer == 'NULL':
-                        print "noAnswer is NULL"
+                    
+                    if noAnswer is None:
+                        AppraisalContent.objects.filter(answer=exitingAnswer.answer.answer_id).filter(appresment=appraisment.appraisment_id, question_order=questionNumber).update(answer_forbid_user=False)
                     else:    
                         print "noAnswer not null"
                         AppraisalContent.objects.filter(answer=exitingAnswer.answer.answer_id).filter(appresment=appraisment.appraisment_id, question_order=questionNumber).update(answer_forbid_user=noAnswer)
