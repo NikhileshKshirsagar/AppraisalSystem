@@ -30,14 +30,14 @@ $(function(){
 	{{ AppraisalContents.question.option_header.option_text }}
 		{% for option in options %}
 			<input id="{{ option.option_id }}" type="radio" name="appAnswer" value="{{ option.option_id }}" />
-				<label for="{{ option.option_id }}" style="width: 100%; height: 25px; border-radius: 5px 5px 5px 5px !important; border: none;">
+				<label for="{{ option.option_id }}" style="width: 100%; height: 25px; border-radius: 5px 5px 5px 5px !important; border: none; padding: 0;">
 					{{ option.option_text }} 
 			</label>
 			<br>
 		{% endfor %}
 		 
 	</div>
-	<textarea name="extended_answer" placeholder="Elaborate your answer" style="width: 100%; height: 100%; margin-top: 5px; ">{% if AppraisalContents.answer.extended_answer != '' %}{{ AppraisalContents.answer.extended_answer }} {% endif %}</textarea>
+	<textarea name="extended_answer" placeholder="Elaborate your answer" style="width: 100%; height: 100%; margin-top: 5px; ">{% if AppraisalContents.answer.extended_answer != None and AppraisalContents.answer.extended_answer != '' %}{{ AppraisalContents.answer.extended_answer }} {% endif %}</textarea>
 </div>
 
 {% endblock %}
