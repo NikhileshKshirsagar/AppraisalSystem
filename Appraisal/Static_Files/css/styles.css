@@ -74,10 +74,10 @@ height: 28px;font-size:13px !important;}
 	box-shadow: 0 0 0 0 !important;
 	vertical-align:middle !important;
 	max-width: 35px !important;
-	color: black !important; 
+	color: white !important; 
 	float: left;
 	margin-left: 50px;
-	margin-top: 17px;
+	margin-top: 8px;
 	border-radius: 0px 0px 0px 0px !important;
 	background-color: #E3E8E4 !important;
 }
@@ -412,7 +412,7 @@ body
 	border-radius: 18px 18px 18px 18px;
 	box-shadow: 0 3px 10px 
 	black
-	inset, 12px 12px 12px gray;
+	inset, 12px 2px 12px gray;
 }
 .beforeQuestion
 {
@@ -525,7 +525,8 @@ body
 {
 	margin-top: 12px;
 	font-size: 15px;
-	font-weight: bold;	
+	font-weight: bold;
+	color: white;	
 }
 .answerExtra
 {
@@ -533,6 +534,7 @@ body
 	float: left;
 	height: 30% !important;
 	margin: 2% 0% 0%  1% ;
+	background-color: #E2E2E2;
 }
 .MCQ
 {
@@ -585,7 +587,7 @@ body
 }
 .AnswerMessage
 {
-	margin-left: 8.5%;
+	margin-left: 7.5%;
 	margin-top: 5px !important;
 	margin-bottom: -7px;
 	height: 4%;
@@ -593,9 +595,9 @@ body
 	width: 160px;
 	border-radius: 30px 30px 30px 30px !important;
 	text-align: center;
-	color: white;
+	color: black;
 	opacity: .5;
-	background: url("//www.blogblog.com/1kt/transparent/black50.png") repeat scroll left top transparent;
+	/*background: url("//www.blogblog.com/1kt/transparent/black50.png") repeat scroll left top transparent;*/
 }
 .AnswerMessageLabel
 {

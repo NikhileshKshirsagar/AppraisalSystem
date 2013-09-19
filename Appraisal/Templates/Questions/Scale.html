@@ -5,8 +5,7 @@
 
 
 <script type="text/javascript">
-	LoadSlider($( "#answer_scale" ).get("selector"),  $( "#answerValue" ).get("selector"), 10, 0, 0 );
-	
+	LoadSlider($( "#answer_scale" ).get("selector"),  $( "#answerValue" ).get("selector"), 10, 0, 0 );	
 </script>
 <div style="width: 100%; margin-top: 25px; margin-left: 20px;">
 	<div class="Scale">
@@ -14,9 +13,9 @@
 		<label id="scaleNarrator" class="scaleLabel"></label>
 	</div>
 	<div class="sliderValueDiv">
-		<input name="appAnswer" id="answerValue" class="sliderValueScale" type="text" style="font-size: 16px !important; background-color: #7B967B !important;">
+		<input name="appAnswer" id="answerValue" class="sliderValueScale" type="text" style="font-size: 18px !important; background-color: #7B967B !important;">
 	</div>
-	<textarea name="extended_answer" class="answerExtra" placeholder="Elaborate your answer">{{ AppraisalContents.answer.extended_answer }}</textarea>
+	<textarea name="extended_answer" class="answerExtra" placeholder="Elaborate your answer">{% if AppraisalContents.answer.extended_answer != '' %}{{ AppraisalContents.answer.extended_answer }} {% endif %}</textarea>
 </div>
 {% if AppraisalContents.answer.answer != None %} 
 	<script type="text/javascript">	
