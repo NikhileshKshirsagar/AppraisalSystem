@@ -16,7 +16,7 @@
 	<div class="sliderValueDiv">
 		<input name="appAnswer" id="answerValue" class="sliderValueScale" type="text" style="font-size: 16px !important; background-color: #7B967B !important;">
 	</div>
-	<textarea name="extended_answer" class="answerExtra" placeholder="Elaborate your answer"></textarea>
+	<textarea name="extended_answer" class="answerExtra" placeholder="Elaborate your answer">{{ AppraisalContents.answer.extended_answer }}</textarea>
 </div>
 {% if AppraisalContents.answer.answer != None %} 
 	<script type="text/javascript">	
