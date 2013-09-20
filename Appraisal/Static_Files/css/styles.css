@@ -629,14 +629,15 @@ body
 .controlHover
 {
 	/*border-color: rgba(82, 168, 236, 0.8);*/
-	border-color: gray;
+	/*border-color: gray;
 	box-shadow: 0 0 20px 
 	black
 	inset, 0 0 8px black;
-	outline: 0 none;
+	outline: 0 none;*/
 	font-size: 15px;
-	color: black;
-	background: #D8D9D7;
+	color: white;
+	/*background: #D8D9D7;*/
+	opacity: .5;
 }
 .userInstructions
 {
@@ -693,9 +694,9 @@ body
 	float:left;
 	background:#96544A;
 	margin-top: 15px;
-	margin-left: 8px;
-	width: 280px;
-	height: 112px;
+	margin-left: 12px;
+	width: 150px;
+	height: 240px;
 	border-radius: 10px 10px 10px 10px;
 	border: 3px solid white; 
 	background: rgb(125,126,125); /* Old browsers */
@@ -716,11 +717,13 @@ body
 	float:left;
 	background:#96544A;
 	margin-top: 15px;
-	width: 280px;
-	height: 115px;
+	width: 150px;
+	height: 240px;
 	border-radius: 10px 10px 10px 10px;
 	border: 3px solid white; 
-	margin: 12px; 
+	margin-left: 12px;
+	margin-bottom: 12px; 
+	margin-top: 15px;
 	box-shadow: 1px 1px 10PX 
 	black
 	inset, 6px 8px 6px gray;
@@ -738,12 +741,12 @@ body
 {
 	font-size: 16px;
 	float: left;
-	margin-top: 2%;
-	padding-left: 10px;
+	margin-top: 1px;
+	padding-left: 5px;
 	color: white;
 	overflow:  auto;
-	max-width: 150px;
-	max-height: 40px;
+	
+	height: 40px;
 }
 .userWelcomeTitle
 {
@@ -754,15 +757,15 @@ body
 }
 .userWelcomeSubmitButton
 {
-	width: 260px !important;
-	height: 30px;
-	font-size: 16px;
+	width: 128px !important;
+	height: 40px;
+	font-size: 15px;
 }
 .userWelcomeSubmitButtonOthers
 {
-	width: 260px !important;
-	height: 28px;
-	font-size: 16px;	
+	width: 126px !important;
+	height: 30px;
+	font-size: 15px;	
 }
 .userWelcomeHeader
 {
@@ -829,9 +832,9 @@ body
 .userWelcomeReportsdiv
 {
 	float:left;
-	width: 280px;
-	height: 113px;
-	margin: 15px 0px 0px 25px;
+	width: 150px;
+	height: 240px;
+	margin: 15px 0px 0px 12px;
 	border: 3px solid white;
 	border-radius: 10px 10px 10px 10px;
 	background: rgb(125,126,125); /* Old browsers */

@@ -59,18 +59,19 @@
 		{% if objapp.appraisee == objapp.appraiser%}
 			<div>
 				<div class="userWelcomeDiv">
-					<a class="" href="/userAppraisal/appraise/{{UserID}}" style="float:left; width: 100%;">
-					    <div style="padding:1px; text-align: center;">
-					           <p class="userWelcomeTitle">Appraise your self </p>
-					    </div>
+					<a class="" href="/userAppraisal/appraise/{{UserID}}" style="float:left; width: 100%; margin-top: 10px; height: 25%; text-align: center;">
+			           <p class="userWelcomeTitle">Appraise</p> 
+			           <p class="userWelcomeTitle" style="margin-top: -7px;"> yourself </p>
 						<input type="hidden" value="{{UserID}}">
 					</a>
-					<div style="width: 100%; float: left; width: 100%;">
-						<div style="float:right; color: white; padding-right: 10px; padding-top: 8px; font-size: 18px; font-weight: 600;"><p style="">{{objapp.answeredcount}}/{{objapp.totalcount}}</p></div>
-						<div class="userWelcomeDivStatus" >
-							<p style="color: white; padding: 4px ; border-radius: 5px 5px 5px 5px; {{ objapp.color }}">{{objapp.statustext}}</p>
+					<div style="width: 100%; float: left; width: 100%; margin-top: 5px;">
+						<div style="color: white; padding-top: 5px; padding-left: 10px;font-size: 17px;"><p style="">Progress - {{objapp.answeredcount}}/{{objapp.totalcount}}</p></div>
+						<div style="margin-top: 12px;">
+							<div class="userWelcomeDivStatus">
+								 <p style="color: white; padding: 4px ; border-radius: 5px 5px 5px 5px;">{{objapp.statustext}}</p>
+							</div>
 						</div>
-						<div class="completeAppraisal" style="width: 280px;padding-left: 10px;">
+						<div class="completeAppraisal" style="width: 100%;  padding-left: 12px; margin-top: 40px; float:left;">
 				  			<input type="button" class="btn btn-medium userWelcomeSubmitButton" value="Submit Appraisal" style=" height: 28px;">
 				  		</div>
 					</div>
@@ -78,31 +79,32 @@
 			</div>
 		{%endif%}
 	{%endfor%}
-	<a id="userWelcomeReportsDiv" href="/reports/user/">
-		<div class="userWelcomeReportsdiv">
-			<p style="font-size: 20px; text-align: center; margin-top: 45px; color: white;"> Appraisal reports </p>
-		</div>
-	</a>
-	<div id="othersDiv" style="float:left; width: 100%; padding-top: 25px;">
+	<div class="userWelcomeDiv" style="background: transparent; text-align: center;">
+		<p style="font-size: 20px; margin-top: 40px;">Appraise</p>
+		<p style="font-size: 20px; margin-top: 20px; margin-bottom: 30px;">Others</p>
+		<i class="icon-long-arrow-right icon-3x"></i>
+	</div>
+	<div id="othersDiv">
 		<!-- <legend class="userWelcomeHeader"> -->
-		<p style=" margin: 0px; margin-top: 2px; margin-bottom: 6px; margin-left: 15px; font-size: 22px; " class="userWelcomeFont">Appraise your colleagues</p>
+		<!-- <p style=" margin: 0px; margin-top: 2px; margin-bottom: 6px; margin-left: 15px; font-size: 22px; " class="userWelcomeFont">Appraise your colleagues</p> -->
 		<!-- </legend> -->
 		
 			{%for objapp in appraismentList%}
 				{% ifnotequal objapp.appraisee objapp.appraiser%}
 				<div class="userWelcomeDivOthers hide">
-					<a class="" href="/userAppraisal/appraise/{{ objapp.appraisee }}" style="float:left; width: 100%;">
-					    <div style="padding:1px; text-align: center;">
-					           <p class="userWelcomeTitle">{{objapp.firstname}}&nbsp; {{objapp.lastname}}</p>
-					    </div>
+					<a class="" href="/userAppraisal/appraise/{{ objapp.appraisee }}" style="float:left; width: 100%; margin-top: 10px; height: 25%; text-align: center;">
+			        	<p class="userWelcomeTitle" style="margin-top: 0px;">{{objapp.firstname}} {{objapp.lastname}}</p>
 						<input type="hidden" value="{{ objapp.appraisee }}">
 					</a>
-					<div style="width: 100%; float: left; width: 100%;">
-						<div style="float:right; color: white; padding-right: 10px; padding-top: 8px; font-size: 18px; font-weight: 600;"><p style="">{{objapp.answeredcount}}/{{objapp.totalcount}}</p></div>
-						<div class="userWelcomeDivStatus" >
-							<p style="color: white; padding: 4px ; border-radius: 5px 5px 5px 5px; {{ objapp.color }}">{{objapp.statustext}}</p>
+					<div style="width: 100%; float: left; width: 100%; margin-top: 5px;">
+						<div style="color: white; padding-top: 5px; padding-left: 10px;font-size: 17px;"><p style="">Progress - {{objapp.answeredcount}}/{{objapp.totalcount}}</p></div>
+						<div style="margin-top: 12px;">
+							<!-- <p style="color: white; font-size: 14px; margin-left: 8px; margin-bottom: -1px;">Status <i class=" icon-arrow-down" style="font-size: 10px;"></i></p> -->	
+							<div class="userWelcomeDivStatus" >
+								<p style="color: white; padding: 4px ; border-radius: 5px 5px 5px 5px; ">{{objapp.statustext}}</p>
+							</div>
 						</div>
-						<div class="completeAppraisal" style="width: 280px;  padding-left: 10px;">
+						<div class="completeAppraisal" style="width: 100%;  padding-left: 12px; margin-top: 40px; float:left;">
 				  			<input type="button" class="btn btn-medium userWelcomeSubmitButtonOthers" value="Submit Appraisal">
 				  		</div>
 					</div>
@@ -110,17 +112,33 @@
 				{% endifnotequal%}
 			{%endfor%}
 	</div>
-</div>	
+	<a id="userWelcomeReportsDiv" href="/reports/user/">
+		<div class="userWelcomeReportsdiv">
+			<p style="font-size: 20px; text-align: center; margin-top: 80px; color: white;"> Appraisal</p> 
+			<p style="font-size: 20px; text-align: center; margin-top: 10px; color: white;"> reports </p>
+		</div>
+	</a>
+</div>
+	
 <div id="appraisalInstructions" class="userWelcomeappraisalInstructions">
 		<div class="userWelcomeInstructionHeader">
 			<div style="height: 3px;"></div>
 			<p style="">Instructions </p>
 		</div>
 		<ul style="list-style: outside; margin-top: 10px; margin-right: 5px;">
-			<li>sdbsdvsj dbngsk djbg ndkn fdk nfn fsn wbwb dbngsk djbg ndkn fdk nfn fsn wbwb</li>
-			<li>sdbwbwb dbngsk djbg ndkn fdk nfn fsn wbwb asdvadb dbngsk djbg ndkn fdk nfn fsn wbwb </li>
-			<li>sdbwbwb afssadb adbdb adbadb </li>
-			<li>dbngsk djbg ndkn fdk nfn fsn wbwbdb ngsk djbg ndkn fdk nfn fsn wbwb</li>
+			<li>Every block contains:</li>
+				<ul>
+					<li>Name of the person you are appraising.</li>
+					<li>Number of questions answered v/s total number of questions.</li>
+					<li>Status of the appraisal.</li>
+					<li>Submit button to submit the appraisal</li>
+				</ul>
+			<li>First appraise yourself using first block and complete answering your questions.</li>
+			<li>Submit your appraisal using submit button at the bottom of the 'appraise yourself' block.</li>
+			<li>Submitting your appraisal will not allow you to change your answers. But you can still view them.</li>
+			<li>Once you are done appraising yourself you can now start appraising others following the instructions mentioned above.</li>
+			<li>Appraisal comparative report will be available to you once they are rolled out.</li>
+			
 		</ul>
 </div>
 	{{ successMsg }}
