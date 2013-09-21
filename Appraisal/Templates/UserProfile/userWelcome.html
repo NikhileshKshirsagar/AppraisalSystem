@@ -26,6 +26,8 @@
 					}, 10000);
 				});
 			});
+			
+			
 		});	
 	</script>
 	
@@ -79,12 +81,26 @@
 			</div>
 		{%endif%}
 	{%endfor%}
-	<div class="userWelcomeDiv" style="background: transparent; text-align: center;">
-		<p style="font-size: 20px; margin-top: 40px;">Appraise</p>
-		<p style="font-size: 20px; margin-top: 20px; margin-bottom: 30px;">Others</p>
-		<i class="icon-long-arrow-right icon-3x"></i>
+	
+	<div class="userWelcomeDiv" style="text-align: center; color: white;">
+		<p style="font-size: 20px; margin-top: 40px; font-variant: small-caps; font-weight: bold;">Appraise</p>
+		<p style="font-size: 20px; margin-top: 10px; margin-bottom: 30px; font-variant: small-caps; font-weight: bold;">Others</p>
+		<div class=" rotate" style="margin-top: 50px;">
+			<i class="icon-forward icon-3x"></i>
+		</div>
 	</div>
-	<div id="othersDiv">
+	
+	<a id="userWelcomeReportsDiv" href="/reports/user/">
+		<div class="userWelcomeReportsdiv">
+			<p style="font-size: 20px; text-align: center; margin-top: 40px; color: white; font-variant: small-caps; font-weight: bold;"> Appraisal</p> 
+			<p style="font-size: 20px; text-align: center; margin-top: 10px; color: white; font-variant: small-caps; font-weight: bold;"> reports </p>
+			<div style="margin-top: 35px;">
+				<i class="icon-bar-chart icon-4x" style="margin-left: 44px; color: white;"></i>
+			</div>
+		</div>
+	</a>
+
+	<div id="othersDiv" style="float: left;">
 		<!-- <legend class="userWelcomeHeader"> -->
 		<!-- <p style=" margin: 0px; margin-top: 2px; margin-bottom: 6px; margin-left: 15px; font-size: 22px; " class="userWelcomeFont">Appraise your colleagues</p> -->
 		<!-- </legend> -->
@@ -112,12 +128,6 @@
 				{% endifnotequal%}
 			{%endfor%}
 	</div>
-	<a id="userWelcomeReportsDiv" href="/reports/user/">
-		<div class="userWelcomeReportsdiv">
-			<p style="font-size: 20px; text-align: center; margin-top: 80px; color: white;"> Appraisal</p> 
-			<p style="font-size: 20px; text-align: center; margin-top: 10px; color: white;"> reports </p>
-		</div>
-	</a>
 </div>
 	
 <div id="appraisalInstructions" class="userWelcomeappraisalInstructions">

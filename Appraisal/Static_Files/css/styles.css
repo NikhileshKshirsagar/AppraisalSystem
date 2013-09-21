@@ -849,12 +849,20 @@ body
 	black
 	inset, 12px 10px 12px gray;		
 
+background: rgb(232,34,54); /* Old browsers */
+background: -moz-linear-gradient(-45deg, rgba(232,34,54,1) 0%, rgba(216,22,41,1) 0%, rgba(190,18,35,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(232,34,54,1)), color-stop(0%,rgba(216,22,41,1)), color-stop(100%,rgba(190,18,35,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(-45deg, rgba(232,34,54,1) 0%,rgba(216,22,41,1) 0%,rgba(190,18,35,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(-45deg, rgba(232,34,54,1) 0%,rgba(216,22,41,1) 0%,rgba(190,18,35,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(-45deg, rgba(232,34,54,1) 0%,rgba(216,22,41,1) 0%,rgba(190,18,35,1) 100%); /* IE10+ */
+background: linear-gradient(135deg, rgba(232,34,54,1) 0%,rgba(216,22,41,1) 0%,rgba(190,18,35,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e82236', endColorstr='#be1223',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }
 .userWelcomeappraisalInstructions
 {
 	float: left;
 	width: 27%;
-	height: 450px;
+	height: 500px;
 	border: 3px solid white;
 	margin-left: 5px;
 	margin-top: 15px; 
@@ -908,4 +916,10 @@ body
 .noAnswer
 {
 	margin-right: 15px;
+}
+.rotate
+{
+	transform: rotate(90deg);
+	-ms-transform:rotate(7deg); /* IE 9 */
+	-webkit-transform:rotate(7deg); /* Safari and Chrome */
 }
