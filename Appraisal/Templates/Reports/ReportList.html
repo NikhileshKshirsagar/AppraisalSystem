@@ -3,7 +3,7 @@
 	<br/>
 	<style>
 	td{border-top: 0px !important;font-size:14px; }
-	.roundBorder,td div{border:1px solid #000000; border-radius:8px;box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4) inset, 0 1px 10px rgba(0, 0, 0, 0.4);}
+	.roundBorder{border:1px solid #000000; border-radius:8px;box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4) inset, 0 1px 10px rgba(0, 0, 0, 0.4);}
 	.negative{border:1px solid #FF0000 !important;padding:0 20px 0 20px;}
 	.positive{border:1px solid #00FF00 !important;padding:0 20px 0 20px;}
 	.rightAlign{text-align:right !important;}
@@ -14,6 +14,8 @@
 <script>
 $(function(){
 
+$('*[name=popoverInfo]').popover({ html:true}).popover('toggle');
+$('*[name=popoverInfo]').popover('hide');
  	tips = $( ".validateTips" );
 	 flag=true;
 	function updateTips( t ) {
@@ -83,9 +85,18 @@ $(function(){
 											{
 												flag="checked=checked";
 											}
+											if(response[i].answer_forbid_user==1)
+											{
+												sUserStatus="Not Answered";
+											}
+											else
+											{
+												sUserStatus="Answered";
+											}
 									            $('#divModalContainer table tbody').append("<tr value="+response[i].AppraisalContentID+">"+
 				"<td><input type=\"checkbox\" "+flag+" name=\"chkRecordCheck\"/></td>"+
 				"<td><label name=\"lblUserSelection\" class=\"fontSize\">"+response[i].answer+"</label></td>"+
+				"<td><label name=\"lblUserRejection\" class=\"fontSize\">"+sUserStatus+"</label></td>"+
 				"<td><label name=\"lblUserName\" class=\"fontSize\">"+response[i].UserName+"</label></td>"+
 				"<td></td>"+
 			"</tr>");				            
@@ -127,7 +138,7 @@ $(function(){
 		{% if reports%}
 		<table class="table" width="100%">
 			<thead>
-				<tr style="background:#dadada;box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4) inset, 0 1px 15px rgba(0, 0, 0, 0.4);">
+				<tr  style="background:#dadada;box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4) inset, 0 1px 15px rgba(0, 0, 0, 0.4);">
 					<th  width="40%" style="padding-left:40px;">Quality</th>
 					<th  width="15%" class="rightAlign">Self-assessment</th>
 					<th  width="15%" class="rightAlign">Others(Average)</th>
@@ -140,10 +151,10 @@ $(function(){
 				{% if objReport.status == 'Scale' %}
 					<tr  style="padding:10px;padding-bottom:20px;">
 						<td colspan="5">
-							{%if objReport.answerYourself <= objReport.answerOther%}
-								<div class="positive">
+							{%if  objReport.answerYourself == "-"  and objReport.answerOther <= 0  or objReport.answerYourself <= objReport.answerOther %}
+								<div class="positive roundBorder">
 							{%else%}
-								<div class="negative">
+								<div class="negative roundBorder">
 							{%endif%}
 							<table  width="100%">
 								<tr>	
@@ -158,7 +169,13 @@ $(function(){
 											</a>
 										{%endif%}
 										</td>
-									<td  width="15%" class="rightAlign">{{objReport.total}}</td>
+									<td  width="15%" class="rightAlign">{{objReport.total}}
+									{% ifnotequal objReport.extended_answer  " " %}
+										<a name="popoverInfo" class="" title="" data-content="{{objReport.extended_answer|linebreaksbr}}" data-placement="right" data-toggle="popover" href="#" data-original-title="Comments"><i class=" icon-info-sign"> </i></a>
+									{%endifnotequal%}
+									
+									
+									</td>
 								</tr>
 							</table>
 							</div>	
@@ -169,14 +186,19 @@ $(function(){
 					<tr style="padding:10px;padding-bottom:20px;">
 						<td colspan="5">
 						{%if objReport.mcqSelfCount <= objReport.mcqOtherCount%}
-								<div class="positive">
+								<div class="positive roundBorder">
 							{%else%}
-								<div class="negative">
+								<div class="negative roundBorder">
 							{%endif%}
 								<table width="100%">
 									<tr>
-										<td  width="100%" ><label  class="fontBold">{{objReport.header}}</label></td>
-										<td class="rightAlign">{{objReport.total}}</td>
+										<td  width="92%" ><label  class="fontBold">{{objReport.header}}</label></td>
+										<td class="rightAlign">{{objReport.total}}
+										{% ifnotequal objReport.extended_answer  " " %}
+										<a name="popoverInfo" class="" title="" data-content="{{objReport.extended_answer|linebreaksbr}}" data-placement="right" data-toggle="popover" href="#" data-original-title="Comments"><i class=" icon-info-sign"> </i></a>
+										{%endifnotequal%}
+										
+										</td>
 									</tr>
 									<tr>
 										<td colspan="2">
@@ -255,7 +277,7 @@ $(function(){
 				{% if objReport.status == 'Subjective' %}
 					<tr  style="padding:10px;padding-bottom:20px;">
 						<td  width="40%" colspan="4">
-							<div>
+							<div class="roundBorder">
 							<table width="100%">
 								<tr style="background:#dadada"><td class="fontBold">{{objReport.header}}</td></tr>
 								<tr><td><label class="fontBold">Yourself :</label> <label class="fontSize">{{objReport.answerYourself}}</label></td></tr>
@@ -285,7 +307,9 @@ $(function(){
 			<thead>
 				<tr class="fontSize">
 					<th>&nbsp;</th>
+					
 					<th>Answer</th>
+					<th>User Status</th>
 					<th>User</th>
 				</tr>
 			</thead>
