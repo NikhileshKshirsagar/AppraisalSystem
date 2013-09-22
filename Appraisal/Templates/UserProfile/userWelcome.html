@@ -13,9 +13,20 @@
 				var data = {
 						'search_txt' : 	$(event.currentTarget).parent().parent().find('input[type="hidden"]').val()
 				}
+	
 				AjaxEvent(data, '/userprofile/submitAppraisal/', function successSerach(data, textStatus, jqXHR)
 				{
-					$('#userAlerts').find('p').html(data);
+					var response = jQuery.parseJSON(data);
+					if(response.status == "success")
+					{
+						selector = 'input[type="hidden"][value="' + response.appraisee + '"]'
+						$(selector).parent().parent().find('div[class="userWelcomeDivStatus"]').find('p').html(response.appraisalStatus);
+						setTimeout(function(){
+							$(selector).parent().parent().find('div[class="userWelcomeDivStatus"]').find('p').effect("highlight", null, 1000, null );
+						}, 2000);	
+					}
+					
+					$('#userAlerts').find('p').html(response.message);
 					$('#userAlerts').removeClass('hide');
 					$('#userAlerts').effect("slide", null, 500, null );
 					setTimeout(function(){

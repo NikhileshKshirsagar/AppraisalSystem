@@ -179,6 +179,7 @@ def userWelcome(request):
 def submitAppraisal(request):
     if request.method == 'POST' :
         answeredcount=0
+        response = {}
         try:
             appraisee = request.POST.get('search_txt')
             print appraisee
@@ -200,14 +201,22 @@ def submitAppraisal(request):
             print "Total count : " + str(i_totalQuestionCount)
             print "Answered question count : " + str(answeredcount)
             userAppraised = UserDetails.objects.get(user_id=appraisee)
-            if int(i_totalQuestionCount) == int(answeredcount) :
+            if (int(i_totalQuestionCount) != 0 and int(answeredcount) != 0) and int(i_totalQuestionCount) == int(answeredcount) :
                 Appraisment.objects.filter(appraisment_id = i_appraismentId).update(status = 'Completed')
-                return HttpResponse(content='Status updated for ' + userAppraised.firstname + ' ' + userAppraised.lastname, content_type='application/json')
+                response['message'] = 'Status updated for ' + userAppraised.firstname + ' ' + userAppraised.lastname
+                response['status'] = 'success'
+                response['appraisee'] = appraisee
+                response['appraisalStatus'] = "Submitted"
+                #return HttpResponse(content='Status updated for ' + userAppraised.firstname + ' ' + userAppraised.lastname, content_type='application/json')
             else:
-                return HttpResponse(content='Please answer all the questions for ' + userAppraised.firstname + ' ' + userAppraised.lastname , content_type='application/json')    
+                response['message'] = 'Please answer all the questions for ' + userAppraised.firstname + ' ' + userAppraised.lastname
+                response['status'] = 'fail'
+                #return HttpResponse(content='Please answer all the questions for ' + userAppraised.firstname + ' ' + userAppraised.lastname , content_type='application/json')    
         except:
-            return HttpResponse(content='Cannot update status for ' + userAppraised.firstname + ' ' + userAppraised.lastname, content_type='application/json')
-        print i_appraismentId
+            response['message'] = 'Cannot update status for ' + userAppraised.firstname + ' ' + userAppraised.lastname
+            response['status'] = 'fail'
+            #return HttpResponse(content='Cannot update status for ' + userAppraised.firstname + ' ' + userAppraised.lastname, content_type='application/json')
+    return HttpResponse(content=simplejson.dumps(response), content_type='application/json')
 
 def AppraisalStatus(request):
     if request.method == 'POST' :
