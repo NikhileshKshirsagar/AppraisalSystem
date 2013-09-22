@@ -18,9 +18,9 @@ def GenerateReports(request):
     nUserID = request.session['UserID']
     objUserId = UserDetails.objects.get(user_id=request.session['UserID'])
     args['type']=objUserId.type
-    if  Appraisment.objects.filter(appraisee=nUserID,appraiser=nUserID,status="Report").count() >=1 :
+    if  Appraisment.objects.filter(appraisee=nUserID,appraiser=nUserID,status="Reports").count() >=1 :
         AppCount = Appraisment.objects.filter(appraisee=nUserID).exclude(appraiser=nUserID).count()
-        AppCompletedCount =Appraisment.objects.filter(appraisee=nUserID,status="Report").exclude(appraiser=nUserID).count()
+        AppCompletedCount =Appraisment.objects.filter(appraisee=nUserID,status="Reports").exclude(appraiser=nUserID).count()
         if  AppCount>0 and AppCompletedCount>0 and AppCount == AppCompletedCount  :    
             appraisment_list = GenerateReportList(request,nUserID)
             args['reports']=appraisment_list
@@ -130,11 +130,12 @@ def GenerateReportList(request,nUserID):
                                  
                                  if objappContent.question.type == 'MCQ' :
                                      if objappContent.answer_forbid_user == 0:
-                                         if questionUser.answer.extended_answer != None: 
-                                            appraisment['extended_answer']= appraisment['extended_answer']+str(nextended_answerCount)+") "+questionUser.answer.extended_answer+"\n"
-                                            nextended_answerCount = nextended_answerCount + 1
-            
+                                         
                                          if str(objappContent.answer.answer) == str(options.option_id):
+                                             if questionUser.answer.extended_answer != None: 
+                                                appraisment['extended_answer']= appraisment['extended_answer']+str(nextended_answerCount)+") "+questionUser.answer.extended_answer+"\n"
+                                                nextended_answerCount = nextended_answerCount + 1
+            
                                              appraisment['UserCalculation']=float(appraisment['UserCalculation']*mcqCount +float(int(options.order*options.option_level)*questionOther.appraiser.user_weight*intentValue*questionUser.question.weight))
                                              appraisment['TotalCalculation']=float((appraisment['TotalCalculation']*mcqCount+float(int(objOptionMax.order*objOptionMax.option_level)*questionOther.appraiser.user_weight*intentValue*questionUser.question.weight))/(mcqCount+1))
                                              mcqCount=mcqCount+1
