@@ -117,7 +117,7 @@
 		
 			{%for objapp in appraismentList%}
 				{% ifnotequal objapp.appraisee objapp.appraiser%}
-				<div class="userWelcomeDivOthers hide">
+				<div class="userWelcomeDivOthers hide" style="{{ objapp.color }}">
 					<a class="" href="/userAppraisal/appraise/{{ objapp.appraisee }}" style="float:left; width: 100%; margin-top: 10px; height: 25%; text-align: center;">
 			        	<p class="userWelcomeTitle" style="margin-top: 0px;">{{objapp.firstname}} {{objapp.lastname}}</p>
 						<input type="hidden" value="{{ objapp.appraisee }}">
