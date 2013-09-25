@@ -207,6 +207,7 @@ def submitAppraisal(request):
                 response['status'] = 'success'
                 response['appraisee'] = appraisee
                 response['appraisalStatus'] = "Submitted"
+                response['color'] = scolor='background: rgb(232,34,54); /* Old browsers */ background: -moz-linear-gradient(-45deg, rgba(232,34,54,1) 0%, rgba(216,22,41,1) 0%, rgba(190,18,35,1) 100%); /* FF3.6+ */ background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(232,34,54,1)), color-stop(0%,rgba(216,22,41,1)), color-stop(100%,rgba(190,18,35,1))); /* Chrome,Safari4+ */ background: -webkit-linear-gradient(-45deg, rgba(232,34,54,1) 0%,rgba(216,22,41,1) 0%,rgba(190,18,35,1) 100%); /* Chrome10+,Safari5.1+ */ background: -o-linear-gradient(-45deg, rgba(232,34,54,1) 0%,rgba(216,22,41,1) 0%,rgba(190,18,35,1) 100%); /* Opera 11.10+ */ background: -ms-linear-gradient(-45deg, rgba(232,34,54,1) 0%,rgba(216,22,41,1) 0%,rgba(190,18,35,1) 100%); /* IE10+ */ background: linear-gradient(135deg, rgba(232,34,54,1) 0%,rgba(216,22,41,1) 0%,rgba(190,18,35,1) 100%); /* W3C */ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=\'#e82236\', endColorstr=\'#be1223\',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */'
                 #return HttpResponse(content='Status updated for ' + userAppraised.firstname + ' ' + userAppraised.lastname, content_type='application/json')
             else:
                 response['message'] = 'Please answer all the questions for ' + userAppraised.firstname + ' ' + userAppraised.lastname

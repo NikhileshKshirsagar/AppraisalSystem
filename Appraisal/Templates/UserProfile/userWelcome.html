@@ -22,7 +22,11 @@
 						selector = 'input[type="hidden"][value="' + response.appraisee + '"]'
 						$(selector).parent().parent().find('div[class="userWelcomeDivStatus"]').find('p').html(response.appraisalStatus);
 						setTimeout(function(){
-							$(selector).parent().parent().find('div[class="userWelcomeDivStatus"]').find('p').effect("highlight", null, 1000, null );
+							$(selector).parent().parent().find('div[class="userWelcomeDivStatus"]').find('p').effect("highlight", null, 1000, changeColor );
+							
+							function changeColor(){
+								$(selector).parent().parent().prop("style",response.color);
+							}
 						}, 2000);	
 					}
 					
