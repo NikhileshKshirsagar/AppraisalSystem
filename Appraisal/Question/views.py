@@ -224,7 +224,7 @@ def userwiseQuestionList(request,requestUserID):
                 index=0
                 for question in objQuestion:
                     index=index+1
-                    AppraisalContent.objects.create( appresment = objAppraisment, question = question ,question_order = index,answer_forbid_user=1,answer_forbid_admin=1,modified_by = i_UserId,modified_on=timezone.now() )
+                    AppraisalContent.objects.create( appresment = objAppraisment, question = question ,question_order = index,answer_forbid_user=0,answer_forbid_admin=1,modified_by = i_UserId,modified_on=timezone.now() )
                 objAppraisment.status = 'Created'
                 objAppraisment.save()#Appraisment.objects.filter(appraisment_id=objAppraisment.appraisment_id).update(status='Created')    
             objAppraisalContent = AppraisalContent.objects.filter(appresment=objAppraisment).order_by('question_order');
