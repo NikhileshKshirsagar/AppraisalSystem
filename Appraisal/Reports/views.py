@@ -54,9 +54,13 @@ def GenerateReportList(request,nUserID):
     except:
         objAppOthers=None
     appraisment_list = []
-    objQuestionUser = AppraisalContent.objects.filter(appresment=objAppUser.appraisment_id)
+    objQuestionUser = AppraisalContent.objects.filter(appresment=objAppUser.appraisment_id).order_by('question__type')
+    nOrderCount = 1
     for questionUser in objQuestionUser:
+     #   print questionUser.question.type
         appraisment = {}
+        appraisment['OrderNumber']=str(nOrderCount)
+        nOrderCount=nOrderCount+1
         appraisment['questionID']=questionUser.question.question_id
         appraisment['header']=questionUser.question.info
         appraisment['question']=questionUser.question.question
@@ -247,9 +251,9 @@ def adminGenerateEmployeeReports(request):
             if request.POST['drpUser']!='0':
                 userID = int(request.POST['drpUser'])
              #   print Appraisment.objects.filter(appraisee=userID,appraiser=userID,status="Completed").count()
-                if  Appraisment.objects.filter(appraisee=userID,appraiser=userID,status="Completed").count() >=1 :
+                if  Appraisment.objects.filter(appraisee=userID,appraiser=userID,status__in=["Completed","Reports"]).count() >=1 :
                     AppCount = Appraisment.objects.filter(appraisee=userID).exclude(appraiser=userID).count()
-                    AppCompletedCount =Appraisment.objects.filter(appraisee=userID,status="Completed").exclude(appraiser=userID).count()
+                    AppCompletedCount =Appraisment.objects.filter(appraisee=userID,status__in=["Completed","Reports"]).exclude(appraiser=userID).count()
                     if AppCount == AppCompletedCount :    
                         appraisment_list=GenerateReportList(request, request.POST['drpUser'])
                         args['reports']=appraisment_list
