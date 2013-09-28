@@ -15,7 +15,7 @@
 	<div class="sliderValueDiv">
 		<input name="appAnswer" id="answerValue" class="sliderValueScale" type="text" style="font-size: 18px !important; background-color: #7B967B !important;">
 	</div>
-	<textarea name="extended_answer" class="answerExtra" placeholder="Elaborate your answer">{% if AppraisalContents.answer.extended_answer != None and AppraisalContents.answer.extended_answer != '' %}{{ AppraisalContents.answer.extended_answer }} {% endif %}</textarea>
+	<textarea name="extended_answer" class="answerExtra" placeholder="Additional comments">{% if AppraisalContents.answer.extended_answer != None and AppraisalContents.answer.extended_answer != '' %}{{ AppraisalContents.answer.extended_answer }} {% endif %}</textarea>
 </div>
 {% if AppraisalContents.answer.answer != None %} 
 	<script type="text/javascript">	

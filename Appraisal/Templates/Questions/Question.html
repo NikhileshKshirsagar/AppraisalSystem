@@ -9,9 +9,9 @@
 	});
 	function paging(pageNum, saveType)
 	{
-		if($('#questiontype').val() == 'Scale' && ($('#answerValue').val() == 0 || $('#answerValue').val() == 10) && ($('[name="extended_answer"]').val() == ''))
+		if($('#questiontype').val() == 'Scale' && ($('#answerValue').val() == 1 || $('#answerValue').val() == 10) && ($('[name="extended_answer"]').val() == ''))
 		{
-			$('#userAlertsQnA').find('p').html('If your answer is 0 or 10 then adding elaboration for the answer is mandotary');
+			$('#userAlertsQnA').find('p').html('If your answer is 1 or 10 then adding additional comment for the answer is mandotary.');
 			$('#userAlertsQnA').removeClass('hide');
 			
 			$('#userAlertsQnA').effect("slide", null, 1000, null );

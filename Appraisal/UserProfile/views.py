@@ -139,7 +139,7 @@ def userWelcome(request):
             print "Question order: " + str(question.question_order)
             print "Question type: "  + str(question.question.type) 
             print "Answer : " + str(question.answer.answer)
-            if (question.question.type == 'Scale' and question.answer.answer != '0') or (question.question.type == 'Subjective' and question.answer.answer != '') or question.question.type == 'MCQ':
+            if (question.question.type == 'Scale' and question.answer.answer != '0') or (question.question.type == 'Subjective' and question.answer.answer != '') or (question.question.type == 'MCQ' and question.answer.answer != '-1'):
                 answeredcount += 1
             print "Final Answer count" + str(answeredcount)
             
@@ -193,7 +193,7 @@ def submitAppraisal(request):
                 print "Question order: " + str(question.question_order)
                 print "Question type: "  + str(question.question.type) 
                 print "Answer : " + str(question.answer.answer)
-                if (question.question.type == 'Scale' and question.answer.answer != '0') or (question.question.type == 'Subjective' and question.answer.answer != '') or question.question.type == 'MCQ':
+                if (question.question.type == 'Scale' and question.answer.answer != '0') or (question.question.type == 'Subjective' and question.answer.answer != '') or (question.question.type == 'MCQ' and question.answer.answer != '-1'):
                     answeredcount += 1
                 print "Final Answer count" + str(answeredcount)
             
