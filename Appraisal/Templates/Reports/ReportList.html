@@ -107,6 +107,22 @@ $('*[name=popoverInfo]').popover('hide');
 	$( "#dialog-form" ).dialog( "open" );
 	});
 	
+	
+	$("#btnRollout").click(function(event){
+	
+	var r=confirm("Are you sure you want to rollout the reports for selected user");
+	if(r)
+	{
+		nSelectedUserID = $('*[name=drpUser] option:selected').attr('value');
+		data={'search_txt':'Validate','UserID':nSelectedUserID};
+		AjaxEvent(data, '/reports/ReportsRolledOut/',function(data, textStatus, jqXHR){
+									var response=jQuery.parseJSON(data);
+									if(response.success!=null)
+											alert(response.success);
+		},null);
+	}
+	});
+	
 });
 
 </script>
@@ -129,6 +145,7 @@ $('*[name=popoverInfo]').popover('hide');
 			{%endfor%}
 		</select>
 		<input type="Submit" id="btnFetch" value="Fetch" class="btn btn-inverse"/>
+		
 		</form>
 		{%endif%}
 		</div>	
@@ -136,6 +153,9 @@ $('*[name=popoverInfo]').popover('hide');
 		<div class="alert alert-error">{{error}}</div>
 		{% endif%}
 		{% if reports%}
+		{%if type == 'Administrator'%}
+			<input type="Submit" id="btnRollout" value="Rollout reports" class="btn btn-inverse" style="margin-bottom:10px;"/>
+		{%endif%}
 		<table class="table" width="100%">
 			<thead>
 				<tr  style="background:#dadada;box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.4) inset, 0 1px 15px rgba(0, 0, 0, 0.4);">

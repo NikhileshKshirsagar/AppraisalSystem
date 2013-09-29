@@ -5,5 +5,6 @@ urlpatterns = patterns('Reports',
                 url(r'^employee/$', 'views.adminGenerateEmployeeReports', name='login'),
                 url(r'^IndividualQuestion/$','views.IndividualQuestionDetails'),
                 url(r'^AnswerForbid/$','views.AnswerForbidUpdate'),
+                url(r'^ReportsRolledOut/$','views.ReportsRolledOut'),
                 
                         )

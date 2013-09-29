@@ -350,4 +350,24 @@ def AnswerForbidUpdate(request):
     data = simplejson.dumps(objResponse)
          
     return HttpResponse(content=data, content_type='json')
+
+def ReportsRolledOut(request):
+    flag=False
+    if request.is_ajax():
+        try:
+            nUserID = request.POST.get('UserID')
+            nAdminUserID = request.session['UserID']
+            Appraisment.objects.filter(appraisee=nUserID).update(status="Reports",modified_by=nAdminUserID,modified_on=timezone.now())
+            flag=True
+        except Exception, e:
+            print e.message
+            flag=False     
+    if flag:
+        objResponse = {'success':'Records updated'}
+    else:
+        objResponse = {'error':'Error occurred while updating'}
+    
+    data = simplejson.dumps(objResponse)
+         
+    return HttpResponse(content=data, content_type='json')
                 
