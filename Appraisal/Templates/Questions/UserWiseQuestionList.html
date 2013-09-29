@@ -2,18 +2,42 @@
 {% block pagecontent %}
 	<br/>
 	<div style="padding-left:30px;padding-right:30px;">
-<div style="padding:30px;border:2px solid;width:90%;border-radius:20px;background:#ffffff;background: linear-gradient(to bottom, #4F85BB 0%, #4F85BB 100%) repeat scroll 0 0 transparent;
+<div style="padding:30px;border:2px solid;width:90%;border-radius:20px;background:#ffffff;background: linear-gradient(to bottom, #bdd1e5 0%, #bdd1e5 100%) repeat scroll 0 0 transparent;
     border: 3px solid white;border-radius: 10px 10px 10px 10px;">
 	{% if Question%}
 		<legend style="text-align:center">Questions</legend>
+		
+			<div style="float:right;border-radius:15px;border:2px solid green;padding:3px;">&nbsp;Answered</div><div style="float:right;">&nbsp;&nbsp;</div>  <div style="float:right;padding:3px;border-radius:15px;border:2px solid red;">&nbsp;Still to be answered</div>  
+			<table width="100%" style="margin-bottom:20px;background: linear-gradient(to bottom, #dadada 0%, #4F85BB 100%) repeat scroll 0 0 transparent;text-align:left;"><tr>
+			<th width="50%" style="padding-left:40px;">Question</th>
+			<th>Answer</th>
+			</tr></table>
+		
 	{%for objQuestion in Question%}
-	<div class="well" style="padding:10px;padding-bottom:20px;">
+	{%if objQuestion.answer_forbid_user == 1%}
+		<div  style="padding:10px;margin-bottom:20px;background:#ffffff;border-radius:15px;border:2px solid green">
+	{%endif%}
+	{% if  objQuestion.answer_forbid_user == 0 and objQuestion.question_answer == ''%}
+		<div  style="padding:10px;margin-bottom:20px;background:#ffffff;border-radius:15px;border:2px solid red">
+	{%else%}
+		<div  style="padding:10px;margin-bottom:20px;background:#ffffff;border-radius:15px;border:2px solid green">
+	{%endif%}
 		<a href="/question/{{objQuestion.question_order}}">
-			<div> <label style="font-weight:bold;">{{objQuestion.question_header}}</label><br/>{{objQuestion.question}}</div>
-			<br/>
-				<div>Answer: {{objQuestion.question_answer}}</div>
+			<table width="100%">
+			<tr>		
+				<td width="50%">
+					<div> 
+						<label  style="font-weight:bold;">Q{{objQuestion.question_count}}&nbsp;{{objQuestion.question_header}}</label>
+						<label >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{objQuestion.question}}</label>
+					</div>
+				</td>
+				<td>	
+					<div><label>{{objQuestion.question_answer}}</label></div>
+				</td>
+			</tr>
+			</table>
 		</a>
-		</div>
+	</div>
 	{%endfor%}	
 	{%endif%}
 	{% if error %}

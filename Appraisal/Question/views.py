@@ -230,12 +230,16 @@ def userwiseQuestionList(request,requestUserID):
             objAppraisalContent = AppraisalContent.objects.filter(appresment=objAppraisment).order_by('question_order');
             request.session['appraisee']= objAppraisment.appraisee
             arrAppraisalContent=[]  
+            nQuestionCount=1
             for appraisalContent in objAppraisalContent:
                 lstAppraisal = {}
+                lstAppraisal['question_count']=nQuestionCount
+                nQuestionCount=nQuestionCount+1
                 lstAppraisal['question_order']=appraisalContent.question_order
                 lstAppraisal['question_header']=appraisalContent.question.info
                 lstAppraisal['question']=appraisalContent.question.question
                 lstAppraisal['question_type']=appraisalContent.question.type
+                lstAppraisal['answer_forbid_user']=appraisalContent.answer_forbid_user
                 if appraisalContent.answer!=None and appraisalContent.answer.answer!='':
                     if appraisalContent.question.type!='MCQ':
                         lstAppraisal['question_answer']=appraisalContent.answer.answer
