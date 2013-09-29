@@ -13,19 +13,24 @@ table td, table th {
 <script>
 $(function(){
 	$("*[name=hrefDeleteQuestion]").click(function(event){
-		thisEvent = $(event.target);
-		alert(thisEvent.closest('tr').find('*[name=txtQuestionId]').attr('val'));
-		data={'search_txt':'Validate','QuestionID':thisEvent.closest('tr').find('*[name=txtQuestionId]').attr('val')};
-													
-		AjaxEvent(data, '/question/deleteQuestion/',function(data, textStatus, jqXHR){
-							var response=jQuery.parseJSON(data);
-							if(response.success != '')
-							{
-								thisEvent.closest('tr').remove();
-							}
-							
-						},null);
+		var flag = confirm("Are you sure you want to delete the question?");
+		if(flag)
+		{
+			thisEvent = $(event.target);
+			//alert(thisEvent.closest('tr').find('*[name=txtQuestionId]').attr('val'));
+			data={'search_txt':'Validate','QuestionID':thisEvent.closest('tr').find('*[name=txtQuestionId]').attr('val')};
+														
+			AjaxEvent(data, '/question/deleteQuestion/',function(data, textStatus, jqXHR){
+								var response=jQuery.parseJSON(data);
+								if(response.success != '')
+								{
+									thisEvent.closest('tr').remove();
+								}
+								
+							},null);
+		}
 	});
+	
 	
 });
 </script>
@@ -54,8 +59,8 @@ $(function(){
 					-ve
 			{%endif%}
 		</td>
-		<td><a class="btn btn-inverse" name="hrefEditQuestion" href="/question/editQuestion/{{objQuestion.question_id}}/">Edit</a></td>
-		<td><a class="btn btn-inverse" name="hrefDeleteQuestion" >Delete</a></td>
+		<td><a class="btn btn-inverse" style="color:#ffffff;" name="hrefEditQuestion" href="/question/editQuestion/{{objQuestion.question_id}}/">Edit</a></td>
+		<td><a class="btn btn-inverse" style="color:#ffffff;" name="hrefDeleteQuestion" >Delete</a></td>
 	</tr>			
 {% endfor %}
 </tbody>
