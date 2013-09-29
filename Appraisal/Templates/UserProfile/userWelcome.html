@@ -75,7 +75,7 @@
 	{%for objapp in appraismentList%}
 		{% if objapp.appraisee == objapp.appraiser%}
 			<div>
-				<div class="userWelcomeDiv">
+				<div class="userWelcomeDiv"  style="{{ objapp.color }}">
 					<a class="" href="/userAppraisal/appraise/{{UserID}}" style="float:left; width: 100%; margin-top: 10px; height: 25%; text-align: center;">
 			           <p class="userWelcomeTitle" style="font-size: 18px;">Appraise yourself</p> 
 						<input type="hidden" value="{{UserID}}">

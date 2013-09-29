@@ -99,7 +99,7 @@
 	
 	<div style="width: 100%;">
 			<div class="WelcomeMessage">
-				<sapn class="badge badge-inverse" style="font-size:15px; font-style: italic; margin-left: 19%; height: 18px;"><p style="margin-top: 1px;">You are Appraising '{{ appraisee.firstname }} {{ appraisee.lastname }}'</p> 
+				<sapn class="badge badge-inverse" style="font-size:15px; font-style: italic; margin-left: 19%; height: 18px;"><p style="margin-top: 1px;">You are Appraising '{% if AppraisalContents.appresment.appraiser != AppraisalContents.appresment.appraisee %} {{ appraisee.firstname }} {{ appraisee.lastname }} {% else %}Your self{% endif %}'</p> 
 				</sapn>
 			</div>
 		
@@ -141,11 +141,12 @@
 				<div style="float: left; width: 100%;">
 					<div id="questionid" name="questionid" class="questionNum">
 						<div class="InnerQuesNum" style="float: left;">Question Number {{ AppraisalContents.question_order }}</div>
-						
-						<div id="notAnswering" style="float: right; margin-top: 2px; color: white; font-size: 14px;" class="noAnswer">
-							<input type="checkbox" name="noAnswer" value="{{ AppraisalContents.answer_forbid_user }}" style="float: left; outline: white; outline-width: .1mm; ; ; outline-style: solid; ">
-							<p style="float: left; margin-left: 8px; margin-top: 2px; font-weight: bold; color: #7B967B;">I don't wish to answer this question</p> 
-						</div>
+						{% if AppraisalContents.appresment.appraiser != AppraisalContents.appresment.appraisee %}
+							<div id="notAnswering" style="float: right; margin-top: 2px; color: white; font-size: 14px;" class="noAnswer">
+								<input type="checkbox" name="noAnswer" value="{{ AppraisalContents.answer_forbid_user }}" style="float: left; outline: white; outline-width: .1mm; ; ; outline-style: solid; ">
+								<p style="float: left; margin-left: 8px; margin-top: 2px; font-weight: bold; color: #7B967B;">I don't wish to answer this question</p> 
+							</div>
+						{% endif %}
 				</div>
 				</div>
 			</div>
