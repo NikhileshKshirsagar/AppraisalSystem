@@ -16,8 +16,7 @@
 	{%for objQuestion in Question%}
 	{%if objQuestion.answer_forbid_user == 1%}
 		<div  style="padding:10px;margin-bottom:20px;background:#ffffff;border-radius:15px;border:2px solid green">
-	{%endif%}
-	{% if  objQuestion.answer_forbid_user == 0 and objQuestion.question_answer == ''%}
+	{%elif  objQuestion.answer_forbid_user == 0 and objQuestion.question_answer == ''%}
 		<div  style="padding:10px;margin-bottom:20px;background:#ffffff;border-radius:15px;border:2px solid red">
 	{%else%}
 		<div  style="padding:10px;margin-bottom:20px;background:#ffffff;border-radius:15px;border:2px solid green">
