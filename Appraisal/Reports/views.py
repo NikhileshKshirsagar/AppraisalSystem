@@ -10,7 +10,7 @@ from django.core.context_processors import csrf
 from django.utils import timezone
 from django.utils import simplejson
 import json
-
+#{{objReport.UserCalculation}}<br/>{{objReport.TotalCalculation}}
 
 def GenerateReports(request):
     args={}
@@ -98,13 +98,19 @@ def GenerateReportList(request,nUserID):
                 
             
                 objOption =Option.objects.filter(option_header=questionUser.question.option_header)
-                objOptionMax = Option.objects.filter(option_header=questionUser.question.option_header).order_by('-order')[0]
+        if objOption:
+            nOptionMaxCount=objOption[0].option_level
+        for option in objOption:
+            if nOptionMaxCount >= (option.option_level*intentValue):
+                objOptionMax=option
+                nOptionMaxCount=option.option_level*intentValue
+                #objOptionMax = Option.objects.filter(option_header=questionUser.question.option_header).order_by('-order')[0]
                 
                 if questionUser.answer_forbid_user == 0:
                     objoptionHeader = Option.objects.get(option_id=questionUser.answer.answer)
                     appraisment['answerYourself']=objoptionHeader.option_id
-                    appraisment['SelfCalculation']=float(int(objoptionHeader.order*objoptionHeader.option_level)*objAppUser.appraiser.user_weight*intentValue*questionUser.question.weight)
-                    appraisment['TotalCalculationSelf']=int(objOptionMax.order*objOptionMax.option_level)*objAppUser.appraiser.user_weight*intentValue*questionUser.question.weight
+                    appraisment['SelfCalculation']=float(int(objoptionHeader.option_level)*objAppUser.appraiser.user_weight*intentValue*questionUser.question.weight)
+                    appraisment['TotalCalculationSelf']=int(objOptionMax.option_level)*objAppUser.appraiser.user_weight*intentValue*questionUser.question.weight
                 else:
                     appraisment['answerYourself']=""
                 
@@ -140,8 +146,8 @@ def GenerateReportList(request,nUserID):
                                                 appraisment['extended_answer']= appraisment['extended_answer']+str(nextended_answerCount)+") "+questionUser.answer.extended_answer+"\n"
                                                 nextended_answerCount = nextended_answerCount + 1
             
-                                             appraisment['UserCalculation']=float(appraisment['UserCalculation']*mcqCount +float(int(options.order*options.option_level)*questionOther.appraiser.user_weight*intentValue*questionUser.question.weight))
-                                             appraisment['TotalCalculation']=float((appraisment['TotalCalculation']*mcqCount+float(int(objOptionMax.order*objOptionMax.option_level)*questionOther.appraiser.user_weight*intentValue*questionUser.question.weight))/(mcqCount+1))
+                                             appraisment['UserCalculation']=(float((appraisment['UserCalculation']*mcqCount +float(int(options.option_level)*questionOther.appraiser.user_weight*intentValue*questionUser.question.weight)))/(mcqCount+1))
+                                             appraisment['TotalCalculation']=(float((appraisment['TotalCalculation']*mcqCount+float(int(objOptionMax.option_level)*questionOther.appraiser.user_weight*intentValue*questionUser.question.weight)))/(mcqCount+1))
                                              mcqCount=mcqCount+1
                                              option['option_count']=option['option_count']+1
                     option_list.append(option)
@@ -208,8 +214,8 @@ def GenerateReportList(request,nUserID):
             userCount=0
             for option in appraisment['options']:
                 if option['option_id'] == appraisment['answerYourself']:
-                    selfCount = option['option_level']*option['option_order']
-                otherCount = otherCount + float((option['option_level']*option['option_order'])*option['option_count'])
+                    selfCount = option['option_level']
+                otherCount = otherCount + float((option['option_level'])*option['option_count'])
             appraisment['mcqSelfCount']=selfCount
 
             appraisment['mcqOtherCount']=otherCount
