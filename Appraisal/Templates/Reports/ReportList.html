@@ -178,19 +178,20 @@ $('*[name=popoverInfo]').popover('hide');
 							{%endif%}
 							<table  width="100%">
 								<tr>	
-									<td  width="40%" colspan="2">
+									<td  width="40%" colspan="2">Self :{{objReport.SelfCalculation|floatformat:"2"}}/{{objReport.TotalCalculationSelf|floatformat:"2"}}&nbsp;&nbsp;&nbsp;
+Others :{{objReport.UserCalculation|floatformat:"2"}}/{{objReport.TotalCalculation|floatformat:"2"}}
 									<label  class="fontBold">{{objReport.OrderNumber}}&nbsp;&nbsp;{{objReport.header}}</label></td>
 									<td  width="15%" class="rightAlign">{{objReport.answerYourself}}</td>
 									<td  width="15%" class="rightAlign">
 										{%if type == 'Administrator'%}
 											<a name="OthersDetails" href="#" value="{{objReport.questionID}}">
 										{%endif%}
-											{{objReport.answerOther}}
+											{{objReport.answerOther|floatformat:"2"}}
 										{%if type == 'Administrator'%}
 											</a>
 										{%endif%}
 										</td>
-									<td  width="15%" class="rightAlign">{{objReport.total}}
+									<td  width="15%" class="rightAlign">{{objReport.total|floatformat:"2"}}
 									{% ifnotequal objReport.extended_answer  " " %}
 										<a name="popoverInfo" class="" title="" data-content="{{objReport.extended_answer|linebreaksbr}}" data-placement="right" data-toggle="popover" href="#" data-original-title="Comments"><i class=" icon-info-sign"> </i></a>
 									{%endifnotequal%}
@@ -214,7 +215,8 @@ $('*[name=popoverInfo]').popover('hide');
 							{%endif%}
 								<table width="100%">
 									<tr>
-										<td  width="92%" >
+										<td  width="92%" >Self :{{objReport.SelfCalculation|floatformat:"2"}}/{{objReport.TotalCalculationSelf|floatformat:"2"}}&nbsp;&nbsp;&nbsp;
+Others :{{objReport.UserCalculation|floatformat:"2"}}/{{objReport.TotalCalculation|floatformat:"2"}}
 										<label  class="fontBold">{{objReport.OrderNumber}} &nbsp;&nbsp;{{objReport.header}}</label></td>
 										<td class="rightAlign">{{objReport.total}}
 										{% ifnotequal objReport.extended_answer  " " %}

@@ -70,7 +70,7 @@ def GenerateReportList(request,nUserID):
         appraisment['SelfCalculation']=0  
         appraisment['TotalCalculationSelf']=0
         appraisment['extended_answer']=" "
-        if questionUser.question.intent ==1:
+        if questionUser.question.intent == True:
             intentValue = 1
         else:
             intentValue = -1
@@ -84,8 +84,12 @@ def GenerateReportList(request,nUserID):
             if questionUser.question.type == 'Scale' :
                 if questionUser.answer_forbid_user == 0:    
                     appraisment['answerYourself']=float(questionUser.answer.answer)
-                    appraisment['SelfCalculation']=float(int(questionUser.answer.answer)*objAppUser.appraiser.user_weight*intentValue*questionUser.question.weight)
-                    appraisment['TotalCalculationSelf']=float(10*objAppUser.appraiser.user_weight*intentValue*questionUser.question.weight)
+		    if questionUser.question.intent == True:         
+                    	appraisment['SelfCalculation']=float(int(questionUser.answer.answer)*objAppUser.appraiser.user_weight*intentValue*questionUser.question.weight)
+                    	appraisment['TotalCalculationSelf']=float(10*objAppUser.appraiser.user_weight*intentValue*questionUser.question.weight)
+		    else:
+			appraisment['SelfCalculation']=float((int(questionUser.answer.answer)-11)*objAppUser.appraiser.user_weight*intentValue*questionUser.question.weight)
+                    	appraisment['TotalCalculationSelf']=float((1-11)*objAppUser.appraiser.user_weight*intentValue*questionUser.question.weight)
                 else:
                     appraisment['answerYourself']="-"
             elif questionUser.question.type == 'Subjective':
@@ -98,12 +102,12 @@ def GenerateReportList(request,nUserID):
                 
             
                 objOption =Option.objects.filter(option_header=questionUser.question.option_header)
-        if objOption:
-            nOptionMaxCount=objOption[0].option_level
-        for option in objOption:
-            if nOptionMaxCount >= (option.option_level*intentValue):
-                objOptionMax=option
-                nOptionMaxCount=option.option_level*intentValue
+		if objOption:
+			nOptionMaxCount=objOption[0].option_level
+		for option in objOption:
+			if nOptionMaxCount <= (option.option_level*intentValue):
+				objOptionMax=option
+				nOptionMaxCount=option.option_level*intentValue
                 #objOptionMax = Option.objects.filter(option_header=questionUser.question.option_header).order_by('-order')[0]
                 
                 if questionUser.answer_forbid_user == 0:
@@ -146,8 +150,8 @@ def GenerateReportList(request,nUserID):
                                                 appraisment['extended_answer']= appraisment['extended_answer']+str(nextended_answerCount)+") "+questionUser.answer.extended_answer+"\n"
                                                 nextended_answerCount = nextended_answerCount + 1
             
-                                             appraisment['UserCalculation']=(float((appraisment['UserCalculation']*mcqCount +float(int(options.option_level)*questionOther.appraiser.user_weight*intentValue*questionUser.question.weight)))/(mcqCount+1))
-                                             appraisment['TotalCalculation']=(float((appraisment['TotalCalculation']*mcqCount+float(int(objOptionMax.option_level)*questionOther.appraiser.user_weight*intentValue*questionUser.question.weight)))/(mcqCount+1))
+                                             appraisment['UserCalculation']=float((appraisment['UserCalculation']) +(float(int(options.option_level)*questionOther.appraiser.user_weight*intentValue*questionUser.question.weight)))
+                                             appraisment['TotalCalculation']=float((appraisment['TotalCalculation'])+(float(int(objOptionMax.option_level)*questionOther.appraiser.user_weight*intentValue*questionUser.question.weight)))
                                              mcqCount=mcqCount+1
                                              option['option_count']=option['option_count']+1
                     option_list.append(option)
@@ -176,8 +180,12 @@ def GenerateReportList(request,nUserID):
                             
                             if objappContent.answer_forbid_user == 0:
                                 appraisment['answerOther']=float((appraisment['answerOther']*count+int(sAnswer))/(count+1))
-                                appraisment['UserCalculation']=float((appraisment['UserCalculation']*count +float(int(sAnswer)*questionOther.appraiser.user_weight*intentValue*questionUser.question.weight))/(count+1))
-                                appraisment['TotalCalculation']=float((appraisment['TotalCalculation']*count+float(10*questionOther.appraiser.user_weight*intentValue*questionUser.question.weight))/(count+1))
+				if questionUser.question.intent == True:
+                                	appraisment['UserCalculation']=float((appraisment['UserCalculation']*count +float(int(sAnswer)*questionOther.appraiser.user_weight*intentValue*questionUser.question.weight))/(count+1))
+                                	appraisment['TotalCalculation']=float((appraisment['TotalCalculation']*count+float(10*questionOther.appraiser.user_weight*intentValue*questionUser.question.weight))/(count+1))
+				else:
+					appraisment['UserCalculation']=float((appraisment['UserCalculation']*count +float((int(sAnswer)-11)*questionOther.appraiser.user_weight*intentValue*questionUser.question.weight))/(count+1))
+                                	appraisment['TotalCalculation']=float((appraisment['TotalCalculation']*count+float((1-11)*questionOther.appraiser.user_weight*intentValue*questionUser.question.weight))/(count+1))
                                 count = count +1
                                 appraisment['count']=count
                                 if questionUser.answer.extended_answer != None: 
@@ -211,15 +219,20 @@ def GenerateReportList(request,nUserID):
         elif questionUser.question.type == 'MCQ' :
             selfCount = 0.0
             otherCount = 0.0
+	    nOptionCalCount=0
             userCount=0
             for option in appraisment['options']:
                 if option['option_id'] == appraisment['answerYourself']:
                     selfCount = option['option_level']
-                otherCount = otherCount + float((option['option_level'])*option['option_count'])
+		nOptionCalCount=nOptionCalCount + option['option_count'] 
+                otherCount = otherCount + float(option['option_level']*option['option_count'])
+	    otherCount = otherCount/nOptionCalCount
+	    appraisment['UserCalculation']=appraisment['UserCalculation']/nOptionCalCount
+	    appraisment['TotalCalculation']=appraisment['TotalCalculation']/nOptionCalCount	
             appraisment['mcqSelfCount']=selfCount
 
             appraisment['mcqOtherCount']=otherCount
-            if  questionUser.question.intent ==1:
+            if  questionUser.question.intent ==True:
                 appraisment['total'] =  otherCount -selfCount
             else:
                 appraisment['total'] =  selfCount - otherCount 
