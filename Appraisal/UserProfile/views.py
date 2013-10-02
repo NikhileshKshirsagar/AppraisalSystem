@@ -117,6 +117,9 @@ def userProfile(request):
 def userWelcome(request):
     args={}
     args.update(csrf(request))
+    if request.session.get('UserID')==None:
+        #sessionExpire(request)
+        return HttpResponseRedirect("/expire/")
     objappraisment = Appraisment.objects.filter(appraiser=request.session['UserID'])#.exclude(appraisee=request.session['UserID'])
     appraisment_list = []
     for appraisment in objappraisment:

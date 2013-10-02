@@ -192,6 +192,9 @@ def editQuestion(request, questionId):
 def userwiseQuestionList(request,requestUserID):   
     args={}
     args.update(csrf(request))
+    if request.session.get('UserID')==None:
+        #sessionExpire(request)
+        return HttpResponseRedirect("/expire/")
     objAppraisment = None
     objAppraisalContent = None
     errMessage=''
@@ -258,7 +261,9 @@ def userwiseQuestionList(request,requestUserID):
 
 def QuestionAnswer(request, questionId, saveType):
     #pdb.set_trace()
- 
+    if request.session.get('UserID')==None:
+        #sessionExpire(request)
+        return HttpResponseRedirect("/expire/")
     appraisment = Appraisment.objects.get(appraiser=request.session['UserID'],appraisee=request.session['appraisee'])
     pages = AppraisalContent.objects.filter(appresment=appraisment.appraisment_id)
     userInstructions = 'Navigate through the question using the paging control @ bottom or use navigation controls \'Next\' and \'Previous\'. Click on home to see your progress. Click on save to save the current answer. Click on questions to view question list for the current appraising person. Tick the checkbox "I don\'t wish to answer this question" if you think the question is not appropriate for you to answer.'

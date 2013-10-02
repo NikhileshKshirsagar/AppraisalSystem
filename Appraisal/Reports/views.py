@@ -10,11 +10,15 @@ from django.core.context_processors import csrf
 from django.utils import timezone
 from django.utils import simplejson
 import json
+from Login.views import sessionExpire
 #{{objReport.UserCalculation}}<br/>{{objReport.TotalCalculation}}
 
 def GenerateReports(request):
     args={}
     args.update(csrf(request))
+    if request.session.get('UserID')==None:
+        #sessionExpire(request)
+        return HttpResponseRedirect("/expire/")
     nUserID = request.session['UserID']
     objUserId = UserDetails.objects.get(user_id=request.session['UserID'])
     args['type']=objUserId.type
@@ -260,6 +264,9 @@ def calculateFinalIndex(appraismentList):
 def adminGenerateEmployeeReports(request):
     args={}
     args.update(csrf(request))
+    if request.session.get('UserID')==None:
+        #sessionExpire(request)
+        return HttpResponseRedirect("/expire/")
     nUserID = request.session['UserID']
     objUserId = UserDetails.objects.get(user_id=request.session['UserID'])
     args['type']=objUserId.type
@@ -312,6 +319,7 @@ def adminGenerateEmployeeReports(request):
     
 def IndividualQuestionDetails(request):
       if request.is_ajax():
+        
         nQuestionID = request.POST.get('QuestionID')
         nUserID = request.POST.get('UserID')
         objAppOthers = Appraisment.objects.filter(appraisee=nUserID,consider_appraisal=True).exclude(appraiser=nUserID)
