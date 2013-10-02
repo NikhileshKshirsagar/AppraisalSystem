@@ -354,9 +354,9 @@ def AnswerForbidUpdate(request):
     if request.is_ajax():
         try:
             sAnswerForbid = request.POST.get('AnswerForbid')
-            arrAnswerForbid = sAnswerForbid.split(",")
+            arrAnswerForbid = sAnswerForbid.split("|,|")
             for index, sAnswer in enumerate(arrAnswerForbid):
-                 arrSplitForbidNID = sAnswer.split("|")
+                 arrSplitForbidNID = sAnswer.split("|#|")
                  AppraisalContent.objects.filter(appraisal_content_id=arrSplitForbidNID[0]).update(answer_forbid_admin=arrSplitForbidNID[1],modified_on=timezone.now())
             flag=True
         except:

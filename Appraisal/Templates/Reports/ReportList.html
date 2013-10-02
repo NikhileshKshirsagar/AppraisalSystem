@@ -41,9 +41,9 @@ $('*[name=popoverInfo]').popover('hide');
 							nRecordCheck=1;
 						else
 							nRecordCheck=0
-						sAnswerForbid= sAnswerForbid + $(this).attr('value')+'|'+nRecordCheck+',';
+						sAnswerForbid= sAnswerForbid + $(this).attr('value')+'|#|'+nRecordCheck+'|,|';
 					});
-					sAnswerForbid = sAnswerForbid.slice(0,-1);
+					sAnswerForbid = sAnswerForbid.slice(0,-3);
 					
 					data={'search_txt':'Validate','AnswerForbid':sAnswerForbid};
 					AjaxEvent(data, '/reports/AnswerForbid/',function(data, textStatus, jqXHR){
