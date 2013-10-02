@@ -261,7 +261,7 @@ def QuestionAnswer(request, questionId, saveType):
  
     appraisment = Appraisment.objects.get(appraiser=request.session['UserID'],appraisee=request.session['appraisee'])
     pages = AppraisalContent.objects.filter(appresment=appraisment.appraisment_id)
-    userInstructions = 'Navigate through the question using the paging control @ bottom or use navigation controls \'Next\' and \'Previous\'. Click on home to see your progress.'
+    userInstructions = 'Navigate through the question using the paging control @ bottom or use navigation controls \'Next\' and \'Previous\'. Click on home to see your progress. Click on save to save the current answer. Click on questions to view question list for the current appraising person. Tick the checkbox "I don\'t wish to answer this question" if you think the question is not appropriate for you to answer.'
     lastPageMessage = ""
     userAlerts = ""
     if(questionId == '1'):
