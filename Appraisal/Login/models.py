@@ -78,7 +78,7 @@ class Language(models.Model):
         db_table = 'language'
 
 class Option(models.Model):
-    option_id = models.AutoField(primary_key=True)
+    option_id = models.IntegerField(primary_key=True)
     option_header = models.ForeignKey('OptionHeader')
     option_text = models.TextField()
     option_level = models.IntegerField(null=True, blank=True)
@@ -89,7 +89,7 @@ class Option(models.Model):
         db_table = 'option'
 
 class OptionHeader(models.Model):
-    option_header_id = models.AutoField(primary_key=True)
+    option_header_id = models.IntegerField(primary_key=True)
     title = models.TextField(blank=True)
     modified_by = models.ForeignKey('UserDetails', db_column='modified_by')
     modified_on = models.DateTimeField()
