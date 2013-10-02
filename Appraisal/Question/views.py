@@ -328,7 +328,10 @@ def QuestionAnswer(request, questionId, saveType):
                         answer = Answer.objects.create( answer = useranswer, extended_answer=user_extended_answer, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
                         print "Creating answer --------------------"
                         print answer.answer_id
-                    AppraisalContent.objects.filter(question_order = questionNumber).filter(appresment = appraisment.appraisment_id).update(answer=answer.answer_id, answer_forbid_user=noAnswer, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
+                    if noAnswer is None:
+                        AppraisalContent.objects.filter(question_order = questionNumber).filter(appresment = appraisment.appraisment_id).update(answer=answer.answer_id, answer_forbid_user=False, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
+                    else:
+                        AppraisalContent.objects.filter(question_order = questionNumber).filter(appresment = appraisment.appraisment_id).update(answer=answer.answer_id, answer_forbid_user=True, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
             except Exception as exc:
                 print "Answer not saved" + str(exc)
         else :
