@@ -19,8 +19,8 @@ def GenerateReports(request):
     objUserId = UserDetails.objects.get(user_id=request.session['UserID'])
     args['type']=objUserId.type
     if  Appraisment.objects.filter(appraisee=nUserID,appraiser=nUserID,status="Reports").count() >=1 :
-        AppCount = Appraisment.objects.filter(appraisee=nUserID).exclude(appraiser=nUserID).count()
-        AppCompletedCount =Appraisment.objects.filter(appraisee=nUserID,status="Reports").exclude(appraiser=nUserID).count()
+        AppCount = Appraisment.objects.filter(appraisee=nUserID,consider_appraisal=True).exclude(appraiser=nUserID).count()
+        AppCompletedCount =Appraisment.objects.filter(appraisee=nUserID,status="Reports",consider_appraisal=True).exclude(appraiser=nUserID).count()
         if  AppCount>0 and AppCompletedCount>0 and AppCount == AppCompletedCount  :    
             appraisment_list = GenerateReportList(request,nUserID)
             args['reports']=appraisment_list
@@ -50,7 +50,7 @@ def GenerateReportList(request,nUserID):
     objAppOthers=None
 
     try:
-        objAppOthers = Appraisment.objects.filter(appraisee=nUserID).exclude(appraiser=nUserID)
+        objAppOthers = Appraisment.objects.filter(appraisee=nUserID,consider_appraisal=True).exclude(appraiser=nUserID)
     except:
         objAppOthers=None
     appraisment_list = []
@@ -78,7 +78,7 @@ def GenerateReportList(request,nUserID):
         #Getting values for self appraisment
         if questionUser.answer!=None:
             print str(nextended_answerCount)
-            if questionUser.answer.extended_answer != None: 
+            if questionUser.answer.extended_answer != None and questionUser.answer.extended_answer != "": 
                 appraisment['extended_answer'] = str(nextended_answerCount) + ") " + questionUser.answer.extended_answer + "\n"
                 nextended_answerCount = nextended_answerCount + 1
             if questionUser.question.type == 'Scale' :
@@ -146,7 +146,7 @@ def GenerateReportList(request,nUserID):
                                      if objappContent.answer_forbid_user == 0:
                                          
                                          if str(objappContent.answer.answer) == str(options.option_id):
-                                             if questionUser.answer.extended_answer != None: 
+                                             if questionUser.answer.extended_answer != None and questionUser.answer.extended_answer !="": 
                                                 appraisment['extended_answer']= appraisment['extended_answer']+str(nextended_answerCount)+") "+questionUser.answer.extended_answer+"\n"
                                                 nextended_answerCount = nextended_answerCount + 1
             
@@ -271,9 +271,9 @@ def adminGenerateEmployeeReports(request):
                 userID = int(request.POST['drpUser'])
              #   print Appraisment.objects.filter(appraisee=userID,appraiser=userID,status="Completed").count()
                 if  Appraisment.objects.filter(appraisee=userID,appraiser=userID,status__in=["Completed","Reports"]).count() >=1 :
-                    AppCount = Appraisment.objects.filter(appraisee=userID).exclude(appraiser=userID).count()
-                    AppCompletedCount =Appraisment.objects.filter(appraisee=userID,status__in=["Completed","Reports"]).exclude(appraiser=userID).count()
-                    if AppCount == AppCompletedCount :    
+                    AppCount = Appraisment.objects.filter(appraisee=userID,consider_appraisal=True).exclude(appraiser=userID).count()
+                    AppCompletedCount =Appraisment.objects.filter(appraisee=userID,status__in=["Completed","Reports"],consider_appraisal=True).exclude(appraiser=userID).count()
+                    if AppCount == AppCompletedCount and AppCount !=0:    
                         appraisment_list=GenerateReportList(request, request.POST['drpUser'])
                         args['reports']=appraisment_list
                         calculateFinalIndex(appraisment_list)
@@ -314,7 +314,7 @@ def IndividualQuestionDetails(request):
       if request.is_ajax():
         nQuestionID = request.POST.get('QuestionID')
         nUserID = request.POST.get('UserID')
-        objAppOthers = Appraisment.objects.filter(appraisee=nUserID).exclude(appraiser=nUserID)
+        objAppOthers = Appraisment.objects.filter(appraisee=nUserID,consider_appraisal=True).exclude(appraiser=nUserID)
         arrQuestionList=[]
         for appOther in objAppOthers:
            try:
