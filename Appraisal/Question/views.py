@@ -224,7 +224,7 @@ def userwiseQuestionList(request,requestUserID):
                 index=0
                 for question in objQuestion:
                     index=index+1
-                    AppraisalContent.objects.create( appresment = objAppraisment, question = question ,question_order = index,answer_forbid_user=0,answer_forbid_admin=1,modified_by = i_UserId,modified_on=timezone.now() )
+                    AppraisalContent.objects.create( appresment = objAppraisment, question = question ,question_order = index,answer_forbid_user=False,answer_forbid_admin=1,modified_by = i_UserId,modified_on=timezone.now() )
                 objAppraisment.status = 'Created'
                 objAppraisment.save()#Appraisment.objects.filter(appraisment_id=objAppraisment.appraisment_id).update(status='Created')    
             objAppraisalContent = AppraisalContent.objects.filter(appresment=objAppraisment).order_by('question_order');
@@ -243,7 +243,7 @@ def userwiseQuestionList(request,requestUserID):
                 if appraisalContent.answer!=None and appraisalContent.answer.answer!='':
                     if appraisalContent.question.type!='MCQ':
                         lstAppraisal['question_answer']=appraisalContent.answer.answer
-                    else:
+                    elif appraisalContent.question.type == 'MCQ' and appraisalContent.answer.answer != '-1':
                         lstAppraisal['question_answer']=Option.objects.get(option_id=appraisalContent.answer.answer).option_text
                 else:
                     lstAppraisal['question_answer']=''   
@@ -262,6 +262,7 @@ def QuestionAnswer(request, questionId, saveType):
     appraisment = Appraisment.objects.get(appraiser=request.session['UserID'],appraisee=request.session['appraisee'])
     pages = AppraisalContent.objects.filter(appresment=appraisment.appraisment_id)
     userInstructions = 'Navigate through the question using the paging control @ bottom or use navigation controls \'Next\' and \'Previous\'. Click on home to see your progress.'
+    lastPageMessage = ""
     userAlerts = ""
     if(questionId == '1'):
         previousPageNumber = '#'
@@ -272,7 +273,9 @@ def QuestionAnswer(request, questionId, saveType):
     lastPageNumber = AppraisalContent.objects.filter(appresment=appraisment.appraisment_id).aggregate(Max('question_order'))['question_order__max']
     print "Last page number"
     print lastPageNumber
-    
+    if int(questionId) == int(lastPageNumber):
+        lastPageMessage = 'This is last question'
+        
     if  int(questionId) >= int(lastPageNumber) :
         print "Greater"
         nextPageNumber = int(lastPageNumber)
@@ -311,13 +314,16 @@ def QuestionAnswer(request, questionId, saveType):
                 
                 if exitingAnswer.answer != None:
                     print "Inside if"
-                    Answer.objects.filter(answer_id=exitingAnswer.answer.answer_id).update(answer=useranswer, extended_answer=user_extended_answer, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
-                    
+                    if useranswer == None and question_type == 'MCQ':
+                        Answer.objects.filter(answer_id=exitingAnswer.answer.answer_id).update(answer='-1', extended_answer=user_extended_answer, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
+                    else:
+                        Answer.objects.filter(answer_id=exitingAnswer.answer.answer_id).update(answer=useranswer, extended_answer=user_extended_answer, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
+                        
                     if noAnswer is None:
                         AppraisalContent.objects.filter(answer=exitingAnswer.answer.answer_id).filter(appresment=appraisment.appraisment_id, question_order=questionNumber).update(answer_forbid_user=False)
                     else:    
                         print "noAnswer not null"
-                        AppraisalContent.objects.filter(answer=exitingAnswer.answer.answer_id).filter(appresment=appraisment.appraisment_id, question_order=questionNumber).update(answer_forbid_user=noAnswer)
+                        AppraisalContent.objects.filter(answer=exitingAnswer.answer.answer_id).filter(appresment=appraisment.appraisment_id, question_order=questionNumber).update(answer_forbid_user=True)
                 else:
                     if useranswer == None and question_type == 'MCQ':
                         answer = Answer.objects.create( answer = "-1", extended_answer=user_extended_answer, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
@@ -325,7 +331,10 @@ def QuestionAnswer(request, questionId, saveType):
                         answer = Answer.objects.create( answer = useranswer, extended_answer=user_extended_answer, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
                         print "Creating answer --------------------"
                         print answer.answer_id
-                    AppraisalContent.objects.filter(question_order = questionNumber).filter(appresment = appraisment.appraisment_id).update(answer=answer.answer_id, answer_forbid_user=noAnswer, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
+                    if noAnswer is None:
+                        AppraisalContent.objects.filter(question_order = questionNumber).filter(appresment = appraisment.appraisment_id).update(answer=answer.answer_id, answer_forbid_user=False, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
+                    else:
+                        AppraisalContent.objects.filter(question_order = questionNumber).filter(appresment = appraisment.appraisment_id).update(answer=answer.answer_id, answer_forbid_user=True, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
             except Exception as exc:
                 print "Answer not saved" + str(exc)
         else :
@@ -336,18 +345,20 @@ def QuestionAnswer(request, questionId, saveType):
         if AppraisalContents.question.type == 'Subjective':
             return render_to_response('Questions/Subjective.html', { 'AppraisalContents' : AppraisalContents, 'pages' : pages, 'nextPageNumber' : nextPageNumber, 
                                                                     'previousPageNumber' : previousPageNumber, 'appraisee' : request.session['appraisee'], 
-                                                                    'userInstructions' : userInstructions, 'userAlerts' : userAlerts }, context_instance = RequestContext( request ))
+                                                                    'userInstructions' : userInstructions, 'userAlerts' : userAlerts,
+                                                                    'lastPageMessage' : lastPageMessage }, context_instance = RequestContext( request ))
         if AppraisalContents.question.type == 'MCQ':
             options = Option.objects.filter(option_header=AppraisalContents.question.option_header)
             return render_to_response('Questions/MCQ.html', { 'AppraisalContents' : AppraisalContents, 'options' : options, 'pages' : pages, 
                                                              'nextPageNumber' : nextPageNumber, 'previousPageNumber' : previousPageNumber,
                                                              'appraisee' : request.session['appraisee'], 'userInstructions' : userInstructions,
-                                                             'userAlerts' : userAlerts }, 
+                                                             'userAlerts' : userAlerts, 'lastPageMessage' : lastPageMessage }, 
                                                              context_instance = RequestContext( request))    
         if AppraisalContents.question.type == 'Scale':
                 return render_to_response('Questions/Scale.html', { 'AppraisalContents' : AppraisalContents, 'pages' : pages, 'nextPageNumber' : nextPageNumber, 
                                                                    'previousPageNumber' : previousPageNumber, 'appraisee' : request.session['appraisee'], 
-                                                                   'userInstructions' : userInstructions, 'userAlerts' : userAlerts }, context_instance = RequestContext( request))
+                                                                   'userInstructions' : userInstructions, 'userAlerts' : userAlerts,
+                                                                   'lastPageMessage' : lastPageMessage }, context_instance = RequestContext( request))
         
     else:    
         
