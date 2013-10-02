@@ -314,8 +314,11 @@ def QuestionAnswer(request, questionId, saveType):
                 
                 if exitingAnswer.answer != None:
                     print "Inside if"
-                    Answer.objects.filter(answer_id=exitingAnswer.answer.answer_id).update(answer=useranswer, extended_answer=user_extended_answer, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
-                    
+                    if useranswer == None and question_type == 'MCQ':
+                        Answer.objects.filter(answer_id=exitingAnswer.answer.answer_id).update(answer='-1', extended_answer=user_extended_answer, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
+                    else:
+                        Answer.objects.filter(answer_id=exitingAnswer.answer.answer_id).update(answer=useranswer, extended_answer=user_extended_answer, modified_on = timezone.now(), modified_by = UserDetails.objects.get(user_id = request.session['UserID']))
+                        
                     if noAnswer is None:
                         AppraisalContent.objects.filter(answer=exitingAnswer.answer.answer_id).filter(appresment=appraisment.appraisment_id, question_order=questionNumber).update(answer_forbid_user=False)
                     else:    
