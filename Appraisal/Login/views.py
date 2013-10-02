@@ -11,6 +11,7 @@ from django.core.context_processors import csrf
 def login(request):
     args={}
     args.update(csrf(request))
+    SESSION_EXPIRE_TIMEOUT=300
     if request.POST:
         form = LoginForm(request.POST)
         args['form']=form
@@ -22,7 +23,10 @@ def login(request):
                 request.session['UserID']=sUserID
                 request.session['UserName']=request.POST['txtUserName']
                 
-                #if checkIfAdmin(sUserID):
+                if checkIfAdmin(sUserID):
+                    flag=True
+                else:
+                    request.session.set_expiry(SESSION_EXPIRE_TIMEOUT)
                 #    return render_to_response('Welcome.html',args)
                 #else :
                 #    return HttpResponseRedirect("/userprofile/Authenticate/")
@@ -64,6 +68,14 @@ def homeScreen(request):
             return HttpResponseRedirect("/userprofile/Authenticate/")
     else:
         return HttpResponseRedirect("/login/")     
+
+def sessionExpire(request):
+    args={}
+    args.update(csrf(request))
+    objLoginForm = LoginForm()
+    args['form']=objLoginForm
+    args['error']='Session Expired'
+    return render_to_response('Login.html',args)  
          
 def logout(request):
     args={}

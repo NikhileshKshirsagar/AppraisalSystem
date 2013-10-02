@@ -4,6 +4,7 @@ urlpatterns = patterns('Login',
     # Examples:
     url(r'^login/$', 'views.login', name='login'),
     url(r'^welcome/$', 'views.homeScreen', name='login'),
+    url(r'^expire/$', 'views.sessionExpire', name='login'),
      
      url(r'^logout/$', 'views.logout'),
     # url(r'^Appraisal/', include('Appraisal.foo.urls')),
