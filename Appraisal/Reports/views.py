@@ -1,6 +1,6 @@
 # Create your views here.
 from django.shortcuts import render_to_response
-from Login.models import UserDetails, Designation, Project, Language, Technology,Appraisment,AppraisalContent,Option
+from Login.models import UserDetails, Designation, Project, Language, Technology,Answer,Appraisment,AppraisalContent,Option
 from django.contrib.sessions.models import Session
 from django.template.context import RequestContext
 from django.core.context_processors import csrf 
@@ -69,7 +69,7 @@ def GenerateReportList(request,nUserID):
         appraisment['UserCalculation']=0
         appraisment['SelfCalculation']=0  
         appraisment['TotalCalculationSelf']=0
-        appraisment['extended_answer']=" "
+        appraisment['extended_answer']=""
         if questionUser.question.intent == True:
             intentValue = 1
         else:
@@ -188,7 +188,7 @@ def GenerateReportList(request,nUserID):
                                 	appraisment['TotalCalculation']=float((appraisment['TotalCalculation']*count+float((1-11)*questionOther.appraiser.user_weight*intentValue*questionUser.question.weight))/(count+1))
                                 count = count +1
                                 appraisment['count']=count
-                                if questionUser.answer.extended_answer != None: 
+                                if questionUser.answer.extended_answer != None and questionUser.answer.extended_answer !="":
                                     appraisment['extended_answer']= appraisment['extended_answer']+str(nextended_answerCount)+") "+questionUser.answer.extended_answer+"\n"
                                     nextended_answerCount = nextended_answerCount + 1
             
@@ -328,7 +328,7 @@ def IndividualQuestionDetails(request):
                lstQuestionList['UserName']=appOther.appraiser.firstname
                lstQuestionList['answer_forbid_admin']=objappContent.answer_forbid_admin
                lstQuestionList['answer_forbid_user'] = objappContent.answer_forbid_user
-               
+               lstQuestionList['question_type'] = objappContent.question.type
                if objappContent.answer != None:
                    if objappContent.question.type != 'MCQ':
                        lstQuestionList['answer']=objappContent.answer.answer
@@ -355,10 +355,22 @@ def AnswerForbidUpdate(request):
         try:
             sAnswerForbid = request.POST.get('AnswerForbid')
             arrAnswerForbid = sAnswerForbid.split("|,|")
-            for index, sAnswer in enumerate(arrAnswerForbid):
-                 arrSplitForbidNID = sAnswer.split("|#|")
-                 AppraisalContent.objects.filter(appraisal_content_id=arrSplitForbidNID[0]).update(answer_forbid_admin=arrSplitForbidNID[1],modified_on=timezone.now())
-            flag=True
+            if '|~|' in sAnswerForbid:
+                
+                for index, sAnswer in enumerate(arrAnswerForbid):
+                     arrSplitForbidNID = sAnswer.split("|#|")
+                     arrSplitTextForbid = arrSplitForbidNID[1].split("|~|")
+                     AppraisalContent.objects.filter(appraisal_content_id=arrSplitForbidNID[0]).update(answer_forbid_admin=arrSplitTextForbid[0],modified_on=timezone.now())
+                     
+                     objAppraisalContent = AppraisalContent.objects.get(appraisal_content_id=arrSplitForbidNID[0])
+                     
+                     Answer.objects.filter(answer_id = objAppraisalContent.answer.answer_id).update(answer=arrSplitTextForbid[1],modified_on=timezone.now())
+                flag=True
+            else:
+                for index, sAnswer in enumerate(arrAnswerForbid):
+                     arrSplitForbidNID = sAnswer.split("|#|")
+                     AppraisalContent.objects.filter(appraisal_content_id=arrSplitForbidNID[0]).update(answer_forbid_admin=arrSplitForbidNID[1],modified_on=timezone.now())
+                flag=True
         except:
             flag=False     
     if flag:

@@ -30,9 +30,9 @@ $('*[name=popoverInfo]').popover('hide');
 	$( "#dialog-form" ).dialog({
 			autoOpen: false,
 			height: 400,
-			width: 500,
+			width: 600,
 			modal: true,
-			position:[(screen.width-500)/2,(screen.height-500)/2],
+			position:[(screen.width-600)/2,(screen.height-600)/2],
 			buttons: {
 				"Update": function() {
 					var sAnswerForbid='';
@@ -41,7 +41,10 @@ $('*[name=popoverInfo]').popover('hide');
 							nRecordCheck=1;
 						else
 							nRecordCheck=0
-						sAnswerForbid= sAnswerForbid + $(this).attr('value')+'|#|'+nRecordCheck+'|,|';
+						if($(this).find('TextArea').length>0)
+							sAnswerForbid= sAnswerForbid + $(this).attr('value')+'|#|'+nRecordCheck+'|~|'+$(this).find('TextArea').val() +'|,|';
+						else
+							sAnswerForbid= sAnswerForbid + $(this).attr('value')+'|#|'+nRecordCheck+'|,|';
 					});
 					sAnswerForbid = sAnswerForbid.slice(0,-3);
 					
@@ -93,13 +96,26 @@ $('*[name=popoverInfo]').popover('hide');
 											{
 												sUserStatus="Answered";
 											}
+											if(response[i].question_type != 'Subjective')
+											{
 									            $('#divModalContainer table tbody').append("<tr value="+response[i].AppraisalContentID+">"+
 				"<td><input type=\"checkbox\" "+flag+" name=\"chkRecordCheck\"/></td>"+
 				"<td><label name=\"lblUserSelection\" class=\"fontSize\">"+response[i].answer+"</label></td>"+
 				"<td><label name=\"lblUserRejection\" class=\"fontSize\">"+sUserStatus+"</label></td>"+
 				"<td><label name=\"lblUserName\" class=\"fontSize\">"+response[i].UserName+"</label></td>"+
 				"<td></td>"+
-			"</tr>");				            
+			"</tr>");				         
+			}
+			else
+			{
+									            $('#divModalContainer table tbody').append("<tr value="+response[i].AppraisalContentID+">"+
+				"<td><input type=\"checkbox\" "+flag+" name=\"chkRecordCheck\"/></td>"+
+				"<td><TextArea name=\"lblUserSelection\" class=\"fontSize\" >" +response[i].answer+"</TextArea></td>"+
+				"<td><label name=\"lblUserRejection\" class=\"fontSize\">"+sUserStatus+"</label></td>"+
+				"<td><label name=\"lblUserName\" class=\"fontSize\">"+response[i].UserName+"</label></td>"+
+				"<td></td>"+
+			"</tr>");
+			}   
 			}
 								},null);
 	
@@ -196,7 +212,7 @@ Others :{{objReport.UserCalculation|floatformat:"2"}}/{{objReport.TotalCalculati
 										{%endif%}
 										</td>
 									<td  width="15%" class="rightAlign">{{objReport.total|floatformat:"2"}}
-									{% ifnotequal objReport.extended_answer  " " %}
+									{% ifnotequal objReport.extended_answer  "" %}
 										<a name="popoverInfo" class="" title="" data-content="{{objReport.extended_answer|linebreaksbr}}" data-placement="right" data-toggle="popover" data-trigger="hover" data-original-title="Comments"><i class=" icon-info-sign"> </i></a>
 									{%endifnotequal%}
 									
@@ -227,7 +243,7 @@ Others :{{objReport.UserCalculation|floatformat:"2"}}/{{objReport.TotalCalculati
 										<label  class="fontBold">
 										<a name="popoverInfo" class="" title="" data-content="{{objReport.question|linebreaksbr}}" data-placement="top" data-toggle="popover" data-trigger="hover" >{{objReport.OrderNumber}} &nbsp;&nbsp;{{objReport.header}}</a></label></td>
 										<td class="rightAlign">{{objReport.total}}
-										{% ifnotequal objReport.extended_answer  " " %}
+										{% ifnotequal objReport.extended_answer  "" %}
 										<a name="popoverInfo" class="" title="" data-trigger="hover" data-content="{{objReport.extended_answer|linebreaksbr}}" data-placement="right" data-toggle="popover" data-original-title="Comments"><i class=" icon-info-sign"> </i></a>
 										{%endifnotequal%}
 										
