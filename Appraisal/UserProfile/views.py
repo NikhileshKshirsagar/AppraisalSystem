@@ -247,11 +247,12 @@ def AppraisalConsideration(request):
     if request.method == 'POST' :
         appraisment_id = request.POST.get('search_txt')
         appraisal_status = request.POST.get('status')
-        
+        print appraisment_id
+        print appraisal_status
         try:
-            if appraisal_status == 'Yes':
+            if appraisal_status == 'yes':
                 Appraisment.objects.filter(appraisment_id=appraisment_id).update(consider_appraisal=True)
-            elif appraisal_status == 'No':
+            elif appraisal_status == 'no':
                 Appraisment.objects.filter(appraisment_id=appraisment_id).update(consider_appraisal=False)
             return HttpResponse(content='Status updated', content_type='application/json')    
         except:

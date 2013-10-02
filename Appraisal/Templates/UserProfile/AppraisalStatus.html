@@ -42,7 +42,15 @@ $(function(){
 			   }
 		AjaxEvent(data, '/userprofile/AppraisalConsideration/', function successSerach(data, textStatus, jqXHR)
 		{
-			alert("fvsbfbfbfbfd");
+			$('#userNotificationDiv').removeClass('hide');
+			$('#userNotification').html(data);
+			$('#userNotification').effect("slide", null, 500, null );
+			setTimeout( function(){
+				$('#userNotification').effect("fold", null, 1200, callback );
+				function callback(){
+					$('#userNotificationDiv').addClass('hide');	
+				}
+			}, 10000);
 		});
 	},
 	null);
@@ -85,6 +93,7 @@ $(function(){
 				<td style="width: 200px;">
 					<select id=dropdown{{forloop.counter}} name="status" style="width: 180px;">
 						<option value="select">Select status</option>
+						<option value="Initial">Start appraisal</option>
 						<option value="Created">In progress</option>
 						<option value="Done">Done Appraising</option>
 						<option value="Completed">Submitted</option>
@@ -96,8 +105,8 @@ $(function(){
 				</td>
 				<td style="width: 200px;">
 					<select id=dropdown{{forloop.counter}} name="adminConsider" style="width: 180px;">
-						<option value="yes">yes</option>
-						<option value="no">no</option>
+						<option value="yes" {% if app.consider_appraisal == True %} selected=selected {% endif %}>yes</option>
+						<option value="no" {% if app.consider_appraisal == False %} selected=selected {% endif %}>no</option>
 					</select>
 				</td>
 				<td style="float: left;">
