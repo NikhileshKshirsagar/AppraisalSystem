@@ -81,7 +81,8 @@
 				placement : 'bottom', 
 				title : 'Navigation info',
 				html : true,
-				content : '{{ userInstructions }}'
+				trigger : 'hover',
+				content : '{{ userInstructions|linebreaksbr }}'
 			});
 		});
 	});
@@ -91,7 +92,8 @@
 			placement : 'bottom', 
 			title : 'Navigation info',
 			html : true,
-			content : '{{ userInstructions }}'
+			trigger : 'hover',
+			content : '{{ userInstructions|linebreaksbr }}'
 		});
 		//$( "#userInstructions" ).effect("bounce", options, 1000, callback );
 	});
@@ -146,7 +148,7 @@
 				<div style="float: left; width: 100%;">
 					<div id="questionid" name="questionid" class="questionNum">
 						<div class="InnerQuesNum" style="float: left;">Question Number {{ AppraisalContents.question_order }}</div>
-						<p id="lastPageMessage" style="float: left; margin-left: 25%; margin-top: 2px; font-size: 17px;">{{ lastPageMessage }}</p>
+						<p id="lastPageMessage" style="float: left; margin-left: 25%; margin-top: 2px; font-size: 17px; color: white;">{{ lastPageMessage }}</p>
 						{% if AppraisalContents.appresment.appraiser != AppraisalContents.appresment.appraisee %}
 							<div id="notAnswering" style="float: right; margin-top: 2px; color: white; font-size: 14px;" class="noAnswer">
 								<input type="checkbox" name="noAnswer" value="{{ AppraisalContents.answer_forbid_user }}" style="float: left; outline: white; outline-width: .1mm; ; ; outline-style: solid; ">
