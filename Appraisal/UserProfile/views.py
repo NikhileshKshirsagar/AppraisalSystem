@@ -197,7 +197,9 @@ def submitAppraisal(request):
                 print "Question order: " + str(question.question_order)
                 print "Question type: "  + str(question.question.type) 
                 print "Answer : " + str(question.answer.answer)
-                if (question.question.type == 'Scale' and question.answer.answer != '0') or (question.question.type == 'Subjective' and question.answer.answer != '') or (question.question.type == 'MCQ' and question.answer.answer != '-1'):
+                if ( question.answer_forbid_user == True ):
+                    answeredcount += 1
+                elif (question.question.type == 'Scale' and question.answer.answer != '0') or (question.question.type == 'Subjective' and question.answer.answer != '') or (question.question.type == 'MCQ' and question.answer.answer != '-1'):
                     answeredcount += 1
                 print "Final Answer count" + str(answeredcount)
             
@@ -240,3 +242,17 @@ def AppraisalStatus(request):
         appraisment = Appraisment.objects.all().order_by('appraiser')
         print request.POST
         return render_to_response('UserProfile/AppraisalStatus.html', { 'Appraisment' : appraisment }, context_instance = RequestContext( request))
+    
+def AppraisalConsideration(request):
+    if request.method == 'POST' :
+        appraisment_id = request.POST.get('search_txt')
+        appraisal_status = request.POST.get('status')
+        
+        try:
+            if appraisal_status == 'Yes':
+                Appraisment.objects.filter(appraisment_id=appraisment_id).update(consider_appraisal=True)
+            elif appraisal_status == 'No':
+                Appraisment.objects.filter(appraisment_id=appraisment_id).update(consider_appraisal=False)
+            return HttpResponse(content='Status updated', content_type='application/json')    
+        except:
+            return HttpResponse(content='Status cannot be updated', content_type='application/json')

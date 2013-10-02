@@ -37,6 +37,7 @@ class Appraisment(models.Model):
     appraiser = models.ForeignKey('UserDetails', db_column='appraiser', related_name='appraisal_appraising')
     appraisee = models.ForeignKey('UserDetails', db_column='appraisee', related_name='appraisal_appraissed')
     status = models.CharField(max_length=45L, blank=True)
+    consider_appraisal = models.IntegerField(null=True, blank=True)
     modified_by = models.ForeignKey('UserDetails', db_column='modified_by')
     modified_on = models.DateTimeField()
     class Meta:

@@ -507,12 +507,12 @@ body
 }
 .subjective
 {
-	width: 100%;
-	height: 100%;
-	background: none repeat scroll 0 0 #7B967B;
+	width: 95%;
+	height: 80%;
+	/*background: none repeat scroll 0 0 #7B967B;*/
 	font-size: 16px;
-	color: white;
-	border-radius: 18px 18px 18px 18px;
+	border: none;
+	background-color: #E2E2E2;
 }
 .Scale
 {

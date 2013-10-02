@@ -37,7 +37,7 @@ $(function(){
 		{% endfor %}
 		 
 	</div>
-	<textarea name="extended_answer" placeholder="Elaborate your answer" style="width: 100%; height: 100%; margin-top: 5px; ">{% if AppraisalContents.answer.extended_answer != None and AppraisalContents.answer.extended_answer != '' %}{{ AppraisalContents.answer.extended_answer }} {% endif %}</textarea>
+	<textarea name="extended_answer" placeholder="Additional comments" style="width: 100%; height: 100%; margin-top: 5px; background-color: #E2E2E2;">{% if AppraisalContents.answer.extended_answer != None and AppraisalContents.answer.extended_answer != '' %}{{ AppraisalContents.answer.extended_answer }} {% endif %}</textarea>
 </div>
 
 {% endblock %}

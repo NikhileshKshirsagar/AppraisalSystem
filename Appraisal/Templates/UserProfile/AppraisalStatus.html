@@ -5,9 +5,9 @@
 
 <script type="text/javascript">
 	$(function(){
-		{% for app in Appraisment %}
+		<!--{% for app in Appraisment %}
 			$('#dropdown{{forloop.counter}}').val('{{ app.status }}');
-		{% endfor %}
+		{% endfor %}-->
 	});
 </script>
 
@@ -17,30 +17,42 @@ $(function(){
 	$('.submitAppraisalStatus').click(function(event){
 		var data = {
 					'search_txt' : $(event.currentTarget).parent().parent().find('input[type="hidden"]').val(),
-					'status' : $(event.currentTarget).parent().parent().find('select').val()
+					'status' : $(event.currentTarget).parent().parent().find('select[name="status"]').val()
 				   }
 		
 		AjaxEvent(data, '/userprofile/AppraisalStatus/', function successSerach(data, textStatus, jqXHR)
 		{
-			$('#userNotification').removeClass('hide');
+			$('#userNotificationDiv').removeClass('hide');
 			$('#userNotification').html(data);
 			$('#userNotification').effect("slide", null, 500, null );
 			setTimeout( function(){
 				$('#userNotification').effect("fold", null, 1200, callback );
 				function callback(){
-					$('#userNotification').addClass('hide');	
+					$('#userNotificationDiv').addClass('hide');	
 				}
 			}, 10000);
 		}
 		);
 	});
+	
+	$('.submitConsideration').click(function(event){
+		var data = {
+				'search_txt' : $(event.currentTarget).parent().parent().find('input[type="hidden"]').val(),
+				'status' : $(event.currentTarget).parent().parent().find('select[name="adminConsider"]').val()
+			   }
+		AjaxEvent(data, '/userprofile/AppraisalConsideration/', function successSerach(data, textStatus, jqXHR)
+		{
+			alert("fvsbfbfbfbfd");
+		});
+	},
+	null);
 });
 
 </script>
 
 <form id="formAppraisalStatus" name="formAppraisalStatus" action="/userprofile/AppraisalStatus/" method="post" class="form-search" style="padding-top: 30px; margin-left: -0px;">{% csrf_token %}
-	<div class="AppraisalStatususerNotification">
-		<p id="userNotification" class="hide" style="margin: 5px;"></p>
+	<div id="userNotificationDiv" class="AppraisalStatususerNotification hide">
+		<p id="userNotification" style="margin: 5px;"></p>
 	</div>
 	
 	<table class="table">
@@ -50,6 +62,8 @@ $(function(){
 				<td class="tableHeaders">Appraiser</td>
 				<td class="tableHeaders">Appraisee</td>
 				<td class="tableHeaders">Status</td>
+				<td></td>
+				<td class="tableHeaders">Appraisal consideration</td>
 			</tr>
 		</thead>
 		
@@ -68,9 +82,10 @@ $(function(){
 					{{ app.appraisee.firstname }}
 					{{ app.appraisee.lastname }}
 				</td>
-				<td style="width: 250px;">
-					<select id=dropdown{{forloop.counter}} name="status">
+				<td style="width: 200px;">
+					<select id=dropdown{{forloop.counter}} name="status" style="width: 180px;">
 						<option value="select">Select status</option>
+						<option value="Created">In progress</option>
 						<option value="Done">Done Appraising</option>
 						<option value="Completed">Submitted</option>
 						<option value="Reports">Reports</option>
@@ -78,6 +93,15 @@ $(function(){
 				</td>
 				<td style="float: left;">
 					<input type="button" value="Update status" class="submitAppraisalStatus btn">
+				</td>
+				<td style="width: 200px;">
+					<select id=dropdown{{forloop.counter}} name="adminConsider" style="width: 180px;">
+						<option value="yes">yes</option>
+						<option value="no">no</option>
+					</select>
+				</td>
+				<td style="float: left;">
+					<input type="button" value="Update consideration" class="submitConsideration btn">
 				</td>
 			</tr>
 		{% endfor %}

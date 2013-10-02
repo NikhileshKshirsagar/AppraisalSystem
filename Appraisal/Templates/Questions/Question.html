@@ -99,7 +99,7 @@
 	
 	<div style="width: 100%;">
 			<div class="WelcomeMessage">
-				<sapn class="badge badge-inverse" style="font-size:15px; font-style: italic; margin-left: 19%; height: 18px;"><p style="margin-top: 1px;">You are Appraising '{% if AppraisalContents.appresment.appraiser != AppraisalContents.appresment.appraisee %} {{ appraisee.firstname }} {{ appraisee.lastname }} {% else %}Your self{% endif %}'</p> 
+				<sapn class="badge badge-inverse" style="font-size:15px; font-style: italic; margin-left: 19%; height: 18px;"><p style="margin-top: 1px;">You are Appraising '{% if AppraisalContents.appresment.appraiser != AppraisalContents.appresment.appraisee %}{{ appraisee.firstname }} {{ appraisee.lastname }}{% else %}Your self{% endif %}'</p> 
 				</sapn>
 			</div>
 		
