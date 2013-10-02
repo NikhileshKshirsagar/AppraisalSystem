@@ -80,10 +80,10 @@ def OptionDetails(request):
         objOptions = OptionHeader.objects.get(option_header_id=search_text);
         result =''
         for option in objOptions.option_set.filter():
-            result+= option.option_text + '|'+ str(option.option_level) +','
+            result+= option.option_text + '|#|'+ str(option.option_level) +'|,|'
         objDetails = {'OptionHeaderID':objOptions.option_header_id,
                       'OptionHeader' :objOptions.title,
-                      'Options' : result[:-1]
+                      'Options' : result[:-3]
                       }
         data = simplejson.dumps(objDetails)
         return HttpResponse(content=data, content_type='json')    
@@ -178,8 +178,8 @@ def editQuestion(request, questionId):
             objOption=Option.objects.filter(option_header=objOptionHeader.option_header_id)
             optionText=''
             for option in objOption:
-                optionText+=option.option_text + '|' + str(option.option_level)+','
-            optionText=optionText[:-1]
+                optionText+=option.option_text + '|#|' + str(option.option_level)+'|,|'
+            optionText=optionText[:-3]
             objOptionForm = OptionFrom(initial={'option_header_id':str(objOptionHeader.option_header_id),'option_text':optionText,'option_header_text':objOptionHeader.title})
             
         args['optionCreateform']=objOptionForm
