@@ -30,7 +30,7 @@ $(function(){
 	{{ AppraisalContents.question.option_header.option_text }}
 		{% for option in options %}
 			<input id="{{ option.option_id }}" type="radio" name="appAnswer" value="{{ option.option_id }}" />
-				<label for="{{ option.option_id }}" style="width: 100%; height: 25px; border-radius: 5px 5px 5px 5px !important; border: none; padding: 0;">
+				<label for="{{ option.option_id }}" style="text-align: left; width: 100%; height: 25px; border-radius: 5px 5px 5px 5px !important; border: none; padding: 0;">
 					{{ option.option_text }} 
 			</label>
 			<br>
