@@ -958,8 +958,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e82236', end
 .rotate
 {
 	transform: rotate(90deg);
-	-ms-transform:rotate(7deg); /* IE 9 */
-	-webkit-transform:rotate(7deg); /* Safari and Chrome */
+	-ms-transform:rotate(90deg); /* IE 9 */
+	-webkit-transform:rotate(90deg); /* Safari and Chrome */
 }
 .MCQButton
 {
