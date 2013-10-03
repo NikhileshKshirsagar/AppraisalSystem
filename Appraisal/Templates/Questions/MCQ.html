@@ -16,6 +16,15 @@
  <script>
 	$(function() {
 		$( "#radio" ).buttonset();
+		$('.ui-button-text').addClass('MCQButton');
+		//$('ui-button-text').removeClass('.ui-state-default').removeClass(' .ui-widget-content').removeClass(' .ui-widget-header');
+		$('.ui-state-default').css('border', '3px solid #7B967B');
+		//$('.ui-widget-content').css('background', 'none');
+		//$('.ui-widget-header').css('background', 'none');
+		//$('.ui-state-active').prop('background',  'url("images/ui-bg_glass_65_ffffff_1x400.png") repeat-x scroll 50% 50% #FFFFFF');
+		$('.ui-button-text').removeClass('ui-button-text');
+		$('.AnswerBlock').css('background', 'none');
+		$('.AnswerBlock').css('box-shadow', 'none');
 	});
  </script>
 
@@ -25,19 +34,18 @@ $(function(){
 	$('label[for={{ AppraisalContents.answer.answer }}]').addClass('ui-state-active');
 });
 </script>
-<div id="MCQDiv" class="MCQ">
-	<div id="radio">
+<div id="MCQDiv" class="MCQ" style="float: left;">
+	<div id="radio" style="overflow: auto; height: 100%;">
 	{{ AppraisalContents.question.option_header.option_text }}
 		{% for option in options %}
 			<input id="{{ option.option_id }}" type="radio" name="appAnswer" value="{{ option.option_id }}" />
-				<label for="{{ option.option_id }}" style="text-align: left; width: 100%; height: 25px; border-radius: 5px 5px 5px 5px !important; border: none; padding: 0;">
+				<label for="{{ option.option_id }}" style=" text-align: left; width: 99%; height: 35px; border-radius: 5px 5px 5px 5px !important; border: none; font-size: 12px; overflow: auto;">
 					{{ option.option_text }} 
 			</label>
 			<br>
 		{% endfor %}
-		 
+		<textarea name="extended_answer" placeholder="Additional comments" style="width: 99%; height: 20%; margin-top: 10px !important; background-color: white;">{% if AppraisalContents.answer.extended_answer != None and AppraisalContents.answer.extended_answer != '' %}{{ AppraisalContents.answer.extended_answer }} {% endif %}</textarea>	 
 	</div>
-	<textarea name="extended_answer" placeholder="Additional comments" style="width: 100%; height: 100%; margin-top: 5px; background-color: white;">{% if AppraisalContents.answer.extended_answer != None and AppraisalContents.answer.extended_answer != '' %}{{ AppraisalContents.answer.extended_answer }} {% endif %}</textarea>
 </div>
 
 {% endblock %}

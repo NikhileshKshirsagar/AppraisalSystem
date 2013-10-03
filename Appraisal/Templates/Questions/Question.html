@@ -11,7 +11,7 @@
 	{
 		if($('#questiontype').val() == 'Scale' && ($('#answerValue').val() == 1 || $('#answerValue').val() == 10) && ($('[name="extended_answer"]').val() == ''))
 		{
-			$('#userAlertsQnA').find('p').html('If your answer is 1 or 10 then adding additional comment for the answer is mandotary.');
+			$('#userAlertsQnA').find('p').html('If your answer is 1 or 10 then adding additional comment for the answer is mandatory');
 			$('#userAlertsQnA').removeClass('hide');
 			
 			$('#userAlertsQnA').effect("slide", null, 1000, null );
@@ -79,7 +79,7 @@
 		$('#userInstructions').click(function(){
 			$('#userInstructions').popover({
 				placement : 'bottom', 
-				title : 'Navigation info',
+				title : 'Appraisal instructions',
 				html : true,
 				trigger : 'hover',
 				content : '{{ userInstructions|linebreaksbr }}'
@@ -90,7 +90,7 @@
 	$(function(){
 		$('#userInstructions').popover({
 			placement : 'bottom', 
-			title : 'Navigation info',
+			title : 'Appraisal instructions',
 			html : true,
 			trigger : 'hover',
 			content : '{{ userInstructions|linebreaksbr }}'
@@ -98,9 +98,6 @@
 		//$( "#userInstructions" ).effect("bounce", options, 1000, callback );
 	});
 	
-	function callback() {
-		$( "#userInstructions" ).removeAttr( "style" );
-	};
 </script>
 
 <form id="formAppraisal" action="/question/{{ AppraisalContents.question_order }}/" method="post" style="margin-left: -5px; margin-right: 5px;" >{% csrf_token %}
@@ -126,11 +123,12 @@
 			</script>
 		{% endif %}
 		 
-		<div id="userInstructions" class="userInstructions">
+		<a id="userInstructions" class="userInstructions">
 			<button class="btn btn-small btn-inverse" type="button" style="border-radius: 50px 50px 50px 50px; font-size: 15px; height: 25px;">
 				<p style="float: left; margin: -2px 5px 2px 2px;">Instructions</p> <span class="caret"></span>
 			</button>
-		</div>
+		</a>
+		
 	</div>
 	<div style="width: 100%; margin-bottom: 20px;">
 		<div class="beforeQuestion control" onclick="paging({{ previousPageNumber }}, 'paging')">
