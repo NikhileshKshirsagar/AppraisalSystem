@@ -513,7 +513,7 @@ body
 	border-radius: 10px 10px 10px 10px ;
 	font-size: 16px;
 	border: none;
-	background-color: #E2E2E2;
+	background-color: white;
 }
 .Scale
 {
@@ -535,7 +535,7 @@ body
 	float: left;
 	height: 30% !important;
 	margin: 2% 0% 0%  1% ;
-	background-color: #E2E2E2;
+	background-color: white;
 }
 .MCQ
 {
