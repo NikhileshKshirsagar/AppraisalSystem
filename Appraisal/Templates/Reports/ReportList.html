@@ -199,8 +199,8 @@ $('*[name=popoverInfo]').popover('hide');
 									Self :{{objReport.SelfCalculation|floatformat:"2"}}/{{objReport.TotalCalculationSelf|floatformat:"2"}}&nbsp;&nbsp;&nbsp;
 Others :{{objReport.UserCalculation|floatformat:"2"}}/{{objReport.TotalCalculation|floatformat:"2"}}
 									{%endif%} -->
-									<label  class="fontBold">
-									<a name="popoverInfo" class="" title="" data-content="{{objReport.question|linebreaksbr}}" data-placement="top" data-toggle="popover" data-trigger="hover" >{{objReport.OrderNumber}}&nbsp;&nbsp;{{objReport.header}}</a></label></td>
+									<label >
+									<a  name="popoverInfo" class="" title="" data-content="{{objReport.question|linebreaksbr}}" data-placement="top" data-toggle="popover" data-trigger="hover" ><label class="fontBold">{{objReport.OrderNumber}}&nbsp;&nbsp;{{objReport.header}}</label></a></label></td>
 									<td  width="15%" class="rightAlign">{{objReport.answerYourself}}</td>
 									<td  width="15%" class="rightAlign">
 										{%if type == 'Administrator'%}
