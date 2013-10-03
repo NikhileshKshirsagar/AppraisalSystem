@@ -11,7 +11,7 @@ from django.core.context_processors import csrf
 def login(request):
     args={}
     args.update(csrf(request))
-    SESSION_EXPIRE_TIMEOUT=300
+    SESSION_EXPIRE_TIMEOUT=3000
     if request.POST:
         form = LoginForm(request.POST)
         args['form']=form
