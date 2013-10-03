@@ -220,15 +220,24 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#53575d', end
 {
 	border: 2px thin #444040 !important;
 	background-color: #E5E8EE;
-	color:#111111;
-	font-size:15px;
-	padding-left: 4px;
+	color: white;
+	font-size:16px;
+	padding-left: 10px;
 	padding-top: 4px;
 	margin: 2px	2px 3px 5px;
 	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;
 	line-height: 23px;
 	border-radius: 10px 10px 10px 10px;
 	text-align: left;
+	
+	background: #cedce7; /* Old browsers */
+	background: -moz-linear-gradient(top, #cedce7 0%, #596a72 0%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cedce7), color-stop(0%,#596a72)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #cedce7 0%,#596a72 0%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #cedce7 0%,#596a72 0%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #cedce7 0%,#596a72 0%); /* IE10+ */
+	background: linear-gradient(to bottom, #cedce7 0%,#596a72 0%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cedce7', endColorstr='#596a72',GradientType=0 ); /* IE6-9 */
 }
 .userList
 {
@@ -330,8 +339,7 @@ body
 }
 .listHeader
 {
-	font-size: 15px !important;
-	font-family: cursive;	
+	font-size: 16px !important;	
 }
 .questionNum
 {
@@ -850,10 +858,14 @@ body
 .welcomeDiv
 {
 	width: 200px;
-	height: 42px;
+	height: 220px;
 	font-size: 18px;
 	text-align: center;
-	/*color: #BD374D;*/
+	
+	margin: 20px;
+	border-radius: 10px 10px 10px 10px ;
+	border: none;
+	
 }
 .userWelcomeReportsdiv
 {

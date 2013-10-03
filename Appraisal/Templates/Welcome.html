@@ -9,39 +9,74 @@
 		<p class=" headerFont" style="float: left; padding-top: 15px">Welcome {{username}}</p>
 	</div>
 	<br/><br/>
-	<a href="/userprofile/CreateUser" class="well welcomeDiv" style="position: absolute; top: 200px; left: 500px;">
-		<p style="padding-top: 10px; float: right; ">Create user</p> 
-		<div style="float: left; padding-left: 2px; margin-bottom: 20px; font-size: 17px;">
-			<i class="icon-user icon-3x"></i>
-		</div>
-	</a>
-	<a href="/question/questionCreation" class="well welcomeDiv" style="position: absolute; top: 200px; left: 200px;">
-		<p style="padding-top: 10px; float: right; ">Create Question</p>
-		<div style="float: left; padding-left: 2px; margin-bottom: 20px; font-size: 17px;">
-			<i class="icon-question-sign icon-3x"></i>
-		</div>	
-	</a>
-	<a href="/question/QuestionList" class="well welcomeDiv" style="position: absolute; top: 380px; left: 200px;">
-		<p style="padding-top: 10px; float: right; ">Question List</p>
-		<div style="float: left; padding-left: 2px; margin-bottom: 20px; font-size: 17px;">
-			<i class="icon-list icon-3x"></i>
-		</div>
-	</a>
-	<a href="/reports/employee" class="well welcomeDiv" style="position: absolute; top: 200px; left: 810px;">
-		<p style="padding-top: 10px; float: right; ">Appraisal reports</p>
-		<div style="float: left; padding-left: 2px; margin-bottom: 20px; font-size: 17px;">
-			<i class="icon-bar-chart icon-3x"></i>
-		</div>
-	</a>
-	<!-- <a href="/userprofile/UserList" class="well">User List</a><br/><br/>
-	<a href="/masters/DataInput" class="well">Data Input</a><br/><br/>
-	<a href="/userprofile/profile" class="well">User Profile</a><br/><br/>
-	<a href="/question/demo" class="well">Demo</a><br/><br/> -->
-	<a href="/userprofile/AppraisalStatus" class="well welcomeDiv" style="position: absolute; top: 380px; left: 500px;">
-		<p style="padding-top: 10px; float: right; ">Appraisal status</p>
-		<div style="float: left; padding-left: 2px; margin-bottom: 20px; font-size: 17px;">
-			<i class="icon-file-text-alt icon-3x"></i>
-		</div>
-	</a>
+	<div style="float: left; margin-top: 20px;">
+		<a href="/userprofile/CreateUser" class="well welcomeDiv" style="float: left; ">
+			<p style="margin-top: -5px; ;float: right; width: 100%; font-size: 20px;">User management</p>
+			<div style="float: left; margin-top: 10px;">  
+				<div style="float: left; padding-left: 35%; margin-bottom: 20px; font-size: 17px;">
+					<i class="icon-user icon-4x"></i>
+				</div>
+				<ul style="float: left; font-size: 16px; text-align: left;	">
+					<li> Create user </li>
+					<li> Update user data </li>
+				</ul>
+			</div>
+		</a>
+		<a href="/question/questionCreation" class="well welcomeDiv" style="float: left;">
+			<p style="margin-top: -5px; ;float: right; width: 100%; font-size: 20px;">Create Question</p>
+			<div style="float: left; margin-top: 10px;">  
+				<div style="float: left; padding-left: 35%; margin-bottom: 20px; font-size: 17px;">
+					<i class="icon-question-sign icon-4x"></i>
+				</div>
+				<ul style="float: left; font-size: 16px; text-align: left;	">
+					<li> Create questions. </li>
+					<li> Update questions. </li>
+				</ul>
+			</div>	
+		</a>
+		<a href="/question/QuestionList" class="well welcomeDiv" style="float: left;">
+			<p style="margin-top: -5px; ;float: right; width: 100%; font-size: 20px;">Question List</p>
+			
+			<div style="float: left; margin-top: 10px;">  
+				<div style="float: left; padding-left: 35%; margin-bottom: 20px; font-size: 17px;">
+					<i class="icon-list icon-4x"></i>
+				</div>
+				<ul style="float: left; font-size: 16px; text-align: left;	">
+					<li> View question list. </li>
+					<li> Delete questions. </li>
+				</ul>
+			</div>
+		</a>
+		<a href="/reports/employee" class="well welcomeDiv" style="float: left;">
+			<p style="margin-top: -5px; ;float: right; width: 100%; font-size: 20px;">Appraisal reports</p>
+			<div style="float: left; margin-top: 10px;">  
+				<div style="float: left; padding-left: 32%; margin-bottom: 20px; font-size: 17px;">
+					<i class="icon-bar-chart icon-4x"></i>
+				</div>
+				<ul style="float: left; font-size: 16px; text-align: left;	">
+					<li> View appraisal reports. </li>
+					<li> Appraisal moderation. </li>
+					<li> Roll out reports. </li>
+				</ul>
+			</div>
+		</a>
+		<!-- <a href="/userprofile/UserList" class="well">User List</a><br/><br/>
+		<a href="/masters/DataInput" class="well">Data Input</a><br/><br/>
+		<a href="/userprofile/profile" class="well">User Profile</a><br/><br/>
+		<a href="/question/demo" class="well">Demo</a><br/><br/> -->
+		<a href="/userprofile/AppraisalStatus" class="well welcomeDiv" style="float: left;">
+			<p style="margin-top: -5px; ;float: right; width: 100%; font-size: 20px;">Appraisal status</p>
+			<div style="float: left; margin-top: 10px;">  
+				<div style="float: left; padding-left: 37%; margin-bottom: 20px; font-size: 17px;">
+					<i class="icon-file-text-alt icon-4x" ></i>
+				</div>
+				<ul style="float: left; font-size: 16px; text-align: left;	">
+					<li> View appraisal status. </li>
+					<li> Change appraisal status. </li>
+					<li> Change appraisal consideration. </li>
+				</ul>
+			</div>
+		</a>
+	</div>
 	{{ successMsg }}
 {% endblock %}
