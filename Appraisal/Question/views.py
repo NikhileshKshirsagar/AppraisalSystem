@@ -266,7 +266,7 @@ def QuestionAnswer(request, questionId, saveType):
         return HttpResponseRedirect("/expire/")
     appraisment = Appraisment.objects.get(appraiser=request.session['UserID'],appraisee=request.session['appraisee'])
     pages = AppraisalContent.objects.filter(appresment=appraisment.appraisment_id)
-    userInstructions = 'Navigate through the questions using the paging control @ bottom or use navigation controls \'Next\' and \'Previous\'. Click on home icon to see your progress. Click on save to save the current answer. Click on questions to view question list for the current appraising person. Tick the checkbox "I don\'t wish to answer this question" if you think the question is not appropriate for you to answer.For Multiple choice type of question scroll down to see all the options. You can add additional comment to your answer '
+    userInstructions = '- Navigate through the questions using the paging control @ bottom or use navigation controls \'Next\' and \'Previous\'. \n - Click on home icon to see your progress. \n - Click on save to save the current answer. \n - Click on questions to view question list for the current appraising person. \n - Tick the check box "I don\'t wish to answer this question" if you think the question is not appropriate for you to answer. \n - For Multiple choice type of question scroll down to see all the options. \n - You can also add additional comment to your answer. '
     lastPageMessage = ""
     userAlerts = ""
     if(questionId == '1'):

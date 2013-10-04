@@ -15,6 +15,7 @@ urlpatterns = patterns('UserProfile',
     url(r'^submitAppraisal/$', 'views.submitAppraisal', name='submitAppraisal'),
     url(r'^AppraisalStatus/$', 'views.AppraisalStatus', name='AppraisalStatus'),
     url(r'^AppraisalConsideration/$', 'views.AppraisalConsideration', name='AppraisalStatus'),
+    url(r'^Feedback/$', 'views.UserFeedback', name='Feedback'),
     # url(r'^Appraisal/', include('Appraisal.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

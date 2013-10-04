@@ -10,7 +10,7 @@ from django.utils import timezone
 from django.utils import simplejson
 
 from UserProfile.UserProfileForms import UserCreate, userListForm, UserProfile_UserDetailForm, UserProfile_LanguageForm, UserProfile_DesignationForm, UserProfile_ProjectForm
-from Login.models import UserDetails, Designation, Project, Language, Technology,Appraisment,AppraisalContent
+from Login.models import UserDetails, Designation, Project, Language, Technology,Appraisment,AppraisalContent, Feedback 
 
 #from Login.models import Appraisment,AppraisalContent
 
@@ -261,3 +261,15 @@ def AppraisalConsideration(request):
             return HttpResponse(content='Status updated', content_type='application/json')    
         except:
             return HttpResponse(content='Status cannot be updated', content_type='application/json')
+        
+def UserFeedback(request):
+    try:
+        if request.method == 'POST' :    
+            feedback = request.POST.get('feedback')
+            print feedback
+            i_UserId = UserDetails.objects.get(user_id=request.session['UserID'])
+            feed = Feedback.objects.create(feedback=feedback, user=i_UserId)
+            return render_to_response('UserProfile/feedback.html', { 'userMessage' : 'Thank you for your valuable feedback.' } ,context_instance = RequestContext( request))
+        return render_to_response('UserProfile/feedback.html', context_instance = RequestContext( request))
+    except:
+        return render_to_response('UserProfile/feedback.html', { 'userMessage' : 'Could not save feedback.' }, context_instance = RequestContext( request))
