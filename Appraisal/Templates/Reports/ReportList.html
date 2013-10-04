@@ -27,6 +27,11 @@ $('*[name=popoverInfo]').popover('hide');
 		tips.removeClass( "ui-state-highlight", 1500 );
 		}, 500 );
 	}
+	});
+</script>
+{% if type == "Administrator"%}
+<script>	
+$(function(){
 	$( "#dialog-form" ).dialog({
 			autoOpen: false,
 			height: 400,
@@ -142,7 +147,7 @@ $('*[name=popoverInfo]').popover('hide');
 });
 
 </script>
-	
+{%endif%}
 <div style="padding-left:30px;padding-right:30px;">
 	<div style="padding:30px;border:2px solid;width:70%;border-radius:20px;background:#ffffff">
 		<legend style="text-align:center">Report</legend>
