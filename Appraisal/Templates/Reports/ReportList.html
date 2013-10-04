@@ -205,7 +205,7 @@ $(function(){
 Others :{{objReport.UserCalculation|floatformat:"2"}}/{{objReport.TotalCalculation|floatformat:"2"}}
 									{%endif%} -->
 									<label >
-									<a  name="popoverInfo" class="" title="" data-content="{{objReport.question|linebreaksbr}}" data-placement="top" data-toggle="popover" data-trigger="hover" ><label class="fontBold">{{objReport.OrderNumber}}&nbsp;&nbsp;{{objReport.header}}</label></a></label></td>
+									<a  name="popoverInfo" class="" title="" data-content="{{objReport.question|linebreaksbr}}" data-placement="top" data-toggle="popover" data-trigger="hover" ><label class="fontBold">{{forloop.counter}}&nbsp;&nbsp;{{objReport.header}}</label></a></label></td>
 									<td  width="15%" class="rightAlign">{{objReport.answerYourself}}</td>
 									<td  width="15%" class="rightAlign">
 										{%if type == 'Administrator'%}
@@ -246,7 +246,7 @@ Others :{{objReport.UserCalculation|floatformat:"2"}}/{{objReport.TotalCalculati
 Others :{{objReport.UserCalculation|floatformat:"2"}}/{{objReport.TotalCalculation|floatformat:"2"}}
 										{%endif%} -->
 										<label  class="fontBold">
-										<a name="popoverInfo" class="" title="" data-content="{{objReport.question|linebreaksbr}}" data-placement="top" data-toggle="popover" data-trigger="hover" >{{objReport.OrderNumber}} &nbsp;&nbsp;{{objReport.header}}</a></label></td>
+										<a name="popoverInfo" class="" title="" data-content="{{objReport.question|linebreaksbr}}" data-placement="top" data-toggle="popover" data-trigger="hover" >{{forloop.counter}} &nbsp;&nbsp;{{objReport.header}}</a></label></td>
 										<td class="rightAlign">{{objReport.total}}
 										{% ifnotequal objReport.extended_answer  "" %}
 										<a name="popoverInfo" class="" title="" data-trigger="hover" data-content="{{objReport.extended_answer|linebreaksbr}}" data-placement="right" data-toggle="popover" data-original-title="Comments"><i class=" icon-info-sign"> </i></a>
@@ -335,7 +335,7 @@ Others :{{objReport.UserCalculation|floatformat:"2"}}/{{objReport.TotalCalculati
 							<div class="roundBorder">
 							<table width="100%">
 								<tr style="background:#dadada"><td  class="fontBold">
-								<a name="popoverInfo" class="" title="" data-content="{{objReport.question|linebreaksbr}}" data-placement="top" data-toggle="popover" data-trigger="hover" >{{objReport.OrderNumber}}&nbsp;&nbsp;{{objReport.header}}</a></td></tr>
+								<a name="popoverInfo" class="" title="" data-content="{{objReport.question|linebreaksbr}}" data-placement="top" data-toggle="popover" data-trigger="hover" >{{forloop.counter}}&nbsp;&nbsp;{{objReport.header}}</a></td></tr>
 								<tr><td><label class="fontBold">Yourself :</label> <label class="fontSize">{{objReport.answerYourself}}</label></td></tr>
 								<tr><td>							
 								<label class="fontBold">Others : </label>

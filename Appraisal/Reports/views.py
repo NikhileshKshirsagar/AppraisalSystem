@@ -58,7 +58,7 @@ def GenerateReportList(request,nUserID):
     except:
         objAppOthers=None
     appraisment_list = []
-    objQuestionUser = AppraisalContent.objects.filter(appresment=objAppUser.appraisment_id).order_by('question__type')
+    objQuestionUser = AppraisalContent.objects.filter(appresment=objAppUser.appraisment_id).order_by('question__type').order_by('question_order')
     nOrderCount = 1
     for questionUser in objQuestionUser:
      #   print questionUser.question.type
