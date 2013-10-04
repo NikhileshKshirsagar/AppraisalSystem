@@ -68,6 +68,13 @@ class Event(models.Model):
     class Meta:
         db_table = 'event'
 
+class Feedback(models.Model):
+    feedid = models.IntegerField(primary_key=True, db_column='feedId') # Field name made lowercase.
+    feedback = models.TextField(blank=True)
+    user = models.ForeignKey('UserDetails', null=True, db_column='user', blank=True)
+    class Meta:
+        db_table = 'feedback'
+
 class Language(models.Model):
     language_id = models.AutoField(primary_key=True)
     language = models.CharField(max_length=100L)

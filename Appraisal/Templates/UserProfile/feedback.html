@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block pagecontent %}
+
+<script type="text/javascript">
+	$('body').removeClass('userWelcomeBackground');
+	$('#userMessage').effect("slide", null, 1000, null );
+	setTimeout(function(){
+		$('#userMessage').effect("fold", null, 1200, callback );
+		function callback()
+		{
+			$('#userMessage').addClass('hide');	
+		}
+	}, 10000);
+</script>
+
+<form action="/userprofile/Feedback/" method="post" class="form-search" style="padding-top: 30px; margin-left: 50px;">{% csrf_token %}
+	<p id="userMessage" style="height: 20px; position: fixed; top: 45px; left: 35%; font-size: 15px; padding-top: 4px;" class="badge badge-success">{{ userMessage  }}</p>
+	<p style="font-size: 16px; margin-top: 10px;">Your feedback is important to us. Let us know what you did or didn't like about the system.</p>
+	<div style="width: 100%;">
+		<textarea name="feedback" autofocus="autofocus" placeholder="Enter your feedback" style="height: 250px; width: 800px; border-radius: 15px 15px 15px 15px ;"></textarea>
+	</div>
+	<input type="submit" value="Save feedback" class="btn btn-primary" style="margin-top: 10px; margin-left: 5px;">
+</form>
+
+{% endblock %}
