@@ -145,13 +145,15 @@ def GenerateReportList(request,nUserID):
                              objappContent=None
                          if objappContent!=None:
                              if objappContent.answer!=None:
-                                 
+                               #  if objappContent.answer.extended_answer != None and objappContent.answer.extended_answer != "": 
+                               #         appraisment['extended_answer'] = appraisment['extended_answer'] + str(nextended_answerCount) + ") " + objappContent.answer.extended_answer + "\n"
+                               #         nextended_answerCount = nextended_answerCount + 1
                                  if objappContent.question.type == 'MCQ' :
                                      if objappContent.answer_forbid_user == 0:
                                          
                                          if str(objappContent.answer.answer) == str(options.option_id):
-                                             if questionUser.answer.extended_answer != None and questionUser.answer.extended_answer !="": 
-                                                appraisment['extended_answer']= appraisment['extended_answer']+str(nextended_answerCount)+") "+questionUser.answer.extended_answer+"\n"
+                                             if objappContent.answer.extended_answer != None and objappContent.answer.extended_answer !="": 
+                                                appraisment['extended_answer']= appraisment['extended_answer']+str(nextended_answerCount)+") "+objappContent.answer.extended_answer+"\n"
                                                 nextended_answerCount = nextended_answerCount + 1
             
                                              appraisment['UserCalculation']=float((appraisment['UserCalculation']) +(float(int(options.option_level)*questionOther.appraiser.user_weight*intentValue*questionUser.question.weight)))
@@ -192,8 +194,8 @@ def GenerateReportList(request,nUserID):
                                 	appraisment['TotalCalculation']=float((appraisment['TotalCalculation']*count+float((1-11)*questionOther.appraiser.user_weight*intentValue*questionUser.question.weight))/(count+1))
                                 count = count +1
                                 appraisment['count']=count
-                                if questionUser.answer.extended_answer != None and questionUser.answer.extended_answer !="":
-                                    appraisment['extended_answer']= appraisment['extended_answer']+str(nextended_answerCount)+") "+questionUser.answer.extended_answer+"\n"
+                                if objappContent.answer.extended_answer != None and objappContent.answer.extended_answer !="":
+                                    appraisment['extended_answer']= appraisment['extended_answer']+str(nextended_answerCount)+") "+objappContent.answer.extended_answer+"\n"
                                     nextended_answerCount = nextended_answerCount + 1
             
                             
