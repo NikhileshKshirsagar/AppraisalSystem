@@ -8,43 +8,50 @@ from django.http import HttpResponse
 from django.core.context_processors import csrf
 from django.utils import timezone
 from django.utils import simplejson
-
+from Login.views import checkIfAdmin, homeScreen
 from UserProfile.UserProfileForms import UserCreate, userListForm, UserProfile_UserDetailForm, UserProfile_LanguageForm, UserProfile_DesignationForm, UserProfile_ProjectForm
 from Login.models import UserDetails, Designation, Project, Language, Technology,Appraisment,AppraisalContent, Feedback 
 
 #from Login.models import Appraisment,AppraisalContent
 
 def CreateUser(request):
-    if request.method == 'POST':
-        print request.POST
-        userCreateform = UserCreate(request.POST)
-        if userCreateform.is_valid():
-            i_UserId = UserDetails.objects.get(user_id=request.session['UserID']).user_id
-            # Create user.
-            if request.POST.get('action') == 'Alpha': 
-                print "Valid form"
-                userCreateform.save(commit=False, userId = i_UserId)
-                userCreateform = UserCreate()
-                # redirect to next page
-                return render_to_response('UserProfile/CreateUser.html', {'successMsg' : 'User created successfully', 'btn' : 'Create','userCreateform' : userCreateform}, context_instance = RequestContext( request))
-            # Update user
-            elif request.POST.get('action') == 'Beta' :
-                try:
-                    UserDetails.objects.filter(user_id=request.POST.get('userid')).update(firstname=request.POST.get('firstname'), lastname=request.POST.get('lastname'), emailid=request.POST.get('emailid'), username=request.POST.get('username'), password=request.POST.get('password'), user_level=request.POST.get('user_level'), user_weight=request.POST.get('user_weight'), type=request.POST.get('type'))
+    if request.session.get('UserID')==None:
+        #sessionExpire(request)
+        return HttpResponseRedirect("/expire/")
+    if checkIfAdmin(request.session['UserID']):
+        if request.method == 'POST':
+            print request.POST
+            userCreateform = UserCreate(request.POST)
+            if userCreateform.is_valid():
+                i_UserId = UserDetails.objects.get(user_id=request.session['UserID']).user_id
+                # Create user.
+                if request.POST.get('action') == 'Alpha': 
+                    print "Valid form"
+                    userCreateform.save(commit=False, userId = i_UserId)
                     userCreateform = UserCreate()
-                    return render_to_response('UserProfile/CreateUser.html', {'successMsg' : 'User updated successfully', 'btn' : 'Create','userCreateform' : userCreateform}, context_instance = RequestContext( request))
-                except:
-                    userCreateform = UserCreate()
-                    return render_to_response('UserProfile/CreateUser.html', {'successMsg' : 'User cannot be updated', 'btn' : 'Update','userCreateform' : userCreateform}, context_instance = RequestContext( request))
-        else:
-            print "Invalid form"
-            if request.POST.get('action') == 'Alpha':
-                return render_to_response('UserProfile/CreateUser.html', { 'userCreateform' : userCreateform, 'btn' : 'Create' }, context_instance = RequestContext( request))
+                    # redirect to next page
+                    return render_to_response('UserProfile/CreateUser.html', {'successMsg' : 'User created successfully', 'btn' : 'Create','userCreateform' : userCreateform}, context_instance = RequestContext( request))
+                # Update user
+                elif request.POST.get('action') == 'Beta' :
+                    try:
+                        UserDetails.objects.filter(user_id=request.POST.get('userid')).update(firstname=request.POST.get('firstname'), lastname=request.POST.get('lastname'), emailid=request.POST.get('emailid'), username=request.POST.get('username'), password=request.POST.get('password'), user_level=request.POST.get('user_level'), user_weight=request.POST.get('user_weight'), type=request.POST.get('type'))
+                        userCreateform = UserCreate()
+                        return render_to_response('UserProfile/CreateUser.html', {'successMsg' : 'User updated successfully', 'btn' : 'Create','userCreateform' : userCreateform}, context_instance = RequestContext( request))
+                    except:
+                        userCreateform = UserCreate()
+                        return render_to_response('UserProfile/CreateUser.html', {'successMsg' : 'User cannot be updated', 'btn' : 'Update','userCreateform' : userCreateform}, context_instance = RequestContext( request))
             else:
-                return render_to_response('UserProfile/CreateUser.html', { 'btn' : 'Update','userCreateform' : userCreateform}, context_instance = RequestContext( request))
+                print "Invalid form"
+                if request.POST.get('action') == 'Alpha':
+                    return render_to_response('UserProfile/CreateUser.html', { 'userCreateform' : userCreateform, 'btn' : 'Create' }, context_instance = RequestContext( request))
+                else:
+                    return render_to_response('UserProfile/CreateUser.html', { 'btn' : 'Update','userCreateform' : userCreateform}, context_instance = RequestContext( request))
+        else:
+            userCreateform = UserCreate()
+            return render_to_response('UserProfile/CreateUser.html', { 'userCreateform' : userCreateform, 'btn' : 'Create' }, context_instance = RequestContext( request))
+        
     else:
-        userCreateform = UserCreate()
-        return render_to_response('UserProfile/CreateUser.html', { 'userCreateform' : userCreateform, 'btn' : 'Create' }, context_instance = RequestContext( request))
+        return HttpResponseRedirect("/userprofile/Authenticate/")
 
 def UserList(request):
     if request.method == 'POST':
@@ -230,22 +237,28 @@ def submitAppraisal(request):
     return HttpResponse(content=simplejson.dumps(response), content_type='application/json')
 
 def AppraisalStatus(request):
-    if request.method == 'POST' :
-        print request.POST
-        appraisment_id = request.POST.get('search_txt')
-        appraisal_status = request.POST.get('status')
-        if appraisal_status != 'select' :
-            try:
-                Appraisment.objects.filter(appraisment_id = appraisment_id).update(status=appraisal_status)
-                return HttpResponse(content='Status updated', content_type='application/json')
-            except:
-                return HttpResponse(content='Status not updated', content_type='application/json')
+    if request.session.get('UserID')==None:
+        #sessionExpire(request)
+        return HttpResponseRedirect("/expire/")
+    if checkIfAdmin(request.session['UserID']):
+        if request.method == 'POST' :
+            print request.POST
+            appraisment_id = request.POST.get('search_txt')
+            appraisal_status = request.POST.get('status')
+            if appraisal_status != 'select' :
+                try:
+                    Appraisment.objects.filter(appraisment_id = appraisment_id).update(status=appraisal_status)
+                    return HttpResponse(content='Status updated', content_type='application/json')
+                except:
+                    return HttpResponse(content='Status not updated', content_type='application/json')
+            else:
+                return HttpResponse(content='Select status to update', content_type='application/json')
         else:
-            return HttpResponse(content='Select status to update', content_type='application/json')
+            appraisment = Appraisment.objects.all().order_by('appraiser')
+            print request.POST
+            return render_to_response('UserProfile/AppraisalStatus.html', { 'Appraisment' : appraisment }, context_instance = RequestContext( request))
     else:
-        appraisment = Appraisment.objects.all().order_by('appraiser')
-        print request.POST
-        return render_to_response('UserProfile/AppraisalStatus.html', { 'Appraisment' : appraisment }, context_instance = RequestContext( request))
+        return HttpResponseRedirect("/userprofile/Authenticate/")
     
 def AppraisalConsideration(request):
     if request.method == 'POST' :
