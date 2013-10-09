@@ -204,14 +204,15 @@ def GenerateReportList(request,nUserID):
                                 count = count +1
                                 sAnswer=sAnswer+ str(count)+') '+objappContent.answer.answer+'\n'
                                 appraisment['answerOther']=sAnswer
-                            else:
-                                appraisment['answerOther']="-"
+                            #else:
+                            #    appraisment['answerOther']="-"
                             if questionUser.answer.extended_answer != None: 
                                     appraisment['extended_answer']= appraisment['extended_answer']+str(nextended_answerCount)+") "+questionUser.answer.extended_answer+"\n"
                                     nextended_answerCount = nextended_answerCount + 1
                                 
         
-        
+        if appraisment['answerOther'] == "":
+            appraisment['answerOther'] = "-"
         #Calculating the total column values for scale and MCQ type question
         if questionUser.question.type == 'Scale' :
             if appraisment['answerYourself']=="-":
